@@ -8,7 +8,7 @@ babel==2.8.0              # via -r docs/requirements.txt, mkdocs-git-revision-da
 beautifulsoup4==4.8.2     # via -r docs/requirements.txt, mkdocs-htmlproofer-plugin, mkdocs-tooltipster-links-plugin
 certifi==2019.11.28       # via -r docs/requirements.txt, requests
 chardet==3.0.4            # via -r docs/requirements.txt, requests
-click==7.0                # via -r docs/requirements.txt, mkdocs, nltk, proselint
+click==7.1.2                # via -r docs/requirements.txt, mkdocs, nltk, proselint
 future==0.18.2            # via -r docs/requirements.txt, lunr, proselint
 gitdb2==2.0.6             # via -r docs/requirements.txt, gitpython
 gitpython==3.0.5          # via -r docs/requirements.txt, mkdocs-git-revision-date-localized-plugin

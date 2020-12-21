@@ -46,7 +46,7 @@ six==1.14.0               # via -r docs/requirements.txt, livereload, lunr, pros
 smmap2==2.0.5             # via -r docs/requirements.txt, gitdb2
 soupsieve==1.9.5          # via -r docs/requirements.txt, beautifulsoup4
 git+https://github.com/jldiaz/mkdocs-plugin-tags.git  # via -r docs/requirements.txt
-tornado==6.0.3            # via -r docs/requirements.txt, livereload, mkdocs
+tornado==6.1            # via -r docs/requirements.txt, livereload, mkdocs
 tqdm==4.47.0              # via -r docs/requirements.txt, nltk
 urllib3==1.25.9           # via -r docs/requirements.txt, requests
 zipp==3.1.0               # via -r docs/requirements.txt, importlib-metadata

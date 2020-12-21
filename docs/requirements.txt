@@ -18,7 +18,7 @@ importlib-metadata==1.7.0  # via -r docs/requirements.txt, markdown
 jinja2==2.10.3            # via -r docs/requirements.txt, mkdocs, mkdocs-git-revision-date-localized-plugin, tags-macros-plugin
 joblib==0.16.0            # via -r docs/requirements.txt, nltk
 jsmin==2.2.2              # via -r docs/requirements.txt, mkdocs-minify-plugin
-livereload==2.6.1         # via -r docs/requirements.txt, mkdocs
+livereload==2.6.3         # via -r docs/requirements.txt, mkdocs
 lunr[languages]==0.5.8    # via -r docs/requirements.txt, mkdocs
 markdown==3.2.2           # via -r docs/requirements.txt, mkdocs, mkdocs-material, pymdown-extensions
 markupsafe==1.1.1         # via -r docs/requirements.txt, jinja2

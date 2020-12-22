@@ -44,7 +44,7 @@ regex==2020.6.8           # via -r docs/requirements.txt, nltk
 requests==2.22.0          # via -r docs/requirements.txt, mkdocs-htmlproofer-plugin
 six==1.14.0               # via -r docs/requirements.txt, livereload, lunr, proselint
 smmap2==2.0.5             # via -r docs/requirements.txt, gitdb2
-soupsieve==1.9.5          # via -r docs/requirements.txt, beautifulsoup4
+soupsieve==2.1          # via -r docs/requirements.txt, beautifulsoup4
 git+https://github.com/jldiaz/mkdocs-plugin-tags.git  # via -r docs/requirements.txt
 tornado==6.0.3            # via -r docs/requirements.txt, livereload, mkdocs
 tqdm==4.47.0              # via -r docs/requirements.txt, nltk

@@ -37,7 +37,7 @@ nltk==3.5                 # via -r docs/requirements.txt, lunr
 pep562==1.0               # via -r docs/requirements.txt
 proselint==0.10.2         # via -r docs/requirements.txt
 pygments==2.5.2           # via -r docs/requirements.txt, mkdocs-material
-pymdown-extensions==7.1   # via -r docs/requirements.txt, mkdocs-material
+pymdown-extensions==8.0.1   # via -r docs/requirements.txt, mkdocs-material
 pytz==2019.3              # via -r docs/requirements.txt, babel
 pyyaml==5.3.1             # via -r docs/requirements.txt, mkdocs
 regex==2020.6.8           # via -r docs/requirements.txt, nltk

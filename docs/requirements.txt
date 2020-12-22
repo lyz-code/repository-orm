@@ -20,7 +20,7 @@ joblib==0.16.0            # via -r docs/requirements.txt, nltk
 jsmin==2.2.2              # via -r docs/requirements.txt, mkdocs-minify-plugin
 livereload==2.6.1         # via -r docs/requirements.txt, mkdocs
 lunr[languages]==0.5.8    # via -r docs/requirements.txt, mkdocs
-markdown==3.2.2           # via -r docs/requirements.txt, mkdocs, mkdocs-material, pymdown-extensions
+markdown==3.3.3           # via -r docs/requirements.txt, mkdocs, mkdocs-material, pymdown-extensions
 markupsafe==1.1.1         # via -r docs/requirements.txt, jinja2
 mkdocs-autolinks-plugin==0.1.0  # via -r docs/requirements.txt
 mkdocs-git-revision-date-localized-plugin==0.4.5  # via -r docs/requirements.txt

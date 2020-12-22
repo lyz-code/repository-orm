@@ -41,7 +41,7 @@ pymdown-extensions==7.1   # via -r docs/requirements.txt, mkdocs-material
 pytz==2019.3              # via -r docs/requirements.txt, babel
 pyyaml==5.3.1             # via -r docs/requirements.txt, mkdocs
 regex==2020.6.8           # via -r docs/requirements.txt, nltk
-requests==2.22.0          # via -r docs/requirements.txt, mkdocs-htmlproofer-plugin
+requests==2.25.1          # via -r docs/requirements.txt, mkdocs-htmlproofer-plugin
 six==1.14.0               # via -r docs/requirements.txt, livereload, lunr, proselint
 smmap2==2.0.5             # via -r docs/requirements.txt, gitdb2
 soupsieve==1.9.5          # via -r docs/requirements.txt, beautifulsoup4

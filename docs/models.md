@@ -16,5 +16,5 @@ you usually need the following object types:
 # Entities
 
 We've created the [Entity][repository_pattern.model.Entity] class based on the
-pydantic's `BaseModel` to enforce that they have the `ID` attribute and they can
+pydantic's `BaseModel` to enforce that they have the `id_` attribute and they can
 be compared and hashed based on that attribute.

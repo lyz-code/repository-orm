@@ -13,10 +13,14 @@ with open("src/repository_pattern/version.py") as fp:
         raise ValueError("The version is not specified in the version.py file.")
     version = version_match["version"]
 
+
 setup(
     name="repository-pattern",
     version=version,
-    description="A Cookiecutter template for creating Python projects",
+    description=(
+        "Library to ease the implementation of the repository pattern in "
+        "python projects."
+    ),
     author="Lyz",
     author_email="lyz-code-security-advisories@riseup.net",
     license="GNU General Public License v3",

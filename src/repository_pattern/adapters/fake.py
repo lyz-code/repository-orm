@@ -44,7 +44,7 @@ class FakeRepository(BaseModel, AbstractRepository):
         except KeyError:
             self.new_entities[type(entity)] = {}
 
-        self.new_entities[type(entity)][entity.ID] = entity
+        self.new_entities[type(entity)][entity.id_] = entity
 
     def delete(self, entity: Entity) -> None:
         """Delete an entity from the repository.
@@ -58,7 +58,7 @@ class FakeRepository(BaseModel, AbstractRepository):
         if self.new_entities == {}:
             self.new_entities = copy.deepcopy(self.entities.copy())
         try:
-            self.new_entities[type(entity)].pop(entity.ID, None)
+            self.new_entities[type(entity)].pop(entity.id_, None)
         except KeyError as error:
             raise EntityNotFoundError(
                 f"Unable to delete entity {entity} because it's not in the repository"
@@ -130,8 +130,8 @@ class FakeRepository(BaseModel, AbstractRepository):
             EntityNotFoundError: If the entities are not found.
         """
         all_entities = self.all(entity_model)
-        entities_dict = {entity.ID: entity for entity in all_entities}
-        entity_attributes = {entity.ID: entity.dict() for entity in all_entities}
+        entities_dict = {entity.id_: entity for entity in all_entities}
+        entity_attributes = {entity.id_: entity.dict() for entity in all_entities}
         error_msg = (
             f"There are no {entity_model.__name__}s that match "
             f"the search filter {fields}"

@@ -8,7 +8,7 @@ from repository_pattern import Entity
 class Author(Entity):
     """Entity to model the author of a book."""
 
-    ID: str
+    id_: str
     first_name: str
     last_name: str
     country: str
@@ -17,7 +17,7 @@ class Author(Entity):
 class Book(Entity):
     """Entity to model a book."""
 
-    ID: int
+    id_: int
     title: str
     summary: str
     released: datetime
@@ -26,6 +26,6 @@ class Book(Entity):
 class Genre(Entity):
     """Entity to model the genre of a book."""
 
-    ID: int
+    id_: int
     name: str
     description: str

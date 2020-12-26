@@ -1,4 +1,4 @@
-"""Gather fixtures used by the tests."""
+"""Store the classes and fixtures used throughout the tests."""
 
 import os
 import sqlite3

@@ -24,7 +24,7 @@ class EntityCases:
 class AuthorFactory(factory.Factory):  # type: ignore
     """Factory to generate fake authors."""
 
-    ID = factory.Faker("word")
+    id_ = factory.Faker("word")
     first_name = factory.Faker("first_name")
     last_name = factory.Faker("last_name")
     country = factory.Faker("country")
@@ -38,7 +38,7 @@ class AuthorFactory(factory.Factory):  # type: ignore
 class BookFactory(factory.Factory):  # type: ignore
     """Factory to generate fake books."""
 
-    ID = factory.Faker("pyint")
+    id_ = factory.Faker("pyint")
     title = factory.Faker("sentence")
     summary = factory.Faker("text")
     released = factory.Faker("date_time")
@@ -52,7 +52,7 @@ class BookFactory(factory.Factory):  # type: ignore
 class GenreFactory(factory.Factory):  # type: ignore
     """Factory to generate fake genres."""
 
-    ID = factory.Faker("pyint")
+    id_ = factory.Faker("pyint")
     name = factory.Faker("name")
     description = factory.Faker("sentence")
 

@@ -5,28 +5,28 @@ from yoyo import step
 steps = [
     step(
         "CREATE TABLE author ("
-        "ID VARCHAR(26), "
+        "id VARCHAR(26), "
         "first_name VARCHAR(20), "
         "last_name VARCHAR(20), "
         "country VARCHAR(20), "
-        "PRIMARY KEY (ID))",
+        "PRIMARY KEY (id))",
         "DROP TABLE author",
     ),
     step(
         "CREATE TABLE book ("
-        "ID INT, "
+        "id INT, "
         "title VARCHAR(20), "
         "summary VARCHAR(255), "
         "released DATETIME, "
-        "PRIMARY KEY (ID))",
+        "PRIMARY KEY (id))",
         "DROP TABLE book",
     ),
     step(
         "CREATE TABLE genre ("
-        "ID INT, "
+        "id INT, "
         "name VARCHAR(20), "
         "description VARCHAR(255), "
-        "PRIMARY KEY (ID))",
+        "PRIMARY KEY (id))",
         "DROP TABLE genre",
     ),
 ]

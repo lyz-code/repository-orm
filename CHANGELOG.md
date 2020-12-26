@@ -1,3 +1,9 @@
+## 0.1.1 (2020-12-26)
+
+### Fix
+
+- bump version to be able to upload to pypi
+
 ## 0.1.0 (2020-12-26)
 
 ### Feat

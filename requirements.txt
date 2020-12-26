@@ -4,8 +4,12 @@
 #
 #    pip-compile --allow-unsafe
 #
-pymysql==0.10.1           # via cookiecutter-python-project (setup.py)
-pypika==0.42.1            # via cookiecutter-python-project (setup.py)
-sqlparse==0.3.1           # via yoyo-migrations
+deepdiff[murmur]==5.0.2   # via repository-pattern (setup.py)
+mmh3==2.5.1               # via deepdiff
+ordered-set==4.0.2        # via deepdiff
+pydantic==1.7.3           # via repository-pattern (setup.py)
+pymysql==0.10.1           # via repository-pattern (setup.py)
+pypika==0.46.0            # via repository-pattern (setup.py)
+sqlparse==0.4.1           # via yoyo-migrations
 tabulate==0.8.7           # via yoyo-migrations
-yoyo-migrations==7.2.0    # via cookiecutter-python-project (setup.py)
+yoyo-migrations==7.2.1    # via repository-pattern (setup.py)

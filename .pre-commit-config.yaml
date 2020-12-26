@@ -8,37 +8,18 @@ repos:
       - id: check-docstring-first
       - id: check-merge-conflict
       - id: end-of-file-fixer
-  - repo: https://github.com/jazzband/pip-tools
-    rev: 5.0.0
-    hooks:
-      - name: Build requirements.txt
-        id: pip-compile
-      - name: Build requirements-dev.txt
-        id: pip-compile
-        args: ['--allow-unsafe', 'requirements-dev.in']
-      - name: Build mkdocs requirements.txt
-        id: pip-compile
-        args: ['docs/requirements.txt']
-  - repo: https://github.com/ambv/black
-    rev: stable
-    hooks:
-      - id: black
-        language_version: python3.7
-  - repo: https://gitlab.com/pycqa/flake8
-    rev: master
-    hooks:
-      - id: flake8
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v0.782
-    hooks:
-      - name: Run mypy static analysis tool
-        id: mypy
+  # Disabled until the --experimental-string-processing is merged
+  # - repo: https://github.com/ambv/black
+  #   rev: stable
+  #   hooks:
+  #     - id: black
+  #       language_version: python3.7
   - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
     rev: v1.1.3
     hooks:
       - id: python-safety-dependencies-check
-
-  - repo: https://github.com/Lucas-C/pre-commit-hooks-bandit
-    rev: v1.0.4
+  - repo: https://github.com/life4/flakehell/
+    rev: master
     hooks:
-      - id: python-bandit-vulnerability-check
+      - name: Run flakehell static analysis tool
+        id: flakehell

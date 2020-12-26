@@ -3,8 +3,5 @@
 ### Feat
 
 - **fake**: implement the first version of the FakeRepository
-- create initial project structure
-
-### feat
-
 - **pypika**: implement the first version of the PypikaRepository
+- create initial project structure

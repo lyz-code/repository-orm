@@ -79,10 +79,10 @@ def test_repository_can_retrieve_an_entity(
     inserted_entity: Entity,
 ) -> None:
     """Given an entity_id the repository returns the entity object."""
-    result = repo.get(type(inserted_entity), inserted_entity.ID)
+    result = repo.get(type(inserted_entity), inserted_entity.id_)
 
     assert result == inserted_entity
-    assert result.ID == inserted_entity.ID
+    assert result.id_ == inserted_entity.id_
 
 
 def test_repository_raises_error_if_no_entity_found_by_get(
@@ -91,11 +91,11 @@ def test_repository_raises_error_if_no_entity_found_by_get(
 ) -> None:
     """As the entity is not inserted into the repository, it shouldn't be found."""
     with pytest.raises(EntityNotFoundError) as error:
-        repo.get(type(entity), entity.ID)
+        repo.get(type(entity), entity.id_)
 
     assert (
         f"There are no {entity.__class__.__name__}s with id "
-        f"{entity.ID} in the repository" in str(error.value)
+        f"{entity.id_} in the repository" in str(error.value)
     )
 
 
@@ -110,7 +110,7 @@ def test_repository_can_retrieve_all_objects(
 
     assert result == inserted_entities
     assert len(result) == 3
-    assert result[0].ID == inserted_entities[0].ID
+    assert result[0].id_ == inserted_entities[0].id_
 
 
 def test_repository_all_raises_error_if_empty_repository(
@@ -134,7 +134,7 @@ def test_repository_can_search_by_property(
     """Search should return the objects that match the desired property."""
     expected_entity = inserted_entities[1]
 
-    result = repo.search(type(expected_entity), {"ID": expected_entity.ID})
+    result = repo.search(type(expected_entity), {"id_": expected_entity.id_})
 
     assert result == [expected_entity]
 
@@ -165,11 +165,11 @@ def test_repository_search_raises_error_if_searching_by_unexistent_value(
     entity = inserted_entities[0]
 
     with pytest.raises(EntityNotFoundError) as error:
-        repo.search(type(entity), {"ID": "unexistent_value"})
+        repo.search(type(entity), {"id_": "unexistent_value"})
 
     assert (
         f"There are no {entity.__class__.__name__}s that match "
-        "the search filter {'ID': 'unexistent_value'}" in str(error.value)
+        "the search filter {'id_': 'unexistent_value'}" in str(error.value)
     )
 
 

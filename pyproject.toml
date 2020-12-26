@@ -109,7 +109,16 @@ flake8-typing-imports = [
 ]
 flake8-variables-names = ["+*"]
 dlint = ["+*"]
-pylint = ["+*"]
+pylint = [
+  "+*",
+  "-C0411", # %s should be placed before %s,
+            # see https://github.com/PyCQA/pylint/issues/2175 and https://github.com/PyCQA/pylint/issues/1797
+  "-W1203", # Use %s formatting in logging functions. Deprecated rule in favor of
+            # f-strings.
+  "-W1201", # Use lazy % formatting in logging functions. Deprecated rule in favor of
+            # f-strings.
+  "-C0301", # Lines too long. Already covered by E501.
+]
 mccabe = ["+*"]
 pep8-naming = ["+*"]
 pycodestyle = [
@@ -117,7 +126,7 @@ pycodestyle = [
   "-W503", # No longer applies, incompatible with newer version of PEP8
            # see https://github.com/PyCQA/pycodestyle/issues/197
            # and https://github.com/psf/black/issues/113
-  ]
+]
 pyflakes = ["+*"]
 
 [tool.flakehell.exceptions."tests/"]
@@ -128,10 +137,6 @@ flake8-docstrings = [
 flake8-annotations = [
   "-ANN001"
 ]
-# pylint = [
-#   "-R0201", # Method could be a function. Raised because the methods of a test class
-#             # don't use the self object, which is not wrong.
-# ]
 
 [tool.flakehell.exceptions."tests/migrations/"]
 pylint = [
@@ -143,6 +148,10 @@ pylint = [
   "-R0201", # Method could be a function. Raised because the methods of the case classes
             # don't seem to use the self object. But they do, as if we change them to
             # staticmethod or classmethods the tests don't get run.
+  "-R0903", # Too few methods warning, but is the way to define factoryboy factories.
+]
+[tool.flakehell.exceptions."tests/factories.py"]
+pylint = [
   "-R0903", # Too few methods warning, but is the way to define factoryboy factories.
 ]
 # --------- Pylint -------------

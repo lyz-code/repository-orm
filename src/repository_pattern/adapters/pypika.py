@@ -53,6 +53,7 @@ class PypikaRepository(AbstractRepository):
         """
         table = self._table(entity)
         columns = list(entity.dict().keys())
+        columns[columns.index("id_")] = "id"
         values = [value for key, value in entity.dict().items()]
         query = Query.into(table).columns(tuple(columns)).insert(tuple(values))
         self._execute(query)
@@ -68,12 +69,12 @@ class PypikaRepository(AbstractRepository):
         """
         table = self._table(entity)
         try:
-            self.get(type(entity), entity.ID)
+            self.get(type(entity), entity.id_)
         except EntityNotFoundError as error:
             raise EntityNotFoundError(
                 f"Unable to delete entity {entity} because it's not in the repository"
             ) from error
-        query = Query.from_(table).delete().where(table.ID == entity.ID)
+        query = Query.from_(table).delete().where(table.id == entity.id_)
         self._execute(query)
 
     def get(self, entity_model: Type[Entity], entity_id: Union[str, int]) -> Entity:
@@ -90,7 +91,7 @@ class PypikaRepository(AbstractRepository):
             EntityNotFoundError: If the entity is not found.
         """
         table = self._table_model(entity_model)
-        query = Query.from_(table).select("*").where(table.ID == entity_id)
+        query = Query.from_(table).select("*").where(table.id == entity_id)
 
         try:
             return self._build_entities(entity_model, query)[0]
@@ -141,6 +142,7 @@ class PypikaRepository(AbstractRepository):
                 attributes[index]: entity_data[index]
                 for index in range(0, len(entity_data))
             }
+            entity_dict["id_"] = entity_dict.pop("id")
 
             entities.append(entity_model(**entity_dict))
         return entities
@@ -168,6 +170,8 @@ class PypikaRepository(AbstractRepository):
         query = Query.from_(table).select("*")
 
         for key, value in fields.items():
+            if key == "id_":
+                key = "id"
             query = query.where(getattr(table, key) == value)
 
         entities = self._build_entities(entity_model, query)

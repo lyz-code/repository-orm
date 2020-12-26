@@ -1,6 +1,5 @@
 """Gather the tester classes used by the repository tests."""
 
-
 import abc
 import logging
 import sqlite3
@@ -77,7 +76,7 @@ class FakeRepositoryTester(AbstractRepositoryTester[FakeRepository]):  # noqa: E
     ) -> Entity:
         """Get the entity object from the data stored in the repository by it's id."""
         try:
-            return database[type(entity)][entity.ID]
+            return database[type(entity)][entity.id_]
         except (TypeError, KeyError) as error:
             raise EntityNotFoundError() from error
 
@@ -99,7 +98,7 @@ class FakeRepositoryTester(AbstractRepositoryTester[FakeRepository]):  # noqa: E
         except KeyError:
             database[type(entity)] = {}
 
-        database[type(entity)][entity.ID] = entity
+        database[type(entity)][entity.id_] = entity
 
 
 # E1136 false positive: https://github.com/PyCQA/pylint/issues/2822
@@ -108,7 +107,7 @@ class PypikaRepositoryTester(AbstractRepositoryTester[PypikaRepository]):  # noq
 
     @staticmethod
     def build_cursor(database_url: str) -> Generator[sqlite3.Cursor, None, None]:
-        """Create a cursor to connect to the database"""
+        """Create a cursor to connect to the database."""
         connection = sqlite3.connect(database_url.replace("sqlite:///", ""))
 
         yield connection.cursor()
@@ -155,6 +154,7 @@ class PypikaRepositoryTester(AbstractRepositoryTester[PypikaRepository]):  # noq
                 attributes[index]: entity_data[index]
                 for index in range(0, len(entity_data))
             }
+            entity_dict["id_"] = entity_dict.pop("id")
 
             entities.append(entity_model(**entity_dict))
         return entities
@@ -165,7 +165,7 @@ class PypikaRepositoryTester(AbstractRepositoryTester[PypikaRepository]):  # noq
         entities = self.build_entities(
             database,
             type(entity),
-            Query.from_(table).select("*").where(table.ID == entity.ID),
+            Query.from_(table).select("*").where(table.id == entity.id_),
         )
         try:
             return entities[0]
@@ -187,6 +187,7 @@ class PypikaRepositoryTester(AbstractRepositoryTester[PypikaRepository]):  # noq
         table = Table(entity.__class__.__name__.lower())
         cursor = next(self.build_cursor(database))
         columns = list(entity.dict().keys())
+        columns[columns.index("id_")] = "id"
         values = [value for key, value in entity.dict().items()]
         query = Query.into(table).columns(tuple(columns)).insert(tuple(values))
         cursor.execute(str(query))

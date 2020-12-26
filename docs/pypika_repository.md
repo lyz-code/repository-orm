@@ -21,9 +21,9 @@ article.
 
 The repository assumes there is a specific schema, where the table names are
 the same as the [Entity][repository_pattern.model.Entity] clases in lowercase,
-and the columns are called as the attributes. All tables must have an `ID`
+and the columns are called as the attributes. All tables must have an `id`
 column. Following the [overview example](index.md#a-simple-example), the
-database should contain one table called `author` with the columns `ID`,
+database should contain one table called `author` with the columns `id`,
 `first_name`, `last_name` and `country`.
 
 For it's simplicity, we've decide to use

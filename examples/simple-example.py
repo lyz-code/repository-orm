@@ -4,13 +4,13 @@ repo = FakeRepository()
 
 
 class Author(Entity):
-    ID: int
+    id_: int
     first_name: str
     last_name: str
     country: str
 
 
-author = Author(ID=0, first_name="Brandon", last_name="Sanderson", country="US")
+author = Author(id_=0, first_name="Brandon", last_name="Sanderson", country="US")
 
 # Add entities
 repo.add(author)

@@ -64,7 +64,7 @@ class FakeRepositoryTester(AbstractRepositoryTester[FakeRepository]):  # noqa: E
 
     def assert_schema_exists(  # noqa: R0201
         self,
-        database: FakeRepositoryDB,  # noqa: W0613
+        database: FakeRepositoryDB[Entity],  # noqa: W0613
         caplog: LogCaptureFixture,  # noqa: W0613
     ) -> None:
         """Make sure that the repository has a valid schema."""
@@ -72,7 +72,7 @@ class FakeRepositoryTester(AbstractRepositoryTester[FakeRepository]):  # noqa: E
         assert True
 
     def get_entity(  # noqa: R0201
-        self, database: FakeRepositoryDB, entity: Entity
+        self, database: FakeRepositoryDB[Entity], entity: Entity
     ) -> Entity:
         """Get the entity object from the data stored in the repository by it's id."""
         try:
@@ -81,7 +81,7 @@ class FakeRepositoryTester(AbstractRepositoryTester[FakeRepository]):  # noqa: E
             raise EntityNotFoundError() from error
 
     def get_all(  # noqa: R0201
-        self, database: FakeRepositoryDB, entity_model: Type[Entity]
+        self, database: FakeRepositoryDB[Entity], entity_model: Type[Entity]
     ) -> List[Entity]:
         """Get all the entities of type entity_model from the database."""
         try:
@@ -90,7 +90,7 @@ class FakeRepositoryTester(AbstractRepositoryTester[FakeRepository]):  # noqa: E
             raise EntityNotFoundError() from error
 
     def insert_entity(  # noqa: R0201
-        self, database: FakeRepositoryDB, entity: Entity
+        self, database: FakeRepositoryDB[Entity], entity: Entity
     ) -> None:
         """Insert the data of an entity into the repository."""
         try:

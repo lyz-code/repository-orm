@@ -3,7 +3,12 @@
 import sqlite3
 from typing import Tuple
 
-from repository_pattern import FakeRepository, FakeRepositoryDB, PypikaRepository
+from repository_pattern import (
+    Entity,
+    FakeRepository,
+    FakeRepositoryDB,
+    PypikaRepository,
+)
 
 from .testers import FakeRepositoryTester, PypikaRepositoryTester
 
@@ -13,7 +18,9 @@ class RepositoryCases:
 
     def case_fake(
         self, repo_fake: FakeRepository
-    ) -> Tuple[FakeRepositoryDB, FakeRepository, FakeRepository, FakeRepositoryTester]:
+    ) -> Tuple[
+        FakeRepositoryDB[Entity], FakeRepository, FakeRepository, FakeRepositoryTester
+    ]:
         """Return the objects to test the FakeRepository.
 
         Returns:

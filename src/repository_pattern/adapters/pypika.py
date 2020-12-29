@@ -3,16 +3,18 @@
 import logging
 import os
 import sqlite3
-from typing import Dict, List, Type, Union
+from typing import Dict, List, Type, TypeVar, Union
 
 from pypika import Query, Table
 from yoyo import get_backend, read_migrations
 
 from ..exceptions import EntityNotFoundError
-from ..model import Entity
+from ..model import Entity as EntityModel
 from . import AbstractRepository
 
 log = logging.getLogger(__name__)
+
+Entity = TypeVar("Entity", bound=EntityModel)
 
 
 class PypikaRepository(AbstractRepository):

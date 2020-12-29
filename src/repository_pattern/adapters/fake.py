@@ -3,7 +3,7 @@
 import copy
 import logging
 import re
-from typing import Any, Dict, List, Type, Union
+from typing import Any, Dict, List, Type, TypeVar, Union
 
 from deepdiff import extract, grep
 
@@ -11,10 +11,12 @@ from deepdiff import extract, grep
 from pydantic import BaseModel, Field  # pylint: disable=no-name-in-module
 
 from ..exceptions import EntityNotFoundError
-from ..model import Entity
+from ..model import Entity as EntityModel
 from . import AbstractRepository
 
 log = logging.getLogger(__name__)
+
+Entity = TypeVar("Entity", bound=EntityModel)
 
 FakeRepositoryDB = Dict[Type[Entity], Dict[Union[str, int], Entity]]
 
@@ -22,8 +24,8 @@ FakeRepositoryDB = Dict[Type[Entity], Dict[Union[str, int], Entity]]
 class FakeRepository(BaseModel, AbstractRepository):
     """Implement the repository pattern using a memory dictionary."""
 
-    entities: FakeRepositoryDB = Field(default_factory=dict)
-    new_entities: FakeRepositoryDB = Field(default_factory=dict)
+    entities: FakeRepositoryDB[Any] = Field(default_factory=dict)
+    new_entities: FakeRepositoryDB[Any] = Field(default_factory=dict)
 
     def __init__(self, database_url: str = "", **data: Any) -> None:
         """Initialize the repository attributes."""

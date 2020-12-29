@@ -1,3 +1,11 @@
+## 0.1.2 (2020-12-29)
+
+### Fix
+
+- drop support for python 3.6
+- use generic typevars to define the entities of the repositories
+- replace ID with id_
+
 ## 0.1.1 (2020-12-26)
 
 ### Fix

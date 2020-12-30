@@ -29,7 +29,7 @@ class PypikaRepository(AbstractRepository):
         self.connection = sqlite3.connect(database_file)
         self.cursor = self.connection.cursor()
 
-    def _execute(self, query: Query) -> sqlite3.Cursor:
+    def _execute(self, query: Union[Query, str]) -> sqlite3.Cursor:
         """Execute an SQL statement from a Pypika query object.
 
         Args:
@@ -57,8 +57,21 @@ class PypikaRepository(AbstractRepository):
         columns = list(entity.dict().keys())
         columns[columns.index("id_")] = "id"
         values = [value for key, value in entity.dict().items()]
-        query = Query.into(table).columns(tuple(columns)).insert(tuple(values))
-        self._execute(query)
+        insert_query = Query.into(table).columns(tuple(columns)).insert(tuple(values))
+        # Until https://github.com/kayak/pypika/issues/535 is solved we need to write
+        # The upsert statement ourselves.
+        # nosec: B608:hardcoded_sql_expressions, Possible SQL injection vector through
+        #   string-based query construction. We're not letting the user define the
+        #   values of the query, the only variable inputs are the keys, that are
+        #   defined by the developer, so it's not probable that he chooses an
+        #   entity attributes that are an SQL injection. Once the #535 issue is
+        #   solved, we should get rid of this error too.
+        upsert_query = (
+            str(insert_query)
+            + " ON CONFLICT(id) DO UPDATE SET "  # nosec
+            + ", ".join([f"{key}=excluded.{key}" for key in columns])
+        )
+        self._execute(upsert_query)
 
     def delete(self, entity: Entity) -> None:
         """Delete an entity from the repository.

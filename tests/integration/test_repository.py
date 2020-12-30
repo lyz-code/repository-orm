@@ -57,6 +57,63 @@ def test_repository_can_save_an_entity(
     assert entity == repo_tester.get_entity(database, entity)
 
 
+def test_repo_add_entity_is_idempotent(
+    database: Any, repo: Repository, repo_tester: RepositoryTester, entity: Entity
+) -> None:
+    """
+    Given: An empty repository.
+    When: We insert the same entity twice and then commit.
+    Then: Only one item exists.
+    """
+    repo.add(entity)
+    repo.add(entity)
+
+    repo.commit()  # act
+
+    entities = repo_tester.get_all(database, type(entity))
+    assert len(entities) == 1
+    assert entity == entities[0]
+
+
+def test_repo_add_entity_is_idempotent_if_entity_is_commited(
+    database: Any, repo: Repository, repo_tester: RepositoryTester, entity: Entity
+) -> None:
+    """
+    Given: A repository with the identity we want to add already commited.
+    When: We insert the same entity again and then commit.
+    Then: Only one item exists.
+    """
+    repo_tester.insert_entity(database, entity)
+    repo.add(entity)
+
+    repo.commit()  # act
+
+    entities = repo_tester.get_all(database, type(entity))
+    assert len(entities) == 1
+    assert entity == entities[0]
+
+
+def test_repo_add_entity_updates_attribute(
+    database: Any, repo: Repository, repo_tester: RepositoryTester, entity: Entity
+) -> None:
+    """
+    Given: A repository with the identity we want to add already commited.
+    When: We insert the same entity with an attribute changed then commit.
+    Then: Only one item exists.
+    """
+    repo_tester.insert_entity(database, entity)
+    # ignore: Although Entity doesn't have the rating attribute, all the entities
+    #   defined in the tests models do.
+    entity.rating += 1  # type: ignore
+    repo.add(entity)
+
+    repo.commit()  # act
+
+    entities = repo_tester.get_all(database, type(entity))
+    assert len(entities) == 1
+    assert entity.rating == entities[0].rating  # type: ignore
+
+
 def test_repository_doesnt_add_an_entity_if_we_dont_commit_changes(
     database: Any,
     repo: Repository,

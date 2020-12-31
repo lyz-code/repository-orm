@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
      <loc>https://lyz-code.github.io/repository-pattern/</loc>
-     <lastmod>2020-12-29</lastmod>
+     <lastmod>2020-12-31</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://lyz-code.github.io/repository-pattern/fake_repository/</loc>
-     <lastmod>2020-12-29</lastmod>
+     <lastmod>2020-12-31</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://lyz-code.github.io/repository-pattern/pypika_repository/</loc>
-     <lastmod>2020-12-29</lastmod>
+     <lastmod>2020-12-31</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://lyz-code.github.io/repository-pattern/models/</loc>
-     <lastmod>2020-12-29</lastmod>
+     <lastmod>2020-12-31</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://lyz-code.github.io/repository-pattern/reference_adapters/</loc>
-     <lastmod>2020-12-29</lastmod>
+     <lastmod>2020-12-31</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://lyz-code.github.io/repository-pattern/reference_models/</loc>
-     <lastmod>2020-12-29</lastmod>
+     <lastmod>2020-12-31</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://lyz-code.github.io/repository-pattern/reference_exceptions/</loc>
-     <lastmod>2020-12-29</lastmod>
+     <lastmod>2020-12-31</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://lyz-code.github.io/repository-pattern/new_repo/</loc>
-     <lastmod>2020-12-29</lastmod>
+     <lastmod>2020-12-31</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://lyz-code.github.io/repository-pattern/contributing/</loc>
-     <lastmod>2020-12-29</lastmod>
+     <lastmod>2020-12-31</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>

@@ -40,7 +40,9 @@ method.
 
 [`add`][repository_pattern.adapters.pypika.PypikaRepository.add]
 : Appends the `Entity` object to its table by translating its attributes to the
-    columns.
+    columns. If it already exists, use the [upsert
+    statement](https://www.sqlite.org/lang_UPSERT.html) to update it's
+    attributes in the table.
 
 [`delete`][repository_pattern.adapters.pypika.PypikaRepository.delete]
 : Deletes the `Entity` object from its table by searching the row that matches

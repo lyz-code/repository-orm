@@ -63,7 +63,8 @@ pip install repository-pattern
 The different repositories share the following operations:
 
 `add`
-: Add an `Entity` object to the repository.
+: Add an `Entity` object to the repository, if it already exist, update the
+    stored attributes.
 
 `delete`
 : Remove an `Entity` object form the repository.

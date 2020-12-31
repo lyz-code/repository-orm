@@ -28,6 +28,7 @@ class AuthorFactory(factory.Factory):  # type: ignore
     first_name = factory.Faker("first_name")
     last_name = factory.Faker("last_name")
     country = factory.Faker("country")
+    rating = factory.Faker("pyint")
 
     class Meta:
         """Define the entity model object to use."""
@@ -42,6 +43,7 @@ class BookFactory(factory.Factory):  # type: ignore
     title = factory.Faker("sentence")
     summary = factory.Faker("text")
     released = factory.Faker("date_time")
+    rating = factory.Faker("pyint")
 
     class Meta:
         """Define the entity model object to use."""
@@ -55,6 +57,7 @@ class GenreFactory(factory.Factory):  # type: ignore
     id_ = factory.Faker("pyint")
     name = factory.Faker("name")
     description = factory.Faker("sentence")
+    rating = factory.Faker("pyint")
 
     class Meta:
         """Define the entity model object to use."""

@@ -12,6 +12,7 @@ class Author(Entity):
     first_name: str
     last_name: str
     country: str
+    rating: int
 
 
 class Book(Entity):
@@ -21,6 +22,7 @@ class Book(Entity):
     title: str
     summary: str
     released: datetime
+    rating: int
 
 
 class Genre(Entity):
@@ -29,3 +31,4 @@ class Genre(Entity):
     id_: int
     name: str
     description: str
+    rating: int

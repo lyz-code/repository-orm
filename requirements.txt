@@ -4,7 +4,7 @@
 #
 #    pip-compile --allow-unsafe
 #
-deepdiff[murmur]==5.0.2   # via repository-pattern (setup.py)
+deepdiff[murmur]==5.2.1   # via repository-pattern (setup.py)
 mmh3==2.5.1               # via deepdiff
 ordered-set==4.0.2        # via deepdiff
 pydantic==1.7.3           # via repository-pattern (setup.py)

@@ -9,7 +9,7 @@ class Author(Entity):
     """Entity to model the author of a book."""
 
     id_: str
-    first_name: str
+    name: str
     last_name: str
     country: str
     rating: int
@@ -19,7 +19,7 @@ class Book(Entity):
     """Entity to model a book."""
 
     id_: int
-    title: str
+    name: str
     summary: str
     released: datetime
     rating: int

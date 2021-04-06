@@ -3,14 +3,21 @@
 import sqlite3
 from typing import Tuple
 
+from tinydb import TinyDB
+
 from repository_pattern import (
     Entity,
     FakeRepository,
     FakeRepositoryDB,
     PypikaRepository,
+    TinyDBRepository,
 )
 
-from .testers import FakeRepositoryTester, PypikaRepositoryTester
+from .testers import (
+    FakeRepositoryTester,
+    PypikaRepositoryTester,
+    TinyDBRepositoryTester,
+)
 
 
 class RepositoryCases:
@@ -19,7 +26,10 @@ class RepositoryCases:
     def case_fake(
         self, repo_fake: FakeRepository
     ) -> Tuple[
-        FakeRepositoryDB[Entity], FakeRepository, FakeRepository, FakeRepositoryTester
+        FakeRepositoryDB[Entity],
+        FakeRepository,
+        FakeRepository,
+        FakeRepositoryTester,
     ]:
         """Return the objects to test the FakeRepository.
 
@@ -32,6 +42,21 @@ class RepositoryCases:
         """
         return repo_fake.entities, repo_fake, repo_fake, FakeRepositoryTester()
 
+    def case_tinydb(
+        self,
+        db_tinydb: Tuple[str, TinyDB],
+        repo_tinydb: TinyDBRepository,
+    ) -> Tuple[str, TinyDBRepository, TinyDBRepository, TinyDBRepositoryTester]:
+        """Return the objects to test the FakeRepository.
+
+        Returns:
+            db: path to the database file.
+            empty_repo: An TinyDBRepository without the schema applied.
+            repo: A TinyDBRepository with the schema applied.
+            repo_tester: The tester class for the TinyDBRepository.
+        """
+        return db_tinydb[0], repo_tinydb, repo_tinydb, TinyDBRepositoryTester()
+
     def case_pypika(
         self,
         db_sqlite: Tuple[str, sqlite3.Cursor],
@@ -41,8 +66,7 @@ class RepositoryCases:
         """Return the objects to test the FakeRepository.
 
         Returns:
-            db: The url to connect to the database as we need to create the database
-                connection in the tester.
+            db: path to the database file.
             empty_repo: An PypikaRepository without the schema applied.
             repo: A PypikaRepository with the schema applied.
             repo_tester: The tester class for the PypikaRepository.

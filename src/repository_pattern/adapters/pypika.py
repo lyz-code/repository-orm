@@ -2,7 +2,9 @@
 
 import logging
 import os
+import re
 import sqlite3
+from sqlite3 import OperationalError
 from typing import Dict, List, Type, TypeVar, Union
 
 from pypika import Query, Table
@@ -10,11 +12,25 @@ from yoyo import get_backend, read_migrations
 
 from ..exceptions import EntityNotFoundError
 from ..model import Entity as EntityModel
-from . import AbstractRepository
+from .abstract import AbstractRepository
 
 log = logging.getLogger(__name__)
 
 Entity = TypeVar("Entity", bound=EntityModel)
+
+
+def _regexp(expression: str, item: str) -> bool:
+    """Implement the REGEXP filter for SQLite.
+
+    Args:
+        expression: regular expression to check.
+        item: element to check.
+
+    Returns:
+        if the item matches the regular expression.
+    """
+    reg = re.compile(expression)
+    return reg.search(item) is not None
 
 
 class PypikaRepository(AbstractRepository):
@@ -25,8 +41,15 @@ class PypikaRepository(AbstractRepository):
         super().__init__(database_url)
         database_file = database_url.replace("sqlite:///", "")
         if not os.path.isfile(database_file):
-            raise ConnectionError(f"There is no database file: {database_file}")
+            try:
+                with open(database_file, "a") as file_cursor:
+                    file_cursor.close()
+            except FileNotFoundError as error:
+                raise ConnectionError(
+                    f"Could not create the database file: {database_file}"
+                ) from error
         self.connection = sqlite3.connect(database_file)
+        self.connection.create_function("REGEXP", 2, _regexp)
         self.cursor = self.connection.cursor()
 
     def _execute(self, query: Union[Query, str]) -> sqlite3.Cursor:
@@ -187,9 +210,18 @@ class PypikaRepository(AbstractRepository):
         for key, value in fields.items():
             if key == "id_":
                 key = "id"
-            query = query.where(getattr(table, key) == value)
+            if isinstance(value, str):
+                query = query.where(getattr(table, key).regexp(value))
+            else:
+                query = query.where(getattr(table, key) == value)
 
-        entities = self._build_entities(entity_model, query)
+        try:
+            entities = self._build_entities(entity_model, query)
+        except OperationalError as error:
+            raise EntityNotFoundError(
+                f"There are no {entity_model.__name__}s that match the search filter"
+                f" {fields}"
+            ) from error
 
         if len(entities) == 0:
             raise EntityNotFoundError(

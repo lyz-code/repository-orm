@@ -6,6 +6,7 @@ nav:
   - Overview: index.md
   - Repositories:
       - FakeRepository: fake_repository.md
+      - TinyDBRepository: tinydb_repository.md
       - PypikaRepository: pypika_repository.md
   - Models: models.md
   - API Reference:

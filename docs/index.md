@@ -79,7 +79,7 @@ The different repositories share the following operations:
 : Obtain all the entities of type `Entity` from the repository.
 
 `search`
-: Obtain the entities whose attributes match a condition.
+: Obtain the entities whose attributes match a condition or regular expression.
 
 `apply_migrations`
 : Run the migrations of the repository schema.

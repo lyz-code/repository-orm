@@ -1,14 +1,16 @@
 """Library to ease the implementation of the repository pattern in python projects.."""
 
-from typing import TypeVar
-
-from .adapters import AbstractRepository
-from .adapters.fake import FakeRepository, FakeRepositoryDB
-from .adapters.pypika import PypikaRepository
+from .adapters import (
+    AbstractRepository,
+    FakeRepository,
+    FakeRepositoryDB,
+    PypikaRepository,
+    Repository,
+    TinyDBRepository,
+)
 from .exceptions import EntityNotFoundError
 from .model import Entity
-
-Repository = TypeVar("Repository", PypikaRepository, FakeRepository)
+from .services import load_repository
 
 __all__ = [
     "AbstractRepository",
@@ -17,5 +19,7 @@ __all__ = [
     "FakeRepository",
     "FakeRepositoryDB",
     "PypikaRepository",
+    "TinyDBRepository",
     "Repository",
+    "load_repository",
 ]

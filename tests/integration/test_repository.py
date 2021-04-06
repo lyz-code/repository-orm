@@ -5,10 +5,12 @@ add them to the cases.
 """
 
 import logging
+import os
 from typing import Any, List
 
 import pytest
 from _pytest.logging import LogCaptureFixture
+from py._path.local import LocalPath
 
 from repository_pattern import Entity, EntityNotFoundError, Repository
 
@@ -33,14 +35,34 @@ def test_apply_repository_creates_schema(  # noqa: AAA01
     repo_tester.assert_schema_exists(database, caplog)
 
 
+def test_repository_handles_unexistent_database_file(
+    repo: Repository, tmpdir: LocalPath
+) -> None:
+    """
+    Given: A database url pointing to an inexistent file
+    When: the repository is initialized
+    Then: The object is well initialized, and the database file is created.
+        The FakeRepository should not create any file, as all entities are stored in
+        memory.
+    """
+    database_url = str(tmpdir.join("inexistent.db"))  # type: ignore
+
+    result = repo.__class__(database_url)
+
+    assert isinstance(result, repo.__class__)
+    if result.__class__.__name__ != "FakeRepository":
+        assert os.path.isfile(database_url)
+
+
 def test_repository_handles_connection_errors(repo: Repository) -> None:
     """
-    Given: A wrong database url
-    When: the repository is initialized
-    Then: a ConnectionError exception is raised
+    Given: A database url pointing to an inexistent file
+    When: the repository is initialized with an inexistent directory
+    Then: a ConnectionError is raised. This doesn't apply to FakeRepository as it
+        doesn't create a database
     """
     with pytest.raises(ConnectionError):
-        repo.__class__("wrong_database_url")
+        repo.__class__("/inexistent_dir/database.db")  # act
 
 
 def test_repository_can_save_an_entity(
@@ -196,6 +218,24 @@ def test_repository_can_search_by_property(
     assert result == [expected_entity]
 
 
+def test_repository_can_search_regular_expression(
+    repo: Repository, inserted_entities: List[Entity]
+) -> None:
+    """
+    Given: More than one entity is inserted in the repository.
+    When: We search using a regular expression
+    Then: The matching entity is found
+    """
+    expected_entity = inserted_entities[1]
+    # ignore: Entity doesn't have a name attribute, but all the models in the test
+    #   cases do.
+    regular_expression = fr"^{expected_entity.name}.*"  # type: ignore
+
+    result = repo.search(type(expected_entity), {"name": regular_expression})
+
+    assert result == [expected_entity]
+
+
 def test_repository_search_raises_error_if_searching_by_unexistent_field(
     repo: Repository,
     inserted_entities: List[Entity],
@@ -247,7 +287,7 @@ def test_repository_can_search_by_multiple_properties(
     assert result == [entity]
 
 
-@pytest.mark.secondary
+@pytest.mark.secondary()
 def test_repository_can_delete_an_entity(
     repo: Repository,
     inserted_entities: List[Entity],
@@ -266,7 +306,7 @@ def test_repository_can_delete_an_entity(
     assert entity_to_delete not in remaining_entities
 
 
-@pytest.mark.secondary
+@pytest.mark.secondary()
 def test_repository_doesnt_delete_the_entity_if_we_dont_commit(
     database: Any,
     repo: Repository,

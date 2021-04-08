@@ -1,3 +1,18 @@
+## 0.2.0 (2021-04-08)
+
+### Feat
+
+- add TiniDB repository
+- make add idempotent for Fake and Pypika repositories
+
+### feat
+
+- add support for regular expressions in the `search` method
+
+### fix
+
+- ignore the B608 sql injection warning
+
 ## 0.1.2 (2020-12-29)
 
 ### Fix

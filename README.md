@@ -1,6 +1,8 @@
 # Repository Pattern
 
-[![Actions Status](https://github.com/lyz-code/repository-pattern/workflows/Python%20package/badge.svg)](https://github.com/lyz-code/repository-pattern/actions)
+[![Actions Status](https://github.com/lyz-code/repository-orm/workflows/Tests/badge.svg)](https://github.com/lyz-code/repository-orm/actions)
+[![Actions Status](https://github.com/lyz-code/repository-orm/workflows/Build/badge.svg)](https://github.com/lyz-code/repository-orm/actions)
+[![Coverage Status](https://coveralls.io/repos/github/lyz-code/repository-orm/badge.svg?branch=master)](https://coveralls.io/github/lyz-code/repository-orm?branch=master)
 
 Library to ease the implementation of the [repository
 pattern](https://lyz-code.github.io/blue-book/architecture/repository_pattern/).

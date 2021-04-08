@@ -1,6 +1,6 @@
-[![Actions Status](https://github.com/lyz-code/repository-pattern/workflows/Tests/badge.svg)](https://github.com/lyz-code/repository-pattern/actions)
-[![Actions Status](https://github.com/lyz-code/repository-pattern/workflows/Build/badge.svg)](https://github.com/lyz-code/repository-pattern/actions)
-[![Coverage Status](https://coveralls.io/repos/github/lyz-code/repository-pattern/badge.svg?branch=master)](https://coveralls.io/github/lyz-code/repository-pattern?branch=master)
+[![Actions Status](https://github.com/lyz-code/repository-orm/workflows/Tests/badge.svg)](https://github.com/lyz-code/repository-orm/actions)
+[![Actions Status](https://github.com/lyz-code/repository-orm/workflows/Build/badge.svg)](https://github.com/lyz-code/repository-orm/actions)
+[![Coverage Status](https://coveralls.io/repos/github/lyz-code/repository-orm/badge.svg?branch=master)](https://coveralls.io/github/lyz-code/repository-orm?branch=master)
 
 Library to ease the implementation of the [repository
 pattern](https://lyz-code.github.io/blue-book/architecture/repository_pattern/)
@@ -79,13 +79,31 @@ The different repositories share the following operations:
 : Obtain all the entities of type `Entity` from the repository.
 
 `search`
-: Obtain the entities whose attributes match a condition.
+: Obtain the entities whose attributes match a condition or regular expression.
 
 `apply_migrations`
 : Run the migrations of the repository schema.
 
 !!! note ""
     Changes in the repository aren't persisted until you run `repo.commit()`.
+
+# Repositories
+
+To change the repository you only need to change the url passed to
+`load_repository`. We have the next repositories:
+
+* [FakeRepository](fake_repository.md): is the simplest implementation of the
+    repository pattern, meant to be used for the tests and early phases of
+    development.
+* [TinyDBRepository](tinydb_repository.md): is the implementation of the
+    repository pattern for the local NoSQL
+    [TinyDB](https://tinydb.readthedocs.io/en/latest/usage.html) database. You
+    can use it in the early stages of the project where the data schema is yet
+    unstable and you don't have enough entities to have performance issues.
+* [PypikaRepository](pypika_repository.md): is the implementation of the
+    repository pattern for the relational databases. It's meant for the stages
+    of the project where the schema is more stable and you need the improved
+    performance of these types of databases.
 
 # References
 
@@ -98,6 +116,10 @@ giants, namely:
 [DeepDiff](https://deepdiff.readthedocs.io)
 : Used to search strings in complex objects in the
     [FakeRepository](fake_repository.md).
+
+[TinyDB](https://tinydb.readthedocs.io/en/latest/usage.html)
+: Used to interact with the NoSQL database in the
+    [TinyDBRepository](tinydb_repository.md)
 
 [Pypika](https://pypika.readthedocs.io/en/latest/)
 : Used to build the SQL queries in the [PypikaRepository](pypika_repository.md).

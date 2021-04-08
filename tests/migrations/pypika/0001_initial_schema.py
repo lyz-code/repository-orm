@@ -6,7 +6,7 @@ steps = [
     step(
         "CREATE TABLE author ("
         "id VARCHAR(26), "
-        "first_name VARCHAR(20), "
+        "name VARCHAR(20), "
         "last_name VARCHAR(20), "
         "country VARCHAR(20), "
         "rating INT, "
@@ -16,7 +16,7 @@ steps = [
     step(
         "CREATE TABLE book ("
         "id INT, "
-        "title VARCHAR(20), "
+        "name VARCHAR(20), "
         "summary VARCHAR(255), "
         "released DATETIME, "
         "rating INT, "

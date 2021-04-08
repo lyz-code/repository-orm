@@ -25,7 +25,7 @@ class AuthorFactory(factory.Factory):  # type: ignore
     """Factory to generate fake authors."""
 
     id_ = factory.Faker("word")
-    first_name = factory.Faker("first_name")
+    name = factory.Faker("word")
     last_name = factory.Faker("last_name")
     country = factory.Faker("country")
     rating = factory.Faker("pyint")
@@ -40,7 +40,7 @@ class BookFactory(factory.Factory):  # type: ignore
     """Factory to generate fake books."""
 
     id_ = factory.Faker("pyint")
-    title = factory.Faker("sentence")
+    name = factory.Faker("sentence")
     summary = factory.Faker("text")
     released = factory.Faker("date_time")
     rating = factory.Faker("pyint")

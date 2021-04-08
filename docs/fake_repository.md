@@ -9,6 +9,14 @@ the repository, the actual `entities` dictionary is copied to the `new_entities`
 attribute. The changes are made on that new attribute and once you use the
 `commit` method, they get copied back to the `entities` attribute.
 
+Load it with:
+
+```python
+from repository_pattern import load_repository
+
+repo = load_repository()
+```
+
 # Features
 
 Follow the [overview example](index.md#a-simple-example) to see how to use each

@@ -8,8 +8,15 @@ import factory
 import pytest
 from py._path.local import LocalPath
 from pytest_cases import fixture, parametrize_with_cases, unpack_fixture
+from tinydb import TinyDB
 
-from repository_pattern import Entity, FakeRepository, PypikaRepository, Repository
+from repository_pattern import (
+    Entity,
+    FakeRepository,
+    PypikaRepository,
+    Repository,
+    TinyDBRepository,
+)
 
 from .cases import EntityCases, RepositoryCases, RepositoryTester
 
@@ -29,7 +36,8 @@ def db_sqlite_(tmpdir: LocalPath) -> Generator[Tuple[str, sqlite3.Cursor], None,
         cursor: An sqlite cursor to execute direct queries.
     """
     sqlite_file_path = str(tmpdir.join("sqlite.db"))  # type: ignore
-    open(sqlite_file_path, "a").close()
+    with open(sqlite_file_path, "a") as file_cursor:
+        file_cursor.close()
 
     sqlite_url = f"sqlite:///{sqlite_file_path}"
     os.environ["REPOSITORY_DATABASE_URL"] = sqlite_url
@@ -41,6 +49,28 @@ def db_sqlite_(tmpdir: LocalPath) -> Generator[Tuple[str, sqlite3.Cursor], None,
     connection.close()
 
 
+@pytest.fixture(name="db_tinydb")
+def db_tinydb_(tmpdir: LocalPath) -> Tuple[str, TinyDB]:
+    """Create an TinyDB database engine.
+
+    It also sets the environmental variable REPOSITORY_DATABASE_URL.
+
+    Returns:
+        database_url: Url used to connect to the database.
+        cursor: An tinydb cursor to execute direct queries.
+    """
+    # ignore: Call of untyped join function in typed environment.
+    # Until they give typing information there is nothing else to do.
+    tinydb_file_path = str(tmpdir.join("tinydb.db"))  # type: ignore
+    with open(tinydb_file_path, "a") as file_cursor:
+        file_cursor.close()
+
+    tinydb_url = f"tinydb:///{tinydb_file_path}"
+    os.environ["REPOSITORY_DATABASE_URL"] = tinydb_url
+
+    return tinydb_url, TinyDB(tinydb_file_path)
+
+
 # -----------------------
 # - Repository fixtures -
 # -----------------------
@@ -50,6 +80,12 @@ def db_sqlite_(tmpdir: LocalPath) -> Generator[Tuple[str, sqlite3.Cursor], None,
 def repo_fake() -> FakeRepository:
     """Return an instance of the FakeRepository."""
     return FakeRepository()
+
+
+@pytest.fixture(name="repo_tinydb")
+def repo_tinydb_(db_tinydb: Tuple[str, TinyDB]) -> TinyDBRepository:
+    """Return an instance of the TinyDBRepository."""
+    return TinyDBRepository(db_tinydb[0])
 
 
 @pytest.fixture(name="empty_repo_pypika")

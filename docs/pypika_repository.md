@@ -17,6 +17,14 @@ raw sql statements, check
 [this](https://lyz-code.github.io/blue-book/architecture/orm_builder_query_or_raw_sql/)
 article.
 
+Load it with:
+
+```python
+from repository_pattern import load_repository
+
+repo = load_repository('sqlite://path/to/database.db')
+```
+
 # Database schema
 
 The repository assumes there is a specific schema, where the table names are

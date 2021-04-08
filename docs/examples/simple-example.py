@@ -1,6 +1,6 @@
-from repository_pattern import Entity, FakeRepository
+from repository_pattern import Entity, load_repository
 
-repo = FakeRepository()
+repo = load_repository()
 
 
 class Author(Entity):

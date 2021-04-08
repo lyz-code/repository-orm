@@ -12,7 +12,7 @@ from pydantic import BaseModel, Field  # pylint: disable=no-name-in-module
 
 from ..exceptions import EntityNotFoundError
 from ..model import Entity as EntityModel
-from . import AbstractRepository
+from .abstract import AbstractRepository
 
 log = logging.getLogger(__name__)
 
@@ -30,8 +30,8 @@ class FakeRepository(BaseModel, AbstractRepository):
     def __init__(self, database_url: str = "", **data: Any) -> None:
         """Initialize the repository attributes."""
         super().__init__(**data)
-        if database_url == "wrong_database_url":
-            raise ConnectionError(f"There is no database file: {database_url}")
+        if database_url == "/inexistent_dir/database.db":
+            raise ConnectionError(f"Could not create database file: {database_url}")
 
     def add(self, entity: Entity) -> None:
         """Append an entity to the repository.

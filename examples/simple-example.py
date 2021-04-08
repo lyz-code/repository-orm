@@ -1,4 +1,4 @@
-from repository_pattern import Entity, load_repository
+from repository_orm import Entity, load_repository
 
 repo = load_repository()
 

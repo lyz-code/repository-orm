@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
-     <loc>https://lyz-code.github.io/repository-pattern/</loc>
+     <loc>https://lyz-code.github.io/repository-orm/</loc>
      <lastmod>2021-04-08</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://lyz-code.github.io/repository-pattern/fake_repository/</loc>
+     <loc>https://lyz-code.github.io/repository-orm/fake_repository/</loc>
      <lastmod>2021-04-08</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://lyz-code.github.io/repository-pattern/tinydb_repository/</loc>
+     <loc>https://lyz-code.github.io/repository-orm/tinydb_repository/</loc>
      <lastmod>2021-04-08</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://lyz-code.github.io/repository-pattern/pypika_repository/</loc>
+     <loc>https://lyz-code.github.io/repository-orm/pypika_repository/</loc>
      <lastmod>2021-04-08</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://lyz-code.github.io/repository-pattern/models/</loc>
+     <loc>https://lyz-code.github.io/repository-orm/models/</loc>
      <lastmod>2021-04-08</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://lyz-code.github.io/repository-pattern/reference_adapters/</loc>
+     <loc>https://lyz-code.github.io/repository-orm/reference_adapters/</loc>
      <lastmod>2021-04-08</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://lyz-code.github.io/repository-pattern/reference_models/</loc>
+     <loc>https://lyz-code.github.io/repository-orm/reference_models/</loc>
      <lastmod>2021-04-08</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://lyz-code.github.io/repository-pattern/reference_exceptions/</loc>
+     <loc>https://lyz-code.github.io/repository-orm/reference_exceptions/</loc>
      <lastmod>2021-04-08</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://lyz-code.github.io/repository-pattern/new_repo/</loc>
+     <loc>https://lyz-code.github.io/repository-orm/new_repo/</loc>
      <lastmod>2021-04-08</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://lyz-code.github.io/repository-pattern/contributing/</loc>
+     <loc>https://lyz-code.github.io/repository-orm/contributing/</loc>
      <lastmod>2021-04-08</lastmod>
      <changefreq>daily</changefreq>
     </url>

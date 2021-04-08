@@ -99,13 +99,13 @@ clean:
 	rm -rf `find . -name __pycache__`
 	rm -f `find . -type f -name '*.py[co]' `
 	rm -f `find . -type f -name '*.rej' `
+	rm -rf `find . -type d -name '*.egg-info' `
 	rm -f `find . -type f -name '*~' `
 	rm -f `find . -type f -name '.*~' `
 	rm -rf .cache
 	rm -rf .pytest_cache
 	rm -rf .mypy_cache
 	rm -rf htmlcov
-	rm -rf *.egg-info
 	rm -f .coverage
 	rm -f .coverage.*
 	rm -rf build
@@ -200,4 +200,4 @@ security:
 
 .PHONY: version
 version:
-	@python -c "import repository_pattern.version; print(repository_pattern.version.version_info())"
+	@python -c "import repository_orm.version; print(repository_orm.version.version_info())"

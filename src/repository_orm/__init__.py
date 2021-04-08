@@ -1,4 +1,4 @@
-"""Library to ease the implementation of the repository pattern in python projects.."""
+"""Library to ease the implementation of the repository pattern in Python projects.."""
 
 from .adapters import (
     AbstractRepository,

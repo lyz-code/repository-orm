@@ -1,6 +1,6 @@
 ---
 name: Bug
-about: Create a bug report to help us improve repository-pattern
+about: Create a bug report to help us improve repository-orm
 labels: bug
 ---
 
@@ -30,5 +30,5 @@ make version
 
 # or
 
-python -c "import repository_pattern.version; print(repository_pattern.version.version_info())"
+python -c "import repository_orm.version; print(repository_orm.version.version_info())"
 -->

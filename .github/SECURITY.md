@@ -14,6 +14,6 @@ We will endeavour to support:
 ## Reporting a Vulnerability
 
 If you find what you think might be a security vulnerability with
-repository-pattern, please do not create an issue on github. Instead please
+repository-orm, please do not create an issue on github. Instead please
 email lyz-code-security-advisories@riseup.net I'll reply to your email promptly
 and try to get a patch out ASAP.

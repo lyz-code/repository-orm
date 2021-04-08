@@ -6,9 +6,7 @@ and handlers to achieve the program's purpose.
 
 from typing import Optional, Union
 
-from repository_pattern import TinyDBRepository
-
-from .adapters import FakeRepository, PypikaRepository
+from .adapters import FakeRepository, PypikaRepository, TinyDBRepository
 
 Repository = Union[FakeRepository, PypikaRepository, TinyDBRepository]
 

@@ -4,27 +4,14 @@
 #
 #    pip-compile --allow-unsafe
 #
-git+git://github.com/lyz-code/deepdiff@master
-    # via repository-pattern (setup.py)
-ordered-set==4.0.2
-    # via deepdiff
-pydantic==1.8.1
-    # via repository-pattern (setup.py)
-pymysql==1.0.2
-    # via repository-pattern (setup.py)
-pypika==0.48.1
-    # via repository-pattern (setup.py)
-sqlparse==0.4.1
-    # via yoyo-migrations
-tabulate==0.8.9
-    # via yoyo-migrations
-tinydb-serialization==2.1.0
-    # via repository-pattern (setup.py)
-tinydb==4.4.0
-    # via
-    #   repository-pattern (setup.py)
-    #   tinydb-serialization
-typing-extensions==3.7.4.3
-    # via pydantic
-yoyo-migrations==7.3.1
-    # via repository-pattern (setup.py)
+git+git://github.com/lyz-code/deepdiff@master  # via repository-orm (setup.py)
+ordered-set==4.0.2        # via deepdiff
+pydantic==1.8.1           # via repository-orm (setup.py)
+pymysql==1.0.2            # via repository-orm (setup.py)
+pypika==0.48.1            # via repository-orm (setup.py)
+sqlparse==0.4.1           # via yoyo-migrations
+tabulate==0.8.9           # via yoyo-migrations
+tinydb-serialization==2.1.0  # via repository-orm (setup.py)
+tinydb==4.4.0             # via repository-orm (setup.py), tinydb-serialization
+typing-extensions==3.7.4.3  # via pydantic
+yoyo-migrations==7.3.1    # via repository-orm (setup.py)

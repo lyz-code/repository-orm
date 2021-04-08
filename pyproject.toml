@@ -5,7 +5,7 @@ name = "cz_conventional_commits"
 version = "0.1.2"
 tag_format = "$version"
 version_files = [
-    "src/repository_pattern/version.py",
+    "src/repository_orm/version.py",
 ]
 
 # --------- Black -------------
@@ -46,7 +46,7 @@ norecursedirs = [
     "*/static/*",
     "docs",
     "venv",
-    "*/Repository Pattern/*"
+    "*/Repository ORM/*"
 ]
 markers = [
     "slow: marks tests as slow (deselect with '-m \"not slow\"')",
@@ -104,8 +104,8 @@ flake8-use-fstring = [
 ]
 flake8-typing-imports = [
   "+*",
-  "-TYP001", # guard imports by using if False: #TYPE_CHECKING, I feel I still don't
-             # need it.
+  "-TYP001", # guard import by `if False:  # TYPE_CHECKING`: TYPE_CHECKING (not in
+             #   3.5.0, 3.5.1). We don't support Python < 3.6
 ]
 flake8-variables-names = ["+*"]
 dlint = ["+*"]
@@ -131,11 +131,15 @@ pyflakes = ["+*"]
 
 [tool.flakehell.exceptions."tests/"]
 flake8-docstrings = [
-  "-D400", # First line should end with a period, doesn't make sense for test methods
+  "-D400", # First line should end with a period
   "-D205"  # 1 blank line required between summary line and description
 ]
 flake8-annotations = [
   "-ANN001"
+]
+pylint = [
+  "-R0201", # Method could be a function. Raised because the methods of a test class
+            # don't use the self object, which is not wrong.
 ]
 
 [tool.flakehell.exceptions."tests/migrations/"]
@@ -143,7 +147,7 @@ pylint = [
   "-C0103", # Module name of the migration scripts doesn't conform to snake_case naming style.
 ]
 
-[tool.flakehell.exceptions."tests/cases"]
+[tool.flakehell.exceptions."tests/cases/*"]
 pylint = [
   "-R0201", # Method could be a function. Raised because the methods of the case classes
             # don't seem to use the self object. But they do, as if we change them to
@@ -154,9 +158,19 @@ pylint = [
 pylint = [
   "-R0903", # Too few methods warning, but is the way to define factoryboy factories.
 ]
+
+[tool.flakehell.exceptions."tests/unit/test_views.py"]
+pycodestyle = [
+  "-E501", # lines too long. As we are testing the output of the terminal, the test is
+           # cleaner if we show the actual result without splitting long lines.
+]
+
 # --------- Pylint -------------
-# [tool.pylint.'TYPECHECK']
-# generated-members = "sh"
+[tool.pylint.'TYPECHECK']
+generated-members = "sh"
+
+[tool.pylint.'MESSAGES CONTROL']
+extension-pkg-whitelist = "pydantic"
 
 # --------- Build-system -------------
 

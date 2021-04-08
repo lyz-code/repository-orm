@@ -10,15 +10,15 @@ from typing import Any, Dict, Generator, Generic, List, Type, TypeVar
 from _pytest.logging import LogCaptureFixture
 from pypika import Query, Table
 
-from repository_pattern import (
+from repository_orm import (
     Entity,
+    EntityNotFoundError,
     FakeRepository,
     FakeRepositoryDB,
     PypikaRepository,
     Repository,
     TinyDBRepository,
 )
-from repository_pattern.exceptions import EntityNotFoundError
 
 RepositoryTester = TypeVar(
     "RepositoryTester",
@@ -220,7 +220,7 @@ class PypikaRepositoryTester(AbstractRepositoryTester[PypikaRepository]):  # noq
         cursor = next(self._build_cursor(database))
         assert len(cursor.execute("SELECT * from _yoyo_log").fetchall()) > 0
         assert (
-            "repository_pattern.adapters.pypika",
+            "repository_orm.adapters.pypika",
             logging.DEBUG,
             "Complete running database migrations",
         ) in caplog.record_tuples

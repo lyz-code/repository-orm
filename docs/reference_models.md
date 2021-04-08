@@ -1,1 +1,1 @@
-::: repository_pattern.model
+::: repository_orm.model

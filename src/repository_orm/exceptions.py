@@ -1,5 +1,5 @@
 """
-Module to store the repository-pattern exceptions.
+Module to store the repository-orm exceptions.
 
 Exceptions:
     EntityNotFoundError

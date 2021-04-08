@@ -1,1 +1,1 @@
-::: repository_pattern.exceptions
+::: repository_orm.exceptions

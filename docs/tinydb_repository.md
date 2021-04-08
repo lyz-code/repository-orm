@@ -81,5 +81,4 @@ called, they are persisted into the database.
 
 # References
 
-* [Pypika documentation](https://pypika.readthedocs.io/en/latest/index.html)
-* [Yoyo documentation](https://ollycope.com/software/yoyo/latest)
+* [TinyDB documentation](https://tinydb.readthedocs.io/en/latest/api.html#tinydb.database.TinyDB)

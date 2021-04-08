@@ -9,7 +9,7 @@ __version__ = "0.1.2"  # Do not edit this line manually, let `make bump` do it.
 def version_info() -> str:
     """Display the version of the program, python and the platform."""
     info = {
-        "repository_pattern version": __version__,
+        "repository_orm version": __version__,
         "python version": sys.version.replace("\n", " "),
         "platform": platform.platform(),
     }

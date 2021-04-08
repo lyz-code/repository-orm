@@ -1,6 +1,10 @@
-"""Initial schema yoyo migrations script."""
+"""Initial schema yoyo migrations script."""  # noqa: C0103
 
 from yoyo import step
+
+# C0103: Module name doesn't conform to snake_case naming. But it's the way to define
+#   yoyo migration scripts names.
+
 
 steps = [
     step(

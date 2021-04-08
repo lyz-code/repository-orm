@@ -2,7 +2,7 @@
 
 import pytest
 
-from repository_pattern import Entity
+from repository_orm import Entity
 
 
 def test_compare_less_than_entities() -> None:

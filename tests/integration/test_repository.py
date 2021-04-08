@@ -12,7 +12,7 @@ import pytest
 from _pytest.logging import LogCaptureFixture
 from py._path.local import LocalPath
 
-from repository_pattern import Entity, EntityNotFoundError, Repository
+from repository_orm import Entity, EntityNotFoundError, Repository
 
 from ..cases import RepositoryTester
 

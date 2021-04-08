@@ -10,7 +10,7 @@ from py._path.local import LocalPath
 from pytest_cases import fixture, parametrize_with_cases, unpack_fixture
 from tinydb import TinyDB
 
-from repository_pattern import (
+from repository_orm import (
     Entity,
     FakeRepository,
     PypikaRepository,

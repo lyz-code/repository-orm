@@ -2,7 +2,7 @@
 
 from datetime import datetime
 
-from repository_pattern import Entity
+from repository_orm import Entity
 
 
 class Author(Entity):

@@ -1,1 +1,1 @@
-::: repository_pattern.adapters
+::: repository_orm.adapters

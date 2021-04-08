@@ -1,6 +1,6 @@
 ---
 name: Feature Request
-about: Suggest a new feature or change to repository-pattern
+about: Suggest a new feature or change to repository-orm
 labels: feature request
 ---
 

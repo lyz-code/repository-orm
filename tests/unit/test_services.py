@@ -5,7 +5,7 @@ from typing import Tuple
 
 from tinydb import TinyDB
 
-from repository_pattern import (
+from repository_orm import (
     FakeRepository,
     PypikaRepository,
     TinyDBRepository,

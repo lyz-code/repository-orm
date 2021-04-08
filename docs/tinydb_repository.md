@@ -1,16 +1,16 @@
-The [`TinyDBRepository`][repository_pattern.adapters.tinydb.TinyDBRepository] is the
+The [`TinyDBRepository`][repository_orm.adapters.tinydb.TinyDBRepository] is the
 implementation of the repository pattern for the local NoSQL
 [TinyDB](https://tinydb.readthedocs.io/en/latest/usage.html) database. You can
 use it in the early stages of the project where the data schema is yet unstable
 and you don't have enough entities to have performance issues.
 
-It stores the persisted [Entities][repository_pattern.model.Entity] into
+It stores the persisted [Entities][repository_orm.model.Entity] into
 a json file.
 
 Load it with:
 
 ```python
-from repository_pattern import load_repository
+from repository_orm import load_repository
 
 repo = load_repository('tinydb://path/to/database.db')
 ```
@@ -20,33 +20,33 @@ repo = load_repository('tinydb://path/to/database.db')
 Follow the [overview example](index.md#a-simple-example) to see how to use each
 method.
 
-[`add`][repository_pattern.adapters.tinydb.TinyDBRepository.add]
+[`add`][repository_orm.adapters.tinydb.TinyDBRepository.add]
 : Appends the `Entity` object to the default table by translating its attributes
     to a valid json row. If it already exists, it uses the [upsert
     statement](https://tinydb.readthedocs.io/en/latest/usage.html?highlight=upsert#upserting-data)
     to update it's attributes in the table.
 
-[`delete`][repository_pattern.adapters.tinydb.TinyDBRepository.delete]
+[`delete`][repository_orm.adapters.tinydb.TinyDBRepository.delete]
 : Deletes the `Entity` object from the collection by searching the row that
     matches the object ID.
 
-[`get`][repository_pattern.adapters.tinydb.TinyDBRepository.get]
+[`get`][repository_orm.adapters.tinydb.TinyDBRepository.get]
 : Obtain an `Entity` by extracting the row that matches the ID and build the
     `Entity` object with that data.
 
-[`commit`][repository_pattern.adapters.tinydb.TinyDBRepository.commit]
+[`commit`][repository_orm.adapters.tinydb.TinyDBRepository.commit]
 : Persist the changes into the database.
 
-[`all`][repository_pattern.adapters.tinydb.TinyDBRepository.all]
+[`all`][repository_orm.adapters.tinydb.TinyDBRepository.all]
 : Obtain all the entities of type `Entity`. Similar to the `get` method but for
     all entities.
 
-[`search`][repository_pattern.adapters.tinydb.TinyDBRepository.search]
+[`search`][repository_orm.adapters.tinydb.TinyDBRepository.search]
 : Obtain the entities whose attributes match one or multiple conditions. We
     create a query with all the desired criteria and then build the entities with
     the obtained data.
 
-[`apply_migrations`][repository_pattern.adapters.tinydb.TinyDBRepository.apply_migrations]
+[`apply_migrations`][repository_orm.adapters.tinydb.TinyDBRepository.apply_migrations]
 : We don't yet [support migrations on the
     schema](https://github.com/lyz-code/repository-orm/issues/27), so the models
     should be flexible enough to absorb the changes, or you can code your
@@ -81,5 +81,4 @@ called, they are persisted into the database.
 
 # References
 
-* [Pypika documentation](https://pypika.readthedocs.io/en/latest/index.html)
-* [Yoyo documentation](https://ollycope.com/software/yoyo/latest)
+* [TinyDB documentation](https://tinydb.readthedocs.io/en/latest/api.html#tinydb.database.TinyDB)

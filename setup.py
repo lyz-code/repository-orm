@@ -3,8 +3,25 @@
 import re
 from glob import glob
 from os.path import basename, splitext
+from subprocess import getoutput
 
 from setuptools import find_packages, setup
+from setuptools.command.install import install
+
+
+# ignore: cannot subclass install, has type Any. And what would you do?
+class PostInstall(install):  # type: ignore
+    """Install direct dependency.
+
+    Pypi doesn't allow uploading packages with direct dependencies, so we need to
+    install them manually.
+    """
+
+    def run(self) -> None:
+        """Install dependencies."""
+        install.run(self)
+        print(getoutput("pip install git+git://github.com/lyz-code/deepdiff@master"))
+
 
 # Avoid loading the package to extract the version
 with open("src/repository_orm/version.py") as fp:
@@ -24,6 +41,7 @@ setup(
         "Library to ease the implementation of the repository pattern in "
         "Python projects."
     ),
+    cmdclass={"install": PostInstall},
     author="Lyz",
     author_email="lyz-code-security-advisories@riseup.net",
     license="GNU General Public License v3",
@@ -50,7 +68,6 @@ setup(
         "Natural Language :: English",
     ],
     install_requires=[
-        "deepdiff @ git+git://github.com/lyz-code/deepdiff@master",
         "pydantic",
         "pypika",
         "pymysql",

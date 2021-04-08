@@ -145,12 +145,13 @@ pull-master:
 	@echo ""
 
 .PHONY: build-package
-build-package:
+build-package: clean
 	@echo "------------------------"
 	@echo "- Building the package -"
 	@echo "------------------------"
 
-	python -m pep517.build --source --binary --out-dir dist/ .
+	python setup.py -q bdist_wheel
+	python setup.py -q sdist
 
 	@echo ""
 
@@ -171,6 +172,17 @@ upload-pypi:
 	@echo "-----------------------------"
 
 	twine upload -r pypi dist/*
+
+	@echo ""
+
+
+.PHONY: upload-testing-pypi
+upload-testing-pypi:
+	@echo "-------------------------------------"
+	@echo "- Uploading package to pypi testing -"
+	@echo "-------------------------------------"
+
+	twine upload -r testpypi dist/*
 
 	@echo ""
 

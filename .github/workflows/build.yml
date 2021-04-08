@@ -16,6 +16,8 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: 3.7
+      - name: Install dependencies
+        run: pip install wheel
       - name: Build package
         run: make build-package
       - name: Publish distribution to Test PyPI
@@ -30,7 +32,7 @@ jobs:
         with:
           password: ${{ secrets.pypi_password }}
   Documentation:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -44,6 +46,8 @@ jobs:
       - name: Install dependencies
         run: >-
           pip install -r ./docs/requirements.txt
+          # To remove when PR is merged
+          pip install git+git://github.com/lyz-code/deepdiff@master
           pip install -e .
       - name: Build the Documentation
         run: make build-docs

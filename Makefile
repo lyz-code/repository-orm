@@ -6,6 +6,7 @@ black = black --target-version py37 src docs/examples tests setup.py
 install:
 	python -m pip install -U setuptools pip
 	pip install -r requirements-dev.txt
+	pip install git+git://github.com/lyz-code/deepdiff@master
 	pip install -e .
 	pre-commit install
 

@@ -9,6 +9,11 @@ from setuptools import find_packages, setup
 from setuptools.command.install import install
 
 
+# To remove when the PR is merged:
+# * PostInstall
+# * In build.yml pipeline
+# * Add the requirement in setup.py
+# * In Makefile
 # ignore: cannot subclass install, has type Any. And what would you do?
 class PostInstall(install):  # type: ignore
     """Install direct dependency.

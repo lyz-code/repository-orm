@@ -48,3 +48,6 @@ autoimport
 black
 isort
 yamlfix
+
+# Build
+wheel

@@ -170,7 +170,7 @@ idna==2.10
     # via
     #   -r docs/requirements.txt
     #   requests
-importlib-metadata==3.10.0
+importlib-metadata==3.10.1
     # via
     #   -r docs/requirements.txt
     #   flake8
@@ -247,7 +247,7 @@ mkdocs-autorefs==0.1.1
     # via
     #   -r docs/requirements.txt
     #   mkdocstrings
-mkdocs-git-revision-date-localized-plugin==0.8
+mkdocs-git-revision-date-localized-plugin==0.9
     # via
     #   -r docs/requirements.in
     #   -r docs/requirements.txt
@@ -355,7 +355,7 @@ pypika==0.48.1
     # via -r requirements.txt
 pyprojroot==0.2.0
     # via autoimport
-pytest-cases==3.4.5
+pytest-cases==3.4.6
     # via -r requirements-dev.in
 pytest-cov==2.11.1
     # via -r requirements-dev.in

@@ -1,3 +1,9 @@
+## 0.3.1 (2021-04-15)
+
+### Fix
+
+- use entity typevar for abstract repository definition
+
 ## 0.3.0 (2021-04-15)
 
 ### Feat

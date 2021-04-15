@@ -52,6 +52,8 @@ class TinyDBRepository(AbstractRepository):
         Args:
             entity: Entity to add to the repository.
         """
+        if entity.id_ < 0:
+            entity.id_ = self._next_id(entity)
         self.staged["add"].append(entity)
 
     def delete(self, entity: Entity) -> None:

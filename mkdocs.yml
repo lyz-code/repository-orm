@@ -15,6 +15,10 @@ nav:
       - Exceptions: reference_exceptions.md
   - Create new repository: new_repo.md
   - Contributing: contributing.md
+  - Architecture Decision Records:
+      - adr/adr.md
+      - '001: Entity id_ definition': |
+          adr/001-entity_id_definition.md
 
 plugins:
   - search

@@ -39,6 +39,8 @@ class FakeRepository(BaseModel, AbstractRepository):
         Args:
             entity: Entity to add to the repository.
         """
+        if entity.id_ < 0:
+            entity.id_ = self._next_id(entity)
         if self.new_entities == {}:
             self.new_entities = copy.deepcopy(self.entities.copy())
         try:
@@ -150,13 +152,7 @@ class FakeRepository(BaseModel, AbstractRepository):
                 raise EntityNotFoundError(error_msg) from error
 
             for path in entities_with_value["matched_values"]:
-                entity_id = re.sub(r"root\[(.*?)\]\[.*", r"\1", path)
-
-                # Convert int ids from str to int
-                try:
-                    entity_id = int(entity_id)
-                except ValueError:
-                    entity_id = re.sub(r"'(.*)'", r"\1", entity_id)
+                entity_id = int(re.sub(r"root\[(.*?)\]\[.*", r"\1", path))
 
                 # Add the entity to the matching ones only if the value is of the
                 # attribute `key`.
@@ -168,8 +164,6 @@ class FakeRepository(BaseModel, AbstractRepository):
             entity_attributes = matching_entity_attributes
         entities = [entities_dict[key] for key in entity_attributes.keys()]
 
-        if len(entities) == 0:
-            raise EntityNotFoundError(error_msg)
         return entities
 
     def apply_migrations(self, migrations_directory: str) -> None:

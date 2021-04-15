@@ -30,6 +30,8 @@ class AbstractRepository(abc.ABC):
         Args:
             entity: Entity to add to the repository.
         """
+        # if entity.id_ < 0:
+        #    entity.id_ = self._next_id(entity)
         raise NotImplementedError
 
     @abc.abstractmethod
@@ -120,7 +122,8 @@ class AbstractRepository(abc.ABC):
         try:
             return max(self.all(entity_model))
         except KeyError as error:
-            raise EntityNotFoundError(
+            # no cover: it's tested by it's subclasses
+            raise EntityNotFoundError(  # pragma: no cover
                 f"There are no {entity_model.__name__}s in the repository."
             ) from error
 
@@ -139,6 +142,19 @@ class AbstractRepository(abc.ABC):
         try:
             return min(self.all(entity_model))
         except KeyError as error:
-            raise EntityNotFoundError(
+            # no cover: it's tested by it's subclasses
+            raise EntityNotFoundError(  # pragma: no cover
                 f"There are no {entity_model.__name__}s in the repository."
             ) from error
+
+    def _next_id(self, entity: Entity) -> int:
+        """Return one id unit more than the last entity id in the repository.
+
+        Args:
+            entity: Entity whose model we want to get the next entity id.
+        """
+        try:
+            last_id = self.last(type(entity)).id_
+        except EntityNotFoundError:
+            return 0
+        return last_id + 1

@@ -11,14 +11,13 @@ from pytest_cases import fixture, parametrize_with_cases, unpack_fixture
 from tinydb import TinyDB
 
 from repository_orm import (
-    Entity,
     FakeRepository,
     PypikaRepository,
     Repository,
     TinyDBRepository,
 )
 
-from .cases import EntityCases, RepositoryCases, RepositoryTester
+from .cases import Entity, EntityCases, RepositoryCases, RepositoryTester
 
 # ---------------------
 # - Database fixtures -

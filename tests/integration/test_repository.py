@@ -12,9 +12,9 @@ import pytest
 from _pytest.logging import LogCaptureFixture
 from py._path.local import LocalPath
 
-from repository_orm import Entity, EntityNotFoundError, Repository
+from repository_orm import EntityNotFoundError, Repository
 
-from ..cases import RepositoryTester
+from ..cases import Entity, RepositoryTester
 
 
 def test_apply_repository_creates_schema(  # noqa: AAA01
@@ -77,6 +77,67 @@ def test_repository_can_save_an_entity(
     repo.commit()  # act
 
     assert entity == repo_tester.get_entity(database, entity)
+
+
+def test_repository_can_save_an_entity_without_id_in_empty_repo(
+    repo: Repository,
+    entity: Entity,
+) -> None:
+    """
+    Given: An empty repository
+    When: adding an entity without id
+    Then: the id 0 is set
+    """
+    entity = entity.__class__(name="Entity without id")
+    repo.add(entity)
+
+    repo.commit()  # act
+
+    entities = repo.all(type(entity))
+    assert len(entities) == 1
+    assert entities[0].id_ == 0
+
+
+def test_repository_can_save_an_entity_without_id(
+    repo: Repository,
+    inserted_entity: Entity,
+) -> None:
+    """
+    Given: A repository with an entity
+    When: adding an entity without id
+    Then: the id of the new entity is one unit greater than the last one.
+    """
+    entity = inserted_entity.__class__(name="Entity without id")
+    repo.add(entity)
+
+    repo.commit()  # act
+
+    saved_entity = repo.last(type(inserted_entity))
+    assert saved_entity.id_ == inserted_entity.id_ + 1
+    # ignore: Entity doesn't have a name attribute, but all the models in the test
+    #   cases do.
+    assert saved_entity.name == "Entity without id"  # type: ignore
+
+
+def test_repository_cant_save_an_entity_with_a_negative_id(
+    repo: Repository,
+    inserted_entity: Entity,
+) -> None:
+    """
+    Given: A repository with an entity
+    When: adding an entity with a negative id
+    Then: the id of the new entity is one unit greater than the last one.
+    """
+    entity = inserted_entity.__class__(id=-3, name="Entity with negative id")
+    repo.add(entity)
+
+    repo.commit()  # act
+
+    saved_entity = repo.last(type(inserted_entity))
+    assert saved_entity.id_ == inserted_entity.id_ + 1
+    # ignore: Entity doesn't have a name attribute, but all the models in the test
+    #   cases do.
+    assert saved_entity.name == "Entity with negative id"  # type: ignore
 
 
 def test_repo_add_entity_is_idempotent(
@@ -227,9 +288,7 @@ def test_repository_can_search_regular_expression(
     Then: The matching entity is found
     """
     expected_entity = inserted_entities[1]
-    # ignore: Entity doesn't have a name attribute, but all the models in the test
-    #   cases do.
-    regular_expression = fr"^{expected_entity.name}.*"  # type: ignore
+    regular_expression = fr"^{expected_entity.name}.*"
 
     result = repo.search(type(expected_entity), {"name": regular_expression})
 

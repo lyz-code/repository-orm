@@ -76,6 +76,8 @@ class PypikaRepository(AbstractRepository):
         Args:
             entity: Entity to add to the repository.
         """
+        if entity.id_ < 0:
+            entity.id_ = self._next_id(entity)
         table = self._table(entity)
         columns = list(entity.dict().keys())
         columns[columns.index("id_")] = "id"

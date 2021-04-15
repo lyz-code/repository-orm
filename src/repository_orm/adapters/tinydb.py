@@ -133,7 +133,7 @@ class TinyDBRepository(AbstractRepository):
 
         if len(entities) == 0:
             raise EntityNotFoundError(
-                f"There are no {entity_model.__name__}s entities in the repository"
+                f"There are no {entity_model.__name__} entities in the repository"
             )
         return entities
 

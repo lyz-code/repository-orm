@@ -3,6 +3,7 @@
 import abc
 from typing import Dict, List, Type, Union
 
+from ..exceptions import EntityNotFoundError
 from ..model import Entity
 
 
@@ -103,3 +104,41 @@ class AbstractRepository(abc.ABC):
                 scripts.
         """
         raise NotImplementedError
+
+    def last(self, entity_model: Type[Entity]) -> Entity:
+        """Get the biggest entity from the repository.
+
+        Args:
+            entity_model: Type of entity object to obtain.
+
+        Returns:
+            entity: Biggest Entity object of type entity_model.
+
+        Raises:
+            EntityNotFoundError: If there are no entities.
+        """
+        try:
+            return max(self.all(entity_model))
+        except KeyError as error:
+            raise EntityNotFoundError(
+                f"There are no {entity_model.__name__}s in the repository."
+            ) from error
+
+    def first(self, entity_model: Type[Entity]) -> Entity:
+        """Get the smallest entity from the repository.
+
+        Args:
+            entity_model: Type of entity object to obtain.
+
+        Returns:
+            entity: Smallest Entity object of type entity_model.
+
+        Raises:
+            EntityNotFoundError: If there are no entities.
+        """
+        try:
+            return min(self.all(entity_model))
+        except KeyError as error:
+            raise EntityNotFoundError(
+                f"There are no {entity_model.__name__}s in the repository."
+            ) from error

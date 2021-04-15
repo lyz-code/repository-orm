@@ -12,7 +12,7 @@ astor==0.8.1
     # via flake8-simplify
 astpretty==2.1.0
     # via flake8-expression-complexity
-astroid==2.5.2
+astroid==2.5.3
     # via pylint
 asttokens==2.0.4
     # via flake8-aaa
@@ -83,7 +83,7 @@ eradicate==2.0.0
     # via flake8-eradicate
 factory-boy==3.2.0
     # via -r requirements-dev.in
-faker==8.0.0
+faker==8.1.0
     # via factory-boy
 filelock==3.0.12
     # via virtualenv
@@ -164,13 +164,13 @@ htmlmin==0.1.12
     # via
     #   -r docs/requirements.txt
     #   mkdocs-minify-plugin
-identify==2.2.2
+identify==2.2.3
     # via pre-commit
 idna==2.10
     # via
     #   -r docs/requirements.txt
     #   requests
-importlib-metadata==3.10.0
+importlib-metadata==3.10.1
     # via
     #   -r docs/requirements.txt
     #   flake8
@@ -247,7 +247,7 @@ mkdocs-autorefs==0.1.1
     # via
     #   -r docs/requirements.txt
     #   mkdocstrings
-mkdocs-git-revision-date-localized-plugin==0.8
+mkdocs-git-revision-date-localized-plugin==0.9
     # via
     #   -r docs/requirements.in
     #   -r docs/requirements.txt
@@ -259,7 +259,7 @@ mkdocs-material-extensions==1.0.1
     # via
     #   -r docs/requirements.txt
     #   mkdocs-material
-mkdocs-material==7.1.0
+mkdocs-material==7.1.1
     # via
     #   -r docs/requirements.in
     #   -r docs/requirements.txt
@@ -298,7 +298,7 @@ nltk==3.6.1
     # via
     #   -r docs/requirements.txt
     #   lunr
-nodeenv==1.5.0
+nodeenv==1.6.0
     # via pre-commit
 packaging==20.9
     # via
@@ -315,7 +315,7 @@ pep517==0.10.0
     # via pip-tools
 pep8-naming==0.11.1
     # via -r requirements-dev.in
-pip-tools==6.0.1
+pip-tools==6.1.0
     # via -r requirements-dev.in
 pluggy==0.13.1
     # via pytest
@@ -355,7 +355,7 @@ pypika==0.48.1
     # via -r requirements.txt
 pyprojroot==0.2.0
     # via autoimport
-pytest-cases==3.4.5
+pytest-cases==3.4.6
     # via -r requirements-dev.in
 pytest-cov==2.11.1
     # via -r requirements-dev.in
@@ -459,7 +459,7 @@ tqdm==4.60.0
     # via
     #   -r docs/requirements.txt
     #   nltk
-typed-ast==1.4.2
+typed-ast==1.4.3
     # via
     #   astroid
     #   black
@@ -503,7 +503,7 @@ zipp==3.4.1
 # The following packages are considered to be unsafe in a requirements file:
 pip==21.0.1
     # via pip-tools
-setuptools==54.2.0
+setuptools==56.0.0
     # via
     #   flake8-annotations-complexity
     #   flake8-expression-complexity

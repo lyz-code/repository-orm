@@ -201,7 +201,7 @@ def test_repository_all_raises_error_if_empty_repository(
         repo.all(type(entity))
 
     assert (
-        f"There are no {entity.__class__.__name__}s entities in the repository"
+        f"There are no {entity.__class__.__name__} entities in the repository"
         in str(error.value)
     )
 
@@ -326,7 +326,7 @@ def test_repository_doesnt_delete_the_entity_if_we_dont_commit(
     assert entity_to_delete in remaining_entities
 
 
-def test_repository_raise_error_if_entity_not_found(
+def test_repository_delete_raise_error_if_entity_not_found(
     repo: Repository,
     entity: Entity,
 ) -> None:
@@ -342,3 +342,67 @@ def test_repository_raise_error_if_entity_not_found(
         f"Unable to delete entity {entity} because it's not in the repository"
         in str(error.value)
     )
+
+
+def test_repository_last_returns_last_entity(
+    repo: Repository,
+    inserted_entities: List[Entity],
+) -> None:
+    """
+    Given: A repository with many entities.
+    When: using the last method.
+    Then: The greater entity is returned
+    """
+    greater_entity = max(inserted_entities)
+
+    result = repo.last(type(greater_entity))
+
+    assert result == greater_entity
+
+
+def test_repository_last_raise_error_if_entity_not_found(
+    repo: Repository,
+    entity: Entity,
+) -> None:
+    """
+    Given: an empty repository.
+    When: trying to get the last entity.
+    Then: An EntityNotFoundError error is raised.
+    """
+    with pytest.raises(
+        EntityNotFoundError,
+        match=f"There are no {entity.__class__.__name__} entities in the repository",
+    ):
+        repo.last(type(entity))
+
+
+def test_repository_first_returns_first_entity(
+    repo: Repository,
+    inserted_entities: List[Entity],
+) -> None:
+    """
+    Given: A repository with many entities.
+    When: using the first method.
+    Then: The smallest entity is returned
+    """
+    smaller_entity = min(inserted_entities)
+
+    result = repo.first(type(smaller_entity))
+
+    assert result == smaller_entity
+
+
+def test_repository_first_raise_error_if_entity_not_found(
+    repo: Repository,
+    entity: Entity,
+) -> None:
+    """
+    Given: an empty repository.
+    When: trying to get the first entity.
+    Then: An EntityNotFoundError error is raised.
+    """
+    with pytest.raises(
+        EntityNotFoundError,
+        match=f"There are no {entity.__class__.__name__} entities in the repository",
+    ):
+        repo.first(type(entity))

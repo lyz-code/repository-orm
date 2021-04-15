@@ -107,7 +107,7 @@ class FakeRepository(BaseModel, AbstractRepository):
             )
         except KeyError as error:
             raise EntityNotFoundError(
-                f"There are no {entity_model.__name__}s entities in the repository"
+                f"There are no {entity_model.__name__} entities in the repository"
             ) from error
 
     def commit(self) -> None:
@@ -180,3 +180,22 @@ class FakeRepository(BaseModel, AbstractRepository):
                 scripts.
         """
         # The fake repository doesn't have any schema
+
+    def last(self, entity_model: Type[Entity]) -> Entity:
+        """Get the greatest entity from the repository.
+
+        Args:
+            entity_model: Type of entity object to obtain.
+
+        Returns:
+            entity: Entity object that matches the search criteria.
+
+        Raises:
+            EntityNotFoundError: If there are no entities.
+        """
+        try:
+            return max([entity for _, entity in self.entities[entity_model].items()])
+        except KeyError as error:
+            raise EntityNotFoundError(
+                f"There are no {entity_model.__name__} entities in the repository."
+            ) from error

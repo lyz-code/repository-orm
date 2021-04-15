@@ -1,3 +1,15 @@
+## 0.3.0 (2021-04-15)
+
+### Feat
+
+- add _model_name attribute to entities
+- make entity id definition optional
+- add first and last methods to the repositories
+
+### BREAKING CHANGE
+
+- We're temporarily dropping support for `str` `id_` attributes.
+
 ## 0.2.0 (2021-04-08)
 
 ### Feat

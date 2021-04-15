@@ -3,6 +3,7 @@
 import abc
 from typing import Dict, List, Type, Union
 
+from ..exceptions import EntityNotFoundError
 from ..model import Entity
 
 
@@ -29,6 +30,9 @@ class AbstractRepository(abc.ABC):
         Args:
             entity: Entity to add to the repository.
         """
+        # no cover: it's tested by it's subclasses
+        if entity.id_ < 0:  # pragma: no cover
+            entity.id_ = self._next_id(entity)  # pragma: no cover
         raise NotImplementedError
 
     @abc.abstractmethod
@@ -103,3 +107,55 @@ class AbstractRepository(abc.ABC):
                 scripts.
         """
         raise NotImplementedError
+
+    def last(self, entity_model: Type[Entity]) -> Entity:
+        """Get the biggest entity from the repository.
+
+        Args:
+            entity_model: Type of entity object to obtain.
+
+        Returns:
+            entity: Biggest Entity object of type entity_model.
+
+        Raises:
+            EntityNotFoundError: If there are no entities.
+        """
+        try:
+            return max(self.all(entity_model))
+        except KeyError as error:
+            # no cover: it's tested by it's subclasses
+            raise EntityNotFoundError(  # pragma: no cover
+                f"There are no {entity_model.__name__}s in the repository."
+            ) from error
+
+    def first(self, entity_model: Type[Entity]) -> Entity:
+        """Get the smallest entity from the repository.
+
+        Args:
+            entity_model: Type of entity object to obtain.
+
+        Returns:
+            entity: Smallest Entity object of type entity_model.
+
+        Raises:
+            EntityNotFoundError: If there are no entities.
+        """
+        try:
+            return min(self.all(entity_model))
+        except KeyError as error:
+            # no cover: it's tested by it's subclasses
+            raise EntityNotFoundError(  # pragma: no cover
+                f"There are no {entity_model.__name__}s in the repository."
+            ) from error
+
+    def _next_id(self, entity: Entity) -> int:
+        """Return one id unit more than the last entity id in the repository.
+
+        Args:
+            entity: Entity whose model we want to get the next entity id.
+        """
+        try:
+            last_id = self.last(type(entity)).id_
+        except EntityNotFoundError:
+            return 0
+        return last_id + 1

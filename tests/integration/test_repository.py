@@ -12,9 +12,9 @@ import pytest
 from _pytest.logging import LogCaptureFixture
 from py._path.local import LocalPath
 
-from repository_orm import Entity, EntityNotFoundError, Repository
+from repository_orm import EntityNotFoundError, Repository
 
-from ..cases import RepositoryTester
+from ..cases import Entity, RepositoryTester
 
 
 def test_apply_repository_creates_schema(  # noqa: AAA01
@@ -77,6 +77,67 @@ def test_repository_can_save_an_entity(
     repo.commit()  # act
 
     assert entity == repo_tester.get_entity(database, entity)
+
+
+def test_repository_can_save_an_entity_without_id_in_empty_repo(
+    repo: Repository,
+    entity: Entity,
+) -> None:
+    """
+    Given: An empty repository
+    When: adding an entity without id
+    Then: the id 0 is set
+    """
+    entity = entity.__class__(name="Entity without id")
+    repo.add(entity)
+
+    repo.commit()  # act
+
+    entities = repo.all(type(entity))
+    assert len(entities) == 1
+    assert entities[0].id_ == 0
+
+
+def test_repository_can_save_an_entity_without_id(
+    repo: Repository,
+    inserted_entity: Entity,
+) -> None:
+    """
+    Given: A repository with an entity
+    When: adding an entity without id
+    Then: the id of the new entity is one unit greater than the last one.
+    """
+    entity = inserted_entity.__class__(name="Entity without id")
+    repo.add(entity)
+
+    repo.commit()  # act
+
+    saved_entity = repo.last(type(inserted_entity))
+    assert saved_entity.id_ == inserted_entity.id_ + 1
+    # ignore: Entity doesn't have a name attribute, but all the models in the test
+    #   cases do.
+    assert saved_entity.name == "Entity without id"  # type: ignore
+
+
+def test_repository_cant_save_an_entity_with_a_negative_id(
+    repo: Repository,
+    inserted_entity: Entity,
+) -> None:
+    """
+    Given: A repository with an entity
+    When: adding an entity with a negative id
+    Then: the id of the new entity is one unit greater than the last one.
+    """
+    entity = inserted_entity.__class__(id=-3, name="Entity with negative id")
+    repo.add(entity)
+
+    repo.commit()  # act
+
+    saved_entity = repo.last(type(inserted_entity))
+    assert saved_entity.id_ == inserted_entity.id_ + 1
+    # ignore: Entity doesn't have a name attribute, but all the models in the test
+    #   cases do.
+    assert saved_entity.name == "Entity with negative id"  # type: ignore
 
 
 def test_repo_add_entity_is_idempotent(
@@ -173,7 +234,7 @@ def test_repository_raises_error_if_no_entity_found_by_get(
         repo.get(type(entity), entity.id_)
 
     assert (
-        f"There are no {entity.__class__.__name__}s with id "
+        f"There are no {entity._model_name}s with id "
         f"{entity.id_} in the repository" in str(error.value)
     )
 
@@ -200,9 +261,8 @@ def test_repository_all_raises_error_if_empty_repository(
     with pytest.raises(EntityNotFoundError) as error:
         repo.all(type(entity))
 
-    assert (
-        f"There are no {entity.__class__.__name__}s entities in the repository"
-        in str(error.value)
+    assert f"There are no {entity._model_name} entities in the repository" in str(
+        error.value
     )
 
 
@@ -227,9 +287,7 @@ def test_repository_can_search_regular_expression(
     Then: The matching entity is found
     """
     expected_entity = inserted_entities[1]
-    # ignore: Entity doesn't have a name attribute, but all the models in the test
-    #   cases do.
-    regular_expression = fr"^{expected_entity.name}.*"  # type: ignore
+    regular_expression = fr"^{expected_entity.name}.*"
 
     result = repo.search(type(expected_entity), {"name": regular_expression})
 
@@ -249,7 +307,7 @@ def test_repository_search_raises_error_if_searching_by_unexistent_field(
         repo.search(type(entity), {"unexistent_field": "unexistent_value"})
 
     assert (
-        f"There are no {entity.__class__.__name__}s that match "
+        f"There are no {entity._model_name}s that match "
         "the search filter {'unexistent_field': 'unexistent_value'}" in str(error.value)
     )
 
@@ -265,7 +323,7 @@ def test_repository_search_raises_error_if_searching_by_unexistent_value(
         repo.search(type(entity), {"id_": "unexistent_value"})
 
     assert (
-        f"There are no {entity.__class__.__name__}s that match "
+        f"There are no {entity._model_name}s that match "
         "the search filter {'id_': 'unexistent_value'}" in str(error.value)
     )
 
@@ -326,7 +384,7 @@ def test_repository_doesnt_delete_the_entity_if_we_dont_commit(
     assert entity_to_delete in remaining_entities
 
 
-def test_repository_raise_error_if_entity_not_found(
+def test_repository_delete_raise_error_if_entity_not_found(
     repo: Repository,
     entity: Entity,
 ) -> None:
@@ -342,3 +400,67 @@ def test_repository_raise_error_if_entity_not_found(
         f"Unable to delete entity {entity} because it's not in the repository"
         in str(error.value)
     )
+
+
+def test_repository_last_returns_last_entity(
+    repo: Repository,
+    inserted_entities: List[Entity],
+) -> None:
+    """
+    Given: A repository with many entities.
+    When: using the last method.
+    Then: The greater entity is returned
+    """
+    greater_entity = max(inserted_entities)
+
+    result = repo.last(type(greater_entity))
+
+    assert result == greater_entity
+
+
+def test_repository_last_raise_error_if_entity_not_found(
+    repo: Repository,
+    entity: Entity,
+) -> None:
+    """
+    Given: an empty repository.
+    When: trying to get the last entity.
+    Then: An EntityNotFoundError error is raised.
+    """
+    with pytest.raises(
+        EntityNotFoundError,
+        match=f"There are no {entity._model_name} entities in the repository",
+    ):
+        repo.last(type(entity))
+
+
+def test_repository_first_returns_first_entity(
+    repo: Repository,
+    inserted_entities: List[Entity],
+) -> None:
+    """
+    Given: A repository with many entities.
+    When: using the first method.
+    Then: The smallest entity is returned
+    """
+    smaller_entity = min(inserted_entities)
+
+    result = repo.first(type(smaller_entity))
+
+    assert result == smaller_entity
+
+
+def test_repository_first_raise_error_if_entity_not_found(
+    repo: Repository,
+    entity: Entity,
+) -> None:
+    """
+    Given: an empty repository.
+    When: trying to get the first entity.
+    Then: An EntityNotFoundError error is raised.
+    """
+    with pytest.raises(
+        EntityNotFoundError,
+        match=f"There are no {entity._model_name} entities in the repository",
+    ):
+        repo.first(type(entity))

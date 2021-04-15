@@ -63,7 +63,7 @@ class PypikaRepository(AbstractRepository):
     @staticmethod
     def _table(entity: Entity) -> Table:
         """Return the table of the selected entity object."""
-        return Table(entity.__class__.__name__.lower())
+        return Table(entity._model_name.lower())
 
     @staticmethod
     def _table_model(entity_model: Type[Entity]) -> Table:
@@ -76,6 +76,8 @@ class PypikaRepository(AbstractRepository):
         Args:
             entity: Entity to add to the repository.
         """
+        if entity.id_ < 0:
+            entity.id_ = self._next_id(entity)
         table = self._table(entity)
         columns = list(entity.dict().keys())
         columns[columns.index("id_")] = "id"
@@ -157,7 +159,7 @@ class PypikaRepository(AbstractRepository):
         entities = self._build_entities(entity_model, query)
         if len(entities) == 0:
             raise EntityNotFoundError(
-                f"There are no {entity_model.__name__}s entities in the repository"
+                f"There are no {entity_model.__name__} entities in the repository"
             )
 
         return entities

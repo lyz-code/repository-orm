@@ -136,7 +136,7 @@ class TinyDBRepositoryTester(AbstractRepositoryTester[TinyDBRepository]):  # noq
         for _document_id, entry in cursor["_default"].items():
             if (
                 entry["id_"] == entity.id_
-                and entry["model_type_"] == entity.__class__.__name__.lower()
+                and entry["model_type_"] == entity._model_name.lower()
             ):
                 return self._build_entity(entry, entity.__class__)
         raise EntityNotFoundError()
@@ -176,7 +176,7 @@ class TinyDBRepositoryTester(AbstractRepositoryTester[TinyDBRepository]):  # noq
         cursor = self._build_cursor(database)
 
         database_entry = entity.dict()
-        database_entry["model_type_"] = entity.__class__.__name__.lower()
+        database_entry["model_type_"] = entity._model_name.lower()
         for key, value in database_entry.items():
             if isinstance(value, datetime.datetime):
                 database_entry[key] = "{TinyDate}:" + value.isoformat()
@@ -253,7 +253,7 @@ class PypikaRepositoryTester(AbstractRepositoryTester[PypikaRepository]):  # noq
 
     def get_entity(self, database: str, entity: Entity) -> Entity:
         """Get the entity object from the data stored in the repository by it's id."""
-        table = Table(entity.__class__.__name__.lower())
+        table = Table(entity._model_name.lower())
         entities = self._build_entities(
             database,
             type(entity),
@@ -276,7 +276,7 @@ class PypikaRepositoryTester(AbstractRepositoryTester[PypikaRepository]):  # noq
 
     def insert_entity(self, database: str, entity: Entity) -> None:
         """Insert the data of an entity into the repository."""
-        table = Table(entity.__class__.__name__.lower())
+        table = Table(entity._model_name.lower())
         cursor = next(self._build_cursor(database))
         columns = list(entity.dict().keys())
         columns[columns.index("id_")] = "id"

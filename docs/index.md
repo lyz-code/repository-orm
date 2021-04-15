@@ -76,10 +76,16 @@ The different repositories share the following operations:
 : Persist the changes into the repository.
 
 `all`
-: Obtain all the entities of type `Entity` from the repository.
+: Get all the entities of type `Entity` from the repository.
 
 `search`
-: Obtain the entities whose attributes match a condition or regular expression.
+: Get the entities whose attributes match a condition or regular expression.
+
+`first`
+: Get the first entity in the repository.
+
+`last`
+: Get the first entity in the repository.
 
 `apply_migrations`
 : Run the migrations of the repository schema.

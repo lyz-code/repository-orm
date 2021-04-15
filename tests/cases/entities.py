@@ -24,7 +24,7 @@ class EntityCases:
 class AuthorFactory(factory.Factory):  # type: ignore
     """Factory to generate fake authors."""
 
-    id_ = factory.Faker("word")
+    id_ = factory.Faker("pyint")
     name = factory.Faker("word")
     last_name = factory.Faker("last_name")
     country = factory.Faker("country")

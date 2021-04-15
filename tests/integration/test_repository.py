@@ -114,9 +114,7 @@ def test_repository_can_save_an_entity_without_id(
 
     saved_entity = repo.last(type(inserted_entity))
     assert saved_entity.id_ == inserted_entity.id_ + 1
-    # ignore: Entity doesn't have a name attribute, but all the models in the test
-    #   cases do.
-    assert saved_entity.name == "Entity without id"  # type: ignore
+    assert saved_entity.name == "Entity without id"
 
 
 def test_repository_cant_save_an_entity_with_a_negative_id(
@@ -135,9 +133,7 @@ def test_repository_cant_save_an_entity_with_a_negative_id(
 
     saved_entity = repo.last(type(inserted_entity))
     assert saved_entity.id_ == inserted_entity.id_ + 1
-    # ignore: Entity doesn't have a name attribute, but all the models in the test
-    #   cases do.
-    assert saved_entity.name == "Entity with negative id"  # type: ignore
+    assert saved_entity.name == "Entity with negative id"
 
 
 def test_repo_add_entity_is_idempotent(

@@ -1,10 +1,12 @@
 """Define the interface of the repositories."""
 
 import abc
-from typing import Dict, List, Type, Union
+from typing import Dict, List, Type, TypeVar, Union
 
 from ..exceptions import EntityNotFoundError
-from ..model import Entity
+from ..model import Entity as EntityModel
+
+Entity = TypeVar("Entity", bound=EntityModel)
 
 
 class AbstractRepository(abc.ABC):

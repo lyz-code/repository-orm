@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
      <loc>https://lyz-code.github.io/repository-orm/</loc>
-     <lastmod>2021-04-08</lastmod>
+     <lastmod>2021-04-15</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://lyz-code.github.io/repository-orm/fake_repository/</loc>
-     <lastmod>2021-04-08</lastmod>
+     <lastmod>2021-04-15</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://lyz-code.github.io/repository-orm/tinydb_repository/</loc>
-     <lastmod>2021-04-08</lastmod>
+     <lastmod>2021-04-15</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://lyz-code.github.io/repository-orm/pypika_repository/</loc>
-     <lastmod>2021-04-08</lastmod>
+     <lastmod>2021-04-15</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://lyz-code.github.io/repository-orm/models/</loc>
-     <lastmod>2021-04-08</lastmod>
+     <lastmod>2021-04-15</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://lyz-code.github.io/repository-orm/reference_adapters/</loc>
-     <lastmod>2021-04-08</lastmod>
+     <lastmod>2021-04-15</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://lyz-code.github.io/repository-orm/reference_models/</loc>
-     <lastmod>2021-04-08</lastmod>
+     <lastmod>2021-04-15</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://lyz-code.github.io/repository-orm/reference_exceptions/</loc>
-     <lastmod>2021-04-08</lastmod>
+     <lastmod>2021-04-15</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://lyz-code.github.io/repository-orm/new_repo/</loc>
-     <lastmod>2021-04-08</lastmod>
+     <lastmod>2021-04-15</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://lyz-code.github.io/repository-orm/contributing/</loc>
-     <lastmod>2021-04-08</lastmod>
+     <lastmod>2021-04-15</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>

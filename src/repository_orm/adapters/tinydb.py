@@ -150,7 +150,7 @@ class TinyDBRepository(AbstractRepository):
             entity_data: Dictionary with the attributes of the entity.
         """
         entity_data = entity.dict()
-        entity_data["model_type_"] = entity.__class__.__name__.lower()
+        entity_data["model_type_"] = entity._model_name.lower()
 
         return entity_data
 
@@ -159,13 +159,13 @@ class TinyDBRepository(AbstractRepository):
         for entity in self.staged["add"]:
             self.db_.upsert(
                 self._export_entity(entity),
-                Query().model_type_ == entity.__class__.__name__.lower(),
+                Query().model_type_ == entity._model_name.lower(),
             )
         self.staged["add"].clear()
 
         for entity in self.staged["remove"]:
             self.db_.remove(
-                (Query().model_type_ == entity.__class__.__name__.lower())
+                (Query().model_type_ == entity._model_name.lower())
                 & (Query().id_ == entity.id_)
             )
         self.staged["remove"].clear()

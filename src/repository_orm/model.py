@@ -1,6 +1,8 @@
 """Module to store the common business model of all entities."""
 
-from pydantic import BaseModel
+from typing import Any
+
+from pydantic import BaseModel, PrivateAttr
 
 
 class Entity(BaseModel):
@@ -13,6 +15,12 @@ class Entity(BaseModel):
     """
 
     id_: int = -1
+    _model_name: str = PrivateAttr()
+
+    def __init__(self, **data: Any) -> None:
+        """Set the _model_name attribute."""
+        super().__init__(**data)
+        self._model_name = self.__class__.__name__
 
     def __lt__(self, other: "Entity") -> bool:
         """Assert if an object is smaller than us.

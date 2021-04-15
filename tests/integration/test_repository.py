@@ -234,7 +234,7 @@ def test_repository_raises_error_if_no_entity_found_by_get(
         repo.get(type(entity), entity.id_)
 
     assert (
-        f"There are no {entity.__class__.__name__}s with id "
+        f"There are no {entity._model_name}s with id "
         f"{entity.id_} in the repository" in str(error.value)
     )
 
@@ -261,9 +261,8 @@ def test_repository_all_raises_error_if_empty_repository(
     with pytest.raises(EntityNotFoundError) as error:
         repo.all(type(entity))
 
-    assert (
-        f"There are no {entity.__class__.__name__} entities in the repository"
-        in str(error.value)
+    assert f"There are no {entity._model_name} entities in the repository" in str(
+        error.value
     )
 
 
@@ -308,7 +307,7 @@ def test_repository_search_raises_error_if_searching_by_unexistent_field(
         repo.search(type(entity), {"unexistent_field": "unexistent_value"})
 
     assert (
-        f"There are no {entity.__class__.__name__}s that match "
+        f"There are no {entity._model_name}s that match "
         "the search filter {'unexistent_field': 'unexistent_value'}" in str(error.value)
     )
 
@@ -324,7 +323,7 @@ def test_repository_search_raises_error_if_searching_by_unexistent_value(
         repo.search(type(entity), {"id_": "unexistent_value"})
 
     assert (
-        f"There are no {entity.__class__.__name__}s that match "
+        f"There are no {entity._model_name}s that match "
         "the search filter {'id_': 'unexistent_value'}" in str(error.value)
     )
 
@@ -430,7 +429,7 @@ def test_repository_last_raise_error_if_entity_not_found(
     """
     with pytest.raises(
         EntityNotFoundError,
-        match=f"There are no {entity.__class__.__name__} entities in the repository",
+        match=f"There are no {entity._model_name} entities in the repository",
     ):
         repo.last(type(entity))
 
@@ -462,6 +461,6 @@ def test_repository_first_raise_error_if_entity_not_found(
     """
     with pytest.raises(
         EntityNotFoundError,
-        match=f"There are no {entity.__class__.__name__} entities in the repository",
+        match=f"There are no {entity._model_name} entities in the repository",
     ):
         repo.first(type(entity))

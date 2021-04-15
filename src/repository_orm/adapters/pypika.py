@@ -63,7 +63,7 @@ class PypikaRepository(AbstractRepository):
     @staticmethod
     def _table(entity: Entity) -> Table:
         """Return the table of the selected entity object."""
-        return Table(entity.__class__.__name__.lower())
+        return Table(entity._model_name.lower())
 
     @staticmethod
     def _table_model(entity_model: Type[Entity]) -> Table:

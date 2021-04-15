@@ -18,3 +18,5 @@ you usually need the following object types:
 We've created the [Entity][repository_orm.model.Entity] class based on the
 pydantic's `BaseModel` to enforce that they have the integer `id_` attribute,
 used for comparison and hashing of entities.
+
+They also have a private `_model_name` attribute with the name of the model.

@@ -30,8 +30,9 @@ class AbstractRepository(abc.ABC):
         Args:
             entity: Entity to add to the repository.
         """
-        # if entity.id_ < 0:
-        #    entity.id_ = self._next_id(entity)
+        # no cover: it's tested by it's subclasses
+        if entity.id_ < 0:  # pragma: no cover
+            entity.id_ = self._next_id(entity)  # pragma: no cover
         raise NotImplementedError
 
     @abc.abstractmethod

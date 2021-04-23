@@ -1,8 +1,10 @@
 """Module to store the common business model of all entities."""
 
-from typing import Any
+from typing import Any, Union
 
 from pydantic import BaseModel, PrivateAttr
+
+EntityID = Union[int, str]
 
 
 class Entity(BaseModel):
@@ -14,7 +16,7 @@ class Entity(BaseModel):
     An entity with a negative id means that the id needs to be set by the repository.
     """
 
-    id_: int = -1
+    id_: EntityID = -1
     _model_name: str = PrivateAttr()
 
     def __init__(self, **data: Any) -> None:
@@ -31,7 +33,10 @@ class Entity(BaseModel):
         Raises:
             TypeError: If the id type of the objects is not compatible.
         """
-        return self.id_ < other.id_
+        if not isinstance(other.id_, type(self.id_)):
+            raise TypeError(f"{self} and {other} have incompatible ID types")
+        # ignore: we've checked that both elements are of the same type
+        return self.id_ < other.id_  # type: ignore
 
     def __gt__(self, other: "Entity") -> bool:
         """Assert if an object is greater than us.
@@ -42,7 +47,10 @@ class Entity(BaseModel):
         Raises:
             TypeError: If the id type of the objects is not compatible.
         """
-        return self.id_ > other.id_
+        if not isinstance(other.id_, type(self.id_)):
+            raise TypeError(f"{self} and {other} have incompatible ID types")
+        # ignore: we've checked that both elements are of the same type
+        return self.id_ > other.id_  # type: ignore
 
     def __hash__(self) -> int:
         """Create an unique hash of the class object."""

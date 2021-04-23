@@ -86,6 +86,7 @@ test-examples:
 	@echo "--------------------"
 
 	@find docs/examples -type f -name '*.py' | xargs -I'{}' sh -c 'python {} >/dev/null 2>&1 || (echo "{} failed" ; exit 1)'
+	pytest docs/examples/*
 
 	@echo ""
 

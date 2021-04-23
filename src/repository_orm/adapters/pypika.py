@@ -12,6 +12,7 @@ from yoyo import get_backend, read_migrations
 
 from ..exceptions import EntityNotFoundError
 from ..model import Entity as EntityModel
+from ..model import EntityID
 from .abstract import AbstractRepository
 
 log = logging.getLogger(__name__)
@@ -76,7 +77,7 @@ class PypikaRepository(AbstractRepository):
         Args:
             entity: Entity to add to the repository.
         """
-        if entity.id_ < 0:
+        if isinstance(entity.id_, int) and entity.id_ < 0:
             entity.id_ = self._next_id(entity)
         table = self._table(entity)
         columns = list(entity.dict().keys())
@@ -117,7 +118,7 @@ class PypikaRepository(AbstractRepository):
         query = Query.from_(table).delete().where(table.id == entity.id_)
         self._execute(query)
 
-    def get(self, entity_model: Type[Entity], entity_id: Union[str, int]) -> Entity:
+    def get(self, entity_model: Type[Entity], entity_id: EntityID) -> Entity:
         """Obtain an entity from the repository by it's ID.
 
         Args:
@@ -192,7 +193,7 @@ class PypikaRepository(AbstractRepository):
         self.connection.commit()
 
     def search(
-        self, entity_model: Type[Entity], fields: Dict[str, Union[str, int]]
+        self, entity_model: Type[Entity], fields: Dict[str, EntityID]
     ) -> List[Entity]:
         """Obtain the entities whose attributes match one or several conditions.
 
@@ -263,3 +264,18 @@ class PypikaRepository(AbstractRepository):
                     log.error(error)
                     raise error
             log.debug("Complete running database migrations")
+
+    def last(self, entity_model: Type[Entity], index: bool = True) -> Entity:
+        """Get the greatest entity from the repository.
+
+        Args:
+            entity_model: Type of entity object to obtain.
+            index: Check only commited entities.
+
+        Returns:
+            entity: Entity object that matches the search criteria.
+
+        Raises:
+            EntityNotFoundError: If there are no entities.
+        """
+        return super().last(entity_model)

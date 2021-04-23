@@ -1,10 +1,11 @@
 """Define the interface of the repositories."""
 
 import abc
-from typing import Dict, List, Type, TypeVar, Union
+from typing import Dict, List, Type, TypeVar
 
-from ..exceptions import EntityNotFoundError
+from ..exceptions import AutoIncrementError, EntityNotFoundError
 from ..model import Entity as EntityModel
+from ..model import EntityID
 
 Entity = TypeVar("Entity", bound=EntityModel)
 
@@ -33,7 +34,7 @@ class AbstractRepository(abc.ABC):
             entity: Entity to add to the repository.
         """
         # no cover: it's tested by it's subclasses
-        if entity.id_ < 0:  # pragma: no cover
+        if isinstance(entity.id_, int) and entity.id_ < 0:  # pragma: no cover
             entity.id_ = self._next_id(entity)  # pragma: no cover
         raise NotImplementedError
 
@@ -47,7 +48,7 @@ class AbstractRepository(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def get(self, entity_model: Type[Entity], entity_id: Union[str, int]) -> Entity:
+    def get(self, entity_model: Type[Entity], entity_id: EntityID) -> Entity:
         """Obtain an entity from the repository by it's ID.
 
         Args:
@@ -84,7 +85,7 @@ class AbstractRepository(abc.ABC):
 
     @abc.abstractmethod
     def search(
-        self, entity_model: Type[Entity], fields: Dict[str, Union[str, int]]
+        self, entity_model: Type[Entity], fields: Dict[str, EntityID]
     ) -> List[Entity]:
         """Obtain the entities whose attributes match one or several conditions.
 
@@ -110,11 +111,13 @@ class AbstractRepository(abc.ABC):
         """
         raise NotImplementedError
 
-    def last(self, entity_model: Type[Entity]) -> Entity:
+    @abc.abstractmethod
+    def last(self, entity_model: Type[Entity], index: bool = True) -> Entity:
         """Get the biggest entity from the repository.
 
         Args:
             entity_model: Type of entity object to obtain.
+            index: Check only commited entities.
 
         Returns:
             entity: Biggest Entity object of type entity_model.
@@ -151,13 +154,19 @@ class AbstractRepository(abc.ABC):
             ) from error
 
     def _next_id(self, entity: Entity) -> int:
-        """Return one id unit more than the last entity id in the repository.
+        """Return one id unit more than the last entity id in the repository index.
 
         Args:
             entity: Entity whose model we want to get the next entity id.
         """
         try:
-            last_id = self.last(type(entity)).id_
+            last_id = self.last(type(entity), index=False).id_
         except EntityNotFoundError:
             return 0
-        return last_id + 1
+        if isinstance(last_id, int):
+            return last_id + 1
+        raise AutoIncrementError(
+            "Auto increment is not yet supported for Entities with string id_s. "
+            "Please set the id_ yourself before adding the entities to the "
+            "repository."
+        )

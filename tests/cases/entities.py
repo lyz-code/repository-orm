@@ -21,10 +21,30 @@ class EntityCases:
         return GenreFactory
 
 
+class StrEntityCases:
+    """Gather all the entities to test with type(id_) == str."""
+
+    def case_author(self) -> factory.Factory:
+        """Return the Author factory."""
+        return AuthorFactory
+
+
+class IntEntityCases:
+    """Gather all the entities to test with type(id_) == int."""
+
+    def case_book(self) -> factory.Factory:
+        """Return the Book factory."""
+        return BookFactory
+
+    def case_genre(self) -> factory.Factory:
+        """Return the Genre factory."""
+        return GenreFactory
+
+
 class AuthorFactory(factory.Factory):  # type: ignore
     """Factory to generate fake authors."""
 
-    id_ = factory.Faker("pyint")
+    id_ = factory.Faker("word")
     name = factory.Faker("word")
     last_name = factory.Faker("last_name")
     country = factory.Faker("country")

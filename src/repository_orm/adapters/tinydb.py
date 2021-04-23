@@ -2,7 +2,7 @@
 
 import logging
 import os
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import Any, Dict, List, Type, TypeVar
 
 from tinydb import Query, TinyDB
 from tinydb.storages import JSONStorage
@@ -11,6 +11,7 @@ from tinydb_serialization.serializers import DateTimeSerializer
 
 from ..exceptions import EntityNotFoundError
 from ..model import Entity as EntityModel
+from ..model import EntityID
 from .abstract import AbstractRepository
 
 log = logging.getLogger(__name__)
@@ -52,7 +53,7 @@ class TinyDBRepository(AbstractRepository):
         Args:
             entity: Entity to add to the repository.
         """
-        if entity.id_ < 0:
+        if isinstance(entity.id_, int) and entity.id_ < 0:
             entity.id_ = self._next_id(entity)
         self.staged["add"].append(entity)
 
@@ -70,7 +71,7 @@ class TinyDBRepository(AbstractRepository):
             ) from error
         self.staged["remove"].append(entity)
 
-    def get(self, entity_model: Type[Entity], entity_id: Union[str, int]) -> Entity:
+    def get(self, entity_model: Type[Entity], entity_id: EntityID) -> Entity:
         """Obtain an entity from the repository by it's ID.
 
         Args:
@@ -159,7 +160,8 @@ class TinyDBRepository(AbstractRepository):
         for entity in self.staged["add"]:
             self.db_.upsert(
                 self._export_entity(entity),
-                Query().model_type_ == entity._model_name.lower(),
+                (Query().model_type_ == entity._model_name.lower())
+                & (Query().id_ == entity.id_),
             )
         self.staged["add"].clear()
 
@@ -171,7 +173,7 @@ class TinyDBRepository(AbstractRepository):
         self.staged["remove"].clear()
 
     def search(
-        self, entity_model: Type[Entity], fields: Dict[str, Union[str, int]]
+        self, entity_model: Type[Entity], fields: Dict[str, EntityID]
     ) -> List[Entity]:
         """Obtain the entities whose attributes match one or several conditions.
 
@@ -214,3 +216,40 @@ class TinyDBRepository(AbstractRepository):
                 scripts.
         """
         raise NotImplementedError
+
+    def last(self, entity_model: Type[Entity], index: bool = True) -> Entity:
+        """Get the greatest entity from the repository.
+
+        Args:
+            entity_model: Type of entity object to obtain.
+            index: Check only commited entities.
+
+        Returns:
+            entity: Entity object that matches the search criteria.
+
+        Raises:
+            EntityNotFoundError: If there are no entities.
+        """
+        try:
+            last_index_entity = super().last(entity_model)
+        except EntityNotFoundError as empty_repo:
+            if not index:
+                try:
+                    # Empty repo but entities staged to be commited.
+                    return max(self.staged["add"])
+                except ValueError as no_staged_entities:
+                    # Empty repo and no entities staged.
+                    raise empty_repo from no_staged_entities
+            raise empty_repo
+
+        # For some reason the insert_entities is not adding the model_type_ attribute
+        if index:
+            return last_index_entity
+        try:
+            last_staged_entity = max(self.staged["add"])
+        except ValueError:
+            # Full repo and no staged entities.
+            return last_index_entity
+
+        # Full repo and staged entities.
+        return max([last_index_entity, last_staged_entity])

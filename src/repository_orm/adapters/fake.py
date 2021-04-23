@@ -3,7 +3,7 @@
 import copy
 import logging
 import re
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import Any, Dict, List, Type, TypeVar
 
 from deepdiff import extract, grep
 
@@ -12,13 +12,14 @@ from pydantic import BaseModel, Field  # pylint: disable=no-name-in-module
 
 from ..exceptions import EntityNotFoundError
 from ..model import Entity as EntityModel
+from ..model import EntityID
 from .abstract import AbstractRepository
 
 log = logging.getLogger(__name__)
 
 Entity = TypeVar("Entity", bound=EntityModel)
 
-FakeRepositoryDB = Dict[Type[Entity], Dict[Union[str, int], Entity]]
+FakeRepositoryDB = Dict[Type[Entity], Dict[EntityID, Entity]]
 
 
 class FakeRepository(BaseModel, AbstractRepository):
@@ -39,7 +40,7 @@ class FakeRepository(BaseModel, AbstractRepository):
         Args:
             entity: Entity to add to the repository.
         """
-        if entity.id_ < 0:
+        if isinstance(entity.id_, int) and entity.id_ < 0:
             entity.id_ = self._next_id(entity)
         if self.new_entities == {}:
             self.new_entities = copy.deepcopy(self.entities.copy())
@@ -68,7 +69,7 @@ class FakeRepository(BaseModel, AbstractRepository):
                 f"Unable to delete entity {entity} because it's not in the repository"
             ) from error
 
-    def get(self, entity_model: Type[Entity], entity_id: Union[str, int]) -> Entity:
+    def get(self, entity_model: Type[Entity], entity_id: EntityID) -> Entity:
         """Obtain an entity from the repository by it's ID.
 
         Args:
@@ -119,7 +120,7 @@ class FakeRepository(BaseModel, AbstractRepository):
         self.new_entities = {}
 
     def search(
-        self, entity_model: Type[Entity], fields: Dict[str, Union[str, int]]
+        self, entity_model: Type[Entity], fields: Dict[str, EntityID]
     ) -> List[Entity]:
         """Obtain the entities whose attributes match one or several conditions.
 
@@ -143,7 +144,9 @@ class FakeRepository(BaseModel, AbstractRepository):
 
         for key, value in fields.items():
             # Get entities that have the value `value`
-            entities_with_value = entity_attributes | grep(value)
+            entities_with_value = entity_attributes | grep(
+                str(value), use_regexp=True, strict_checking=False
+            )
             matching_entity_attributes = {}
 
             try:
@@ -152,7 +155,13 @@ class FakeRepository(BaseModel, AbstractRepository):
                 raise EntityNotFoundError(error_msg) from error
 
             for path in entities_with_value["matched_values"]:
-                entity_id = int(re.sub(r"root\[(.*?)\]\[.*", r"\1", path))
+                entity_id = re.sub(r"root\[(.*?)\]\[.*", r"\1", path)
+
+                # Convert int ids from str to int
+                try:
+                    entity_id = int(entity_id)
+                except ValueError:
+                    entity_id = re.sub(r"'(.*)'", r"\1", entity_id)
 
                 # Add the entity to the matching ones only if the value is of the
                 # attribute `key`.
@@ -175,11 +184,12 @@ class FakeRepository(BaseModel, AbstractRepository):
         """
         # The fake repository doesn't have any schema
 
-    def last(self, entity_model: Type[Entity]) -> Entity:
+    def last(self, entity_model: Type[Entity], index: bool = True) -> Entity:
         """Get the greatest entity from the repository.
 
         Args:
             entity_model: Type of entity object to obtain.
+            index: Check only commited entities.
 
         Returns:
             entity: Entity object that matches the search criteria.
@@ -188,8 +198,31 @@ class FakeRepository(BaseModel, AbstractRepository):
             EntityNotFoundError: If there are no entities.
         """
         try:
-            return max([entity for _, entity in self.entities[entity_model].items()])
-        except KeyError as error:
-            raise EntityNotFoundError(
-                f"There are no {entity_model.__name__} entities in the repository."
-            ) from error
+            last_index_entity = super().last(entity_model)
+        except EntityNotFoundError as empty_repo:
+            if not index:
+                try:
+                    # Empty repo but entities staged to be commited.
+                    return max(
+                        [
+                            entity
+                            for _, entity in self.new_entities[entity_model].items()
+                        ]
+                    )
+                except KeyError as no_staged_entities:
+                    # Empty repo and no entities staged.
+                    raise empty_repo from no_staged_entities
+            raise empty_repo
+
+        if index:
+            return last_index_entity
+        try:
+            last_staged_entity = max(
+                [entity for _, entity in self.new_entities[entity_model].items()]
+            )
+        except KeyError:
+            # Full repo and no staged entities.
+            return last_index_entity
+
+        # Full repo and staged entities.
+        return max([last_index_entity, last_staged_entity])

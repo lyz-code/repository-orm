@@ -15,6 +15,7 @@ class Entity(EntityModel):
 class Author(Entity):
     """Entity to model the author of a book."""
 
+    id_: str
     last_name: Optional[str] = None
     country: Optional[str] = None
     rating: Optional[int] = None

@@ -12,7 +12,7 @@ import pytest
 from _pytest.logging import LogCaptureFixture
 from py._path.local import LocalPath
 
-from repository_orm import EntityNotFoundError, Repository
+from repository_orm import AutoIncrementError, EntityNotFoundError, Repository
 
 from ..cases import Entity, RepositoryTester
 
@@ -81,14 +81,14 @@ def test_repository_can_save_an_entity(
 
 def test_repository_can_save_an_entity_without_id_in_empty_repo(
     repo: Repository,
-    entity: Entity,
+    int_entity: Entity,
 ) -> None:
     """
-    Given: An empty repository
+    Given: An empty repository and an entity whose id_ type is an int
     When: adding an entity without id
     Then: the id 0 is set
     """
-    entity = entity.__class__(name="Entity without id")
+    entity = int_entity.__class__(name="Entity without id")
     repo.add(entity)
 
     repo.commit()  # act
@@ -98,41 +98,93 @@ def test_repository_can_save_an_entity_without_id_in_empty_repo(
     assert entities[0].id_ == 0
 
 
-def test_repository_can_save_an_entity_without_id(
+def test_repository_can_save_an_two_entities_without_id_in_empty_repo(
     repo: Repository,
-    inserted_entity: Entity,
+    int_entity: Entity,
 ) -> None:
     """
-    Given: A repository with an entity
+    Given: An empty repository and an entity whose id_ type is an int
+    When: adding two entity without id
+    Then: the ids 0 and 1 are set
+    """
+    first_entity = int_entity.__class__(name="First entity without id")
+    second_entity = int_entity.__class__(name="Second entity without id")
+    repo.add(first_entity)
+    repo.add(second_entity)
+
+    repo.commit()  # act
+
+    entities = repo.all(type(int_entity))
+    assert len(entities) == 2
+    assert entities[0].id_ == 0
+    assert entities[0].name == "First entity without id"
+    assert entities[1].id_ == 1
+    assert entities[1].name == "Second entity without id"
+
+
+def test_repository_can_save_an_entity_without_id(
+    repo: Repository,
+    inserted_int_entity: Entity,
+) -> None:
+    """
+    Given: A repository with an entity whose id_ type is an int
     When: adding an entity without id
     Then: the id of the new entity is one unit greater than the last one.
     """
-    entity = inserted_entity.__class__(name="Entity without id")
+    entity = inserted_int_entity.__class__(name="Entity without id")
     repo.add(entity)
 
     repo.commit()  # act
 
-    saved_entity = repo.last(type(inserted_entity))
-    assert saved_entity.id_ == inserted_entity.id_ + 1
+    saved_entity = repo.last(type(inserted_int_entity))
+    # ignore: we know that the entities have an int id_
+    assert saved_entity.id_ == inserted_int_entity.id_ + 1  # type: ignore
     assert saved_entity.name == "Entity without id"
+
+
+def test_repository_can_save_two_entities_without_id_full_repo(
+    repo: Repository,
+    inserted_int_entity: Entity,
+) -> None:
+    """
+    Given: A repository with an entity whose id_ type is an int
+    When: adding two entities without id
+    Then: the id of the new entities is one unit greater than the last one.
+    """
+    first_entity = inserted_int_entity.__class__(name="First entity without id")
+    second_entity = inserted_int_entity.__class__(name="Second entity without id")
+    repo.add(first_entity)
+    repo.add(second_entity)
+
+    repo.commit()  # act
+
+    entities = repo.all(type(inserted_int_entity))
+    assert len(entities) == 3
+    # ignore: we know that the entities have an int id_
+    assert entities[1].id_ == inserted_int_entity.id_ + 1  # type: ignore
+    assert entities[1].name == "First entity without id"
+    # ignore: we know that the entities have an int id_
+    assert entities[2].id_ == inserted_int_entity.id_ + 2  # type: ignore
+    assert entities[2].name == "Second entity without id"
 
 
 def test_repository_cant_save_an_entity_with_a_negative_id(
     repo: Repository,
-    inserted_entity: Entity,
+    inserted_int_entity: Entity,
 ) -> None:
     """
     Given: A repository with an entity
     When: adding an entity with a negative id
     Then: the id of the new entity is one unit greater than the last one.
     """
-    entity = inserted_entity.__class__(id=-3, name="Entity with negative id")
+    entity = inserted_int_entity.__class__(id=-3, name="Entity with negative id")
     repo.add(entity)
 
     repo.commit()  # act
 
-    saved_entity = repo.last(type(inserted_entity))
-    assert saved_entity.id_ == inserted_entity.id_ + 1
+    saved_entity = repo.last(type(inserted_int_entity))
+    # ignore: we know for sure that the id_ is an int
+    assert saved_entity.id_ == inserted_int_entity.id_ + 1  # type: ignore
     assert saved_entity.name == "Entity with negative id"
 
 
@@ -460,3 +512,19 @@ def test_repository_first_raise_error_if_entity_not_found(
         match=f"There are no {entity._model_name} entities in the repository",
     ):
         repo.first(type(entity))
+
+
+def test_repository_next_id_raise_error_if_entity_has_str_id(
+    repo: Repository,
+    inserted_str_entity: Entity,
+) -> None:
+    """
+    Given: an empty repository.
+    When: trying to get the next id of an entity with str id.
+    Then: An AutoIncrementError error is raised.
+    """
+    with pytest.raises(
+        AutoIncrementError,
+        match="Auto increment is not yet supported for Entities with string id_s",
+    ):
+        repo._next_id(inserted_str_entity)

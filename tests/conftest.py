@@ -17,7 +17,14 @@ from repository_orm import (
     TinyDBRepository,
 )
 
-from .cases import Entity, EntityCases, RepositoryCases, RepositoryTester
+from .cases import (
+    Entity,
+    EntityCases,
+    IntEntityCases,
+    RepositoryCases,
+    RepositoryTester,
+    StrEntityCases,
+)
 
 # ---------------------
 # - Database fixtures -
@@ -144,6 +151,41 @@ def entity(entity_factory: factory.Factory) -> Entity:
 
 
 @fixture
+@parametrize_with_cases("entity_factory", cases=StrEntityCases)
+def str_entity(entity_factory: factory.Factory) -> Entity:
+    """Return one entity for each entity type defined in the StrEntityCases."""
+    return entity_factory.create()
+
+
+@fixture
+@parametrize_with_cases("entity_factory", cases=IntEntityCases)
+def int_entity(entity_factory: factory.Factory) -> Entity:
+    """Return one entity for each entity type defined in the IntEntityCases."""
+    return entity_factory.create()
+
+
+@fixture
+@parametrize_with_cases("entity_factory", cases=EntityCases)
+def entities(entity_factory: factory.Factory) -> List[Entity]:
+    """Return three entities for each entity type defined in the EntityCases."""
+    return sorted(entity_factory.create_batch(3))
+
+
+@fixture
+@parametrize_with_cases("entity_factory", cases=StrEntityCases)
+def str_entities(entity_factory: factory.Factory) -> List[Entity]:
+    """Return three entities for each entity type defined in the StrEntityCases."""
+    return sorted(entity_factory.create_batch(3))
+
+
+@fixture
+@parametrize_with_cases("entity_factory", cases=IntEntityCases)
+def int_entities(entity_factory: factory.Factory) -> List[Entity]:
+    """Return three entities for each entity type defined in the IntEntityCases."""
+    return sorted(entity_factory.create_batch(3))
+
+
+@fixture
 # I don't know how to avoid the W0621 error with pytest-cases
 def inserted_entity(
     entity: Entity, database: Any, repo_tester: RepositoryTester  # noqa: W0621
@@ -157,10 +199,29 @@ def inserted_entity(
 
 
 @fixture
-@parametrize_with_cases("entity_factory", cases=EntityCases)
-def entities(entity_factory: factory.Factory) -> List[Entity]:
-    """Return three entities for each entity type defined in the EntityCases."""
-    return sorted(entity_factory.create_batch(3))
+# I don't know how to avoid the W0621 error with pytest-cases
+def inserted_int_entity(
+    int_entity: Entity, database: Any, repo_tester: RepositoryTester  # noqa: W0621
+) -> Entity:
+    """Insert one entity with int id_ in the repository and return it.
+
+    For each entity type defined in the EntityCases.
+    """
+    repo_tester.insert_entity(database, int_entity)
+    return int_entity
+
+
+@fixture
+# I don't know how to avoid the W0621 error with pytest-cases
+def inserted_str_entity(
+    str_entity: Entity, database: Any, repo_tester: RepositoryTester  # noqa: W0621
+) -> Entity:
+    """Insert one entity with str id_ in the repository and return it.
+
+    For each entity type defined in the EntityCases.
+    """
+    repo_tester.insert_entity(database, str_entity)
+    return str_entity
 
 
 @fixture

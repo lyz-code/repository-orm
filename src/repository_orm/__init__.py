@@ -1,4 +1,4 @@
-"""Library to ease the implementation of the repository pattern in Python projects.."""
+"""Library to ease the implementation of the repository pattern in Python projects."""
 
 from .adapters import (
     AbstractRepository,
@@ -8,13 +8,15 @@ from .adapters import (
     Repository,
     TinyDBRepository,
 )
-from .exceptions import EntityNotFoundError
-from .model import Entity
+from .exceptions import AutoIncrementError, EntityNotFoundError
+from .model import Entity, EntityID
 from .services import load_repository
 
 __all__ = [
     "AbstractRepository",
+    "AutoIncrementError",
     "Entity",
+    "EntityID",
     "EntityNotFoundError",
     "FakeRepository",
     "FakeRepositoryDB",

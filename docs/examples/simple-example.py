@@ -4,7 +4,6 @@ repo = load_repository()
 
 
 class Author(Entity):
-    id_: int
     first_name: str
     last_name: str
     country: str

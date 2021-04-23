@@ -4,10 +4,8 @@ black = black --target-version py37 src docs/examples tests setup.py
 
 .PHONY: install
 install:
-
 	python -m pip install -U setuptools pip
 	pip install -r requirements-dev.txt
-	pip install git+git://github.com/lyz-code/deepdiff@master
 	pip install -e .
 	pre-commit install
 
@@ -177,7 +175,6 @@ upload-pypi:
 	twine upload -r pypi dist/*
 
 	@echo ""
-
 
 .PHONY: upload-testing-pypi
 upload-testing-pypi:

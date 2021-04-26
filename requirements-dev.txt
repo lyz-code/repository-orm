@@ -17,9 +17,7 @@ astroid==2.5.3
 asttokens==2.0.4
     # via flake8-aaa
 astunparse==1.6.3
-    # via
-    #   -r docs/requirements.txt
-    #   pytkdocs
+    # via -r docs/requirements.txt
 attrs==20.3.0
     # via
     #   flake8-bugbear
@@ -42,9 +40,7 @@ beautifulsoup4==4.9.3
 black==20.8b1
     # via -r requirements-dev.in
 cached-property==1.5.2
-    # via
-    #   -r docs/requirements.txt
-    #   pytkdocs
+    # via -r docs/requirements.txt
 certifi==2020.12.5
     # via
     #   -r docs/requirements.txt
@@ -73,6 +69,8 @@ decopatch==1.4.8
     # via pytest-cases
 distlib==0.3.1
     # via virtualenv
+distro==1.5.0
+    # via ruyaml
 dlint==0.11.0
     # via -r requirements-dev.in
 dparse==0.5.1
@@ -171,19 +169,7 @@ idna==2.10
     #   -r docs/requirements.txt
     #   requests
 importlib-metadata==3.10.1
-    # via
-    #   -r docs/requirements.txt
-    #   flake8
-    #   flake8-comprehensions
-    #   flake8-simplify
-    #   flake8-typing-imports
-    #   markdown
-    #   pep517
-    #   pluggy
-    #   pre-commit
-    #   pytest
-    #   stevedore
-    #   virtualenv
+    # via -r docs/requirements.txt
 iniconfig==1.1.1
     # via pytest
 isort==5.8.0
@@ -394,9 +380,7 @@ requests==2.25.1
     #   -r docs/requirements.txt
     #   mkdocs-htmlproofer-plugin
     #   safety
-ruamel.yaml.clib==0.2.2
-    # via ruamel.yaml
-ruamel.yaml==0.17.4
+ruyaml==0.20.0
     # via yamlfix
 safety==1.10.3
     # via -r requirements-dev.in
@@ -461,19 +445,15 @@ tqdm==4.60.0
     #   nltk
 typed-ast==1.4.3
     # via
-    #   astroid
     #   black
-    #   flake8-annotations
     #   mypy
 typing-extensions==3.7.4.3
     # via
     #   -r docs/requirements.txt
     #   -r requirements.txt
     #   black
-    #   importlib-metadata
     #   mypy
     #   pydantic
-    #   pytkdocs
 urllib3==1.26.4
     # via
     #   -r docs/requirements.txt
@@ -488,7 +468,7 @@ wheel==0.36.2
     #   astunparse
 wrapt==1.12.1
     # via astroid
-yamlfix==0.4.1
+yamlfix==0.5.0
     # via -r requirements-dev.in
 yamllint==1.26.1
     # via -r requirements-dev.in
@@ -498,7 +478,6 @@ zipp==3.4.1
     # via
     #   -r docs/requirements.txt
     #   importlib-metadata
-    #   pep517
 
 # The following packages are considered to be unsafe in a requirements file:
 pip==21.0.1
@@ -508,5 +487,5 @@ setuptools==56.0.0
     #   flake8-annotations-complexity
     #   flake8-expression-complexity
     #   flake8-variables-names
+    #   ruyaml
     #   safety
-    #   yamllint

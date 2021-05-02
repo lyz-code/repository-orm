@@ -16,19 +16,13 @@ from repository_orm import (
     FakeRepository,
     FakeRepositoryDB,
     PypikaRepository,
-    Repository,
     TinyDBRepository,
 )
 
-RepositoryTester = TypeVar(
-    "RepositoryTester",
-    "FakeRepositoryTester",
-    "PypikaRepositoryTester",
-    "TinyDBRepositoryTester",
-)
+Repository = TypeVar("Repository")
 
 
-class AbstractRepositoryTester(abc.ABC, Generic[Repository]):
+class RepositoryTester(abc.ABC, Generic[Repository]):
     """Gather common methods and define the interface of the repository testers."""
 
     @abc.abstractmethod
@@ -57,10 +51,9 @@ class AbstractRepositoryTester(abc.ABC, Generic[Repository]):
         raise NotImplementedError
 
 
-# E1136: false positive: https://github.com/PyCQA/pylint/issues/2822
 # R0201: We can't define the method as a class function to maintain the parent interface
 # W0613: We require these arguments to maintain the parent interface.
-class FakeRepositoryTester(AbstractRepositoryTester[FakeRepository]):  # noqa: E1136
+class FakeRepositoryTester(RepositoryTester[FakeRepository]):
     """Gathers methods needed to test the implementation of the FakeRepository."""
 
     def apply_migrations(self, repo: FakeRepository) -> None:
@@ -105,8 +98,7 @@ class FakeRepositoryTester(AbstractRepositoryTester[FakeRepository]):  # noqa: E
         database[type(entity)][entity.id_] = entity
 
 
-# E1136: false positive: https://github.com/PyCQA/pylint/issues/2822
-class TinyDBRepositoryTester(AbstractRepositoryTester[TinyDBRepository]):  # noqa E1136
+class TinyDBRepositoryTester(RepositoryTester[TinyDBRepository]):
     """Gathers methods needed to test the implementation of the TinyDBRepository."""
 
     def assert_schema_exists(
@@ -193,8 +185,7 @@ class TinyDBRepositoryTester(AbstractRepositoryTester[TinyDBRepository]):  # noq
             file_cursor.write(json.dumps(cursor))
 
 
-# E1136 false positive: https://github.com/PyCQA/pylint/issues/2822
-class PypikaRepositoryTester(AbstractRepositoryTester[PypikaRepository]):  # noqa: E1136
+class PypikaRepositoryTester(RepositoryTester[PypikaRepository]):
     """Gathers methods needed to test the implementation of the PypikaRepository."""
 
     @staticmethod

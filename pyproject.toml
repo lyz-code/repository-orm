@@ -37,7 +37,7 @@ exclude = '''
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-vv --tb=short"
+addopts = "-vv --tb=short -n auto"
 python_paths = "."
 norecursedirs = [
     ".tox",
@@ -77,6 +77,7 @@ format = "grouped"
 max_line_length = 88
 show_source = true
 docstring-convention = "google"
+extended_default_ignore=[]  # Until https://github.com/flakehell/flakehell/issues/10 is solved
 
 [tool.flakehell.plugins]
 flake8-aaa = ["+*"]

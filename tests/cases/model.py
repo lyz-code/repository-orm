@@ -15,6 +15,7 @@ class Entity(EntityModel):
 class Author(Entity):
     """Entity to model the author of a book."""
 
+    id_: str
     last_name: Optional[str] = None
     country: Optional[str] = None
     rating: Optional[int] = None
@@ -33,3 +34,9 @@ class Genre(Entity):
 
     description: Optional[str] = None
     rating: Optional[int] = None
+
+
+class OtherEntity(Entity):
+    """Entity to model an entity that is not in the repo."""
+
+    description: Optional[str] = None

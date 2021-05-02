@@ -12,6 +12,8 @@ from repository_orm import (
     load_repository,
 )
 
+from ..cases.model import Author
+
 
 def test_load_repository_loads_fake_by_default() -> None:
     """
@@ -30,7 +32,7 @@ def test_load_repository_loads_fake_with_fake_urls() -> None:
     When: load_repository is called without argument
     Then: a working FakeRepository instance is returned
     """
-    result = load_repository("fake://fake.db")
+    result = load_repository(database_url="fake://fake.db")
 
     assert isinstance(result, FakeRepository)
 
@@ -43,7 +45,7 @@ def test_load_repository_loads_pypika_with_sqlite_urls(
     When: load_repository is called without argument
     Then: a working FakeRepository instance is returned
     """
-    result = load_repository(db_sqlite[0])
+    result = load_repository(database_url=db_sqlite[0])
 
     assert isinstance(result, PypikaRepository)
 
@@ -56,6 +58,19 @@ def test_load_repository_loads_tinydb_with_sqlite_urls(
     When: load_repository is called without argument
     Then: a working FakeRepository instance is returned
     """
-    result = load_repository(db_tinydb[0])
+    result = load_repository(database_url=db_tinydb[0])
 
     assert isinstance(result, TinyDBRepository)
+
+
+def test_load_repository_loads_models() -> None:
+    """
+    Given: Nothing
+    When: load_repository is called with the models.
+    Then: they are saved
+    """
+    models = [Author]
+
+    result = load_repository(models=models)
+
+    assert result.models == models

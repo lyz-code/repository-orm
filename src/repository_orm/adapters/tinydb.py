@@ -1,34 +1,35 @@
 """Define the TinyDB Repository."""
 
-import logging
 import os
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import Any, Dict, List
 
 from tinydb import Query, TinyDB
+from tinydb.queries import QueryInstance
 from tinydb.storages import JSONStorage
 from tinydb_serialization import SerializationMiddleware
 from tinydb_serialization.serializers import DateTimeSerializer
 
+from repository_orm.exceptions import TooManyEntitiesError
+
 from ..exceptions import EntityNotFoundError
-from ..model import Entity as EntityModel
-from .abstract import AbstractRepository
-
-log = logging.getLogger(__name__)
-
-Entity = TypeVar("Entity", bound=EntityModel)
+from ..model import EntityID
+from .abstract import Entity, Models, OptionalModelOrModels, OptionalModels, Repository
 
 
-class TinyDBRepository(AbstractRepository):
+class TinyDBRepository(Repository):
     """Implement the repository pattern using the TinyDB."""
 
-    def __init__(self, database_url: str) -> None:
+    def __init__(
+        self, models: OptionalModels[Entity] = None, database_url: str = ""
+    ) -> None:
         """Initialize the repository attributes.
 
-        Attributes:
+        Args:
             database_url: URL specifying the connection to the database.
+            models: List of stored entity models.
         """
-        super().__init__(database_url)
-        self.database_file = database_url.replace("tinydb:///", "")
+        super().__init__(models, database_url)
+        self.database_file = os.path.expanduser(database_url.replace("tinydb://", ""))
         if not os.path.isfile(self.database_file):
             try:
                 with open(self.database_file, "a") as file_cursor:
@@ -52,7 +53,7 @@ class TinyDBRepository(AbstractRepository):
         Args:
             entity: Entity to add to the repository.
         """
-        if entity.id_ < 0:
+        if isinstance(entity.id_, int) and entity.id_ < 0:
             entity.id_ = self._next_id(entity)
         self.staged["add"].append(entity)
 
@@ -63,80 +64,86 @@ class TinyDBRepository(AbstractRepository):
             entity: Entity to remove from the repository.
         """
         try:
-            self.get(type(entity), entity.id_)
+            self.get(entity.id_, type(entity))
         except EntityNotFoundError as error:
             raise EntityNotFoundError(
                 f"Unable to delete entity {entity} because it's not in the repository"
             ) from error
         self.staged["remove"].append(entity)
 
-    def get(self, entity_model: Type[Entity], entity_id: Union[str, int]) -> Entity:
+    def get(
+        self, id_: EntityID, models: OptionalModelOrModels[Entity] = None
+    ) -> Entity:
         """Obtain an entity from the repository by it's ID.
 
         Args:
-            entity_model: Type of entity object to obtain.
-            entity_id: ID of the entity object to obtain.
+            models: Entity class or classes to obtain.
+            id_: ID of the entity to obtain.
 
         Returns:
-            entity: Entity object that matches the search criteria.
+            entity: Entity object that matches the id_
 
         Raises:
             EntityNotFoundError: If the entity is not found.
+            TooManyEntitiesError: If more than one entity was found.
         """
-        try:
-            entity_data = self.db_.search(
-                (Query().id_ == entity_id)
-                & (Query().model_type_ == entity_model.__name__.lower())
-            )[0]
-        except IndexError as error:
-            raise EntityNotFoundError(
-                f"There are no {entity_model.__name__}s with id {entity_id} in the"
-                " repository."
-            ) from error
+        models = self._build_models(models)
+        model_query = self._build_model_query(models)
 
-        return self._build_entity(entity_data, entity_model)
+        matching_entities_data = self.db_.search((Query().id_ == id_) & (model_query))
 
-    @staticmethod
+        if len(matching_entities_data) == 1:
+            return self._build_entity(matching_entities_data[0], models)
+        elif len(matching_entities_data) == 0:
+            raise self._model_not_found(models, f" with id {id_}")
+        else:
+            raise TooManyEntitiesError(
+                f"More than one entity was found with the id {id_}"
+            )
+
     def _build_entity(
-        entity_data: Dict[Any, Any], entity_model: Type[Entity]
+        self,
+        entity_data: Dict[Any, Any],
+        models: OptionalModelOrModels[Entity] = None,
     ) -> Entity:
         """Create an entity from the data stored in a row of the database.
 
         Args:
             entity_data: Dictionary with the attributes of the entity.
-            entity_model: Type of entity object to obtain.
+            models: Type of entity object to obtain.
 
         Returns:
             entity: Built Entity.
         """
-        entity_data.pop("model_type_")
+        # If we don't copy the data, the all method stops being idempotent.
+        entity_data = entity_data.copy()
+        model_name = entity_data.pop("model_type_")
+        models = self._build_models(models)
 
-        return entity_model.parse_obj(entity_data)
+        for model in models:
+            if model.schema()["title"].lower() == model_name:
+                model = model
+                break
+        return model.parse_obj(entity_data)
 
-    def all(self, entity_model: Type[Entity]) -> List[Entity]:
-        """Obtain all the entities of a type from the repository.
+    def all(self, models: OptionalModelOrModels[Entity] = None) -> List[Entity]:
+        """Get all the entities from the repository whose class is included in models.
 
         Args:
-            entity_model: Type of entity objects to obtain.
-
-        Returns:
-            entities: List of Entity object that matches the search criteria.
-
-        Raises:
-            EntityNotFoundError: If the entities are not found.
+            models: Entity class or classes to obtain.
         """
-        entities = []
-        entities_data = self.db_.search(
-            Query().model_type_ == entity_model.__name__.lower()
-        )
+        entities: List[Entity] = []
+        models = self._build_models(models)
+
+        if models == self.models:
+            entities_data = self.db_.all()
+        else:
+            query = self._build_model_query(models)
+            entities_data = self.db_.search(query)
 
         for entity_data in entities_data:
-            entities.append(self._build_entity(entity_data, entity_model))
+            entities.append(self._build_entity(entity_data))
 
-        if len(entities) == 0:
-            raise EntityNotFoundError(
-                f"There are no {entity_model.__name__} entities in the repository"
-            )
         return entities
 
     @staticmethod
@@ -159,7 +166,8 @@ class TinyDBRepository(AbstractRepository):
         for entity in self.staged["add"]:
             self.db_.upsert(
                 self._export_entity(entity),
-                Query().model_type_ == entity._model_name.lower(),
+                (Query().model_type_ == entity._model_name.lower())
+                & (Query().id_ == entity.id_),
             )
         self.staged["add"].clear()
 
@@ -171,12 +179,14 @@ class TinyDBRepository(AbstractRepository):
         self.staged["remove"].clear()
 
     def search(
-        self, entity_model: Type[Entity], fields: Dict[str, Union[str, int]]
+        self,
+        fields: Dict[str, EntityID],
+        models: OptionalModelOrModels[Entity] = None,
     ) -> List[Entity]:
-        """Obtain the entities whose attributes match one or several conditions.
+        """Get the entities whose attributes match one or several conditions.
 
         Args:
-            entity_model: Type of entity object to obtain.
+            models: Entity class or classes to obtain.
             fields: Dictionary with the {key}:{value} to search.
 
         Returns:
@@ -185,26 +195,72 @@ class TinyDBRepository(AbstractRepository):
         Raises:
             EntityNotFoundError: If the entities are not found.
         """
-        entities = []
+        entities: List[Entity] = []
+        models = self._build_models(models)
+        query_parts = [self._build_model_query(models)]
 
-        query = Query().model_type_ == entity_model.__name__.lower()
         for key, value in fields.items():
             if isinstance(value, str):
-                query = query & (Query()[key].search(value))
+                query_parts.append(Query()[key].search(value))
             else:
-                query = query & (Query()[key] == value)
+                query_parts.append(Query()[key] == value)
+
+        query = self._build_query(query_parts)
+
+        # Build entities
         entities_data = self.db_.search(query)
 
         for entity_data in entities_data:
-            entities.append(self._build_entity(entity_data, entity_model))
+            entities.append(self._build_entity(entity_data))
 
         if len(entities) == 0:
-            raise EntityNotFoundError(
-                f"There are no {entity_model.__name__}s that match the search filter"
-                f" {fields}"
+            raise self._model_not_found(
+                models, f" that match the search filter {fields}"
             )
 
         return entities
+
+    def _build_model_query(
+        self,
+        models: Models[Entity],
+    ) -> QueryInstance:
+        """Build the Query parts from the models.
+
+        Args:
+            models: Type of entity object to obtain.
+
+        Returns:
+            List of query parts based on the type of models
+        """
+        query_parts = []
+
+        for model in models:
+            query_parts.append(Query().model_type_ == model.__name__.lower())
+
+        return self._build_query(query_parts, mode="or")
+
+    @staticmethod
+    def _build_query(
+        query_parts: List[QueryInstance], mode: str = "and"
+    ) -> QueryInstance:
+        """Build the query from the query parts.
+
+        Args:
+            query_parts: List of queries to concatenate.
+            mode: "and" or "or" for the join method.
+
+        Returns:
+            A query object that joins all parts.
+        """
+        query = query_parts[0]
+
+        for query_part in query_parts[1:]:
+            if mode == "and":
+                query = query & query_part
+            else:
+                query = query | query_part
+
+        return query
 
     def apply_migrations(self, migrations_directory: str) -> None:
         """Run the migrations of the repository schema.
@@ -214,3 +270,34 @@ class TinyDBRepository(AbstractRepository):
                 scripts.
         """
         raise NotImplementedError
+
+    def last(self, models: OptionalModelOrModels[Entity] = None) -> Entity:
+        """Get the biggest entity from the repository.
+
+        Args:
+            models: Entity class or classes to obtain.
+
+        Returns:
+            entity: Biggest Entity object of type models.
+
+        Raises:
+            EntityNotFoundError: If there are no entities.
+        """
+        try:
+            last_index_entity: Entity = super().last(models)
+        except EntityNotFoundError as empty_repo:
+            try:
+                # Empty repo but entities staged to be commited.
+                return max(self.staged["add"])
+            except ValueError as no_staged_entities:
+                # Empty repo and no entities staged.
+                raise empty_repo from no_staged_entities
+
+        try:
+            last_staged_entity = max(self.staged["add"])
+        except ValueError:
+            # Full repo and no staged entities.
+            return last_index_entity
+
+        # Full repo and staged entities.
+        return max([last_index_entity, last_staged_entity])

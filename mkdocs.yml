@@ -3,22 +3,28 @@ site_name: Repository ORM
 site_author: Lyz
 site_url: https://lyz-code.github.io/repository-orm
 nav:
-  - Overview: index.md
+  - Repository ORM: index.md
   - Repositories:
       - FakeRepository: fake_repository.md
       - TinyDBRepository: tinydb_repository.md
       - PypikaRepository: pypika_repository.md
   - Models: models.md
+  - Testing: testing.md
   - API Reference:
       - Repository Implementations: reference_adapters.md
       - Models: reference_models.md
       - Exceptions: reference_exceptions.md
-  - Create new repository: new_repo.md
-  - Contributing: contributing.md
+  - Contributing:
+      - contributing.md
+      - Create new repository: new_repo.md
   - Architecture Decision Records:
       - adr/adr.md
       - '001: Entity id_ definition': |
           adr/001-entity_id_definition.md
+      - '002: String id_ support': |
+          adr/002-support_string_ids.md
+      - '003: Make entity_models optional arguments': |
+          adr/003-make_entity_models_optional_arguments.md
 
 plugins:
   - search

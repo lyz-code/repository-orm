@@ -1,24 +1,25 @@
 {
-    "template": "git@github.com:lyz-code/cookiecutter-python-project.git",
-    "commit": "74f3b8fdccb96b032b851b9735e2044e36f30a9b",
-    "context": {
-        "cookiecutter": {
-            "project_name": "Repository Pattern",
-            "project_slug": "repository-pattern",
-            "project_description": "Library to ease the implementation of the repository pattern in python projects.",
-            "requirements": "deepdiff[murmur],pydantic,pypika,pymysql, yoyo-migrations",
-            "configure_command_line": "False",
-            "read_configuration_from_yaml": "False",
-            "github_user": "lyz-code",
-            "github_token_pass_path": "internet/github.lyz-code.api_token",
-            "pypi_token_pass_path": "internet/pypi.token",
-            "test_pypi_token_pass_path": "internet/test.pypi.token",
-            "author": "Lyz",
-            "author_email": "lyz-code-security-advisories@riseup.net",
-            "security_advisories_email": "lyz-code-security-advisories@riseup.net",
-            "project_underscore_slug": "repository_pattern",
-            "_template": "git@github.com:lyz-code/cookiecutter-python-project.git"
-        }
-    },
-    "directory": null
+  "template": "https://github.com/lyz-code/cookiecutter-python-project",
+  "commit": "7ddf0d825eb90ba7561141cf8944cdb2cde13760",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "project_name": "Repository ORM",
+      "project_slug": "repository-orm",
+      "project_description": "Library to ease the implementation of the repository pattern in python projects.",
+      "requirements": "",
+      "configure_command_line": "False",
+      "read_configuration_from_yaml": "False",
+      "github_user": "lyz-code",
+      "github_token_pass_path": "internet/github.lyz-code.api_token",
+      "pypi_token_pass_path": "internet/pypi.token",
+      "test_pypi_token_pass_path": "internet/test.pypi.token",
+      "author": "Lyz",
+      "author_email": "lyz-code-security-advisories@riseup.net",
+      "security_advisories_email": "lyz-code-security-advisories@riseup.net",
+      "project_underscore_slug": "repository_orm",
+      "_template": "https://github.com/lyz-code/cookiecutter-python-project"
+    }
+  },
+  "directory": null
 }

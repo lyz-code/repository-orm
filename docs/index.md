@@ -6,23 +6,37 @@ Library to ease the implementation of the [repository
 pattern](https://lyz-code.github.io/blue-book/architecture/repository_pattern/)
 in python projects.
 
+# Installing
+
+```bash
+pip install repository-orm
+```
+
+# A Simple Example
+
+```python
+{! examples/simple-example.py !} # noqa
+```
+
+# Repository pattern theory
+
 [The repository
 pattern](https://www.cosmicpython.com/book/chapter_02_repository.html) is an
-abstraction over persistent storage, allowing us to decouple our model layer
+abstraction over persistent storage, allowing you to decouple the model layer
 from the data layer. It hides the boring details of data access by pretending
 that all of our data is in memory.
 
 It has the following advantages:
 
-* We get a simple interface, which we control, between persistent storage and
+* Give a simple interface, which you control, between persistent storage and
     our domain model.
 * It's easy to make a fake version of the repository for unit testing, or to
-    swap out different storage solutions, because we've fully decoupled the
-    model from infrastructure concerns.
-* Writing the domain model before thinking about persistence helps us focus on
-    the business problem at hand. If we need to change our approach, we can do
-    that in our model, without needing to worry about foreign keys or migrations
-    until later.
+    swap out different storage solutions, because the model is fully decoupled
+    from the infrastructure.
+* Writing the domain model before thinking about persistence helps focus on
+    the problem at hand. If we need to change our approach, we can do that in
+    our model, without needing to worry about foreign keys or migrations until
+    later.
 * Our database schema is simple because we have complete control over how
     we map our object to tables.
 * Speeds up and makes more clean the business logic tests.
@@ -46,24 +60,13 @@ But the following disadvantages:
 * Supplying test classes and fixtures so extending the provided repositories is
     easy.
 
-# Installing
-
-```bash
-pip install repository-orm
-```
-
-# A Simple Example
-
-```python
-{! examples/simple-example.py !} # noqa
-```
 
 # Usage
 
-The different repositories share the following operations:
+The different repositories share the next operations:
 
 `add`
-: Add an `Entity` object to the repository, if it already exist, update the
+: Add an `Entity` object to the repository, if it already exist, it updates the
     stored attributes.
 
 `delete`
@@ -76,16 +79,19 @@ The different repositories share the following operations:
 : Persist the changes into the repository.
 
 `all`
-: Get all the entities of type `Entity` from the repository.
+: Get all the entities of a type or types from the repository. If no argument is
+given, it will return all entities.
 
 `search`
 : Get the entities whose attributes match a condition or regular expression.
 
 `first`
-: Get the first entity in the repository.
+: Get the first entity of a type or types of the repository. If no argument is
+given, it will return the first of any type of entity.
 
 `last`
-: Get the first entity in the repository.
+: Get the last entity of a type or types of the repository. If no argument is
+given, it will return the first of any type of entity.
 
 `apply_migrations`
 : Run the migrations of the repository schema.

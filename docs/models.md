@@ -16,7 +16,17 @@ you usually need the following object types:
 # Entities
 
 We've created the [Entity][repository_orm.model.Entity] class based on the
-pydantic's `BaseModel` to enforce that they have the integer `id_` attribute,
-used for comparison and hashing of entities.
+pydantic's `BaseModel` to enforce that they have the `id_` attribute of type
+`int` or `str`, used for comparison and hashing of entities.
 
 They also have a private `_model_name` attribute with the name of the model.
+
+If you use integer IDs (which is the default), you don't need to define the
+`id_` at object creation. When you add the entity to the repository, it will
+populate it.
+
+```python
+{! examples/auto_increment_id.py !} # noqa
+```
+
+!!! warning "This won't work with `str` ids!"

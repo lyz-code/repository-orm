@@ -4,19 +4,18 @@ import logging
 import os
 import re
 import sqlite3
+from contextlib import suppress
 from sqlite3 import OperationalError
-from typing import Dict, List, Type, TypeVar, Union
+from typing import Dict, List, Type, Union
 
 from pypika import Query, Table
 from yoyo import get_backend, read_migrations
 
-from ..exceptions import EntityNotFoundError
-from ..model import Entity as EntityModel
-from .abstract import AbstractRepository
+from ..exceptions import EntityNotFoundError, TooManyEntitiesError
+from ..model import EntityID
+from .abstract import Entity, OptionalModelOrModels, OptionalModels, Repository
 
 log = logging.getLogger(__name__)
-
-Entity = TypeVar("Entity", bound=EntityModel)
 
 
 def _regexp(expression: str, item: str) -> bool:
@@ -33,12 +32,19 @@ def _regexp(expression: str, item: str) -> bool:
     return reg.search(item) is not None
 
 
-class PypikaRepository(AbstractRepository):
+class PypikaRepository(Repository):
     """Implement the repository pattern using the Pypika query builder."""
 
-    def __init__(self, database_url: str) -> None:
-        """Initialize the repository attributes."""
-        super().__init__(database_url)
+    def __init__(
+        self, models: OptionalModels[Entity] = None, database_url: str = ""
+    ) -> None:
+        """Initialize the repository attributes.
+
+        Args:
+            database_url: URL specifying the connection to the database.
+            models: List of stored entity models.
+        """
+        super().__init__(models, database_url)
         database_file = database_url.replace("sqlite:///", "")
         if not os.path.isfile(database_file):
             try:
@@ -66,9 +72,9 @@ class PypikaRepository(AbstractRepository):
         return Table(entity._model_name.lower())
 
     @staticmethod
-    def _table_model(entity_model: Type[Entity]) -> Table:
+    def _table_model(model: Type[Entity]) -> Table:
         """Return the table of the selected entity class."""
-        return Table(entity_model.__name__.lower())
+        return Table(model.__name__.lower())
 
     def add(self, entity: Entity) -> None:
         """Append an entity to the repository.
@@ -76,7 +82,7 @@ class PypikaRepository(AbstractRepository):
         Args:
             entity: Entity to add to the repository.
         """
-        if entity.id_ < 0:
+        if isinstance(entity.id_, int) and entity.id_ < 0:
             entity.id_ = self._next_id(entity)
         table = self._table(entity)
         columns = list(entity.dict().keys())
@@ -109,7 +115,7 @@ class PypikaRepository(AbstractRepository):
         """
         table = self._table(entity)
         try:
-            self.get(type(entity), entity.id_)
+            self.get(entity.id_, type(entity))
         except EntityNotFoundError as error:
             raise EntityNotFoundError(
                 f"Unable to delete entity {entity} because it's not in the repository"
@@ -117,58 +123,60 @@ class PypikaRepository(AbstractRepository):
         query = Query.from_(table).delete().where(table.id == entity.id_)
         self._execute(query)
 
-    def get(self, entity_model: Type[Entity], entity_id: Union[str, int]) -> Entity:
+    def get(
+        self, id_: EntityID, models: OptionalModelOrModels[Entity] = None
+    ) -> Entity:
         """Obtain an entity from the repository by it's ID.
 
         Args:
-            entity_model: Type of entity object to obtain.
-            entity_id: ID of the entity object to obtain.
+            models: Entity class or classes to obtain.
+            id_: ID of the entity to obtain.
 
         Returns:
-            entity: Entity object that matches the search criteria.
+            entity: Entity object that matches the id_
 
         Raises:
             EntityNotFoundError: If the entity is not found.
+            TooManyEntitiesError: If more than one entity was found.
         """
-        table = self._table_model(entity_model)
-        query = Query.from_(table).select("*").where(table.id == entity_id)
+        matching_entities = []
+        models = self._build_models(models)
 
-        try:
-            return self._build_entities(entity_model, query)[0]
-        except IndexError as error:
-            raise EntityNotFoundError(
-                f"There are no {entity_model.__name__}s with id {entity_id} in the"
-                " repository."
-            ) from error
+        for model in models:
+            table = self._table_model(model)
+            query = Query.from_(table).select("*").where(table.id == id_)
+            matching_entities += self._build_entities(model, query)
 
-    def all(self, entity_model: Type[Entity]) -> List[Entity]:
-        """Obtain all the entities of a type from the repository.
+        if len(matching_entities) == 1:
+            return matching_entities[0]
+        elif len(matching_entities) == 0:
+            raise self._model_not_found(models, f" with id {id_}")
+        else:
+            raise TooManyEntitiesError(
+                f"More than one entity was found with the id {id_}"
+            )
+
+    def all(self, models: OptionalModelOrModels[Entity] = None) -> List[Entity]:
+        """Get all the entities from the repository whose class is included in models.
 
         Args:
-            entity_model: Type of entity objects to obtain.
-
-        Returns:
-            entities: List of Entity object that matches the search criteria.
-
-        Raises:
-            EntityNotFoundError: If the entities are not found.
+            models: Entity class or classes to obtain.
         """
-        table = self._table_model(entity_model)
-        query = Query.from_(table).select("*")
+        entities = []
+        models = self._build_models(models)
 
-        entities = self._build_entities(entity_model, query)
-        if len(entities) == 0:
-            raise EntityNotFoundError(
-                f"There are no {entity_model.__name__} entities in the repository"
-            )
+        for model in models:
+            table = self._table_model(model)
+            query = Query.from_(table).select("*")
+            entities += self._build_entities(model, query)
 
         return entities
 
-    def _build_entities(self, entity_model: Type[Entity], query: Query) -> List[Entity]:
+    def _build_entities(self, model: Type[Entity], query: Query) -> List[Entity]:
         """Build Entity objects from the data extracted from the database.
 
         Args:
-            entity_model: The model of the entity to build
+            models: The model of the entity to build
             query: pypika query of the entities you want to build
         """
         cursor = self._execute(query)
@@ -184,7 +192,7 @@ class PypikaRepository(AbstractRepository):
             }
             entity_dict["id_"] = entity_dict.pop("id")
 
-            entities.append(entity_model(**entity_dict))
+            entities.append(model(**entity_dict))
         return entities
 
     def commit(self) -> None:
@@ -192,12 +200,14 @@ class PypikaRepository(AbstractRepository):
         self.connection.commit()
 
     def search(
-        self, entity_model: Type[Entity], fields: Dict[str, Union[str, int]]
+        self,
+        fields: Dict[str, EntityID],
+        models: OptionalModelOrModels[Entity] = None,
     ) -> List[Entity]:
-        """Obtain the entities whose attributes match one or several conditions.
+        """Get the entities whose attributes match one or several conditions.
 
         Args:
-            entity_model: Type of entity object to obtain.
+            models: Entity class or classes to obtain.
             fields: Dictionary with the {key}:{value} to search.
 
         Returns:
@@ -206,29 +216,27 @@ class PypikaRepository(AbstractRepository):
         Raises:
             EntityNotFoundError: If the entities are not found.
         """
-        table = self._table_model(entity_model)
-        query = Query.from_(table).select("*")
+        entities: List[Entity] = []
+        models = self._build_models(models)
 
-        for key, value in fields.items():
-            if key == "id_":
-                key = "id"
-            if isinstance(value, str):
-                query = query.where(getattr(table, key).regexp(value))
-            else:
-                query = query.where(getattr(table, key) == value)
+        for model in models:
+            table = self._table_model(model)
+            query = Query.from_(table).select("*")
 
-        try:
-            entities = self._build_entities(entity_model, query)
-        except OperationalError as error:
-            raise EntityNotFoundError(
-                f"There are no {entity_model.__name__}s that match the search filter"
-                f" {fields}"
-            ) from error
+            for key, value in fields.items():
+                if key == "id_":
+                    key = "id"
+                if isinstance(value, str):
+                    query = query.where(getattr(table, key).regexp(value))
+                else:
+                    query = query.where(getattr(table, key) == value)
+
+            with suppress(OperationalError):
+                entities += self._build_entities(model, query)
 
         if len(entities) == 0:
-            raise EntityNotFoundError(
-                f"There are no {entity_model.__name__}s that match the search filter"
-                f" {fields}"
+            raise self._model_not_found(
+                models, f" that match the search filter {fields}"
             )
 
         return entities

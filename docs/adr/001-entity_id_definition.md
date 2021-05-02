@@ -3,7 +3,12 @@ Date: 2021-04-15
 # Status
 <!-- What is the status? Draft, Proposed, Accepted, Rejected, Deprecated or Superseded?
 -->
-Accepted
+Superseeded
+
+!!! warning "It has been partially superseeded by [002](002-support_string_ids.md)"
+
+    String ids are again supported.
+
 
 # Context
 <!-- What is the issue that we're seeing that is motivating this decision or change? -->

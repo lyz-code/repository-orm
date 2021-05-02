@@ -4,10 +4,8 @@ black = black --target-version py37 src docs/examples tests setup.py
 
 .PHONY: install
 install:
-
 	python -m pip install -U setuptools pip
 	pip install -r requirements-dev.txt
-	pip install git+git://github.com/lyz-code/deepdiff@master
 	pip install -e .
 	pre-commit install
 
@@ -16,6 +14,8 @@ update:
 	@echo "-------------------------"
 	@echo "- Updating dependencies -"
 	@echo "-------------------------"
+
+	pip install -U pip
 
 	rm requirements.txt
 	touch requirements.txt
@@ -86,6 +86,7 @@ test-examples:
 	@echo "--------------------"
 
 	@find docs/examples -type f -name '*.py' | xargs -I'{}' sh -c 'python {} >/dev/null 2>&1 || (echo "{} failed" ; exit 1)'
+	pytest docs/examples/*
 
 	@echo ""
 
@@ -176,7 +177,6 @@ upload-pypi:
 	twine upload -r pypi dist/*
 
 	@echo ""
-
 
 .PHONY: upload-testing-pypi
 upload-testing-pypi:

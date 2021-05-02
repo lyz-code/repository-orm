@@ -1,7 +1,7 @@
 """Gather the repository cases."""
 
 import sqlite3
-from typing import Tuple
+from typing import Tuple, TypeVar
 
 from tinydb import TinyDB
 
@@ -12,11 +12,14 @@ from repository_orm import (
     TinyDBRepository,
 )
 
+from .model import Entity as EntityModel
 from .testers import (
     FakeRepositoryTester,
     PypikaRepositoryTester,
     TinyDBRepositoryTester,
 )
+
+Entity = TypeVar("Entity", bound=EntityModel)
 
 
 class RepositoryCases:
@@ -24,7 +27,9 @@ class RepositoryCases:
 
     def case_fake(
         self, repo_fake: FakeRepository
-    ) -> Tuple[FakeRepositoryDB, FakeRepository, FakeRepository, FakeRepositoryTester]:
+    ) -> Tuple[
+        FakeRepositoryDB[Entity], FakeRepository, FakeRepository, FakeRepositoryTester
+    ]:
         """Return the objects to test the FakeRepository.
 
         Returns:

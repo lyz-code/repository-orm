@@ -4,15 +4,18 @@ Classes and functions that connect the different domain model objects with the a
 and handlers to achieve the program's purpose.
 """
 
-from typing import Optional, Union
+from typing import Optional, TypeVar, Union
 
 from .adapters import FakeRepository, Models, PypikaRepository, TinyDBRepository
+from .model import Entity as EntityModel
 
 Repository = Union[FakeRepository, PypikaRepository, TinyDBRepository]
 
+Entity = TypeVar("Entity", bound=EntityModel)
+
 
 def load_repository(
-    models: Optional[Models] = None, database_url: Optional[str] = None
+    models: Optional[Models[Entity]] = None, database_url: Optional[str] = None
 ) -> Repository:
     """Load the Repository object that matches the database_url protocol.
 

@@ -1,3 +1,27 @@
+## 0.4.0 (2021-05-02)
+
+### Perf
+
+- improve the type hints
+
+### Feat
+
+- make entity models optional arguments of the repo methods
+
+### refactor
+
+- create the _model_not_found and _build_models abstract repo methods
+
+### Fix
+
+- bump version of deepdiff
+- support back the string IDs
+
+### feat
+
+- add a ci job to test that the program is installable
+- add the last and first methods to the repositories.
+
 ## 0.3.1 (2021-04-15)
 
 ### Fix

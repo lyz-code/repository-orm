@@ -24,7 +24,7 @@ tinydb==4.4.0
     # via
     #   repository-orm (setup.py)
     #   tinydb-serialization
-typing-extensions==3.7.4.3
+typing-extensions==3.10.0.0
     # via pydantic
 yoyo-migrations==7.3.1
     # via repository-orm (setup.py)

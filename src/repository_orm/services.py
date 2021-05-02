@@ -6,12 +6,14 @@ and handlers to achieve the program's purpose.
 
 from typing import Optional, Union
 
-from .adapters import FakeRepository, PypikaRepository, TinyDBRepository
+from .adapters import FakeRepository, Models, PypikaRepository, TinyDBRepository
 
 Repository = Union[FakeRepository, PypikaRepository, TinyDBRepository]
 
 
-def load_repository(database_url: Optional[str] = None) -> Repository:
+def load_repository(
+    models: Optional[Models] = None, database_url: Optional[str] = None
+) -> Repository:
     """Load the Repository object that matches the database_url protocol.
 
     Args:
@@ -21,10 +23,10 @@ def load_repository(database_url: Optional[str] = None) -> Repository:
         Repository that understands the url protocol.
     """
     if database_url is None or "fake://" in database_url:
-        repo: Repository = FakeRepository()
+        repo: Repository = FakeRepository(models, "")
     elif "sqlite://" in database_url:
-        repo = PypikaRepository(database_url)
+        repo = PypikaRepository(models, database_url)
     elif "tinydb://" in database_url:
-        repo = TinyDBRepository(database_url)
+        repo = TinyDBRepository(models, database_url)
 
     return repo

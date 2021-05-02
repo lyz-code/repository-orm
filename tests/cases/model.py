@@ -34,3 +34,9 @@ class Genre(Entity):
 
     description: Optional[str] = None
     rating: Optional[int] = None
+
+
+class OtherEntity(Entity):
+    """Entity to model an entity that is not in the repo."""
+
+    description: Optional[str] = None

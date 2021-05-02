@@ -13,7 +13,7 @@ class Author(Entity):
 
 
 def create_greeting(repo: Repository, author_id: int) -> str:
-    author = repo.get(Author, author_id)
+    author = repo.get(author_id, Author)
     return f"Hi {author.first_name}!"
 
 

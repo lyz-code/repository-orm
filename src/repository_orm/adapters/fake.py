@@ -1,38 +1,31 @@
 """Store the fake repository implementation."""
 
 import copy
-import logging
 import re
-from typing import Any, Dict, List, Type, TypeVar
+from contextlib import suppress
+from typing import Dict, List, Type
 
 from deepdiff import extract, grep
 
-# [Pydantic issue](https://github.com/samuelcolvin/pydantic/issues/1961)
-from pydantic import BaseModel, Field  # pylint: disable=no-name-in-module
-
-from ..exceptions import EntityNotFoundError
-from ..model import Entity as EntityModel
+from ..exceptions import EntityNotFoundError, TooManyEntitiesError
 from ..model import EntityID
-from .abstract import AbstractRepository
-
-log = logging.getLogger(__name__)
-
-Entity = TypeVar("Entity", bound=EntityModel)
+from .abstract import Entity, Models, OptionalModelOrModels, OptionalModels, Repository
 
 FakeRepositoryDB = Dict[Type[Entity], Dict[EntityID, Entity]]
 
 
-class FakeRepository(BaseModel, AbstractRepository):
+class FakeRepository(Repository):
     """Implement the repository pattern using a memory dictionary."""
 
-    entities: FakeRepositoryDB[Any] = Field(default_factory=dict)
-    new_entities: FakeRepositoryDB[Any] = Field(default_factory=dict)
-
-    def __init__(self, database_url: str = "", **data: Any) -> None:
+    def __init__(
+        self, models: OptionalModels[Entity] = None, database_url: str = ""
+    ) -> None:
         """Initialize the repository attributes."""
-        super().__init__(**data)
+        super().__init__(models=models)
         if database_url == "/inexistent_dir/database.db":
             raise ConnectionError(f"Could not create database file: {database_url}")
+        self.entities: FakeRepositoryDB[Entity] = {}
+        self.new_entities: FakeRepositoryDB[Entity] = {}
 
     def add(self, entity: Entity) -> None:
         """Append an entity to the repository.
@@ -69,63 +62,70 @@ class FakeRepository(BaseModel, AbstractRepository):
                 f"Unable to delete entity {entity} because it's not in the repository"
             ) from error
 
-    def get(self, entity_model: Type[Entity], entity_id: EntityID) -> Entity:
+    def get(
+        self, id_: EntityID, models: OptionalModelOrModels[Entity] = None
+    ) -> Entity:
         """Obtain an entity from the repository by it's ID.
 
         Args:
-            entity_model: Type of entity object to obtain.
-            entity_id: ID of the entity object to obtain.
+            models: Entity class or classes to obtain.
+            id_: ID of the entity to obtain.
 
         Returns:
-            entity: Entity object that matches the search criteria.
+            entity: Entity object that matches the id_
 
         Raises:
             EntityNotFoundError: If the entity is not found.
+            TooManyEntitiesError: If more than one entity was found.
         """
-        try:
-            entity = self.entities[entity_model][entity_id]
-        except KeyError as error:
-            raise EntityNotFoundError(
-                f"There are no {entity_model.__name__}s "
-                f"with id {entity_id} in the repository."
-            ) from error
+        matching_entities = []
+        models = self._build_models(models)
 
-        return entity
+        for model in models:
+            with suppress(KeyError):
+                matching_entities.append(self.entities[model][id_])
 
-    def all(self, entity_model: Type[Entity]) -> List[Entity]:
-        """Obtain all the entities of a type from the repository.
+        if len(matching_entities) == 1:
+            return matching_entities[0]
+        elif len(matching_entities) == 0:
+            raise self._model_not_found(models, f" with id {id_}")
+        else:
+            raise TooManyEntitiesError(
+                f"More than one entity was found with the id {id_}"
+            )
+
+    def all(self, models: OptionalModelOrModels[Entity] = None) -> List[Entity]:
+        """Get all the entities from the repository whose class is included in models.
 
         Args:
-            entity_model: Type of entity objects to obtain.
-
-        Returns:
-            entities: List of Entity object that matches the search criteria.
-
-        Raises:
-            EntityNotFoundError: If the entities are not found.
+            models: Entity class or classes to obtain.
         """
-        try:
-            return sorted(
-                entity for entity_id, entity in self.entities[entity_model].items()
-            )
-        except KeyError as error:
-            raise EntityNotFoundError(
-                f"There are no {entity_model.__name__} entities in the repository"
-            ) from error
+        entities = []
+        models = self._build_models(models)
+
+        for model in models:
+            with suppress(KeyError):
+                entities += sorted(
+                    entity for entity_id, entity in self.entities[model].items()
+                )
+
+        return entities
 
     def commit(self) -> None:
         """Persist the changes into the repository."""
-        for entity_model, entities in self.new_entities.items():
-            self.entities[entity_model] = entities
+        for model, entities in self.new_entities.items():
+            self.entities[model] = entities
         self.new_entities = {}
 
     def search(
-        self, entity_model: Type[Entity], fields: Dict[str, EntityID]
+        self,
+        fields: Dict[str, EntityID],
+        models: OptionalModelOrModels[Entity] = None,
     ) -> List[Entity]:
-        """Obtain the entities whose attributes match one or several conditions.
+        """Get the entities whose attributes match one or several conditions.
 
         Args:
-            entity_model: Type of entity object to obtain.
+            models: Entity class or classes to obtain.
             fields: Dictionary with the {key}:{value} to search.
 
         Returns:
@@ -134,13 +134,10 @@ class FakeRepository(BaseModel, AbstractRepository):
         Raises:
             EntityNotFoundError: If the entities are not found.
         """
-        all_entities = self.all(entity_model)
+        models = self._build_models(models)
+        all_entities: List[Entity] = self.all(models)
         entities_dict = {entity.id_: entity for entity in all_entities}
         entity_attributes = {entity.id_: entity.dict() for entity in all_entities}
-        error_msg = (
-            f"There are no {entity_model.__name__}s that match "
-            f"the search filter {fields}"
-        )
 
         for key, value in fields.items():
             # Get entities that have the value `value`
@@ -152,7 +149,9 @@ class FakeRepository(BaseModel, AbstractRepository):
             try:
                 entities_with_value["matched_values"]
             except KeyError as error:
-                raise EntityNotFoundError(error_msg) from error
+                raise self._model_not_found(
+                    models, f" that match the search filter {fields}"
+                ) from error
 
             for path in entities_with_value["matched_values"]:
                 entity_id = re.sub(r"root\[(.*?)\]\[.*", r"\1", path)
@@ -165,11 +164,10 @@ class FakeRepository(BaseModel, AbstractRepository):
 
                 # Add the entity to the matching ones only if the value is of the
                 # attribute `key`.
-                if re.match(re.compile(fr"root\['?{entity_id}'?\]\['{key}'\]"), path):
+                if re.match(fr"root\['?{entity_id}'?\]\['{key}'\]", path):
                     matching_entity_attributes[entity_id] = extract(
                         entity_attributes, f"root[{entity_id}]"
                     )
-
             entity_attributes = matching_entity_attributes
         entities = [entities_dict[key] for key in entity_attributes.keys()]
 
@@ -184,45 +182,49 @@ class FakeRepository(BaseModel, AbstractRepository):
         """
         # The fake repository doesn't have any schema
 
-    def last(self, entity_model: Type[Entity], index: bool = True) -> Entity:
-        """Get the greatest entity from the repository.
+    def last(self, models: OptionalModelOrModels[Entity] = None) -> Entity:
+        """Get the biggest entity from the repository.
 
         Args:
-            entity_model: Type of entity object to obtain.
-            index: Check only commited entities.
+            models: Entity class or classes to obtain.
 
         Returns:
-            entity: Entity object that matches the search criteria.
+            entity: Biggest Entity object of type models.
 
         Raises:
             EntityNotFoundError: If there are no entities.
         """
         try:
-            last_index_entity = super().last(entity_model)
+            last_index_entity: Entity = super().last(models)
         except EntityNotFoundError as empty_repo:
-            if not index:
-                try:
-                    # Empty repo but entities staged to be commited.
-                    return max(
-                        [
-                            entity
-                            for _, entity in self.new_entities[entity_model].items()
-                        ]
-                    )
-                except KeyError as no_staged_entities:
-                    # Empty repo and no entities staged.
-                    raise empty_repo from no_staged_entities
-            raise empty_repo
+            models = self._build_models(models)
+            try:
+                # Empty repo but entities staged to be commited.
+                return max(self._staged_entities(models))
+            except KeyError as no_staged_entities:
+                # Empty repo and no entities staged.
+                raise empty_repo from no_staged_entities
 
-        if index:
-            return last_index_entity
         try:
-            last_staged_entity = max(
-                [entity for _, entity in self.new_entities[entity_model].items()]
-            )
+            models = self._build_models(models)
+            last_staged_entity: Entity = max(self._staged_entities(models))
         except KeyError:
             # Full repo and no staged entities.
             return last_index_entity
 
         # Full repo and staged entities.
         return max([last_index_entity, last_staged_entity])
+
+    def _staged_entities(self, models: Models[Entity]) -> List[Entity]:
+        """Return a list of staged entities of type models.
+
+        Args:
+            models: Return only instances of these models.
+        """
+        staged_entities = []
+
+        for model in models:
+            staged_entities += [
+                entity for _, entity in self.new_entities[model].items()
+            ]
+        return staged_entities

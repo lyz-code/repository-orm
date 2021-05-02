@@ -4,6 +4,10 @@
 #
 #    pip-compile --allow-unsafe
 #
+deepdiff==5.5.0
+    # via repository-orm (setup.py)
+ordered-set==4.0.2
+    # via deepdiff
 pydantic==1.8.1
     # via repository-orm (setup.py)
 pymysql==1.0.2

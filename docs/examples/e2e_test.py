@@ -6,6 +6,11 @@ from py._path.local import LocalPath
 from repository_orm import Entity, Repository, TinyDBRepository, load_repository
 
 
+# Model
+class Author(Entity):
+    first_name: str
+
+
 # Fixtures
 @pytest.fixture(name="db_tinydb")
 def db_tinydb_(tmpdir: LocalPath) -> str:
@@ -15,12 +20,7 @@ def db_tinydb_(tmpdir: LocalPath) -> str:
 
 @pytest.fixture()
 def repo(db_tinydb: str) -> TinyDBRepository:
-    return TinyDBRepository(db_tinydb)
-
-
-# Model
-class Author(Entity):
-    first_name: str
+    return TinyDBRepository([Author], db_tinydb)
 
 
 # Service
@@ -33,7 +33,7 @@ def create_greeting(repo: Repository) -> str:
 @click.command()
 @click.argument("database_url")
 def greet(database_url: str) -> None:
-    repo = load_repository(database_url)
+    repo = load_repository([Author], database_url)
 
     print(create_greeting(repo))
 

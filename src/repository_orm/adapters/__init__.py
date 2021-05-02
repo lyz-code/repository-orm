@@ -9,21 +9,21 @@ References:
 """
 
 import logging
-from typing import TypeVar
 
-from .abstract import AbstractRepository
+from .abstract import Models, OptionalModelOrModels, OptionalModels, Repository
 from .fake import FakeRepository, FakeRepositoryDB
 from .pypika import PypikaRepository
 from .tinydb import TinyDBRepository
 
 log = logging.getLogger(__name__)
 
-Repository = TypeVar("Repository", PypikaRepository, FakeRepository, TinyDBRepository)
-
 __all__ = [
-    "AbstractRepository",
+    "Repository",
     "PypikaRepository",
     "FakeRepository",
     "FakeRepositoryDB",
+    "Models",
+    "OptionalModels",
+    "OptionalModelOrModels",
     "TinyDBRepository",
 ]

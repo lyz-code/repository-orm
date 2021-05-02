@@ -25,6 +25,7 @@ from .cases import (
     RepositoryTester,
     StrEntityCases,
 )
+from .cases.model import Author, Book, Genre, OtherEntity
 
 # ---------------------
 # - Database fixtures -
@@ -80,25 +81,26 @@ def db_tinydb_(tmpdir: LocalPath) -> Tuple[str, TinyDB]:
 # -----------------------
 # - Repository fixtures -
 # -----------------------
+models = [Author, Book, Genre, OtherEntity]
 
 
 @pytest.fixture()
 def repo_fake() -> FakeRepository:
     """Return an instance of the FakeRepository."""
-    return FakeRepository()
+    return FakeRepository(models=models)  # type: ignore
 
 
 @pytest.fixture(name="repo_tinydb")
 def repo_tinydb_(db_tinydb: Tuple[str, TinyDB]) -> TinyDBRepository:
     """Return an instance of the TinyDBRepository."""
-    return TinyDBRepository(db_tinydb[0])
+    return TinyDBRepository(database_url=db_tinydb[0], models=models)  # type: ignore
 
 
 @pytest.fixture(name="empty_repo_pypika")
 def empty_repo_pypika_(db_sqlite: Tuple[str, sqlite3.Cursor]) -> PypikaRepository:
     """Configure an empty instance of the PypikaRepository."""
     sqlite_url = db_sqlite[0]
-    return PypikaRepository(sqlite_url)
+    return PypikaRepository(database_url=sqlite_url, models=models)  # type: ignore
 
 
 @pytest.fixture()

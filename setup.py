@@ -50,6 +50,7 @@ setup(
         "Natural Language :: English",
     ],
     install_requires=[
+        "deepdiff",
         "pydantic",
         "pypika",
         "pymysql",

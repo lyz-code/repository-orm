@@ -1,9 +1,11 @@
 """Library to ease the implementation of the repository pattern in Python projects."""
 
 from .adapters import (
-    AbstractRepository,
     FakeRepository,
     FakeRepositoryDB,
+    Models,
+    OptionalModelOrModels,
+    OptionalModels,
     PypikaRepository,
     Repository,
     TinyDBRepository,
@@ -13,15 +15,18 @@ from .model import Entity, EntityID
 from .services import load_repository
 
 __all__ = [
-    "AbstractRepository",
     "AutoIncrementError",
     "Entity",
     "EntityID",
     "EntityNotFoundError",
     "FakeRepository",
     "FakeRepositoryDB",
+    "Models",
+    "OptionalModels",
+    "OptionalModelOrModels",
     "PypikaRepository",
-    "TinyDBRepository",
     "Repository",
+    "Repository",
+    "TinyDBRepository",
     "load_repository",
 ]

@@ -6,7 +6,6 @@ from typing import Tuple
 from tinydb import TinyDB
 
 from repository_orm import (
-    Entity,
     FakeRepository,
     FakeRepositoryDB,
     PypikaRepository,
@@ -25,12 +24,7 @@ class RepositoryCases:
 
     def case_fake(
         self, repo_fake: FakeRepository
-    ) -> Tuple[
-        FakeRepositoryDB[Entity],
-        FakeRepository,
-        FakeRepository,
-        FakeRepositoryTester,
-    ]:
+    ) -> Tuple[FakeRepositoryDB, FakeRepository, FakeRepository, FakeRepositoryTester]:
         """Return the objects to test the FakeRepository.
 
         Returns:

@@ -6,22 +6,23 @@ add them to the cases.
 
 import logging
 import os
-from typing import Any, List
+from typing import Any, List, Type
 
 import pytest
 from _pytest.logging import LogCaptureFixture
 from py._path.local import LocalPath
 
 from repository_orm import AutoIncrementError, EntityNotFoundError, Repository
+from repository_orm.exceptions import TooManyEntitiesError
 
-from ..cases import Entity, RepositoryTester
+from ..cases import Entity, OtherEntity, RepositoryTester
 
 
 def test_apply_repository_creates_schema(  # noqa: AAA01
     database: Any,
     empty_repo: Repository,
     caplog: LogCaptureFixture,
-    repo_tester: RepositoryTester,
+    repo_tester: RepositoryTester[Repository],
 ) -> None:
     """
     Given: an empty repository.
@@ -30,12 +31,12 @@ def test_apply_repository_creates_schema(  # noqa: AAA01
     """
     caplog.set_level(logging.DEBUG)
 
-    repo_tester.apply_migrations(empty_repo)  # type: ignore
+    repo_tester.apply_migrations(empty_repo)
 
     repo_tester.assert_schema_exists(database, caplog)
 
 
-def test_repository_handles_unexistent_database_file(
+def test_repository_handles_inexistent_database_file(
     repo: Repository, tmpdir: LocalPath
 ) -> None:
     """
@@ -47,7 +48,7 @@ def test_repository_handles_unexistent_database_file(
     """
     database_url = str(tmpdir.join("inexistent.db"))  # type: ignore
 
-    result = repo.__class__(database_url)
+    result = repo.__class__(database_url=database_url)
 
     assert isinstance(result, repo.__class__)
     if result.__class__.__name__ != "FakeRepository":
@@ -62,13 +63,13 @@ def test_repository_handles_connection_errors(repo: Repository) -> None:
         doesn't create a database
     """
     with pytest.raises(ConnectionError):
-        repo.__class__("/inexistent_dir/database.db")  # act
+        repo.__class__(database_url="/inexistent_dir/database.db")  # act
 
 
 def test_repository_can_save_an_entity(
     database: Any,
     repo: Repository,
-    repo_tester: RepositoryTester,
+    repo_tester: RepositoryTester[Repository],
     entity: Entity,
 ) -> None:
     """Saved entities remain in the repository."""
@@ -189,7 +190,10 @@ def test_repository_cant_save_an_entity_with_a_negative_id(
 
 
 def test_repo_add_entity_is_idempotent(
-    database: Any, repo: Repository, repo_tester: RepositoryTester, entity: Entity
+    database: Any,
+    repo: Repository,
+    repo_tester: RepositoryTester[Repository],
+    entity: Entity,
 ) -> None:
     """
     Given: An empty repository.
@@ -207,7 +211,10 @@ def test_repo_add_entity_is_idempotent(
 
 
 def test_repo_add_entity_is_idempotent_if_entity_is_commited(
-    database: Any, repo: Repository, repo_tester: RepositoryTester, entity: Entity
+    database: Any,
+    repo: Repository,
+    repo_tester: RepositoryTester[Repository],
+    entity: Entity,
 ) -> None:
     """
     Given: A repository with the identity we want to add already commited.
@@ -225,7 +232,10 @@ def test_repo_add_entity_is_idempotent_if_entity_is_commited(
 
 
 def test_repo_add_entity_updates_attribute(
-    database: Any, repo: Repository, repo_tester: RepositoryTester, entity: Entity
+    database: Any,
+    repo: Repository,
+    repo_tester: RepositoryTester[Repository],
+    entity: Entity,
 ) -> None:
     """
     Given: A repository with the identity we want to add already commited.
@@ -248,7 +258,7 @@ def test_repo_add_entity_updates_attribute(
 def test_repository_doesnt_add_an_entity_if_we_dont_commit_changes(
     database: Any,
     repo: Repository,
-    repo_tester: RepositoryTester,
+    repo_tester: RepositoryTester[Repository],
     entity: Entity,
 ) -> None:
     """
@@ -267,7 +277,31 @@ def test_repository_can_retrieve_an_entity(
     inserted_entity: Entity,
 ) -> None:
     """Given an entity_id the repository returns the entity object."""
-    result = repo.get(type(inserted_entity), inserted_entity.id_)
+    result = repo.get(inserted_entity.id_, type(inserted_entity))
+
+    assert result == inserted_entity
+    assert result.id_ == inserted_entity.id_
+
+
+def test_repository_can_retrieve_an_entity_if_no_model_defined(
+    repo: Repository,
+    inserted_entity: Entity,
+) -> None:
+    """Given an entity_id the repository returns the entity object."""
+    result: Entity = repo.get(inserted_entity.id_)
+
+    assert result == inserted_entity
+    assert result.id_ == inserted_entity.id_
+
+
+def test_repository_can_retrieve_an_entity_if_list_of_models_defined(
+    repo: Repository,
+    inserted_entity: Entity,
+) -> None:
+    """Given an entity_id the repository returns the entity object."""
+    entity_models: List[Type[Entity]] = [type(inserted_entity), OtherEntity]
+
+    result = repo.get(inserted_entity.id_, entity_models)
 
     assert result == inserted_entity
     assert result.id_ == inserted_entity.id_
@@ -278,16 +312,49 @@ def test_repository_raises_error_if_no_entity_found_by_get(
     entity: Entity,
 ) -> None:
     """As the entity is not inserted into the repository, it shouldn't be found."""
-    with pytest.raises(EntityNotFoundError) as error:
-        repo.get(type(entity), entity.id_)
+    with pytest.raises(
+        EntityNotFoundError,
+        match=(
+            f"There are no entities of type {entity._model_name} in the "
+            f"repository with id {entity.id_}"
+        ),
+    ):
+        repo.get(entity.id_, type(entity))
 
-    assert (
-        f"There are no {entity._model_name}s with id "
-        f"{entity.id_} in the repository" in str(error.value)
-    )
+
+def test_repository_raises_error_if_get_finds_more_than_one_entity(
+    repo: Repository, inserted_entity: Entity
+) -> None:
+    """
+    Given: Two entities of different type with the same ID
+    When: We get the ID without specifying the model
+    Then: a TooManyEntitiesError error is raised
+    """
+    other_entity = OtherEntity(id_=inserted_entity.id_, name="Other entity")
+    repo.add(other_entity)
+    repo.commit()
+
+    with pytest.raises(TooManyEntitiesError, match=""):
+        repo.get(inserted_entity.id_)
 
 
-def test_repository_can_retrieve_all_objects(
+def test_repository_can_retrieve_all(
+    repo: Repository,
+    inserted_entities: List[Entity],
+) -> None:
+    """
+    Given: A repository with inserted entities
+    When: all is called
+    Then: all entities are returned
+    """
+    result: List[Entity] = repo.all()
+
+    assert result == inserted_entities
+    assert len(result) == 3
+    assert result[0].id_ == inserted_entities[0].id_
+
+
+def test_repository_can_retrieve_all_objects_of_an_entity_type(
     repo: Repository,
     inserted_entities: List[Entity],
 ) -> None:
@@ -301,17 +368,55 @@ def test_repository_can_retrieve_all_objects(
     assert result[0].id_ == inserted_entities[0].id_
 
 
-def test_repository_all_raises_error_if_empty_repository(
+def test_repository_can_retrieve_all_objects_of_a_list_of_entity_types(
+    repo: Repository,
+    inserted_entities: List[Entity],
+) -> None:
+    """
+    Given: Three entities of a type and another of other type.
+    When: all is called using a list of entities
+    Then: all elements are returned.
+    """
+    other_entity = OtherEntity(id_=0, name="Other entity")
+    repo.add(other_entity)
+    repo.commit()
+    entity_types: List[Type[Entity]] = [type(inserted_entities[0]), OtherEntity]
+
+    result = repo.all(entity_types)
+
+    assert result == inserted_entities + [other_entity]
+    assert len(result) == 4
+
+
+def test_repository_all_is_idempotent(
+    repo: Repository,
+    inserted_entities: List[Entity],
+) -> None:
+    """
+    Given: A repository that has already used the all method.
+    When: all is called again.
+    Then: it returns the same results.
+    """
+    entity_type = type(inserted_entities[0])
+    expected_results = repo.all(entity_type)
+
+    result = repo.all(entity_type)
+
+    assert result == expected_results
+
+
+def test_repository_all_returns_empty_list_if_there_are_no_entities_of_a_type(
     repo: Repository,
     entity: Entity,
 ) -> None:
-    """If there are no entities, an error should be raised."""
-    with pytest.raises(EntityNotFoundError) as error:
-        repo.all(type(entity))
+    """
+    Given: An empty repo
+    When: all is used with an entity type
+    Then: An empty list is returned
+    """
+    result: List[Entity] = repo.all()
 
-    assert f"There are no {entity._model_name} entities in the repository" in str(
-        error.value
-    )
+    assert result == []
 
 
 def test_repository_can_search_by_property(
@@ -321,7 +426,32 @@ def test_repository_can_search_by_property(
     """Search should return the objects that match the desired property."""
     expected_entity = inserted_entities[1]
 
-    result = repo.search(type(expected_entity), {"id_": expected_entity.id_})
+    result = repo.search({"id_": expected_entity.id_}, type(inserted_entities[1]))
+
+    assert result == [expected_entity]
+
+
+def test_repository_can_search_by_property_without_specifying_the_type(
+    repo: Repository,
+    inserted_entities: List[Entity],
+) -> None:
+    """Search should return the objects that match the desired property."""
+    expected_entity = inserted_entities[1]
+
+    result: List[Entity] = repo.search({"id_": expected_entity.id_})
+
+    assert result == [expected_entity]
+
+
+def test_repository_can_search_by_property_specifying_a_list_of_types(
+    repo: Repository,
+    inserted_entities: List[Entity],
+) -> None:
+    """Search should return the objects that match the desired property."""
+    entity_types: List[Type[Entity]] = [type(inserted_entities[0]), OtherEntity]
+    expected_entity = inserted_entities[1]
+
+    result = repo.search({"id_": expected_entity.id_}, entity_types)
 
     assert result == [expected_entity]
 
@@ -337,12 +467,12 @@ def test_repository_can_search_regular_expression(
     expected_entity = inserted_entities[1]
     regular_expression = fr"^{expected_entity.name}.*"
 
-    result = repo.search(type(expected_entity), {"name": regular_expression})
+    result = repo.search({"name": regular_expression}, type(expected_entity))
 
     assert result == [expected_entity]
 
 
-def test_repository_search_raises_error_if_searching_by_unexistent_field(
+def test_repository_search_raises_error_if_searching_by_inexistent_field(
     repo: Repository,
     inserted_entities: List[Entity],
 ) -> None:
@@ -351,29 +481,31 @@ def test_repository_search_raises_error_if_searching_by_unexistent_field(
     """
     entity = inserted_entities[0]
 
-    with pytest.raises(EntityNotFoundError) as error:
-        repo.search(type(entity), {"unexistent_field": "unexistent_value"})
+    with pytest.raises(
+        EntityNotFoundError,
+        match=(
+            f"There are no entities of type {entity._model_name} in the repository that"
+            " match the search filter {'inexistent_field': 'inexistent_value'}"
+        ),
+    ):
+        repo.search({"inexistent_field": "inexistent_value"}, type(entity))
 
-    assert (
-        f"There are no {entity._model_name}s that match "
-        "the search filter {'unexistent_field': 'unexistent_value'}" in str(error.value)
-    )
 
-
-def test_repository_search_raises_error_if_searching_by_unexistent_value(
+def test_repository_search_raises_error_if_searching_by_inexistent_value(
     repo: Repository,
     inserted_entities: List[Entity],
 ) -> None:
     """If no object has a value like the search criteria raise the desired error."""
     entity = inserted_entities[0]
 
-    with pytest.raises(EntityNotFoundError) as error:
-        repo.search(type(entity), {"id_": "unexistent_value"})
-
-    assert (
-        f"There are no {entity._model_name}s that match "
-        "the search filter {'id_': 'unexistent_value'}" in str(error.value)
-    )
+    with pytest.raises(
+        EntityNotFoundError,
+        match=(
+            f"There are no entities of type {entity._model_name} in the repository that"
+            " match the search filter {'id_': 'inexistent_value'}"
+        ),
+    ):
+        repo.search({"id_": "inexistent_value"}, type(entity))
 
 
 def test_repository_can_search_by_multiple_properties(
@@ -388,7 +520,7 @@ def test_repository_can_search_by_multiple_properties(
     entity = inserted_entities[1]
     search_criteria = entity.dict()
 
-    result = repo.search(type(entity), search_criteria)
+    result = repo.search(search_criteria, type(entity))
 
     assert result == [entity]
 
@@ -416,7 +548,7 @@ def test_repository_can_delete_an_entity(
 def test_repository_doesnt_delete_the_entity_if_we_dont_commit(
     database: Any,
     repo: Repository,
-    repo_tester: RepositoryTester,
+    repo_tester: RepositoryTester[Entity],
     inserted_entities: List[Entity],
 ) -> None:
     """
@@ -438,7 +570,7 @@ def test_repository_delete_raise_error_if_entity_not_found(
 ) -> None:
     """
     Given: an empty repository.
-    When: trying to delete an unexistent entity.
+    When: trying to delete an inexistent entity.
     Then: An EntityNotFoundError error is raised.
     """
     with pytest.raises(EntityNotFoundError) as error:
@@ -466,6 +598,39 @@ def test_repository_last_returns_last_entity(
     assert result == greater_entity
 
 
+def test_repository_last_returns_last_entity_if_no_type_specified(
+    repo: Repository,
+    inserted_entities: List[Entity],
+) -> None:
+    """
+    Given: A repository with many entities.
+    When: using the last method without any argument.
+    Then: The greater entity is returned
+    """
+    greater_entity = max(inserted_entities)
+
+    result: List[Entity] = repo.last()
+
+    assert result == greater_entity
+
+
+def test_repository_last_returns_last_entity_if_list_of_types(
+    repo: Repository,
+    inserted_entities: List[Entity],
+) -> None:
+    """
+    Given: A repository with many entities.
+    When: using the last method with a list of types.
+    Then: The greater entity is returned
+    """
+    entity_types: List[Type[Entity]] = [type(inserted_entities[0]), OtherEntity]
+    greater_entity = max(inserted_entities)
+
+    result = repo.last(entity_types)
+
+    assert result == greater_entity
+
+
 def test_repository_last_raise_error_if_entity_not_found(
     repo: Repository,
     entity: Entity,
@@ -477,7 +642,7 @@ def test_repository_last_raise_error_if_entity_not_found(
     """
     with pytest.raises(
         EntityNotFoundError,
-        match=f"There are no {entity._model_name} entities in the repository",
+        match=f"There are no entities of type {entity._model_name} in the repository",
     ):
         repo.last(type(entity))
 
@@ -509,7 +674,7 @@ def test_repository_first_raise_error_if_entity_not_found(
     """
     with pytest.raises(
         EntityNotFoundError,
-        match=f"There are no {entity._model_name} entities in the repository",
+        match=f"There are no entities of type {entity._model_name} in the repository",
     ):
         repo.first(type(entity))
 

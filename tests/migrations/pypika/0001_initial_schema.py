@@ -36,4 +36,13 @@ steps = [
         "PRIMARY KEY (id))",
         "DROP TABLE genre",
     ),
+    step(
+        "CREATE TABLE otherentity ("
+        "id INT, "
+        "name VARCHAR(20), "
+        "description VARCHAR(255), "
+        "rating INT, "
+        "PRIMARY KEY (id))",
+        "DROP TABLE otherentity",
+    ),
 ]

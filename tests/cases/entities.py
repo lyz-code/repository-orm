@@ -2,7 +2,7 @@
 
 import factory
 
-from .model import Author, Book, Genre
+from .model import Author, Book, Genre, ListEntity
 
 
 class EntityCases:
@@ -83,3 +83,16 @@ class GenreFactory(factory.Factory):  # type: ignore
         """Define the entity model object to use."""
 
         model = Genre
+
+
+class ListEntityFactory(factory.Factory):  # type: ignore
+    """Factory to generate fake genres."""
+
+    id_ = factory.Faker("pyint")
+    name = factory.Faker("name")
+    elements = factory.Faker("pylist", value_types=str)
+
+    class Meta:
+        """Define the entity model object to use."""
+
+        model = ListEntity

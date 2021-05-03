@@ -1,7 +1,9 @@
 """Define the TinyDB Repository."""
 
 import os
-from typing import Any, Dict, List
+import re
+from contextlib import suppress
+from typing import Any, Dict, Iterable, List
 
 from tinydb import Query, TinyDB
 from tinydb.queries import QueryInstance
@@ -142,7 +144,7 @@ class TinyDBRepository(Repository):
             entities_data = self.db_.search(query)
 
         for entity_data in entities_data:
-            entities.append(self._build_entity(entity_data))
+            entities.append(self._build_entity(entity_data, models))
 
         return entities
 
@@ -197,21 +199,13 @@ class TinyDBRepository(Repository):
         """
         entities: List[Entity] = []
         models = self._build_models(models)
-        query_parts = [self._build_model_query(models)]
-
-        for key, value in fields.items():
-            if isinstance(value, str):
-                query_parts.append(Query()[key].search(value))
-            else:
-                query_parts.append(Query()[key] == value)
-
-        query = self._build_query(query_parts)
+        query = self._build_search_query(fields, models)
 
         # Build entities
         entities_data = self.db_.search(query)
 
         for entity_data in entities_data:
-            entities.append(self._build_entity(entity_data))
+            entities.append(self._build_entity(entity_data, models))
 
         if len(entities) == 0:
             raise self._model_not_found(
@@ -219,6 +213,53 @@ class TinyDBRepository(Repository):
             )
 
         return entities
+
+    def _build_search_query(
+        self,
+        fields: Dict[str, EntityID],
+        models: Models[Entity],
+    ) -> QueryInstance:
+        """Build the Query parts for a repository search.
+
+        Select only the models that contain the fields. If the field type is a list,
+        change the query accordingly.
+
+        Args:
+            models: Type of entity object to obtain.
+            fields: Dictionary with the {key}:{value} to search.
+
+        Returns:
+            Query based on the type of models and fields.
+        """
+        query_parts = []
+
+        for model in models:
+            schema = model.schema()["properties"]
+            for field, value in fields.items():
+                if field not in schema.keys():
+                    continue
+
+                with suppress(KeyError):
+                    if schema[field]["type"] == "array":
+                        query_parts.append(
+                            (Query().model_type_ == model.__name__.lower())
+                            & (Query()[field].test(_regexp_in_list, value))
+                        )
+                        continue
+
+                if isinstance(value, str):
+                    query_parts.append(
+                        (Query().model_type_ == model.__name__.lower())
+                        & (Query()[field].search(value))
+                    )
+                else:
+                    query_parts.append(Query()[field] == value)
+        if len(query_parts) == 0:
+            raise self._model_not_found(
+                models, f" that match the search filter {fields}"
+            )
+
+        return self._merge_query(query_parts, mode="or")
 
     def _build_model_query(
         self,
@@ -237,13 +278,13 @@ class TinyDBRepository(Repository):
         for model in models:
             query_parts.append(Query().model_type_ == model.__name__.lower())
 
-        return self._build_query(query_parts, mode="or")
+        return self._merge_query(query_parts, mode="or")
 
     @staticmethod
-    def _build_query(
+    def _merge_query(
         query_parts: List[QueryInstance], mode: str = "and"
     ) -> QueryInstance:
-        """Build the query from the query parts.
+        """Join all the query parts into a query.
 
         Args:
             query_parts: List of queries to concatenate.
@@ -301,3 +342,13 @@ class TinyDBRepository(Repository):
 
         # Full repo and staged entities.
         return max([last_index_entity, last_staged_entity])
+
+
+def _regexp_in_list(list_: Iterable[Any], regular_expression: str) -> bool:
+    """Test if regexp matches any element of the list."""
+    regexp = re.compile(regular_expression)
+
+    try:
+        return any(regexp.search(element) for element in list_)
+    except TypeError:
+        return False

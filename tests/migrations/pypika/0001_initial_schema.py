@@ -45,4 +45,20 @@ steps = [
         "PRIMARY KEY (id))",
         "DROP TABLE otherentity",
     ),
+    step(
+        "CREATE TABLE listentity ("
+        "id INT, "
+        "name VARCHAR(20), "
+        "description VARCHAR(255), "
+        "PRIMARY KEY (id))",
+        "DROP TABLE listentity",
+    ),
+    step(
+        "CREATE TABLE listentity_has_elements ("
+        "id INT, "
+        "entity_id INT,"
+        "element VARCHAR(255), "
+        "PRIMARY KEY (id))",
+        "DROP TABLE listentity_has_elements",
+    ),
 ]

@@ -506,7 +506,7 @@
         <span class=n>entities_data</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>db_</span><span class=o>.</span><span class=n>search</span><span class=p>(</span><span class=n>query</span><span class=p>)</span>
 
     <span class=k>for</span> <span class=n>entity_data</span> <span class=ow>in</span> <span class=n>entities_data</span><span class=p>:</span>
-        <span class=n>entities</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_build_entity</span><span class=p>(</span><span class=n>entity_data</span><span class=p>))</span>
+        <span class=n>entities</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_build_entity</span><span class=p>(</span><span class=n>entity_data</span><span class=p>,</span> <span class=n>models</span><span class=p>))</span>
 
     <span class=k>return</span> <span class=n>entities</span>
 </code></pre></div> </details> </div> </div> <div class="doc doc-object doc-method"> <h5 class="doc doc-heading" id=repository_orm.adapters.tinydb.TinyDBRepository.apply_migrations> <code class="highlight language-python"><span class=n>apply_migrations</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>migrations_directory</span><span class=p>)</span></code> <a class=headerlink href=#repository_orm.adapters.tinydb.TinyDBRepository.apply_migrations title="Permanent link">&para;</a></h5> <div class="doc doc-contents "> <p>Run the migrations of the repository schema.</p> <p><strong>Parameters:</strong></p> <table> <thead> <tr> <th>Name</th> <th>Type</th> <th>Description</th> <th>Default</th> </tr> </thead> <tbody> <tr> <td><code>migrations_directory</code></td> <td><code>str</code></td> <td><p>path to the directory containing the migration scripts.</p></td> <td><em>required</em></td> </tr> </tbody> </table> <details class=quote> <summary>Source code in <code>repository_orm/adapters/tinydb.py</code></summary> <div class=highlight><pre><span></span><code><span class=k>def</span> <span class=nf>apply_migrations</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>migrations_directory</span><span class=p>:</span> <span class=nb>str</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=kc>None</span><span class=p>:</span>
@@ -624,21 +624,13 @@
 <span class=sd>    &quot;&quot;&quot;</span>
     <span class=n>entities</span><span class=p>:</span> <span class=n>List</span><span class=p>[</span><span class=n>Entity</span><span class=p>]</span> <span class=o>=</span> <span class=p>[]</span>
     <span class=n>models</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_build_models</span><span class=p>(</span><span class=n>models</span><span class=p>)</span>
-    <span class=n>query_parts</span> <span class=o>=</span> <span class=p>[</span><span class=bp>self</span><span class=o>.</span><span class=n>_build_model_query</span><span class=p>(</span><span class=n>models</span><span class=p>)]</span>
-
-    <span class=k>for</span> <span class=n>key</span><span class=p>,</span> <span class=n>value</span> <span class=ow>in</span> <span class=n>fields</span><span class=o>.</span><span class=n>items</span><span class=p>():</span>
-        <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=n>value</span><span class=p>,</span> <span class=nb>str</span><span class=p>):</span>
-            <span class=n>query_parts</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>Query</span><span class=p>()[</span><span class=n>key</span><span class=p>]</span><span class=o>.</span><span class=n>search</span><span class=p>(</span><span class=n>value</span><span class=p>))</span>
-        <span class=k>else</span><span class=p>:</span>
-            <span class=n>query_parts</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>Query</span><span class=p>()[</span><span class=n>key</span><span class=p>]</span> <span class=o>==</span> <span class=n>value</span><span class=p>)</span>
-
-    <span class=n>query</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_build_query</span><span class=p>(</span><span class=n>query_parts</span><span class=p>)</span>
+    <span class=n>query</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_build_search_query</span><span class=p>(</span><span class=n>fields</span><span class=p>,</span> <span class=n>models</span><span class=p>)</span>
 
     <span class=c1># Build entities</span>
     <span class=n>entities_data</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>db_</span><span class=o>.</span><span class=n>search</span><span class=p>(</span><span class=n>query</span><span class=p>)</span>
 
     <span class=k>for</span> <span class=n>entity_data</span> <span class=ow>in</span> <span class=n>entities_data</span><span class=p>:</span>
-        <span class=n>entities</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_build_entity</span><span class=p>(</span><span class=n>entity_data</span><span class=p>))</span>
+        <span class=n>entities</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_build_entity</span><span class=p>(</span><span class=n>entity_data</span><span class=p>,</span> <span class=n>models</span><span class=p>))</span>
 
     <span class=k>if</span> <span class=nb>len</span><span class=p>(</span><span class=n>entities</span><span class=p>)</span> <span class=o>==</span> <span class=mi>0</span><span class=p>:</span>
         <span class=k>raise</span> <span class=bp>self</span><span class=o>.</span><span class=n>_model_not_found</span><span class=p>(</span>

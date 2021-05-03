@@ -1,7 +1,7 @@
 """Store a default model use case to use in the tests."""
 
 from datetime import datetime
-from typing import Optional
+from typing import List, Optional
 
 from repository_orm import Entity as EntityModel
 
@@ -40,3 +40,9 @@ class OtherEntity(Entity):
     """Entity to model an entity that is not in the repo."""
 
     description: Optional[str] = None
+
+
+class ListEntity(Entity):
+    """Entity to model an entity that has a list of strings attribute."""
+
+    elements: List[str]

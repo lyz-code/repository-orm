@@ -16,6 +16,8 @@ from repository_orm import AutoIncrementError, EntityNotFoundError, Repository
 from repository_orm.exceptions import TooManyEntitiesError
 
 from ..cases import Entity, OtherEntity, RepositoryTester
+from ..cases.entities import ListEntityFactory
+from ..cases.model import ListEntity
 
 
 def test_apply_repository_creates_schema(  # noqa: AAA01
@@ -523,6 +525,26 @@ def test_repository_can_search_by_multiple_properties(
     result = repo.search(search_criteria, type(entity))
 
     assert result == [entity]
+
+
+@pytest.mark.skip(
+    "Supported by Fake and TinyDB, not by Pypika yet. Once mappers are supported "
+    "it should be easy to add this particular case."
+)
+def test_repo_can_search_in_list_of_str_attribute(repo: Repository) -> None:
+    """
+    Given: A repository with an entity that contains an attribute with a list of str
+    When: search is called with a regexp that  matches one of the list elements
+    Then: the entity is returned
+    """
+    expected_entity = ListEntityFactory.create()
+    repo.add(expected_entity)
+    repo.commit()
+    regexp = fr"{expected_entity.elements[0][:-1]}."
+
+    result = repo.search({"elements": regexp}, ListEntity)
+
+    assert result == [expected_entity]
 
 
 @pytest.mark.secondary()

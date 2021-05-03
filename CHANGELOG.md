@@ -1,3 +1,13 @@
+## 0.5.0 (2021-05-03)
+
+### Fix
+
+- don't search on list attributes that are not strings
+
+### Feat
+
+- partially support search in attributes of type List
+
 ## 0.4.0 (2021-05-02)
 
 ### Perf

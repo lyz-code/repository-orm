@@ -3,6 +3,7 @@
 import sqlite3
 from typing import Tuple
 
+import pytest
 from tinydb import TinyDB
 
 from repository_orm import (
@@ -42,8 +43,8 @@ def test_load_repository_loads_pypika_with_sqlite_urls(
 ) -> None:
     """
     Given: Nothing
-    When: load_repository is called without argument
-    Then: a working FakeRepository instance is returned
+    When: load_repository is called with a pypika compatible url
+    Then: a working PypikaRepository instance is returned
     """
     result = load_repository(database_url=db_sqlite[0])
 
@@ -55,12 +56,22 @@ def test_load_repository_loads_tinydb_with_sqlite_urls(
 ) -> None:
     """
     Given: Nothing
-    When: load_repository is called without argument
-    Then: a working FakeRepository instance is returned
+    When: load_repository is called with a tinydb compatible url
+    Then: a working TinyDBRepository instance is returned
     """
     result = load_repository(database_url=db_tinydb[0])
 
     assert isinstance(result, TinyDBRepository)
+
+
+def test_load_repository_returns_error_if_url_not_recognized() -> None:
+    """
+    Given: Nothing
+    When: load_repository is called with an unrecognized url
+    Then: An error is raised
+    """
+    with pytest.raises(ValueError, match="Database URL: .* not recognized."):
+        load_repository(database_url="inexistent://path/to/file.db")
 
 
 def test_load_repository_loads_models() -> None:

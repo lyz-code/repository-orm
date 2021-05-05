@@ -41,7 +41,7 @@ beautifulsoup4==4.9.3
     # via
     #   -r docs/requirements.txt
     #   mkdocs-htmlproofer-plugin
-black==21.4b2
+black==21.5b0
     # via -r requirements-dev.in
 cached-property==1.5.2
     # via
@@ -379,7 +379,7 @@ pytest-pythonpath==0.7.3
     # via -r requirements-dev.in
 pytest-xdist==2.2.1
     # via -r requirements-dev.in
-pytest==6.2.3
+pytest==6.2.4
     # via
     #   -r requirements-dev.in
     #   pytest-cov
@@ -521,7 +521,7 @@ zipp==3.4.1
 # The following packages are considered to be unsafe in a requirements file:
 pip==21.1.1
     # via pip-tools
-setuptools==56.0.0
+setuptools==56.1.0
     # via
     #   flake8-annotations-complexity
     #   flake8-expression-complexity

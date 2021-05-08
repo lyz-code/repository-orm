@@ -22,7 +22,7 @@ astunparse==1.6.3
     # via
     #   -r docs/requirements.txt
     #   pytkdocs
-attrs==21.1.0
+attrs==21.2.0
     # via
     #   flake8-bugbear
     #   flake8-eradicate
@@ -369,7 +369,7 @@ pypika==0.48.1
     # via -r requirements.txt
 pyprojroot==0.2.0
     # via autoimport
-pytest-cases==3.4.6
+pytest-cases==3.5.0
     # via -r requirements-dev.in
 pytest-cov==2.11.1
     # via -r requirements-dev.in

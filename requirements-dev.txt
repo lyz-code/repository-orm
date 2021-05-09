@@ -135,7 +135,7 @@ flake8-use-fstring==1.1
     # via -r requirements-dev.in
 flake8-variables-names==0.0.4
     # via -r requirements-dev.in
-flake8==3.9.1
+flake8==3.9.2
     # via
     #   dlint
     #   flake8-annotations
@@ -356,7 +356,7 @@ pygments==2.9.0
     #   mkdocs-material
 pylint==2.8.2
     # via -r requirements-dev.in
-pymdown-extensions==8.1.1
+pymdown-extensions==8.2
     # via
     #   -r docs/requirements.txt
     #   mkdocs-material

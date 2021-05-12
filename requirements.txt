@@ -8,11 +8,11 @@ deepdiff==5.5.0
     # via repository-orm (setup.py)
 ordered-set==4.0.2
     # via deepdiff
-pydantic==1.8.1
+pydantic==1.8.2
     # via repository-orm (setup.py)
 pymysql==1.0.2
     # via repository-orm (setup.py)
-pypika==0.48.1
+pypika==0.48.2
     # via repository-orm (setup.py)
 sqlparse==0.4.1
     # via yoyo-migrations

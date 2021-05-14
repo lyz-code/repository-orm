@@ -24,7 +24,7 @@ future==0.18.2
     # via lunr
 gitdb==4.0.7
     # via gitpython
-gitpython==3.1.16
+gitpython==3.1.17
     # via mkdocs-git-revision-date-localized-plugin
 htmlmin==0.1.12
     # via mkdocs-minify-plugin

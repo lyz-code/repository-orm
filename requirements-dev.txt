@@ -198,7 +198,7 @@ isort==5.8.0
     # via
     #   -r requirements-dev.in
     #   pylint
-jinja2==2.11.3
+jinja2==3.0.0
     # via
     #   -r docs/requirements.txt
     #   mkdocs
@@ -238,7 +238,7 @@ markdown==3.3.4
     #   mkdocs-material
     #   mkdocstrings
     #   pymdown-extensions
-markupsafe==1.1.1
+markupsafe==2.0.0
     # via
     #   -r docs/requirements.txt
     #   jinja2
@@ -251,7 +251,7 @@ mkdocs-autolinks-plugin==0.4.0
     # via
     #   -r docs/requirements.in
     #   -r docs/requirements.txt
-mkdocs-autorefs==0.1.1
+mkdocs-autorefs==0.2.1
     # via
     #   -r docs/requirements.txt
     #   mkdocstrings
@@ -292,7 +292,7 @@ mkdocs==1.1.2
     #   mkdocs-minify-plugin
     #   mkdocs-section-index
     #   mkdocstrings
-mkdocstrings==0.15.0
+mkdocstrings==0.15.1
     # via
     #   -r docs/requirements.in
     #   -r docs/requirements.txt

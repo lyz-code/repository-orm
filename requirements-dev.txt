@@ -57,7 +57,7 @@ chardet==4.0.0
     # via
     #   -r docs/requirements.txt
     #   requests
-click==8.0.0
+click==8.0.1
     # via
     #   -r docs/requirements.txt
     #   autoimport
@@ -91,7 +91,7 @@ execnet==1.8.0
     # via pytest-xdist
 factory-boy==3.2.0
     # via -r requirements-dev.in
-faker==8.2.0
+faker==8.2.1
     # via factory-boy
 filelock==3.0.12
     # via virtualenv
@@ -172,7 +172,7 @@ htmlmin==0.1.12
     # via
     #   -r docs/requirements.txt
     #   mkdocs-minify-plugin
-identify==2.2.4
+identify==2.2.5
     # via pre-commit
 idna==2.10
     # via
@@ -181,6 +181,7 @@ idna==2.10
 importlib-metadata==4.0.1
     # via
     #   -r docs/requirements.txt
+    #   click
     #   flake8
     #   flake8-comprehensions
     #   flake8-simplify
@@ -267,7 +268,7 @@ mkdocs-material-extensions==1.0.1
     # via
     #   -r docs/requirements.txt
     #   mkdocs-material
-mkdocs-material==7.1.4
+mkdocs-material==7.1.5
     # via
     #   -r docs/requirements.in
     #   -r docs/requirements.txt
@@ -331,7 +332,7 @@ pip-tools==6.1.0
     # via -r requirements-dev.in
 pluggy==0.13.1
     # via pytest
-pre-commit==2.12.1
+pre-commit==2.13.0
     # via -r requirements-dev.in
 py==1.10.0
     # via
@@ -369,7 +370,7 @@ pypika==0.48.2
     # via -r requirements.txt
 pyprojroot==0.2.0
     # via autoimport
-pytest-cases==3.5.1
+pytest-cases==3.5.2
     # via -r requirements-dev.in
 pytest-cov==2.12.0
     # via -r requirements-dev.in

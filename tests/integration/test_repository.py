@@ -11,8 +11,14 @@ from typing import Any, List, Type
 import pytest
 from _pytest.logging import LogCaptureFixture
 from py._path.local import LocalPath
+from pydantic import ValidationError
 
-from repository_orm import AutoIncrementError, EntityNotFoundError, Repository
+from repository_orm import (
+    AutoIncrementError,
+    EntityNotFoundError,
+    Repository,
+    TinyDBRepository,
+)
 from repository_orm.exceptions import TooManyEntitiesError
 
 from ..cases import Entity, OtherEntity, RepositoryTester
@@ -92,12 +98,13 @@ def test_repository_can_save_an_entity_without_id_in_empty_repo(
     Then: the id 0 is set
     """
     entity = int_entity.__class__(name="Entity without id")
-    repo.add(entity)
+    added_entity = repo.add(entity)
 
     repo.commit()  # act
 
     entities = repo.all(type(entity))
     assert len(entities) == 1
+    assert added_entity.id_ == 0
     assert entities[0].id_ == 0
 
 
@@ -715,3 +722,30 @@ def test_repository_next_id_raise_error_if_entity_has_str_id(
         match="Auto increment is not yet supported for Entities with string id_s",
     ):
         repo._next_id(inserted_str_entity)
+
+
+def test_tinydb_raises_error_if_wrong_model_data(
+    repo_tinydb: TinyDBRepository, caplog: LogCaptureFixture
+) -> None:
+    """
+    Given: A tinydb repository with data than doesn't match the model.
+    When: Get is called
+    Then: The id_ of the model and it's data is shown before the error.
+
+    This doesn't apply to the fake repository due to how it handles the entities, and
+    in Pypika it would mean a database schema change without change on the model, which
+    is much more difficult than in the case of TinyDB, so I'm not going to test it
+    in the first approach.
+    """
+    # The name is required
+    entity_data = {"id_": 1, "model_type_": "entity"}
+    repo_tinydb.db_.insert(entity_data)
+
+    with pytest.raises(ValidationError, match="name"):
+        repo_tinydb.get(1, [Entity])
+
+    assert (
+        "repository_orm.adapters.tinydb",
+        logging.ERROR,
+        "Error loading the model Entity for the register {'id_': 1}",
+    ) in caplog.record_tuples

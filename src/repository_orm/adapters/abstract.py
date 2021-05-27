@@ -38,11 +38,16 @@ class Repository(abc.ABC):
         self.models = models
 
     @abc.abstractmethod
-    def add(self, entity: Entity) -> None:
+    def add(self, entity: Entity) -> Entity:
         """Append an entity to the repository.
+
+        If the id is not set, autoincrement the last.
 
         Args:
             entity: Entity to add to the repository.
+
+        Returns:
+            entity
         """
         # no cover: it's tested by it's subclasses
         if isinstance(entity.id_, int) and entity.id_ < 0:  # pragma: no cover

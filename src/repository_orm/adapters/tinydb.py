@@ -1,10 +1,12 @@
 """Define the TinyDB Repository."""
 
+import logging
 import os
 import re
 from contextlib import suppress
 from typing import Any, Dict, Iterable, List
 
+from pydantic import ValidationError
 from tinydb import Query, TinyDB
 from tinydb.queries import QueryInstance
 from tinydb.storages import JSONStorage
@@ -16,6 +18,8 @@ from repository_orm.exceptions import TooManyEntitiesError
 from ..exceptions import EntityNotFoundError
 from ..model import EntityID
 from .abstract import Entity, Models, OptionalModelOrModels, OptionalModels, Repository
+
+log = logging.getLogger(__name__)
 
 
 class TinyDBRepository(Repository):
@@ -49,15 +53,22 @@ class TinyDBRepository(Repository):
         )
         self.staged: Dict[str, List[Any]] = {"add": [], "remove": []}
 
-    def add(self, entity: Entity) -> None:
+    def add(self, entity: Entity) -> Entity:
         """Append an entity to the repository.
+
+        If the id is not set, autoincrement the last.
 
         Args:
             entity: Entity to add to the repository.
+
+        Returns:
+            entity
         """
         if isinstance(entity.id_, int) and entity.id_ < 0:
             entity.id_ = self._next_id(entity)
         self.staged["add"].append(entity)
+
+        return entity
 
     def delete(self, entity: Entity) -> None:
         """Delete an entity from the repository.
@@ -117,7 +128,7 @@ class TinyDBRepository(Repository):
         Returns:
             entity: Built Entity.
         """
-        # If we don't copy the data, the all method stops being idempotent.
+        # If we don't copy the data, the all method stop being idempotent.
         entity_data = entity_data.copy()
         model_name = entity_data.pop("model_type_")
         models = self._build_models(models)
@@ -126,7 +137,14 @@ class TinyDBRepository(Repository):
             if model.schema()["title"].lower() == model_name:
                 model = model
                 break
-        return model.parse_obj(entity_data)
+        try:
+            return model.parse_obj(entity_data)
+        except ValidationError as error:
+            log.error(
+                f"Error loading the model {model_name.capitalize()} "
+                f"for the register {str(entity_data)}"
+            )
+            raise error
 
     def all(self, models: OptionalModelOrModels[Entity] = None) -> List[Entity]:
         """Get all the entities from the repository whose class is included in models.

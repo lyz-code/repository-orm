@@ -30,7 +30,7 @@ htmlmin==0.1.12
     # via mkdocs-minify-plugin
 idna==2.10
     # via requests
-importlib-metadata==4.0.1
+importlib-metadata==4.2.0
     # via
     #   click
     #   markdown
@@ -129,7 +129,7 @@ typing-extensions==3.10.0.0
     #   gitpython
     #   importlib-metadata
     #   pytkdocs
-urllib3==1.26.4
+urllib3==1.26.5
     # via requests
 wheel==0.36.2
     # via astunparse

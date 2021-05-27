@@ -26,10 +26,10 @@ def load_repository(
         Repository that understands the url protocol.
     """
     if database_url is None or "fake://" in database_url:
-        repo: Repository = FakeRepository(models, "")
-    elif "sqlite://" in database_url:
-        repo = PypikaRepository(models, database_url)
-    elif "tinydb://" in database_url:
-        repo = TinyDBRepository(models, database_url)
+        return FakeRepository(models, "")
+    if "sqlite://" in database_url:
+        return PypikaRepository(models, database_url)
+    if "tinydb://" in database_url:
+        return TinyDBRepository(models, database_url)
 
-    return repo
+    raise ValueError(f"Database URL: {database_url} not recognized.")

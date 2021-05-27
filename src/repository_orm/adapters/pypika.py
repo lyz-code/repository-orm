@@ -76,11 +76,16 @@ class PypikaRepository(Repository):
         """Return the table of the selected entity class."""
         return Table(model.__name__.lower())
 
-    def add(self, entity: Entity) -> None:
+    def add(self, entity: Entity) -> Entity:
         """Append an entity to the repository.
+
+        If the id is not set, autoincrement the last.
 
         Args:
             entity: Entity to add to the repository.
+
+        Returns:
+            entity
         """
         if isinstance(entity.id_, int) and entity.id_ < 0:
             entity.id_ = self._next_id(entity)
@@ -103,6 +108,8 @@ class PypikaRepository(Repository):
             + ", ".join([f"{key}=excluded.{key}" for key in columns])
         )
         self._execute(upsert_query)
+
+        return entity
 
     def delete(self, entity: Entity) -> None:
         """Delete an entity from the repository.

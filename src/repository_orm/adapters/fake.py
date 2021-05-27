@@ -27,11 +27,16 @@ class FakeRepository(Repository):
         self.entities: FakeRepositoryDB[Entity] = {}
         self.new_entities: FakeRepositoryDB[Entity] = {}
 
-    def add(self, entity: Entity) -> None:
+    def add(self, entity: Entity) -> Entity:
         """Append an entity to the repository.
+
+        If the id is not set, autoincrement the last.
 
         Args:
             entity: Entity to add to the repository.
+
+        Returns:
+            entity
         """
         if isinstance(entity.id_, int) and entity.id_ < 0:
             entity.id_ = self._next_id(entity)
@@ -43,6 +48,8 @@ class FakeRepository(Repository):
             self.new_entities[type(entity)] = {}
 
         self.new_entities[type(entity)][entity.id_] = entity
+
+        return entity
 
     def delete(self, entity: Entity) -> None:
         """Delete an entity from the repository.

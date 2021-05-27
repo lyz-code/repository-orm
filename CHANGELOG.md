@@ -1,3 +1,13 @@
+## 0.5.1 (2021-05-27)
+
+### Perf
+
+- add method return the entity with the autoincremented id
+
+### Fix
+
+- add a warning if load_repository is called with wrong database_url
+
 ## 0.5.0 (2021-05-03)
 
 ### Fix

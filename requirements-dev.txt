@@ -91,7 +91,7 @@ execnet==1.8.0
     # via pytest-xdist
 factory-boy==3.2.0
     # via -r requirements-dev.in
-faker==8.3.0
+faker==8.4.0
     # via factory-boy
 filelock==3.0.12
     # via virtualenv
@@ -178,7 +178,7 @@ idna==2.10
     # via
     #   -r docs/requirements.txt
     #   requests
-importlib-metadata==4.2.0
+importlib-metadata==4.3.0
     # via
     #   -r docs/requirements.txt
     #   click

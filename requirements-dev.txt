@@ -87,7 +87,7 @@ entrypoints==0.3
     # via flakehell
 eradicate==2.0.0
     # via flake8-eradicate
-execnet==1.8.0
+execnet==1.8.1
     # via pytest-xdist
 factory-boy==3.2.0
     # via -r requirements-dev.in
@@ -178,7 +178,7 @@ idna==2.10
     # via
     #   -r docs/requirements.txt
     #   requests
-importlib-metadata==4.3.0
+importlib-metadata==4.3.1
     # via
     #   -r docs/requirements.txt
     #   click

@@ -47,7 +47,7 @@ cached-property==1.5.2
     # via
     #   -r docs/requirements.txt
     #   pytkdocs
-certifi==2020.12.5
+certifi==2021.5.30
     # via
     #   -r docs/requirements.txt
     #   requests
@@ -172,7 +172,7 @@ htmlmin==0.1.12
     # via
     #   -r docs/requirements.txt
     #   mkdocs-minify-plugin
-identify==2.2.6
+identify==2.2.7
     # via pre-commit
 idna==2.10
     # via
@@ -268,7 +268,7 @@ mkdocs-material-extensions==1.0.1
     # via
     #   -r docs/requirements.txt
     #   mkdocs-material
-mkdocs-material==7.1.5
+mkdocs-material==7.1.6
     # via
     #   -r docs/requirements.in
     #   -r docs/requirements.txt

@@ -91,7 +91,7 @@ execnet==1.8.1
     # via pytest-xdist
 factory-boy==3.2.0
     # via -r requirements-dev.in
-faker==8.4.0
+faker==8.5.1
     # via factory-boy
 filelock==3.0.12
     # via virtualenv
@@ -172,13 +172,13 @@ htmlmin==0.1.12
     # via
     #   -r docs/requirements.txt
     #   mkdocs-minify-plugin
-identify==2.2.7
+identify==2.2.8
     # via pre-commit
 idna==2.10
     # via
     #   -r docs/requirements.txt
     #   requests
-importlib-metadata==4.4.0
+importlib-metadata==4.5.0
     # via
     #   -r docs/requirements.txt
     #   click
@@ -370,7 +370,7 @@ pypika==0.48.2
     # via -r requirements.txt
 pyprojroot==0.2.0
     # via autoimport
-pytest-cases==3.6.0
+pytest-cases==3.6.1
     # via -r requirements-dev.in
 pytest-cov==2.12.1
     # via -r requirements-dev.in

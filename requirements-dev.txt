@@ -41,7 +41,7 @@ beautifulsoup4==4.9.3
     # via
     #   -r docs/requirements.txt
     #   mkdocs-htmlproofer-plugin
-black==21.5b2
+black==21.6b0
     # via -r requirements-dev.in
 cached-property==1.5.2
     # via
@@ -90,7 +90,7 @@ execnet==1.8.1
     # via pytest-xdist
 factory-boy==3.2.0
     # via -r requirements-dev.in
-faker==8.6.0
+faker==8.7.0
     # via factory-boy
 filelock==3.0.12
     # via virtualenv
@@ -260,7 +260,7 @@ mkdocs-material-extensions==1.0.1
     # via
     #   -r docs/requirements.txt
     #   mkdocs-material
-mkdocs-material==7.1.7
+mkdocs-material==7.1.8
     # via
     #   -r docs/requirements.in
     #   -r docs/requirements.txt
@@ -293,7 +293,7 @@ mypy-extensions==0.4.3
     # via
     #   black
     #   mypy
-mypy==0.901
+mypy==0.902
     # via -r requirements-dev.in
 nodeenv==1.6.0
     # via pre-commit

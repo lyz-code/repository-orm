@@ -12,7 +12,7 @@ pydantic==1.8.2
     # via repository-orm (setup.py)
 pymysql==1.0.2
     # via repository-orm (setup.py)
-pypika==0.48.3
+pypika==0.48.4
     # via repository-orm (setup.py)
 sqlparse==0.4.1
     # via yoyo-migrations

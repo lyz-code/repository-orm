@@ -356,7 +356,7 @@ pyparsing==2.4.7
     # via
     #   -r docs/requirements.txt
     #   packaging
-pypika==0.48.4
+pypika==0.48.5
     # via -r requirements.txt
 pyprojroot==0.2.0
     # via autoimport

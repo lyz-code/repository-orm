@@ -18,7 +18,7 @@ sqlparse==0.4.1
     # via yoyo-migrations
 tabulate==0.8.9
     # via yoyo-migrations
-tinydb==4.4.0
+tinydb==4.5.0
     # via
     #   repository-orm (setup.py)
     #   tinydb-serialization

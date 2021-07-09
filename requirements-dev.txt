@@ -88,7 +88,7 @@ execnet==1.9.0
     # via pytest-xdist
 factory-boy==3.2.0
     # via -r requirements-dev.in
-faker==8.9.1
+faker==8.10.0
     # via factory-boy
 filelock==3.0.12
     # via virtualenv
@@ -110,6 +110,7 @@ flake8==3.9.2
     #   flake8-typing-imports
     #   flake8-use-fstring
     #   flakehell
+    #   pep8-naming
 flake8-aaa==0.12.0
     # via -r requirements-dev.in
 flake8-annotations==2.6.2
@@ -193,7 +194,7 @@ importlib-metadata==4.6.1
     #   virtualenv
 iniconfig==1.1.1
     # via pytest
-isort==5.9.1
+isort==5.9.2
     # via
     #   -r requirements-dev.in
     #   pylint
@@ -262,7 +263,7 @@ mkdocs-git-revision-date-localized-plugin==0.9.2
     # via
     #   -r docs/requirements.in
     #   -r docs/requirements.txt
-mkdocs-htmlproofer-plugin==0.3.0
+mkdocs-htmlproofer-plugin==0.4.0
     # via
     #   -r docs/requirements.in
     #   -r docs/requirements.txt
@@ -314,7 +315,7 @@ pbr==5.6.0
     # via stevedore
 pep517==0.10.0
     # via pip-tools
-pep8-naming==0.11.1
+pep8-naming==0.12.0
     # via -r requirements-dev.in
 pip-tools==6.2.0
     # via -r requirements-dev.in
@@ -356,7 +357,7 @@ pyparsing==2.4.7
     # via
     #   -r docs/requirements.txt
     #   packaging
-pypika==0.48.5
+pypika==0.48.6
     # via -r requirements.txt
 pyprojroot==0.2.0
     # via autoimport
@@ -367,7 +368,7 @@ pytest==6.2.4
     #   pytest-forked
     #   pytest-pythonpath
     #   pytest-xdist
-pytest-cases==3.6.2
+pytest-cases==3.6.3
     # via -r requirements-dev.in
 pytest-cov==2.12.1
     # via -r requirements-dev.in

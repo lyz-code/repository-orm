@@ -170,7 +170,7 @@ htmlmin==0.1.12
     # via
     #   -r docs/requirements.txt
     #   mkdocs-minify-plugin
-identify==2.2.10
+identify==2.2.11
     # via pre-commit
 idna==2.10
     # via
@@ -357,7 +357,7 @@ pyparsing==2.4.7
     # via
     #   -r docs/requirements.txt
     #   packaging
-pypika==0.48.6
+pypika==0.48.7
     # via -r requirements.txt
 pyprojroot==0.2.0
     # via autoimport

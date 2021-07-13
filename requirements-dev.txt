@@ -88,7 +88,7 @@ execnet==1.9.0
     # via pytest-xdist
 factory-boy==3.2.0
     # via -r requirements-dev.in
-faker==8.10.0
+faker==8.10.1
     # via factory-boy
 filelock==3.0.12
     # via virtualenv
@@ -267,7 +267,7 @@ mkdocs-htmlproofer-plugin==0.4.0
     # via
     #   -r docs/requirements.in
     #   -r docs/requirements.txt
-mkdocs-material==7.1.9
+mkdocs-material==7.1.10
     # via
     #   -r docs/requirements.in
     #   -r docs/requirements.txt

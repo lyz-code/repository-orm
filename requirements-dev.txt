@@ -51,7 +51,7 @@ certifi==2021.5.30
     #   requests
 cfgv==3.3.0
     # via pre-commit
-charset-normalizer==2.0.3
+charset-normalizer==2.0.4
     # via
     #   -r docs/requirements.txt
     #   requests
@@ -74,7 +74,7 @@ deepdiff==5.5.0
     # via -r requirements.txt
 distlib==0.3.2
     # via virtualenv
-distro==1.5.0
+distro==1.6.0
     # via ruyaml
 dlint==0.11.0
     # via -r requirements-dev.in
@@ -176,7 +176,7 @@ idna==3.2
     # via
     #   -r docs/requirements.txt
     #   requests
-importlib-metadata==4.6.1
+importlib-metadata==4.6.2
     # via
     #   -r docs/requirements.txt
     #   click
@@ -519,7 +519,7 @@ zipp==3.5.0
     #   pep517
 
 # The following packages are considered to be unsafe in a requirements file:
-pip==21.2.1
+pip==21.2.2
     # via pip-tools
 setuptools==57.4.0
     # via

@@ -252,6 +252,7 @@ class TinyDBRepository(Repository):
         query_parts = []
 
         for model in models:
+            model_query_parts = []
             schema = model.schema()["properties"]
             for field, value in fields.items():
                 if field not in schema.keys():
@@ -259,19 +260,20 @@ class TinyDBRepository(Repository):
 
                 with suppress(KeyError):
                     if schema[field]["type"] == "array":
-                        query_parts.append(
+                        model_query_parts.append(
                             (Query().model_type_ == model.__name__.lower())
                             & (Query()[field].test(_regexp_in_list, value))
                         )
                         continue
 
                 if isinstance(value, str):
-                    query_parts.append(
+                    model_query_parts.append(
                         (Query().model_type_ == model.__name__.lower())
                         & (Query()[field].search(value))
                     )
                 else:
-                    query_parts.append(Query()[field] == value)
+                    model_query_parts.append(Query()[field] == value)
+                query_parts.append(self._merge_query(model_query_parts, mode="and"))
         if len(query_parts) == 0:
             raise self._model_not_found(
                 models, f" that match the search filter {fields}"

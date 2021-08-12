@@ -43,6 +43,7 @@ steps = [
         "CREATE TABLE otherentity ("
         "id INT, "
         "name VARCHAR(20), "
+        "state VARCHAR(20), "
         "description VARCHAR(255), "
         "rating INT, "
         "PRIMARY KEY (id))",
@@ -52,6 +53,7 @@ steps = [
         "CREATE TABLE listentity ("
         "id INT, "
         "name VARCHAR(20), "
+        "state VARCHAR(20), "
         "description VARCHAR(255), "
         "PRIMARY KEY (id))",
         "DROP TABLE listentity",

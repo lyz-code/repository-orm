@@ -273,6 +273,7 @@ class TinyDBRepository(Repository):
                     )
                 else:
                     model_query_parts.append(Query()[field] == value)
+            if len(model_query_parts) != 0:
                 query_parts.append(self._merge_query(model_query_parts, mode="and"))
         if len(query_parts) == 0:
             raise self._model_not_found(

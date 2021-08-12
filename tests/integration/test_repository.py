@@ -532,9 +532,8 @@ def test_repository_can_search_by_multiple_properties(
     Then: the matching objects are returned.
     """
     entity = inserted_entities[1]
-    search_criteria = entity.dict()
 
-    result = repo.search(search_criteria, type(entity))
+    result = repo.search({"state": entity.state, "name": entity.name}, type(entity))
 
     assert result == [entity]
 

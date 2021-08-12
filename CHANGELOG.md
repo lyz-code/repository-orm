@@ -1,3 +1,9 @@
+## 0.5.2 (2021-08-12)
+
+### Fix
+
+- correct tinydb search by many fields
+
 ## 0.5.1 (2021-05-27)
 
 ### Perf

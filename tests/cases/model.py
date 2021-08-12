@@ -19,6 +19,7 @@ class Author(Entity):
     last_name: Optional[str] = None
     country: Optional[str] = None
     rating: Optional[int] = None
+    state: str = "open"
 
 
 class Book(Entity):
@@ -27,6 +28,7 @@ class Book(Entity):
     summary: Optional[str] = None
     released: Optional[datetime] = None
     rating: Optional[int] = None
+    state: str = "open"
 
 
 class Genre(Entity):
@@ -34,6 +36,7 @@ class Genre(Entity):
 
     description: Optional[str] = None
     rating: Optional[int] = None
+    state: str = "open"
 
 
 class OtherEntity(Entity):

@@ -473,12 +473,17 @@ def test_repository_can_search_regular_expression(
     When: We search using a regular expression
     Then: The matching entity is found
     """
-    expected_entity = inserted_entities[1]
-    regular_expression = fr"^{expected_entity.name}.*"
+    # ignore: we know that all the entities we test have the name property
+    expected_entities = [
+        entity_
+        for entity_ in inserted_entities
+        if entity_.name == inserted_entities[0].name
+    ]
+    regular_expression = fr"^{expected_entities[0].name}.*"
 
-    result = repo.search({"name": regular_expression}, type(expected_entity))
+    result = repo.search({"name": regular_expression}, type(expected_entities[0]))
 
-    assert result == [expected_entity]
+    assert result == expected_entities
 
 
 def test_repository_search_raises_error_if_searching_by_inexistent_field(

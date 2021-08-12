@@ -13,6 +13,7 @@ steps = [
         "name VARCHAR(20), "
         "last_name VARCHAR(20), "
         "country VARCHAR(20), "
+        "state VARCHAR(20), "
         "rating INT, "
         "PRIMARY KEY (id))",
         "DROP TABLE author",
@@ -22,6 +23,7 @@ steps = [
         "id INT, "
         "name VARCHAR(20), "
         "summary VARCHAR(255), "
+        "state VARCHAR(20), "
         "released DATETIME, "
         "rating INT, "
         "PRIMARY KEY (id))",
@@ -32,6 +34,7 @@ steps = [
         "id INT, "
         "name VARCHAR(20), "
         "description VARCHAR(255), "
+        "state VARCHAR(20), "
         "rating INT, "
         "PRIMARY KEY (id))",
         "DROP TABLE genre",

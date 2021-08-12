@@ -1,3 +1,9 @@
+## 0.5.3 (2021-08-12)
+
+### Fix
+
+- make tinydb search process a dictionary with many fields well
+
 ## 0.5.2 (2021-08-12)
 
 ### Fix

@@ -39,6 +39,7 @@ beautifulsoup4==4.9.3
     # via
     #   -r docs/requirements.txt
     #   mkdocs-htmlproofer-plugin
+    #   mkdocs-mermaid2-plugin
 black==21.7b0
     # via -r requirements-dev.in
 cached-property==1.5.2
@@ -49,7 +50,7 @@ certifi==2021.5.30
     # via
     #   -r docs/requirements.txt
     #   requests
-cfgv==3.3.0
+cfgv==3.3.1
     # via pre-commit
 charset-normalizer==2.0.4
     # via
@@ -80,6 +81,10 @@ dlint==0.11.0
     # via -r requirements-dev.in
 dparse==0.5.1
     # via safety
+editorconfig==0.12.3
+    # via
+    #   -r docs/requirements.txt
+    #   jsbeautifier
 entrypoints==0.3
     # via flakehell
 eradicate==2.0.0
@@ -166,17 +171,13 @@ gitpython==3.1.18
     #   -r docs/requirements.txt
     #   bandit
     #   mkdocs-git-revision-date-localized-plugin
-htmlmin==0.1.12
-    # via
-    #   -r docs/requirements.txt
-    #   mkdocs-minify-plugin
 identify==2.2.13
     # via pre-commit
 idna==3.2
     # via
     #   -r docs/requirements.txt
     #   requests
-importlib-metadata==4.6.4
+importlib-metadata==4.7.0
     # via
     #   -r docs/requirements.txt
     #   click
@@ -203,10 +204,10 @@ jinja2==3.0.1
     #   -r docs/requirements.txt
     #   mkdocs
     #   mkdocstrings
-jsmin==2.2.2
+jsbeautifier==1.14.0
     # via
     #   -r docs/requirements.txt
-    #   mkdocs-minify-plugin
+    #   mkdocs-mermaid2-plugin
 lazy-object-proxy==1.6.0
     # via astroid
 makefun==1.11.3
@@ -249,7 +250,7 @@ mkdocs==1.2.2
     #   mkdocs-git-revision-date-localized-plugin
     #   mkdocs-htmlproofer-plugin
     #   mkdocs-material
-    #   mkdocs-minify-plugin
+    #   mkdocs-mermaid2-plugin
     #   mkdocs-section-index
     #   mkdocstrings
 mkdocs-autolinks-plugin==0.4.0
@@ -273,11 +274,12 @@ mkdocs-material==7.2.5
     #   -r docs/requirements.in
     #   -r docs/requirements.txt
     #   mkdocs-material-extensions
+    #   mkdocs-mermaid2-plugin
 mkdocs-material-extensions==1.0.1
     # via
     #   -r docs/requirements.txt
     #   mkdocs-material
-mkdocs-minify-plugin==0.4.0
+mkdocs-mermaid2-plugin==0.5.2
     # via
     #   -r docs/requirements.in
     #   -r docs/requirements.txt
@@ -355,6 +357,7 @@ pymdown-extensions==8.2
     # via
     #   -r docs/requirements.txt
     #   mkdocs-material
+    #   mkdocs-mermaid2-plugin
     #   mkdocstrings
 pymysql==1.0.2
     # via -r requirements.txt
@@ -402,6 +405,7 @@ pyyaml==5.4.1
     #   bandit
     #   dparse
     #   mkdocs
+    #   mkdocs-mermaid2-plugin
     #   pre-commit
     #   pyyaml-env-tag
     #   yamllint
@@ -415,6 +419,7 @@ requests==2.26.0
     # via
     #   -r docs/requirements.txt
     #   mkdocs-htmlproofer-plugin
+    #   mkdocs-mermaid2-plugin
     #   safety
 ruyaml==0.20.0
     # via yamlfix
@@ -429,6 +434,7 @@ six==1.16.0
     #   astunparse
     #   bandit
     #   flake8-debugger
+    #   jsbeautifier
     #   python-dateutil
     #   virtualenv
 smmap==4.0.0
@@ -526,10 +532,12 @@ pip==21.2.4
     # via pip-tools
 setuptools==57.4.0
     # via
+    #   -r docs/requirements.txt
     #   astroid
     #   flake8-annotations-complexity
     #   flake8-expression-complexity
     #   flake8-variables-names
+    #   mkdocs-mermaid2-plugin
     #   pip-tools
     #   ruyaml
     #   safety

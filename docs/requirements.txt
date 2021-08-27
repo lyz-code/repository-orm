@@ -30,7 +30,7 @@ gitpython==3.1.18
     # via mkdocs-git-revision-date-localized-plugin
 idna==3.2
     # via requests
-importlib-metadata==4.7.0
+importlib-metadata==4.7.1
     # via
     #   click
     #   markdown

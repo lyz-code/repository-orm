@@ -14,7 +14,7 @@ pymysql==1.0.2
     # via repository-orm (setup.py)
 pypika==0.48.8
     # via repository-orm (setup.py)
-sqlparse==0.4.1
+sqlparse==0.4.2
     # via yoyo-migrations
 tabulate==0.8.9
     # via yoyo-migrations

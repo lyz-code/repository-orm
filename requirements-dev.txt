@@ -8,7 +8,7 @@ astor==0.8.1
     # via flake8-simplify
 astpretty==2.1.0
     # via flake8-expression-complexity
-astroid==2.7.3
+astroid==2.8.0
     # via pylint
 asttokens==2.0.5
     # via flake8-aaa
@@ -50,7 +50,7 @@ certifi==2021.5.30
     #   requests
 cfgv==3.3.1
     # via pre-commit
-charset-normalizer==2.0.4
+charset-normalizer==2.0.5
     # via
     #   -r docs/requirements.txt
     #   requests
@@ -91,7 +91,7 @@ execnet==1.9.0
     # via pytest-xdist
 factory-boy==3.2.0
     # via -r requirements-dev.in
-faker==8.12.1
+faker==8.13.2
     # via factory-boy
 filelock==3.0.12
     # via virtualenv
@@ -349,7 +349,7 @@ pygments==2.10.0
     #   -r docs/requirements.txt
     #   flakehell
     #   mkdocs-material
-pylint==2.10.2
+pylint==2.11.1
     # via -r requirements-dev.in
 pymdown-extensions==8.2
     # via
@@ -492,6 +492,7 @@ typing-extensions==3.10.0.2
     #   importlib-metadata
     #   mypy
     #   pydantic
+    #   pylint
     #   pytkdocs
     #   tinydb
 urllib3==1.26.6
@@ -499,7 +500,7 @@ urllib3==1.26.6
     #   -r docs/requirements.txt
     #   flakehell
     #   requests
-virtualenv==20.7.2
+virtualenv==20.8.0
     # via pre-commit
 watchdog==2.1.5
     # via

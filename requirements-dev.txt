@@ -50,7 +50,7 @@ certifi==2021.5.30
     #   requests
 cfgv==3.3.1
     # via pre-commit
-charset-normalizer==2.0.5
+charset-normalizer==2.0.6
     # via
     #   -r docs/requirements.txt
     #   requests
@@ -164,7 +164,7 @@ gitdb==4.0.7
     # via
     #   -r docs/requirements.txt
     #   gitpython
-gitpython==3.1.18
+gitpython==3.1.24
     # via
     #   -r docs/requirements.txt
     #   bandit
@@ -208,6 +208,10 @@ jsbeautifier==1.14.0
     #   mkdocs-mermaid2-plugin
 lazy-object-proxy==1.6.0
     # via astroid
+lxml==4.6.3
+    # via
+    #   -r docs/requirements.txt
+    #   mkdocs-htmlproofer-plugin
 makefun==1.11.3
     # via
     #   decopatch
@@ -263,7 +267,7 @@ mkdocs-git-revision-date-localized-plugin==0.10.0
     # via
     #   -r docs/requirements.in
     #   -r docs/requirements.txt
-mkdocs-htmlproofer-plugin==0.6.0
+mkdocs-htmlproofer-plugin==0.7.0
     # via
     #   -r docs/requirements.in
     #   -r docs/requirements.txt
@@ -374,7 +378,7 @@ pytest==6.2.5
     #   pytest-forked
     #   pytest-pythonpath
     #   pytest-xdist
-pytest-cases==3.6.3
+pytest-cases==3.6.4
     # via -r requirements-dev.in
 pytest-cov==2.12.1
     # via -r requirements-dev.in

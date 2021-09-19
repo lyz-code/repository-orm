@@ -16,7 +16,7 @@ cached-property==1.5.2
     # via pytkdocs
 certifi==2021.5.30
     # via requests
-charset-normalizer==2.0.5
+charset-normalizer==2.0.6
     # via requests
 click==8.0.1
     # via mkdocs
@@ -26,7 +26,7 @@ ghp-import==2.0.1
     # via mkdocs
 gitdb==4.0.7
     # via gitpython
-gitpython==3.1.18
+gitpython==3.1.24
     # via mkdocs-git-revision-date-localized-plugin
 idna==3.2
     # via requests
@@ -41,6 +41,8 @@ jinja2==3.0.1
     #   mkdocstrings
 jsbeautifier==1.14.0
     # via mkdocs-mermaid2-plugin
+lxml==4.6.3
+    # via mkdocs-htmlproofer-plugin
 markdown==3.3.4
     # via
     #   markdown-include
@@ -75,7 +77,7 @@ mkdocs-autorefs==0.2.1
     # via mkdocstrings
 mkdocs-git-revision-date-localized-plugin==0.10.0
     # via -r docs/requirements.in
-mkdocs-htmlproofer-plugin==0.6.0
+mkdocs-htmlproofer-plugin==0.7.0
     # via -r docs/requirements.in
 mkdocs-material==7.2.6
     # via

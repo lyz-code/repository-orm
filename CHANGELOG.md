@@ -1,3 +1,9 @@
+## 0.5.4 (2021-09-22)
+
+### Fix
+
+- allow faker repository to search for bool properties
+
 ## 0.5.3 (2021-08-12)
 
 ### Fix

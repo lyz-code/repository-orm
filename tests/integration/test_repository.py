@@ -23,7 +23,7 @@ from repository_orm.exceptions import TooManyEntitiesError
 
 from ..cases import Entity, OtherEntity, RepositoryTester
 from ..cases.entities import ListEntityFactory
-from ..cases.model import ListEntity
+from ..cases.model import BoolEntity, ListEntity
 
 
 def test_apply_repository_creates_schema(  # noqa: AAA01
@@ -461,6 +461,20 @@ def test_repository_can_search_by_property_specifying_a_list_of_types(
     expected_entity = inserted_entities[1]
 
     result = repo.search({"id_": expected_entity.id_}, entity_types)
+
+    assert result == [expected_entity]
+
+
+def test_repository_can_search_by_bool_property(
+    repo: Repository,
+    inserted_entities: List[Entity],
+) -> None:
+    """Search should return the objects that have a bool property."""
+    expected_entity = BoolEntity(name="Name", active=True)
+    repo.add(expected_entity)
+    repo.commit()
+
+    result = repo.search({"active": True}, [BoolEntity])
 
     assert result == [expected_entity]
 

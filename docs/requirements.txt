@@ -73,7 +73,7 @@ mkdocs==1.2.2
     #   mkdocstrings
 mkdocs-autolinks-plugin==0.4.0
     # via -r docs/requirements.in
-mkdocs-autorefs==0.2.1
+mkdocs-autorefs==0.3.0
     # via mkdocstrings
 mkdocs-git-revision-date-localized-plugin==0.10.0
     # via -r docs/requirements.in
@@ -89,7 +89,7 @@ mkdocs-mermaid2-plugin==0.5.2
     # via -r docs/requirements.in
 mkdocs-section-index==0.3.1
     # via -r docs/requirements.in
-mkdocstrings==0.15.2
+mkdocstrings==0.16.0
     # via -r docs/requirements.in
 packaging==21.0
     # via mkdocs
@@ -104,7 +104,7 @@ pyparsing==2.4.7
     # via packaging
 python-dateutil==2.8.2
     # via ghp-import
-pytkdocs==0.11.1
+pytkdocs==0.12.0
     # via mkdocstrings
 pytz==2021.1
     # via babel
@@ -143,5 +143,5 @@ zipp==3.5.0
     # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
-setuptools==58.0.4
+setuptools==58.1.0
     # via mkdocs-mermaid2-plugin

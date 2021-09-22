@@ -86,7 +86,7 @@ class GenreFactory(factory.Factory):  # type: ignore
 
 
 class ListEntityFactory(factory.Factory):  # type: ignore
-    """Factory to generate fake genres."""
+    """Factory to generate fake list of entities."""
 
     id_ = factory.Faker("pyint")
     name = factory.Faker("name")

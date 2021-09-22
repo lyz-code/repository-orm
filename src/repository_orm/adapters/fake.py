@@ -149,7 +149,7 @@ class FakeRepository(Repository):
         for key, value in fields.items():
             # Get entities that have the value `value`
             entities_with_value = entity_attributes | grep(
-                str(value), use_regexp=True, strict_checking=False
+                value, use_regexp=True, strict_checking=False
             )
             matching_entity_attributes = {}
 

@@ -47,3 +47,9 @@ class ListEntity(Entity):
     """Entity to model an entity that has a list of strings attribute."""
 
     elements: List[str]
+
+
+class BoolEntity(Entity):
+    """Entity to model an entity that has a boolean attribute."""
+
+    active: bool = True

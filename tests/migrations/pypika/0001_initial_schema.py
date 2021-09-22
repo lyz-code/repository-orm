@@ -66,4 +66,14 @@ steps = [
         "PRIMARY KEY (id))",
         "DROP TABLE listentity_has_elements",
     ),
+    step(
+        "CREATE TABLE boolentity ("
+        "id INT, "
+        "name VARCHAR(20), "
+        "state VARCHAR(20), "
+        "description VARCHAR(255), "
+        "active BOOL, "
+        "PRIMARY KEY (id))",
+        "DROP TABLE listentity",
+    ),
 ]

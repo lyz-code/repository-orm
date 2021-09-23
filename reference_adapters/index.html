@@ -2866,7 +2866,7 @@ scripts.</p></td>
             <span class="p">)</span> <span class="kn">from</span> <span class="nn">error</span>
 
         <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">entities_with_value</span><span class="p">[</span><span class="s2">&quot;matched_values&quot;</span><span class="p">]:</span>
-            <span class="n">entity_id</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;root\[(.*?)\]\[.*&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;\1&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+            <span class="n">entity_id</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;root\[&#39;?(.*?)&#39;?\]\[.*&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;\1&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
 
             <span class="c1"># Convert int ids from str to int</span>
             <span class="k">try</span><span class="p">:</span>

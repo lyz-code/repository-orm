@@ -1,3 +1,9 @@
+## 0.5.5 (2021-09-23)
+
+### Fix
+
+- make tinydb search return only entities of the asked model
+
 ## 0.5.4 (2021-09-22)
 
 ### Fix

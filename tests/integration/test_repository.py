@@ -23,7 +23,7 @@ from repository_orm.exceptions import TooManyEntitiesError
 
 from ..cases import Entity, OtherEntity, RepositoryTester
 from ..cases.entities import ListEntityFactory
-from ..cases.model import BoolEntity, ListEntity
+from ..cases.model import Author, Book, BoolEntity, ListEntity
 
 
 def test_apply_repository_creates_schema(  # noqa: AAA01
@@ -550,6 +550,44 @@ def test_repository_can_search_by_multiple_properties(
     result = repo.search({"state": entity.state, "name": entity.name}, type(entity))
 
     assert result == [entity]
+
+
+def test_repo_can_search_entity_if_two_different_entities_match(
+    repo: Repository,
+) -> None:
+    """
+    Given: Two different entities with the same ID
+    When: we search by a property equal in both entities and give only one model.
+    Then: only the entity that matches the model is returned
+    """
+    author = Author(id_="author_id", name="common name")
+    book = Book(id_=1, name="common name")
+    repo.add(author)
+    repo.add(book)
+    repo.commit()
+
+    result = repo.search({"name": "common name"}, [Author])
+
+    assert result == [author]
+
+
+def test_repo_can_search_entity_if_two_different_entities_match_giving_both_models(
+    repo: Repository,
+) -> None:
+    """
+    Given: Two different entities with the same ID
+    When: we search by a property equal in both entities and give both models.
+    Then: both entities that matches the model are returned
+    """
+    author = Author(id_="author_id", name="common name")
+    book = Book(id_=1, name="common name")
+    repo.add(author)
+    repo.add(book)
+    repo.commit()
+
+    result = repo.search({"name": "common name"}, [Author, Book])
+
+    assert result == [author, book]
 
 
 @pytest.mark.skip(

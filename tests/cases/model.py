@@ -11,6 +11,7 @@ class Entity(EntityModel):
 
     name: str
     state: str = "open"
+    active: bool = True
 
 
 class Author(Entity):

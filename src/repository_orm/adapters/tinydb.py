@@ -272,7 +272,10 @@ class TinyDBRepository(Repository):
                         & (Query()[field].search(value))
                     )
                 else:
-                    model_query_parts.append(Query()[field] == value)
+                    model_query_parts.append(
+                        (Query().model_type_ == model.__name__.lower())
+                        & (Query()[field] == value)
+                    )
             if len(model_query_parts) != 0:
                 query_parts.append(self._merge_query(model_query_parts, mode="and"))
         if len(query_parts) == 0:

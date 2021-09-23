@@ -44,8 +44,8 @@ class IntEntityCases:
 class AuthorFactory(factory.Factory):  # type: ignore
     """Factory to generate fake authors."""
 
-    id_ = factory.Faker("word")
-    name = factory.Faker("word")
+    id_ = factory.Faker("sentence")
+    name = factory.Faker("sentence")
     last_name = factory.Faker("last_name")
     country = factory.Faker("country")
     rating = factory.Faker("pyint")
@@ -75,7 +75,7 @@ class GenreFactory(factory.Factory):  # type: ignore
     """Factory to generate fake genres."""
 
     id_ = factory.Faker("pyint")
-    name = factory.Faker("name")
+    name = factory.Faker("sentence")
     description = factory.Faker("sentence")
     rating = factory.Faker("pyint")
 
@@ -89,7 +89,7 @@ class ListEntityFactory(factory.Factory):  # type: ignore
     """Factory to generate fake list of entities."""
 
     id_ = factory.Faker("pyint")
-    name = factory.Faker("name")
+    name = factory.Faker("sentence")
     elements = factory.Faker("pylist", value_types=str)
 
     class Meta:

@@ -14,6 +14,7 @@ steps = [
         "last_name VARCHAR(20), "
         "country VARCHAR(20), "
         "state VARCHAR(20), "
+        "active BOOL, "
         "rating INT, "
         "PRIMARY KEY (id))",
         "DROP TABLE author",
@@ -25,6 +26,7 @@ steps = [
         "summary VARCHAR(255), "
         "state VARCHAR(20), "
         "released DATETIME, "
+        "active BOOL, "
         "rating INT, "
         "PRIMARY KEY (id))",
         "DROP TABLE book",
@@ -36,6 +38,7 @@ steps = [
         "description VARCHAR(255), "
         "state VARCHAR(20), "
         "rating INT, "
+        "active BOOL, "
         "PRIMARY KEY (id))",
         "DROP TABLE genre",
     ),
@@ -46,6 +49,7 @@ steps = [
         "state VARCHAR(20), "
         "description VARCHAR(255), "
         "rating INT, "
+        "active BOOL, "
         "PRIMARY KEY (id))",
         "DROP TABLE otherentity",
     ),
@@ -55,6 +59,7 @@ steps = [
         "name VARCHAR(20), "
         "state VARCHAR(20), "
         "description VARCHAR(255), "
+        "active BOOL, "
         "PRIMARY KEY (id))",
         "DROP TABLE listentity",
     ),

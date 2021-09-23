@@ -161,7 +161,7 @@ class FakeRepository(Repository):
                 ) from error
 
             for path in entities_with_value["matched_values"]:
-                entity_id = re.sub(r"root\[(.*?)\]\[.*", r"\1", path)
+                entity_id = re.sub(r"root\['?(.*?)'?\]\[.*", r"\1", path)
 
                 # Convert int ids from str to int
                 try:

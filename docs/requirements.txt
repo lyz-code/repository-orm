@@ -79,7 +79,7 @@ mkdocs-git-revision-date-localized-plugin==0.10.0
     # via -r docs/requirements.in
 mkdocs-htmlproofer-plugin==0.7.0
     # via -r docs/requirements.in
-mkdocs-material==7.2.8
+mkdocs-material==7.3.0
     # via
     #   -r docs/requirements.in
     #   mkdocs-mermaid2-plugin
@@ -89,7 +89,7 @@ mkdocs-mermaid2-plugin==0.5.2
     # via -r docs/requirements.in
 mkdocs-section-index==0.3.1
     # via -r docs/requirements.in
-mkdocstrings==0.16.0
+mkdocstrings==0.16.1
     # via -r docs/requirements.in
 packaging==21.0
     # via mkdocs
@@ -133,7 +133,7 @@ typing-extensions==3.10.0.2
     #   gitpython
     #   importlib-metadata
     #   pytkdocs
-urllib3==1.26.6
+urllib3==1.26.7
     # via requests
 watchdog==2.1.5
     # via mkdocs

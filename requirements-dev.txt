@@ -13,9 +13,7 @@ astroid==2.8.2
 asttokens==2.0.5
     # via flake8-aaa
 astunparse==1.6.3
-    # via
-    #   -r docs/requirements.txt
-    #   pytkdocs
+    # via -r docs/requirements.txt
 attrs==21.2.0
     # via
     #   flake8-bugbear
@@ -41,9 +39,7 @@ beautifulsoup4==4.10.0
 black==21.9b0
     # via -r requirements-dev.in
 cached-property==1.5.2
-    # via
-    #   -r docs/requirements.txt
-    #   pytkdocs
+    # via -r docs/requirements.txt
 certifi==2021.10.8
     # via
     #   -r docs/requirements.txt
@@ -116,7 +112,7 @@ flake8==3.9.2
     #   pep8-naming
 flake8-aaa==0.12.0
     # via -r requirements-dev.in
-flake8-annotations==2.6.2
+flake8-annotations==2.7.0
     # via -r requirements-dev.in
 flake8-annotations-complexity==0.0.6
     # via -r requirements-dev.in
@@ -178,19 +174,7 @@ idna==3.2
 importlib-metadata==4.8.1
     # via
     #   -r docs/requirements.txt
-    #   click
-    #   flake8
-    #   flake8-comprehensions
-    #   flake8-simplify
-    #   flake8-typing-imports
-    #   markdown
     #   mkdocs
-    #   pep517
-    #   pluggy
-    #   pre-commit
-    #   pytest
-    #   stevedore
-    #   virtualenv
 iniconfig==1.1.1
     # via pytest
 isort==5.9.3
@@ -481,12 +465,6 @@ tomli==1.2.1
     #   black
     #   coverage
     #   pep517
-typed-ast==1.4.3
-    # via
-    #   astroid
-    #   black
-    #   flake8-annotations
-    #   mypy
 typing-extensions==3.10.0.2
     # via
     #   -r docs/requirements.txt
@@ -494,12 +472,9 @@ typing-extensions==3.10.0.2
     #   astroid
     #   black
     #   gitpython
-    #   importlib-metadata
     #   mypy
     #   pydantic
     #   pylint
-    #   pytkdocs
-    #   tinydb
 urllib3==1.26.7
     # via
     #   -r docs/requirements.txt
@@ -529,7 +504,6 @@ zipp==3.6.0
     # via
     #   -r docs/requirements.txt
     #   importlib-metadata
-    #   pep517
 
 # The following packages are considered to be unsafe in a requirements file:
 pip==21.2.4

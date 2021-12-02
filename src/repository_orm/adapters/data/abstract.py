@@ -3,9 +3,9 @@
 import abc
 from typing import Dict, List, Optional, Type, TypeVar, Union
 
-from ..exceptions import AutoIncrementError, EntityNotFoundError
-from ..model import Entity as EntityModel
-from ..model import EntityID
+from ...exceptions import AutoIncrementError, EntityNotFoundError
+from ...model import Entity as EntityModel
+from ...model import EntityID
 
 # no cover: The lines with the flag are being tested by it's subclasses.
 

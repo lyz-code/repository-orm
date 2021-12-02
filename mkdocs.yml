@@ -5,9 +5,13 @@ site_url: https://lyz-code.github.io/repository-orm
 nav:
   - Repository ORM: index.md
   - Repositories:
+      - repositories.md
       - FakeRepository: fake_repository.md
       - TinyDBRepository: tinydb_repository.md
       - PypikaRepository: pypika_repository.md
+  - File Repositories:
+      - file_repositories.md
+      - LocalFileRepository: local_file_repository.md
   - Models: models.md
   - Testing: testing.md
   - API Reference:

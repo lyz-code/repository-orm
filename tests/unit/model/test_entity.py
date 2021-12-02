@@ -1,4 +1,4 @@
-"""Tests the model layer."""
+"""Tests the entity model."""
 
 import pytest
 
@@ -25,17 +25,17 @@ def test_compare_greater_than_entities() -> None:
     assert result
 
 
-def test_hash_uses_the_entity_id() -> None:
+def test_hash_uses_the_entity_id_and_model_name() -> None:
     """
     Given: A configured entity.
     When: The __hash__ method is used.
-    Then: The hash of the identity is used
+    Then: The hash of the identity and model name are used
     """
     entity = Entity(id_=1)
 
     result = entity.__hash__()
 
-    assert result == hash(1)
+    assert result == hash("Entity-1")
 
 
 def test_model_name_returns_expected_name() -> None:

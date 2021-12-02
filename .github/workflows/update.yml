@@ -12,10 +12,10 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
-      - name: Set up Python 3.7
+      - name: Set up Python
         uses: actions/setup-python@v1
         with:
-          python-version: 3.7
+          python-version: 3.9
       - name: Install dependencies
         run: pip install pip-tools
       - name: Update requirements
@@ -26,6 +26,7 @@ jobs:
         run: make all
       - name: Commit files
         run: |
+          rm -r .git/hooks
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add requirements.txt docs/requirements.txt requirements-dev.txt

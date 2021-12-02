@@ -11,3 +11,7 @@ class TooManyEntitiesError(Exception):
 
 class AutoIncrementError(Exception):
     """Raised when the id_ auto increment repository feature fails."""
+
+
+class FileContentNotLoadedError(Exception):
+    """Raised when trying to access the content of a file that has not been loaded."""

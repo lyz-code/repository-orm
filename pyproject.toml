@@ -12,7 +12,7 @@ version_files = [
 
 [tool.black]
 line-length = 88
-target-version = ['py36', 'py37', 'py38']
+target-version = ['py37', 'py38', 'py39', 'py310']
 include = '\.pyi?$'
 exclude = '''
 /(
@@ -46,7 +46,6 @@ norecursedirs = [
     "*/static/*",
     "docs",
     "venv",
-    "*/Repository ORM/*"
 ]
 markers = [
     "slow: marks tests as slow (deselect with '-m \"not slow\"')",
@@ -59,6 +58,9 @@ markers = [
 exclude_lines = [
     # Have to re-enable the standard pragma
     'pragma: no cover',
+
+    # Type checking can not be tested
+    'if TYPE_CHECKING:',
 
     # Ignore the Abstract classes definition
     'raise NotImplementedError',

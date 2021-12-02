@@ -1,8 +1,12 @@
-"""Module to store the common business model of all entities."""
+"""Store the common business model of all entities."""
 
-from typing import Any, Union
+import os
+from datetime import datetime
+from typing import Any, AnyStr, Generic, Optional, Union
 
 from pydantic import BaseModel, PrivateAttr
+
+from .exceptions import FileContentNotLoadedError
 
 EntityID = Union[int, str]
 
@@ -54,4 +58,57 @@ class Entity(BaseModel):
 
     def __hash__(self) -> int:
         """Create an unique hash of the class object."""
-        return hash(self.id_)
+        return hash(f"{self._model_name}-{self.id_}")
+
+
+class File(Entity, Generic[AnyStr]):
+    """Model a computer file."""
+
+    path: str
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
+    owner: Optional[str] = None
+    group: Optional[str] = None
+    permissions: Optional[str] = None
+
+    # The use of a private attribute and the impossibility of loading the content
+    # at object creation will be fixed on Pydantic 1.9.
+    # We will be able to define the excluded attribute content in the Config of the
+    # model.
+    #
+    # For more information on how to improve this code, read this:
+    # https://lyz-code.github.io/blue-book/coding/python/pydantic/#define-fields-to-exclude-from-exporting-at-config-level # noqa:E501
+    _content: Optional[AnyStr] = PrivateAttr(None)
+    # If the content is of type bytes
+    is_bytes: bool = False
+
+    @property
+    def basename(self) -> str:
+        """Return the name of the file."""
+        return os.path.basename(self.path)
+
+    @property
+    def dirname(self) -> str:
+        """Return the name of the file."""
+        return os.path.dirname(self.path)
+
+    @property
+    def extension(self) -> str:
+        """Return the name of the file."""
+        return self.basename.split(".")[-1]
+
+    @property
+    def content(self) -> AnyStr:
+        """Return the content of the file.
+
+        Returns:
+            The content of the file.
+
+        Raises:
+            FileContentNotLoadedError: if the content is not yet loaded.
+        """
+        if self._content is None:
+            raise FileContentNotLoadedError(
+                "The content of the file has not been loaded yet."
+            )
+        return self._content

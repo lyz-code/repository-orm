@@ -15,8 +15,8 @@ from tinydb_serialization.serializers import DateTimeSerializer
 
 from repository_orm.exceptions import TooManyEntitiesError
 
-from ..exceptions import EntityNotFoundError
-from ..model import EntityID
+from ...exceptions import EntityNotFoundError
+from ...model import EntityID
 from .abstract import Entity, Models, OptionalModelOrModels, OptionalModels, Repository
 
 log = logging.getLogger(__name__)

@@ -11,8 +11,8 @@ from typing import Dict, List, Type, Union
 from pypika import Query, Table
 from yoyo import get_backend, read_migrations
 
-from ..exceptions import EntityNotFoundError, TooManyEntitiesError
-from ..model import EntityID
+from ...exceptions import EntityNotFoundError, TooManyEntitiesError
+from ...model import EntityID
 from .abstract import Entity, OptionalModelOrModels, OptionalModels, Repository
 
 log = logging.getLogger(__name__)

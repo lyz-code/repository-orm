@@ -1,3 +1,13 @@
+## 0.6.0 (2021-12-02)
+
+### Feat
+
+- add file repositories
+
+### fix
+
+- make Entity hash unique per model
+
 ## 0.5.5 (2021-09-23)
 
 ### Fix

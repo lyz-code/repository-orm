@@ -5,7 +5,7 @@ class Author(Entity):
     first_name: str
 
 
-repo = load_repository([Author])
+repo = load_repository()
 
 
 author = Author(first_name="Brandon")
@@ -15,5 +15,5 @@ repo.add(author)
 repo.commit()
 
 # Retrieve entities by their ID
-brandon = repo.get(0)
+brandon = repo.get(0, Author)
 assert brandon == author

@@ -2,7 +2,7 @@
 
 import os
 import sqlite3
-from typing import Any, Generator, List, Tuple
+from typing import Any, AnyStr, Generator, List, Tuple
 
 import factory
 import pytest
@@ -12,10 +12,12 @@ from tinydb import TinyDB
 
 from repository_orm import (
     FakeRepository,
+    LocalFileRepository,
     PypikaRepository,
     Repository,
     TinyDBRepository,
 )
+from repository_orm.adapters.file.abstract import FileRepository
 
 from .cases import (
     Entity,
@@ -26,6 +28,8 @@ from .cases import (
     StrEntityCases,
 )
 from .cases.model import Author, Book, Genre, OtherEntity
+from .cases.repositories import FileRepositoryCases
+from .cases.testers import FileRepositoryTester
 
 # ---------------------
 # - Database fixtures -
@@ -134,9 +138,42 @@ def repo_test_fixture(
     return database_, empty_repo_, repo_, repo_tester_
 
 
-# We know they are going to return four objects.
+# W0632: We know they are going to return four objects.
 database, empty_repo, repo, repo_tester = unpack_fixture(  # noqa: W0632
     "database,empty_repo,repo,repo_tester", repo_test_fixture
+)
+
+
+# ----------------------------
+# - File Repository fixtures -
+# ----------------------------
+@pytest.fixture(name="repo_local_file")
+def repo_local_file_(tmpdir: LocalPath) -> LocalFileRepository[AnyStr]:
+    """Configure a temporal LocalFileRepository."""
+    return LocalFileRepository(workdir=str(tmpdir))
+
+
+@fixture
+@parametrize_with_cases("file_repo_, file_repo_tester_", cases=FileRepositoryCases)
+def file_repo_test_fixture(
+    file_repo_: FileRepository[AnyStr],
+    file_repo_tester_: FileRepositoryTester[AnyStr],
+) -> Tuple[FileRepository[AnyStr], FileRepositoryTester[AnyStr]]:
+    """Generate the required fixtures to test the file repositories.
+
+    It creates a tuple containing:
+
+    * A configured repository
+    * A tester object
+
+    For each file repository type.
+    """
+    return file_repo_, file_repo_tester_
+
+
+# W0632: We know they are going to return four objects.
+file_repo, file_repo_tester = unpack_fixture(  # noqa: W0632
+    "file_repo,file_repo_tester", file_repo_test_fixture
 )
 
 

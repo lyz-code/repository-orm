@@ -1,13 +1,14 @@
 """Gather the repository cases."""
 
 import sqlite3
-from typing import Tuple, TypeVar
+from typing import AnyStr, Tuple, TypeVar
 
 from tinydb import TinyDB
 
 from repository_orm import (
     FakeRepository,
     FakeRepositoryDB,
+    LocalFileRepository,
     PypikaRepository,
     TinyDBRepository,
 )
@@ -15,6 +16,7 @@ from repository_orm import (
 from .model import Entity as EntityModel
 from .testers import (
     FakeRepositoryTester,
+    LocalFileRepositoryTester,
     PypikaRepositoryTester,
     TinyDBRepositoryTester,
 )
@@ -72,3 +74,18 @@ class RepositoryCases:
         """
         # Return a clean database connection
         return db_sqlite[0], empty_repo_pypika, repo_pypika, PypikaRepositoryTester()
+
+
+class FileRepositoryCases:
+    """Gather all the file repositories to test."""
+
+    def case_local_file(
+        self, repo_local_file: LocalFileRepository[AnyStr]
+    ) -> Tuple[LocalFileRepository[AnyStr], LocalFileRepositoryTester[AnyStr]]:
+        """Return the objects to test the LocalFileRepository.
+
+        Returns:
+            repo: A LocalFileRepository with the workdir configured.
+            repo_tester: The tester class for the LocalFilerepository.
+        """
+        return repo_local_file, LocalFileRepositoryTester()

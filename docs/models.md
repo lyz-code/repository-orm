@@ -15,7 +15,7 @@ you usually need the following object types:
 
 # Entities
 
-We've created the [Entity][repository_orm.model.Entity] class based on the
+The [Entity][repository_orm.model.Entity] class is based on the
 pydantic's `BaseModel` to enforce that they have the `id_` attribute of type
 `int` or `str`, used for comparison and hashing of entities.
 
@@ -30,3 +30,27 @@ populate it.
 ```
 
 !!! warning "This won't work with `str` ids!"
+
+# Files
+
+The [File][repository_orm.model.File] class is a special
+[Entity][repository_orm.model.Entity] model used to work with computer files.
+
+It has useful attributes like:
+
+* `path`.
+* `created_at`.
+* `updated_at`.
+* `owner`.
+* `group`.
+* `permissions`.
+
+And methods:
+
+* `basename`.
+* `dirname`.
+* `extension`.
+
+Until Pydantic `1.9` is released, you need to store the content in the file
+using the `_content` attribute, to access the content, you can use `content`
+directly.

@@ -7,8 +7,8 @@ from typing import Dict, List, Type
 
 from deepdiff import extract, grep
 
-from ..exceptions import EntityNotFoundError, TooManyEntitiesError
-from ..model import EntityID
+from ...exceptions import EntityNotFoundError, TooManyEntitiesError
+from ...model import EntityID
 from .abstract import Entity, Models, OptionalModelOrModels, OptionalModels, Repository
 
 FakeRepositoryDB = Dict[Type[Entity], Dict[EntityID, Entity]]

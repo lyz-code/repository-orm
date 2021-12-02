@@ -33,7 +33,7 @@ def create_greeting(repo: Repository) -> str:
 @click.command()
 @click.argument("database_url")
 def greet(database_url: str) -> None:
-    repo = load_repository([Author], database_url)
+    repo = load_repository(database_url)
 
     print(create_greeting(repo))
 

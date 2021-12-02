@@ -4,8 +4,9 @@ import abc
 import datetime
 import json
 import logging
+import os
 import sqlite3
-from typing import Any, Dict, Generator, Generic, List, Type, TypeVar
+from typing import Any, AnyStr, Dict, Generator, Generic, List, Type, TypeVar
 
 from _pytest.logging import LogCaptureFixture
 from pypika import Query, Table
@@ -15,11 +16,13 @@ from repository_orm import (
     EntityNotFoundError,
     FakeRepository,
     FakeRepositoryDB,
+    File,
     PypikaRepository,
     TinyDBRepository,
 )
 
 Repository = TypeVar("Repository")
+FileRepository = TypeVar("FileRepository")
 
 
 class RepositoryTester(abc.ABC, Generic[Repository]):
@@ -211,7 +214,7 @@ class PypikaRepositoryTester(RepositoryTester[PypikaRepository]):
         cursor = next(self._build_cursor(database))
         assert len(cursor.execute("SELECT * from _yoyo_log").fetchall()) > 0
         assert (
-            "repository_orm.adapters.pypika",
+            "repository_orm.adapters.data.pypika",
             logging.DEBUG,
             "Complete running database migrations",
         ) in caplog.record_tuples
@@ -275,3 +278,48 @@ class PypikaRepositoryTester(RepositoryTester[PypikaRepository]):
         query = Query.into(table).columns(tuple(columns)).insert(tuple(values))
         cursor.execute(str(query))
         cursor.connection.commit()
+
+
+class FileRepositoryTester(abc.ABC, Generic[AnyStr]):
+    """Define common methods and interface of the file repository testers."""
+
+    @abc.abstractmethod
+    def content(self, file_: File[AnyStr]) -> AnyStr:
+        """Return the content of the file."""
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def save(self, content: AnyStr, path: str, workdir: str) -> None:
+        """Save the content of the file in the path."""
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def exists(self, path: str) -> bool:
+        """Test if the file exists in the repository."""
+        raise NotImplementedError
+
+
+class LocalFileRepositoryTester(FileRepositoryTester[AnyStr]):
+    """Define methods needed to test the implementation of the LocalFileRepository."""
+
+    def content(self, file_: File[AnyStr]) -> AnyStr:
+        """Return the content of the file."""
+        if file_.is_bytes:
+            mode = "rb"
+        else:
+            mode = "r"
+        with open(file_.path, mode) as file_descriptor:
+            return file_descriptor.read()
+
+    def save(self, content: AnyStr, path: str, workdir: str) -> None:
+        """Save the content of the file in the path."""
+        if type(content) == str:
+            mode = "w+"
+        else:
+            mode = "wb+"
+        with open(f"{workdir}/{path}", mode) as file_descriptor:
+            file_descriptor.write(content)
+
+    def exists(self, path: str) -> bool:
+        """Test if the file exists in the repository."""
+        return os.path.isfile(path)

@@ -801,7 +801,7 @@ def test_tinydb_raises_error_if_wrong_model_data(
         repo_tinydb.get(1, [Entity])
 
     assert (
-        "repository_orm.adapters.tinydb",
+        "repository_orm.adapters.data.tinydb",
         logging.ERROR,
         "Error loading the model Entity for the register {'id_': 1}",
     ) in caplog.record_tuples

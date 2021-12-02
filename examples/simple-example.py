@@ -7,7 +7,7 @@ class Author(Entity):
     country: str
 
 
-repo = load_repository([Author])
+repo = load_repository()
 
 author = Author(first_name="Brandon", last_name="Sanderson", country="US")
 
@@ -16,11 +16,11 @@ repo.add(author)
 repo.commit()
 
 # Retrieve entities by their ID
-brandon = repo.get(0)
+brandon = repo.get(0, Author)
 assert brandon == author
 
 # Search entities
-brandon = repo.search({"first_name": "Brandon"})[0]
+brandon = repo.search({"first_name": "Brandon"}, Author)[0]
 assert brandon == author
 
 # Delete entities

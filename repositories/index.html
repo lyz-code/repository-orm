@@ -11,19 +11,21 @@
         <meta name="author" content="Lyz">
       
       
-      <link rel="icon" href="/repository-orm/assets/images/favicon.png">
+        <link rel="canonical" href="https://lyz-code.github.io/repository-orm/repositories/">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.3.2">
     
     
       
-        <title>Repository ORM</title>
+        <title>Data Repositories - Repository ORM</title>
       
     
     
-      <link rel="stylesheet" href="/repository-orm/assets/stylesheets/main.24c991ad.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.24c991ad.min.css">
       
         
-        <link rel="stylesheet" href="/repository-orm/assets/stylesheets/palette.3f5d1f46.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
         
           
           
@@ -42,13 +44,13 @@
     
     
     
-      <link rel="stylesheet" href="/repository-orm/css/timeago.css">
+      <link rel="stylesheet" href="../css/timeago.css">
     
-      <link rel="stylesheet" href="/repository-orm/assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="/repository-orm/stylesheets/extra.css">
+      <link rel="stylesheet" href="../stylesheets/extra.css">
     
-      <link rel="stylesheet" href="/repository-orm/stylesheets/links.css">
+      <link rel="stylesheet" href="../stylesheets/links.css">
     
     
       
@@ -67,12 +69,17 @@
     <body dir="ltr" data-md-color-scheme="" data-md-color-primary="blue-grey" data-md-color-accent="light-blue">
   
     
-    <script>function __prefix(e){return new URL("/repository-orm/",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
+      
+        
+        <a href="#usage" class="md-skip">
+          Skip to content
+        </a>
       
     </div>
     <div data-md-component="announce">
@@ -83,7 +90,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/repository-orm/." title="Repository ORM" class="md-header__button md-logo" aria-label="Repository ORM" data-md-component="logo">
+    <a href=".." title="Repository ORM" class="md-header__button md-logo" aria-label="Repository ORM" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -102,7 +109,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Data Repositories
             
           </span>
         </div>
@@ -183,7 +190,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/repository-orm/." title="Repository ORM" class="md-nav__button md-logo" aria-label="Repository ORM" data-md-component="logo">
+    <a href=".." title="Repository ORM" class="md-nav__button md-logo" aria-label="Repository ORM" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -215,7 +222,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/." class="md-nav__link">
+      <a href=".." class="md-nav__link">
         Repository ORM
       </a>
     </li>
@@ -228,20 +235,22 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
       
       
       
       
         
         
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="/repository-orm/repositories/">Repositories</a>
+        <div class="md-nav__link md-nav__link--index md-nav__link--active">
+          <a href="./">Repositories</a>
           
             <label for="__nav_2">
               <span class="md-nav__icon md-icon"></span>
@@ -262,7 +271,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/fake_repository/" class="md-nav__link">
+      <a href="../fake_repository/" class="md-nav__link">
         FakeRepository
       </a>
     </li>
@@ -276,7 +285,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/tinydb_repository/" class="md-nav__link">
+      <a href="../tinydb_repository/" class="md-nav__link">
         TinyDBRepository
       </a>
     </li>
@@ -290,7 +299,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/pypika_repository/" class="md-nav__link">
+      <a href="../pypika_repository/" class="md-nav__link">
         PypikaRepository
       </a>
     </li>
@@ -323,7 +332,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="/repository-orm/file_repositories/">File Repositories</a>
+          <a href="../file_repositories/">File Repositories</a>
           
         </div>
       
@@ -340,7 +349,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/local_file_repository/" class="md-nav__link">
+      <a href="../local_file_repository/" class="md-nav__link">
         LocalFileRepository
       </a>
     </li>
@@ -362,7 +371,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/models/" class="md-nav__link">
+      <a href="../models/" class="md-nav__link">
         Models
       </a>
     </li>
@@ -377,7 +386,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/testing/" class="md-nav__link">
+      <a href="../testing/" class="md-nav__link">
         Testing
       </a>
     </li>
@@ -418,7 +427,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/reference_adapters/" class="md-nav__link">
+      <a href="../reference_adapters/" class="md-nav__link">
         Repository Implementations
       </a>
     </li>
@@ -432,7 +441,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/reference_models/" class="md-nav__link">
+      <a href="../reference_models/" class="md-nav__link">
         Models
       </a>
     </li>
@@ -446,7 +455,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/reference_exceptions/" class="md-nav__link">
+      <a href="../reference_exceptions/" class="md-nav__link">
         Exceptions
       </a>
     </li>
@@ -479,7 +488,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="/repository-orm/contributing/">Contributing</a>
+          <a href="../contributing/">Contributing</a>
           
         </div>
       
@@ -496,7 +505,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/new_repo/" class="md-nav__link">
+      <a href="../new_repo/" class="md-nav__link">
         Create new repository
       </a>
     </li>
@@ -529,7 +538,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="/repository-orm/adr/adr/">Architecture Decision Records</a>
+          <a href="../adr/adr/">Architecture Decision Records</a>
           
             <label for="__nav_8">
               <span class="md-nav__icon md-icon"></span>
@@ -550,7 +559,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/adr/001-entity_id_definition.md
+      <a href="../adr/001-entity_id_definition.md
 " class="md-nav__link">
         001: Entity id_ definition
       </a>
@@ -565,7 +574,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/adr/002-support_string_ids.md
+      <a href="../adr/002-support_string_ids.md
 " class="md-nav__link">
         002: String id_ support
       </a>
@@ -580,7 +589,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/adr/003-make_entity_models_optional_arguments.md
+      <a href="../adr/003-make_entity_models_optional_arguments.md
 " class="md-nav__link">
         003: Make entity_models optional arguments
       </a>
@@ -602,11 +611,121 @@
               </div>
             
             
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#repositories" class="md-nav__link">
+    Repositories
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content" data-md-component="content">
             <article class="md-content__inner md-typeset">
               
-  <h1>404 - Not found</h1>
+                
+                  <a href="https://github.com/lyz-code/repository-orm/edit/master/docs/repositories.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                  <h1>Repositories</h1>
+                
+                <p>Data repositories give a common interface to store the models in databases.</p>
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
+<p>The different repositories share the next operations:</p>
+<dl>
+<dt><code>add</code></dt>
+<dd>Add an <code>Entity</code> object to the repository, if it already exist, it updates the
+stored attributes.</dd>
+<dt><code>delete</code></dt>
+<dd>Remove an <code>Entity</code> object form the repository.</dd>
+<dt><code>get</code></dt>
+<dd>Obtain an <code>Entity</code> from the repository by it's ID.</dd>
+<dt><code>commit</code></dt>
+<dd>Persist the changes into the repository.</dd>
+<dt><code>all</code></dt>
+<dd>Get all the entities of a type or types from the repository. If no argument is
+given, it will return all entities.</dd>
+<dt><code>search</code></dt>
+<dd>Get the entities whose attributes match a condition or regular expression.</dd>
+<dt><code>first</code></dt>
+<dd>Get the first entity of a type or types of the repository. If no argument is
+given, it will return the first of any type of entity.</dd>
+<dt><code>last</code></dt>
+<dd>Get the last entity of a type or types of the repository. If no argument is
+given, it will return the first of any type of entity.</dd>
+<dt><code>apply_migrations</code></dt>
+<dd>Run the migrations of the repository schema.</dd>
+</dl>
+<div class="admonition note">
+<p>Changes in the repository aren't persisted until you run <code>repo.commit()</code>.</p>
+</div>
+<h2 id="repositories">Repositories<a class="headerlink" href="#repositories" title="Permanent link">&para;</a></h2>
+<p>To change the repository you only need to change the url passed to
+<code>load_repository</code>. We have the next repositories:</p>
+<ul>
+<li><a href="../fake_repository/">FakeRepository</a>: is the simplest implementation of the
+    repository pattern, meant to be used for the tests and early phases of
+    development.</li>
+<li><a href="../tinydb_repository/">TinyDBRepository</a>: is the implementation of the
+    repository pattern for the local NoSQL
+    <a href="https://tinydb.readthedocs.io/en/latest/usage.html">TinyDB</a> database. You
+    can use it in the early stages of the project where the data schema is yet
+    unstable and you don't have enough entities to have performance issues.</li>
+<li><a href="../pypika_repository/">PypikaRepository</a>: is the implementation of the
+    repository pattern for the relational databases. It's meant for the stages
+    of the project where the schema is more stable and you need the improved
+    performance of these types of databases.</li>
+</ul>
+                
+                  
+                    
+
+<hr>
+<div class="md-source-date">
+  <small>
+    
+      Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2021-12-02T12:49:55+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2021-12-02</span>
+      
+    
+  </small>
+</div>
+                  
+                
+              
+              
+                
+
 
               
             </article>
@@ -617,6 +736,41 @@
       
         
 <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href=".." class="md-footer__link md-footer__link--prev" aria-label="Previous: Repository ORM" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Repository ORM
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../fake_repository/" class="md-footer__link md-footer__link--next" aria-label="Next: FakeRepository" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              FakeRepository
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -639,14 +793,14 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "/repository-orm/", "features": ["navigation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "/repository-orm/assets/javascripts/workers/search.e99e714c.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.e99e714c.min.js", "version": null}</script>
     
     
-      <script src="/repository-orm/assets/javascripts/bundle.bc35569b.min.js"></script>
+      <script src="../assets/javascripts/bundle.bc35569b.min.js"></script>
       
-        <script src="/repository-orm/js/timeago.min.js"></script>
+        <script src="../js/timeago.min.js"></script>
       
-        <script src="/repository-orm/js/timeago_mkdocs_material.js"></script>
+        <script src="../js/timeago_mkdocs_material.js"></script>
       
     
   </body>

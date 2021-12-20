@@ -4,7 +4,7 @@
 #
 #    pip-compile --allow-unsafe
 #
-deepdiff==5.5.0
+deepdiff==5.7.0
     # via repository-orm (setup.py)
 ordered-set==4.0.2
     # via deepdiff

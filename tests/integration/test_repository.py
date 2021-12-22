@@ -487,13 +487,35 @@ def test_repository_can_search_regular_expression(
     When: We search using a regular expression
     Then: The matching entity is found
     """
-    # ignore: we know that all the entities we test have the name property
     expected_entities = [
         entity_
         for entity_ in inserted_entities
         if entity_.name == inserted_entities[0].name
     ]
     regular_expression = fr"^{expected_entities[0].name}.*"
+
+    result = repo.search({"name": regular_expression}, type(expected_entities[0]))
+
+    assert result == expected_entities
+
+
+def test_repository_search_by_regular_expression_is_case_insensitive(
+    repo: Repository, inserted_entities: List[Entity]
+) -> None:
+    """
+    Given: More than one entity is inserted in the repository.
+    When: We search using a regular expression with the wrong capitalization
+    Then: The matching entity is found
+
+    If you come to disable this functionality, make it configurable instead, being the
+    default the search as case insensitive
+    """
+    expected_entities = [
+        entity_
+        for entity_ in inserted_entities
+        if entity_.name == inserted_entities[0].name
+    ]
+    regular_expression = fr"^{expected_entities[0].name.upper()}.*"
 
     result = repo.search({"name": regular_expression}, type(expected_entities[0]))
 

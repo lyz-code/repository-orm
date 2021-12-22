@@ -8,7 +8,7 @@ from contextlib import suppress
 from sqlite3 import OperationalError
 from typing import Dict, List, Type, Union
 
-from pypika import Query, Table
+from pypika import Query, Table, functions
 from yoyo import get_backend, read_migrations
 
 from ...exceptions import EntityNotFoundError, TooManyEntitiesError
@@ -234,7 +234,9 @@ class PypikaRepository(Repository):
                 if key == "id_":
                     key = "id"
                 if isinstance(value, str):
-                    query = query.where(getattr(table, key).regexp(value))
+                    query = query.where(
+                        functions.Lower(getattr(table, key)).regexp(value.lower())
+                    )
                 else:
                     query = query.where(getattr(table, key) == value)
 

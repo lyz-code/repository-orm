@@ -269,7 +269,7 @@ class TinyDBRepository(Repository):
                 if isinstance(value, str):
                     model_query_parts.append(
                         (Query().model_type_ == model.__name__.lower())
-                        & (Query()[field].search(value))
+                        & (Query()[field].search(value, flags=re.IGNORECASE))
                     )
                 else:
                     model_query_parts.append(

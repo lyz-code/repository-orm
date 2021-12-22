@@ -1,3 +1,9 @@
+## 0.7.0 (2021-12-22)
+
+### Feat
+
+- make string search case insensitive
+
 ## 0.6.0 (2021-12-02)
 
 ### Feat

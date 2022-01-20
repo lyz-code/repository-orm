@@ -4,11 +4,11 @@
 #
 #    pip-compile --allow-unsafe
 #
-deepdiff==5.5.0
+deepdiff==5.7.0
     # via repository-orm (setup.py)
 ordered-set==4.0.2
     # via deepdiff
-pydantic==1.8.2
+pydantic==1.9.0
     # via repository-orm (setup.py)
 pymysql==1.0.2
     # via repository-orm (setup.py)
@@ -18,13 +18,13 @@ sqlparse==0.4.2
     # via yoyo-migrations
 tabulate==0.8.9
     # via yoyo-migrations
-tinydb==4.5.2
+tinydb==4.6.1
     # via
     #   repository-orm (setup.py)
     #   tinydb-serialization
 tinydb-serialization==2.1.0
     # via repository-orm (setup.py)
-typing-extensions==3.10.0.2
+typing-extensions==4.0.1
     # via
     #   pydantic
     #   tinydb

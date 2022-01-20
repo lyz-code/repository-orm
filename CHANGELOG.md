@@ -1,3 +1,9 @@
+## 0.9.0 (2022-01-20)
+
+### Feat
+
+- add a repository cache
+
 ## 0.8.0 (2022-01-20)
 
 ### Refactor

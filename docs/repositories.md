@@ -11,8 +11,16 @@ Data repositories give a common interface to store the models in databases.
 The different repositories share the next operations:
 
 `add`
-: Add an `Entity` object to the repository, if it already exist, it updates the
-    stored attributes.
+: Add an `Entity` object or list of `Entity` objects to the repository, if it
+already exist, it updates the stored attributes.
+
+!!! note
+    If you add a list of entities you may get a mypy error that I don't know yet
+    how to fix (help needed!)
+
+    ```python
+    repo.add([entity_1, entity_2]) # type: ignore
+    ```
 
 `delete`
 : Remove an `Entity` object form the repository.

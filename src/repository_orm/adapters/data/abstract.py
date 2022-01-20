@@ -7,8 +7,6 @@ from ...exceptions import AutoIncrementError, EntityNotFoundError
 from ...model import Entity as EntityModel
 from ...model import EntityID
 
-# no cover: The lines with the flag are being tested by it's subclasses.
-
 Entity = TypeVar("Entity", bound=EntityModel)
 EntityOrEntities = TypeVar("EntityOrEntities", List[EntityModel], EntityModel)
 Models = List[Type[Entity]]
@@ -164,9 +162,8 @@ class Repository(abc.ABC):
         try:
             return max(self.all(models))
         except ValueError as error:
-            # no cover: it's tested by it's subclasses
-            models = self._build_models(models)  # pragma: nocover
-            raise self._model_not_found(models) from error  # pragma: nocover
+            models = self._build_models(models)
+            raise self._model_not_found(models) from error
 
     def first(self, models: OptionalModelOrModels[Entity]) -> Entity:
         """Get the smallest entity from the repository.
@@ -218,16 +215,16 @@ class Repository(abc.ABC):
             EntityNotFoundError
         """
         if models == self.models:
-            return EntityNotFoundError(  # pragma: no cover
+            return EntityNotFoundError(
                 f"There are no entities in the repository{append_str}."
             )
         if len(models) > 0:
             entity_str = ", ".join([model.__name__ for model in models])
-            return EntityNotFoundError(  # pragma: no cover
+            return EntityNotFoundError(
                 f"There are no entities of type {entity_str} "
                 f"in the repository{append_str}."
             )
-        return EntityNotFoundError(  # pragma: no cover
+        return EntityNotFoundError(
             f"There are no {models[0].__name__}s in the repository{append_str}."
         )
 

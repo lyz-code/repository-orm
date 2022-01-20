@@ -128,7 +128,7 @@ class PypikaRepository(Repository):
         query = Query.from_(table).delete().where(table.id == entity.id_)
         self._execute(query)
 
-    def get(
+    def _get(
         self, id_: EntityID, models: OptionalModelOrModels[Entity] = None
     ) -> Entity:
         """Obtain an entity from the repository by it's ID.
@@ -161,7 +161,7 @@ class PypikaRepository(Repository):
                 f"More than one entity was found with the id {id_}"
             )
 
-    def all(self, models: OptionalModelOrModels[Entity] = None) -> List[Entity]:
+    def _all(self, models: OptionalModelOrModels[Entity] = None) -> List[Entity]:
         """Get all the entities from the repository whose class is included in models.
 
         Args:
@@ -204,7 +204,7 @@ class PypikaRepository(Repository):
         """Persist the changes into the repository."""
         self.connection.commit()
 
-    def search(
+    def _search(
         self,
         fields: Dict[str, EntityID],
         models: OptionalModelOrModels[Entity] = None,

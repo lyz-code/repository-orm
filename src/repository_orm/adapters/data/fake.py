@@ -67,7 +67,7 @@ class FakeRepository(Repository):
                 f"Unable to delete entity {entity} because it's not in the repository"
             ) from error
 
-    def get(
+    def _get(
         self, id_: EntityID, models: OptionalModelOrModels[Entity] = None
     ) -> Entity:
         """Obtain an entity from the repository by it's ID.
@@ -99,7 +99,7 @@ class FakeRepository(Repository):
                 f"More than one entity was found with the id {id_}"
             )
 
-    def all(self, models: OptionalModelOrModels[Entity] = None) -> List[Entity]:
+    def _all(self, models: OptionalModelOrModels[Entity] = None) -> List[Entity]:
         """Get all the entities from the repository whose class is included in models.
 
         Args:
@@ -122,7 +122,7 @@ class FakeRepository(Repository):
             self.entities[model] = entities
         self.new_entities = {}
 
-    def search(
+    def _search(
         self,
         fields: Dict[str, EntityID],
         models: OptionalModelOrModels[Entity] = None,

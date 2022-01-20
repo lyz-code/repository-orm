@@ -86,12 +86,16 @@ class TestAdd:
         repo_tester: RepositoryTester[Repository],
         entity: Entity,
     ) -> None:
-        """Saved entities remain in the repository."""
+        """Saved entities remain in the repository.
+
+        And the entity is saved to the repository cache.
+        """
         repo.add(entity)
 
         repo.commit()  # act
 
         assert entity == repo_tester.get_entity(database, entity)
+        assert repo.cache.get(entity) == entity
 
     def test_repository_can_save_an_entity_without_id_in_empty_repo(
         self,
@@ -300,6 +304,32 @@ class TestAdd:
         ):
             repo.add(1)  # type: ignore
 
+    def test_repository_doesnt_add_entities_equal_to_cache_ones(
+        self,
+        database: Any,
+        repo: Repository,
+        repo_tester: RepositoryTester[Repository],
+        entity: Entity,
+        caplog: LogCaptureFixture,
+    ) -> None:
+        """
+        Given: A repository with an entity in the cache
+        When: Adding the same entity
+        Then: The entity is not added to the staged entities
+
+        This way we save database calls for things that haven't changed.
+        """
+        caplog.set_level(logging.DEBUG)
+        repo.cache.add(entity)
+
+        repo.add(entity)  # act
+
+        assert (
+            "repository_orm.adapters.data.abstract",
+            logging.DEBUG,
+            f"Skipping the addition of entity {entity} as it hasn't changed",
+        ) in caplog.record_tuples
+
 
 class TestGet:
     """Test the retrieval of entities."""
@@ -309,11 +339,15 @@ class TestGet:
         repo: Repository,
         inserted_entity: Entity,
     ) -> None:
-        """Given an entity_id the repository returns the entity object."""
+        """Given an entity_id the repository returns the entity object.
+
+        The entity is also added to the cache.
+        """
         result = repo.get(inserted_entity.id_, type(inserted_entity))
 
         assert result == inserted_entity
         assert result.id_ == inserted_entity.id_
+        assert repo.cache.get(inserted_entity) == inserted_entity
 
     def test_repository_can_retrieve_an_entity_if_no_model_defined(
         self,
@@ -381,13 +415,15 @@ class TestAll:
         """
         Given: A repository with inserted entities
         When: all is called
-        Then: all entities are returned
+        Then: all entities are returned and saved to the repo cache.
         """
         result: List[Entity] = repo.all()
 
         assert result == inserted_entities
         assert len(result) == 3
         assert result[0].id_ == inserted_entities[0].id_
+        for entity in result:
+            assert repo.cache.get(entity) == entity
 
     def test_repository_can_retrieve_all_objects_of_an_entity_type(
         self,
@@ -463,12 +499,16 @@ class TestSearch:
         repo: Repository,
         inserted_entities: List[Entity],
     ) -> None:
-        """Search should return the objects that match the desired property."""
+        """Search should return the objects that match the desired property.
+
+        And the entity is saved to the cache.
+        """
         expected_entity = inserted_entities[1]
 
         result = repo.search({"id_": expected_entity.id_}, type(inserted_entities[1]))
 
         assert result == [expected_entity]
+        assert repo.cache.get(expected_entity) == expected_entity
 
     def test_repository_can_search_by_property_without_specifying_the_type(
         self,
@@ -732,13 +772,14 @@ class TestLast:
         """
         Given: A repository with many entities.
         When: using the last method.
-        Then: The greater entity is returned
+        Then: The greater entity is returned and it's also stored into the cache.
         """
         greater_entity = max(inserted_entities)
 
         result = repo.last(type(greater_entity))
 
         assert result == greater_entity
+        assert repo.cache.get(greater_entity) == greater_entity
 
     def test_repository_last_returns_last_entity_if_no_type_specified(
         self,
@@ -803,13 +844,14 @@ class TestFirst:
         """
         Given: A repository with many entities.
         When: using the first method.
-        Then: The smallest entity is returned
+        Then: The smallest entity is returned and saved into the cache
         """
         smaller_entity = min(inserted_entities)
 
         result = repo.first(type(smaller_entity))
 
         assert result == smaller_entity
+        assert repo.cache.get(smaller_entity) == smaller_entity
 
     def test_repository_first_raise_error_if_entity_not_found(
         self,

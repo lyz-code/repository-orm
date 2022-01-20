@@ -291,6 +291,20 @@ class TestAdd:
         with pytest.raises(EntityNotFoundError):
             repo_tester.get_entity(database, entity)
 
+    def test_repository_doesnt_allow_adding_non_entity_types(
+        self,
+        database: Any,
+        repo: Repository,
+        repo_tester: RepositoryTester[Repository],
+    ) -> None:
+        """
+        Given: an empty repository.
+        When: an object that is not an entity is added.
+        Then: an error is returned.
+        """
+        with pytest.raises(ValueError, match='Please add an entity or a list of entities'):
+            repo.add(1) # type: ignore
+
 class TestGet:
     def test_repository_can_retrieve_an_entity(
         self,

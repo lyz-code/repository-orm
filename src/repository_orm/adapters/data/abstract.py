@@ -1,17 +1,21 @@
 """Define the interface of the repositories."""
 
 import abc
+import logging
 from typing import Dict, List, Optional, Type, TypeVar, Union
 
 from ...exceptions import AutoIncrementError, EntityNotFoundError
 from ...model import Entity as EntityModel
 from ...model import EntityID
+from .cache import Cache
 
 Entity = TypeVar("Entity", bound=EntityModel)
 EntityOrEntities = TypeVar("EntityOrEntities", List[EntityModel], EntityModel)
 Models = List[Type[Entity]]
 OptionalModels = Optional[Models[Entity]]
 OptionalModelOrModels = Optional[Union[Type[Entity], Models[Entity]]]
+
+log = logging.getLogger(__name__)
 
 
 class Repository(abc.ABC):
@@ -35,6 +39,7 @@ class Repository(abc.ABC):
         if models is None:
             models = []
         self.models = models
+        self.cache = Cache()
 
     def add(self, entities: EntityOrEntities) -> EntityOrEntities:
         """Append an entity or list of entities to the repository.
@@ -51,7 +56,14 @@ class Repository(abc.ABC):
             entity = entities
             if isinstance(entity.id_, int) and entity.id_ < 0:
                 entity.id_ = self._next_id(entity)
-            return self._add(entity)
+            if self.cache.entity_has_not_changed(entity):
+                log.debug(
+                    f"Skipping the addition of entity {entity} as it hasn't changed"
+                )
+                return entity
+            entity = self._add(entity)
+            self.cache.add(entity)
+            return entity
 
         elif isinstance(entities, list):
             updated_entities: List[EntityModel] = []
@@ -84,11 +96,35 @@ class Repository(abc.ABC):
         """
         raise NotImplementedError
 
-    @abc.abstractmethod
     def get(
         self, id_: EntityID, models: OptionalModelOrModels[Entity] = None
     ) -> Entity:
         """Obtain an entity from the repository by it's ID.
+
+        Also save the entity in the cache
+
+        Args:
+            models: Entity class or classes to obtain.
+            id_: ID of the entity to obtain.
+
+        Returns:
+            entity: Entity object that matches the id_
+
+        Raises:
+            EntityNotFoundError: If the entity is not found.
+            TooManyEntitiesError: If more than one entity was found.
+        """
+        entity = self._get(id_, models)
+        self.cache.add(entity)
+        return entity
+
+    @abc.abstractmethod
+    def _get(
+        self, id_: EntityID, models: OptionalModelOrModels[Entity] = None
+    ) -> Entity:
+        """Obtain an entity from the repository by it's ID.
+
+        Particular implementation of the adapter.
 
         Args:
             models: Entity class or classes to obtain.
@@ -103,9 +139,27 @@ class Repository(abc.ABC):
         """
         raise NotImplementedError
 
-    @abc.abstractmethod
     def all(self, models: OptionalModelOrModels[Entity] = None) -> List[Entity]:
         """Get all the entities from the repository whose class is included in models.
+
+        Also store the entities in the cache.
+
+        Args:
+            models: Entity class or classes to obtain.
+        """
+        entities = self._all(models)
+
+        # ignore: the type cannot be List[Entity] but it can, I don't know how to fix
+        # this
+        self.cache.add(entities)  # type: ignore
+
+        return entities
+
+    @abc.abstractmethod
+    def _all(self, models: OptionalModelOrModels[Entity] = None) -> List[Entity]:
+        """Get all the entities from the repository whose class is included in models.
+
+        Particular implementation of the database adapter.
 
         Args:
             models: Entity class or classes to obtain.
@@ -117,13 +171,42 @@ class Repository(abc.ABC):
         """Persist the changes into the repository."""
         raise NotImplementedError
 
-    @abc.abstractmethod
     def search(
         self,
         fields: Dict[str, EntityID],
         models: OptionalModelOrModels[Entity] = None,
     ) -> List[Entity]:
         """Get the entities whose attributes match one or several conditions.
+
+        Also add the found entities to the cache.
+
+        Args:
+            models: Entity class or classes to obtain.
+            fields: Dictionary with the {key}:{value} to search.
+
+        Returns:
+            entities: List of Entity object that matches the search criteria.
+
+        Raises:
+            EntityNotFoundError: If the entities are not found.
+        """
+        found_entities = self._search(fields, models)
+
+        # ignore: the type cannot be List[Entity] but it can, I don't know how to fix
+        # this
+        self.cache.add(found_entities)  # type: ignore
+
+        return found_entities
+
+    @abc.abstractmethod
+    def _search(
+        self,
+        fields: Dict[str, EntityID],
+        models: OptionalModelOrModels[Entity] = None,
+    ) -> List[Entity]:
+        """Get the entities whose attributes match one or several conditions.
+
+        Particular implementation of the database adapter.
 
         Args:
             models: Entity class or classes to obtain.

@@ -53,7 +53,7 @@ class TinyDBRepository(Repository):
         )
         self.staged: Dict[str, List[Any]] = {"add": [], "remove": []}
 
-    def add(self, entity: Entity) -> Entity:
+    def _add(self, entity: Entity) -> Entity:
         """Append an entity to the repository.
 
         If the id is not set, autoincrement the last.
@@ -64,8 +64,6 @@ class TinyDBRepository(Repository):
         Returns:
             entity
         """
-        if isinstance(entity.id_, int) and entity.id_ < 0:
-            entity.id_ = self._next_id(entity)
         self.staged["add"].append(entity)
 
         return entity

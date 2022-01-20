@@ -76,7 +76,7 @@ class PypikaRepository(Repository):
         """Return the table of the selected entity class."""
         return Table(model.__name__.lower())
 
-    def add(self, entity: Entity) -> Entity:
+    def _add(self, entity: Entity) -> Entity:
         """Append an entity to the repository.
 
         If the id is not set, autoincrement the last.
@@ -87,8 +87,6 @@ class PypikaRepository(Repository):
         Returns:
             entity
         """
-        if isinstance(entity.id_, int) and entity.id_ < 0:
-            entity.id_ = self._next_id(entity)
         table = self._table(entity)
         columns = list(entity.dict().keys())
         columns[columns.index("id_")] = "id"

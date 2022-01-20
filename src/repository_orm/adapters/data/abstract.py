@@ -7,9 +7,8 @@ from ...exceptions import AutoIncrementError, EntityNotFoundError
 from ...model import Entity as EntityModel
 from ...model import EntityID
 
-# no cover: The lines with the flag are being tested by it's subclasses.
-
 Entity = TypeVar("Entity", bound=EntityModel)
+EntityOrEntities = TypeVar("EntityOrEntities", List[EntityModel], EntityModel)
 Models = List[Type[Entity]]
 OptionalModels = Optional[Models[Entity]]
 OptionalModelOrModels = Optional[Union[Type[Entity], Models[Entity]]]
@@ -37,9 +36,8 @@ class Repository(abc.ABC):
             models = []
         self.models = models
 
-    @abc.abstractmethod
-    def add(self, entity: Entity) -> Entity:
-        """Append an entity to the repository.
+    def add(self, entities: EntityOrEntities) -> EntityOrEntities:
+        """Append an entity or list of entities to the repository.
 
         If the id is not set, autoincrement the last.
 
@@ -49,9 +47,32 @@ class Repository(abc.ABC):
         Returns:
             entity
         """
-        # no cover: it's tested by it's subclasses
-        if isinstance(entity.id_, int) and entity.id_ < 0:  # pragma: no cover
-            entity.id_ = self._next_id(entity)  # pragma: no cover
+        if isinstance(entities, EntityModel):
+            entity = entities
+            if isinstance(entity.id_, int) and entity.id_ < 0:
+                entity.id_ = self._next_id(entity)
+            return self._add(entity)
+
+        elif isinstance(entities, list):
+            updated_entities: List[EntityModel] = []
+            for entity in entities:
+                updated_entities.append(self.add(entity))
+            return updated_entities
+
+        raise ValueError("Please add an entity or a list of entities")
+
+    @abc.abstractmethod
+    def _add(self, entity: Entity) -> Entity:
+        """Append an entity to the repository.
+
+        This method is specific to each database adapter.
+
+        Args:
+            entity: Entity to add to the repository.
+
+        Returns:
+            entity
+        """
         raise NotImplementedError
 
     @abc.abstractmethod
@@ -141,9 +162,8 @@ class Repository(abc.ABC):
         try:
             return max(self.all(models))
         except ValueError as error:
-            # no cover: it's tested by it's subclasses
-            models = self._build_models(models)  # pragma: nocover
-            raise self._model_not_found(models) from error  # pragma: nocover
+            models = self._build_models(models)
+            raise self._model_not_found(models) from error
 
     def first(self, models: OptionalModelOrModels[Entity]) -> Entity:
         """Get the smallest entity from the repository.
@@ -194,18 +214,10 @@ class Repository(abc.ABC):
         Raises:
             EntityNotFoundError
         """
-        if models == self.models:
-            return EntityNotFoundError(  # pragma: no cover
-                f"There are no entities in the repository{append_str}."
-            )
-        if len(models) > 0:
-            entity_str = ", ".join([model.__name__ for model in models])
-            return EntityNotFoundError(  # pragma: no cover
-                f"There are no entities of type {entity_str} "
-                f"in the repository{append_str}."
-            )
-        return EntityNotFoundError(  # pragma: no cover
-            f"There are no {models[0].__name__}s in the repository{append_str}."
+        entity_str = ", ".join([model.__name__ for model in models])
+        return EntityNotFoundError(
+            f"There are no entities of type {entity_str} "
+            f"in the repository{append_str}."
         )
 
     def _build_models(self, models: OptionalModelOrModels[Entity]) -> Models[Entity]:

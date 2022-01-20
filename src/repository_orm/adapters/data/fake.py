@@ -38,8 +38,6 @@ class FakeRepository(Repository):
         Returns:
             entity
         """
-        if isinstance(entity.id_, int) and entity.id_ < 0:
-            entity.id_ = self._next_id(entity)
         if self.new_entities == {}:
             self.new_entities = copy.deepcopy(self.entities.copy())
         try:

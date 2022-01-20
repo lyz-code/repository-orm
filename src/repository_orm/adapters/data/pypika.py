@@ -87,8 +87,6 @@ class PypikaRepository(Repository):
         Returns:
             entity
         """
-        if isinstance(entity.id_, int) and entity.id_ < 0:
-            entity.id_ = self._next_id(entity)
         table = self._table(entity)
         columns = list(entity.dict().keys())
         columns[columns.index("id_")] = "id"

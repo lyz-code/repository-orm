@@ -59,7 +59,7 @@ class Repository(abc.ABC):
                 updated_entities.append(self.add(entity))
             return updated_entities
 
-        raise ValueError('Please add an entity or a list of entities')
+        raise ValueError("Please add an entity or a list of entities")
 
     @abc.abstractmethod
     def _add(self, entity: Entity) -> Entity:
@@ -214,18 +214,10 @@ class Repository(abc.ABC):
         Raises:
             EntityNotFoundError
         """
-        if models == self.models:
-            return EntityNotFoundError(
-                f"There are no entities in the repository{append_str}."
-            )
-        if len(models) > 0:
-            entity_str = ", ".join([model.__name__ for model in models])
-            return EntityNotFoundError(
-                f"There are no entities of type {entity_str} "
-                f"in the repository{append_str}."
-            )
+        entity_str = ", ".join([model.__name__ for model in models])
         return EntityNotFoundError(
-            f"There are no {models[0].__name__}s in the repository{append_str}."
+            f"There are no entities of type {entity_str} "
+            f"in the repository{append_str}."
         )
 
     def _build_models(self, models: OptionalModelOrModels[Entity]) -> Models[Entity]:

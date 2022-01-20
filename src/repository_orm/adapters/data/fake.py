@@ -27,7 +27,7 @@ class FakeRepository(Repository):
         self.entities: FakeRepositoryDB[Entity] = {}
         self.new_entities: FakeRepositoryDB[Entity] = {}
 
-    def add(self, entity: Entity) -> Entity:
+    def _add(self, entity: Entity) -> Entity:
         """Append an entity to the repository.
 
         If the id is not set, autoincrement the last.

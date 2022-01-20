@@ -10,6 +10,7 @@ from ...model import EntityID
 # no cover: The lines with the flag are being tested by it's subclasses.
 
 Entity = TypeVar("Entity", bound=EntityModel)
+EntityOrEntities = TypeVar("EntityOrEntities", List[EntityModel], EntityModel)
 Models = List[Type[Entity]]
 OptionalModels = Optional[Models[Entity]]
 OptionalModelOrModels = Optional[Union[Type[Entity], Models[Entity]]]
@@ -37,9 +38,8 @@ class Repository(abc.ABC):
             models = []
         self.models = models
 
-    @abc.abstractmethod
-    def add(self, entity: Entity) -> Entity:
-        """Append an entity to the repository.
+    def add(self, entities: EntityOrEntities) -> EntityOrEntities:
+        """Append an entity or list of entities to the repository.
 
         If the id is not set, autoincrement the last.
 
@@ -49,9 +49,32 @@ class Repository(abc.ABC):
         Returns:
             entity
         """
-        # no cover: it's tested by it's subclasses
-        if isinstance(entity.id_, int) and entity.id_ < 0:  # pragma: no cover
-            entity.id_ = self._next_id(entity)  # pragma: no cover
+        if isinstance(entities, EntityModel):
+            entity = entities
+            if isinstance(entity.id_, int) and entity.id_ < 0:
+                entity.id_ = self._next_id(entity)
+            return self._add(entity)
+
+        elif isinstance(entities, list):
+            updated_entities: List[EntityModel] = []
+            for entity in entities:
+                updated_entities.append(self.add(entity))
+            return updated_entities
+
+        raise ValueError('Please add an entity or a list of entities')
+
+    @abc.abstractmethod
+    def _add(self, entity: Entity) -> Entity:
+        """Append an entity to the repository.
+
+        This method is specific to each database adapter.
+
+        Args:
+            entity: Entity to add to the repository.
+
+        Returns:
+            entity
+        """
         raise NotImplementedError
 
     @abc.abstractmethod

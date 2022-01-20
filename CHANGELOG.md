@@ -1,3 +1,14 @@
+## 0.8.0 (2022-01-20)
+
+### Refactor
+
+- remove unused code
+- organize tests in classes
+
+### Feat
+
+- allow the addition of lists of entities
+
 ## 0.7.0 (2021-12-22)
 
 ### Feat

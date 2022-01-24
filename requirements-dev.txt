@@ -70,7 +70,7 @@ faker==11.3.0
     # via factory-boy
 filelock==3.4.2
     # via virtualenv
-flake8==3.9.2
+flake8==4.0.1
     # via
     #   -r requirements-dev.in
     #   dlint
@@ -203,7 +203,7 @@ py==1.11.0
     # via
     #   pytest
     #   pytest-forked
-pycodestyle==2.7.0
+pycodestyle==2.8.0
     # via
     #   flake8
     #   flake8-debugger
@@ -213,7 +213,7 @@ pydantic==1.9.0
     #   maison
 pydocstyle==6.1.1
     # via flake8-docstrings
-pyflakes==2.3.1
+pyflakes==2.4.0
     # via
     #   autoflake
     #   flake8
@@ -301,11 +301,9 @@ tomli==1.2.3
 typing-extensions==4.0.1
     # via
     #   -c requirements.txt
-    #   astroid
     #   black
     #   mypy
     #   pydantic
-    #   pylint
 urllib3==1.26.8
     # via
     #   -c docs/requirements.txt

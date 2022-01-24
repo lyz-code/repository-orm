@@ -122,7 +122,7 @@ flake8-pytest==1.3
     # via -r requirements-dev.in
 flake8-pytest-style==1.6.0
     # via -r requirements-dev.in
-flake8-simplify==0.14.5
+flake8-simplify==0.15.1
     # via -r requirements-dev.in
 flake8-typing-imports==1.12.0
     # via -r requirements-dev.in
@@ -140,7 +140,7 @@ gitpython==3.1.26
     # via
     #   -c docs/requirements.txt
     #   bandit
-identify==2.4.4
+identify==2.4.5
     # via pre-commit
 idna==3.3
     # via

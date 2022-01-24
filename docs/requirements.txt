@@ -75,7 +75,7 @@ mkdocs-git-revision-date-localized-plugin==0.11.1
     # via -r docs/requirements.in
 mkdocs-htmlproofer-plugin==0.8.0
     # via -r docs/requirements.in
-mkdocs-material==8.1.7
+mkdocs-material==8.1.8
     # via
     #   -r docs/requirements.in
     #   mkdocs-mermaid2-plugin

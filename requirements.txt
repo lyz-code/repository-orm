@@ -6,7 +6,7 @@
 #
 deepdiff==5.7.0
     # via repository-orm (setup.py)
-ordered-set==4.0.2
+ordered-set==4.1.0
     # via deepdiff
 pydantic==1.9.0
     # via repository-orm (setup.py)

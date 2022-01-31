@@ -23,7 +23,7 @@ autoimport==1.0.4
     # via -r requirements-dev.in
 bandit==1.7.2
     # via -r requirements-dev.in
-black==21.12b0
+black==22.1.0
     # via -r requirements-dev.in
 certifi==2021.10.8
     # via
@@ -301,11 +301,8 @@ tomli==1.2.3
 typing-extensions==4.0.1
     # via
     #   -c requirements.txt
-    #   astroid
-    #   black
     #   mypy
     #   pydantic
-    #   pylint
 urllib3==1.26.8
     # via
     #   -c docs/requirements.txt

@@ -229,7 +229,7 @@ pyparsing==3.0.7
     #   packaging
 pyprojroot==0.2.0
     # via autoimport
-pytest==6.2.5
+pytest==7.0.0
     # via
     #   -r requirements-dev.in
     #   pytest-cov
@@ -291,21 +291,19 @@ toml==0.10.2
     #   maison
     #   pre-commit
     #   pylint
-    #   pytest
 tomli==1.2.3
     # via
     #   black
     #   coverage
     #   mypy
     #   pep517
+    #   pytest
 typing-extensions==4.0.1
     # via
     #   -c requirements.txt
-    #   astroid
     #   black
     #   mypy
     #   pydantic
-    #   pylint
 urllib3==1.26.8
     # via
     #   -c docs/requirements.txt

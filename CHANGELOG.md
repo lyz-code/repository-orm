@@ -1,3 +1,9 @@
+## 0.9.1 (2022-02-09)
+
+### Fix
+
+- make cache entries immutable
+
 ## 0.9.0 (2022-01-20)
 
 ### Feat

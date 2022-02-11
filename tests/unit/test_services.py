@@ -64,6 +64,7 @@ class TestLoadRepository:
         result = load_repository(database_url=db_tinydb[0])
 
         assert isinstance(result, TinyDBRepository)
+        result.close()
 
     def test_load_repository_returns_error_if_url_not_recognized(self) -> None:
         """

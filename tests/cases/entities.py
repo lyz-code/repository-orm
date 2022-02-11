@@ -1,6 +1,8 @@
 """Gather the cases and fixtures needed to test the model Entities."""
 
-import factory
+from typing import Any, Type
+
+from pydantic_factories import ModelFactory
 
 from .model import Author, Book, Genre, ListEntity
 
@@ -8,15 +10,15 @@ from .model import Author, Book, Genre, ListEntity
 class EntityCases:
     """Gather all the entities to test."""
 
-    def case_author(self) -> factory.Factory:
+    def case_author(self) -> Type[ModelFactory[Any]]:
         """Return the Author factory."""
         return AuthorFactory
 
-    def case_book(self) -> factory.Factory:
+    def case_book(self) -> Type[ModelFactory[Any]]:
         """Return the Book factory."""
         return BookFactory
 
-    def case_genre(self) -> factory.Factory:
+    def case_genre(self) -> Type[ModelFactory[Any]]:
         """Return the Genre factory."""
         return GenreFactory
 
@@ -24,7 +26,7 @@ class EntityCases:
 class StrEntityCases:
     """Gather all the entities to test with type(id_) == str."""
 
-    def case_author(self) -> factory.Factory:
+    def case_author(self) -> Type[ModelFactory[Any]]:
         """Return the Author factory."""
         return AuthorFactory
 
@@ -32,67 +34,34 @@ class StrEntityCases:
 class IntEntityCases:
     """Gather all the entities to test with type(id_) == int."""
 
-    def case_book(self) -> factory.Factory:
+    def case_book(self) -> Type[ModelFactory[Any]]:
         """Return the Book factory."""
         return BookFactory
 
-    def case_genre(self) -> factory.Factory:
+    def case_genre(self) -> Type[ModelFactory[Any]]:
         """Return the Genre factory."""
         return GenreFactory
 
 
-class AuthorFactory(factory.Factory):  # type: ignore
+class AuthorFactory(ModelFactory[Any]):
     """Factory to generate fake authors."""
 
-    id_ = factory.Faker("sentence")
-    name = factory.Faker("sentence")
-    last_name = factory.Faker("last_name")
-    country = factory.Faker("country")
-    rating = factory.Faker("pyint")
-
-    class Meta:
-        """Define the entity model object to use."""
-
-        model = Author
+    __model__ = Author
 
 
-class BookFactory(factory.Factory):  # type: ignore
+class BookFactory(ModelFactory[Any]):
     """Factory to generate fake books."""
 
-    id_ = factory.Faker("pyint")
-    name = factory.Faker("sentence")
-    summary = factory.Faker("text")
-    released = factory.Faker("date_time")
-    rating = factory.Faker("pyint")
-
-    class Meta:
-        """Define the entity model object to use."""
-
-        model = Book
+    __model__ = Book
 
 
-class GenreFactory(factory.Factory):  # type: ignore
+class GenreFactory(ModelFactory[Any]):
     """Factory to generate fake genres."""
 
-    id_ = factory.Faker("pyint")
-    name = factory.Faker("sentence")
-    description = factory.Faker("sentence")
-    rating = factory.Faker("pyint")
-
-    class Meta:
-        """Define the entity model object to use."""
-
-        model = Genre
+    __model__ = Genre
 
 
-class ListEntityFactory(factory.Factory):  # type: ignore
+class ListEntityFactory(ModelFactory[Any]):
     """Factory to generate fake list of entities."""
 
-    id_ = factory.Faker("pyint")
-    name = factory.Faker("sentence")
-    elements = factory.Faker("pylist", value_types=str)
-
-    class Meta:
-        """Define the entity model object to use."""
-
-        model = ListEntity
+    __model__ = ListEntity

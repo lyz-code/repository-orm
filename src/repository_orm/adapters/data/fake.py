@@ -170,7 +170,7 @@ class FakeRepository(Repository):
 
                 # Add the entity to the matching ones only if the value is of the
                 # attribute `key`.
-                if re.match(fr"root\['?{entity_id}'?\]\['{key}'\]", path):
+                if re.match(rf"root\['?{entity_id}'?\]\['{key}'\]", path):
                     matching_entity_attributes[entity_id] = extract(
                         entity_attributes, f"root[{entity_id}]"
                     )

@@ -1,3 +1,5 @@
+from typing import Generator
+
 import click
 import pytest
 from click.testing import CliRunner
@@ -19,8 +21,12 @@ def db_tinydb_(tmpdir: LocalPath) -> str:
 
 
 @pytest.fixture()
-def repo(db_tinydb: str) -> TinyDBRepository:
-    return TinyDBRepository([Author], db_tinydb)
+def repo(db_tinydb: str) -> Generator[TinyDBRepository, None, None]:
+    repo = TinyDBRepository([Author], db_tinydb)
+
+    yield repo
+
+    repo.close()
 
 
 # Service
@@ -36,6 +42,8 @@ def greet(database_url: str) -> None:
     repo = load_repository(database_url)
 
     print(create_greeting(repo))
+
+    repo.close()
 
 
 # Test

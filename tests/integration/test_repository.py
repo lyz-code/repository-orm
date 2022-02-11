@@ -64,6 +64,7 @@ class TestDBConnection:
         assert isinstance(result, repo.__class__)
         if result.__class__.__name__ != "FakeRepository":
             assert os.path.isfile(database_url)
+        result.close()
 
     def test_repository_handles_connection_errors(self, repo: Repository) -> None:
         """
@@ -74,6 +75,18 @@ class TestDBConnection:
         """
         with pytest.raises(ConnectionError):
             repo.__class__(database_url="/inexistent_dir/database.db")  # act
+
+    def test_repository_closes_connection(
+        self, repo: Repository, repo_tester: RepositoryTester[Repository]
+    ) -> None:
+        """
+        Given: A configured repository
+        When: calling the close method
+        Then: the connection to the database is closed.
+        """
+        repo.close()  # act
+
+        assert repo_tester.connection_is_closed(repo)
 
 
 class TestAdd:
@@ -260,16 +273,14 @@ class TestAdd:
         Then: Only one item exists.
         """
         repo_tester.insert_entity(database, entity)
-        # ignore: Although Entity doesn't have the rating attribute, all the entities
-        #   defined in the tests models do.
-        entity.rating += 1  # type: ignore
+        entity.active = False
         repo.add(entity)
 
         repo.commit()  # act
 
         entities = repo_tester.get_all(database, type(entity))
         assert len(entities) == 1
-        assert entity.rating == entities[0].rating  # type: ignore
+        assert not entity.active
 
     def test_repository_doesnt_add_an_entity_if_we_dont_commit_changes(
         self,
@@ -562,7 +573,7 @@ class TestSearch:
             for entity_ in inserted_entities
             if entity_.name == inserted_entities[0].name
         ]
-        regular_expression = fr"^{expected_entities[0].name}.*"
+        regular_expression = rf"^{expected_entities[0].name}.*"
 
         result = repo.search({"name": regular_expression}, type(expected_entities[0]))
 
@@ -584,7 +595,7 @@ class TestSearch:
             for entity_ in inserted_entities
             if entity_.name == inserted_entities[0].name
         ]
-        regular_expression = fr"^{expected_entities[0].name.upper()}.*"
+        regular_expression = rf"^{expected_entities[0].name.upper()}.*"
 
         result = repo.search({"name": regular_expression}, type(expected_entities[0]))
 
@@ -690,10 +701,10 @@ class TestSearch:
         When: search is called with a regexp that  matches one of the list elements
         Then: the entity is returned
         """
-        expected_entity = ListEntityFactory.create()
+        expected_entity = ListEntityFactory.build()
         repo.add(expected_entity)
         repo.commit()
-        regexp = fr"{expected_entity.elements[0][:-1]}."
+        regexp = rf"{expected_entity.elements[0][:-1]}."
 
         result = repo.search({"elements": regexp}, ListEntity)
 

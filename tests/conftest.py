@@ -2,11 +2,11 @@
 
 import os
 import sqlite3
-from typing import Any, AnyStr, Generator, List, Tuple
+from typing import Any, AnyStr, Generator, List, Tuple, Type
 
-import factory
 import pytest
 from py._path.local import LocalPath
+from pydantic_factories import ModelFactory
 from pytest_cases import fixture, parametrize_with_cases, unpack_fixture
 from tinydb import TinyDB
 
@@ -89,29 +89,50 @@ models = [Author, Book, Genre, OtherEntity]
 
 
 @pytest.fixture()
-def repo_fake() -> FakeRepository:
+def repo_fake() -> Generator[FakeRepository, None, None]:
     """Return an instance of the FakeRepository."""
-    return FakeRepository(models=models)
+    repo = FakeRepository(models=models)
+
+    yield repo
+
+    repo.close()
 
 
 @pytest.fixture(name="repo_tinydb")
-def repo_tinydb_(db_tinydb: Tuple[str, TinyDB]) -> TinyDBRepository:
+def repo_tinydb_(
+    db_tinydb: Tuple[str, TinyDB]
+) -> Generator[TinyDBRepository, None, None]:
     """Return an instance of the TinyDBRepository."""
-    return TinyDBRepository(database_url=db_tinydb[0], models=models)
+    repo = TinyDBRepository(database_url=db_tinydb[0], models=models)
+
+    yield repo
+
+    repo.close()
 
 
 @pytest.fixture(name="empty_repo_pypika")
-def empty_repo_pypika_(db_sqlite: Tuple[str, sqlite3.Cursor]) -> PypikaRepository:
+def empty_repo_pypika_(
+    db_sqlite: Tuple[str, sqlite3.Cursor]
+) -> Generator[PypikaRepository, None, None]:
     """Configure an empty instance of the PypikaRepository."""
     sqlite_url = db_sqlite[0]
-    return PypikaRepository(database_url=sqlite_url, models=models)
+    repo = PypikaRepository(database_url=sqlite_url, models=models)
+
+    yield repo
+
+    repo.close()
 
 
 @pytest.fixture()
-def repo_pypika(empty_repo_pypika: PypikaRepository) -> PypikaRepository:
+def repo_pypika(
+    empty_repo_pypika: PypikaRepository,
+) -> Generator[PypikaRepository, None, None]:
     """Configure an instance of the PypikaRepository with the migrations applied."""
     empty_repo_pypika.apply_migrations("tests/migrations/pypika/")
-    return empty_repo_pypika
+
+    yield empty_repo_pypika
+
+    empty_repo_pypika.close()
 
 
 @fixture
@@ -184,44 +205,44 @@ file_repo, file_repo_tester = unpack_fixture(  # noqa: W0632
 
 @fixture
 @parametrize_with_cases("entity_factory", cases=EntityCases)
-def entity(entity_factory: factory.Factory) -> Entity:
+def entity(entity_factory: Type[ModelFactory[Any]]) -> Entity:
     """Return one entity for each entity type defined in the EntityCases."""
-    return entity_factory.create()
+    return entity_factory.build()
 
 
 @fixture
 @parametrize_with_cases("entity_factory", cases=StrEntityCases)
-def str_entity(entity_factory: factory.Factory) -> Entity:
+def str_entity(entity_factory: Type[ModelFactory[Any]]) -> Entity:
     """Return one entity for each entity type defined in the StrEntityCases."""
-    return entity_factory.create()
+    return entity_factory.build()
 
 
 @fixture
 @parametrize_with_cases("entity_factory", cases=IntEntityCases)
-def int_entity(entity_factory: factory.Factory) -> Entity:
+def int_entity(entity_factory: Type[ModelFactory[Any]]) -> Entity:
     """Return one entity for each entity type defined in the IntEntityCases."""
-    return entity_factory.create()
+    return entity_factory.build()
 
 
 @fixture
 @parametrize_with_cases("entity_factory", cases=EntityCases)
-def entities(entity_factory: factory.Factory) -> List[Entity]:
+def entities(entity_factory: Type[ModelFactory[Any]]) -> List[Entity]:
     """Return three entities for each entity type defined in the EntityCases."""
-    return sorted(entity_factory.create_batch(3))
+    return sorted(entity_factory.batch(3))
 
 
 @fixture
 @parametrize_with_cases("entity_factory", cases=StrEntityCases)
-def str_entities(entity_factory: factory.Factory) -> List[Entity]:
+def str_entities(entity_factory: Type[ModelFactory[Any]]) -> List[Entity]:
     """Return three entities for each entity type defined in the StrEntityCases."""
-    return sorted(entity_factory.create_batch(3))
+    return sorted(entity_factory.batch(3))
 
 
 @fixture
 @parametrize_with_cases("entity_factory", cases=IntEntityCases)
-def int_entities(entity_factory: factory.Factory) -> List[Entity]:
+def int_entities(entity_factory: Type[ModelFactory[Any]]) -> List[Entity]:
     """Return three entities for each entity type defined in the IntEntityCases."""
-    return sorted(entity_factory.create_batch(3))
+    return sorted(entity_factory.batch(3))
 
 
 @fixture

@@ -10,7 +10,7 @@ repos:
       - id: end-of-file-fixer
   # Disabled until the --experimental-string-processing is merged
   # - repo: https://github.com/ambv/black
-  #   rev: stable
+  #   rev: 21.12b0
   #   hooks:
   #     - id: black
   #       language_version: python3.7

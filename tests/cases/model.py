@@ -26,6 +26,7 @@ class Author(Entity):
 class Book(Entity):
     """Entity to model a book."""
 
+    id_: int = -1
     summary: Optional[str] = None
     released: Optional[datetime] = None
     rating: Optional[int] = None
@@ -34,6 +35,7 @@ class Book(Entity):
 class Genre(Entity):
     """Entity to model the genre of a book."""
 
+    id_: int = -1
     description: Optional[str] = None
     rating: Optional[int] = None
 

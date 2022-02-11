@@ -26,6 +26,7 @@ class FakeRepository(Repository):
             raise ConnectionError(f"Could not create database file: {database_url}")
         self.entities: FakeRepositoryDB[Entity] = {}
         self.new_entities: FakeRepositoryDB[Entity] = {}
+        self.is_connection_closed = False
 
     def _add(self, entity: Entity) -> Entity:
         """Append an entity to the repository.
@@ -169,7 +170,7 @@ class FakeRepository(Repository):
 
                 # Add the entity to the matching ones only if the value is of the
                 # attribute `key`.
-                if re.match(fr"root\['?{entity_id}'?\]\['{key}'\]", path):
+                if re.match(rf"root\['?{entity_id}'?\]\['{key}'\]", path):
                     matching_entity_attributes[entity_id] = extract(
                         entity_attributes, f"root[{entity_id}]"
                     )
@@ -233,3 +234,7 @@ class FakeRepository(Repository):
                 entity for _, entity in self.new_entities[model].items()
             ]
         return staged_entities
+
+    def close(self) -> None:
+        """Close the connection to the database."""
+        self.is_connection_closed = True

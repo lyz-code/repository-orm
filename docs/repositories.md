@@ -49,6 +49,9 @@ given, it will return the first of any type of entity.
 `apply_migrations`
 : Run the migrations of the repository schema.
 
+`close`
+: Close the connection to the database.
+
 !!! note ""
     Changes in the repository aren't persisted until you run `repo.commit()`.
 

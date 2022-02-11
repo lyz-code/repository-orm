@@ -365,6 +365,10 @@ class TinyDBRepository(Repository):
         # Full repo and staged entities.
         return max([last_index_entity, last_staged_entity])
 
+    def close(self) -> None:
+        """Close the connection to the database."""
+        self.db_.close()
+
 
 def _regexp_in_list(list_: Iterable[Any], regular_expression: str) -> bool:
     """Test if regexp matches any element of the list."""

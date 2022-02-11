@@ -310,3 +310,8 @@ class Repository(abc.ABC):
         elif not isinstance(models, list):
             models = [models]
         return models
+
+    @abc.abstractmethod
+    def close(self) -> None:
+        """Close the connection to the database."""
+        raise NotImplementedError

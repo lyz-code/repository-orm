@@ -75,6 +75,18 @@ class TestDBConnection:
         with pytest.raises(ConnectionError):
             repo.__class__(database_url="/inexistent_dir/database.db")  # act
 
+    def test_repository_closes_connection(
+        self, repo: Repository, repo_tester: RepositoryTester[Repository]
+    ) -> None:
+        """
+        Given: A configured repository
+        When: calling the close method
+        Then: the connection to the database is closed.
+        """
+        repo.close()
+
+        assert repo_tester.connection_is_closed(repo)
+
 
 class TestAdd:
     """Test the saving of entities."""

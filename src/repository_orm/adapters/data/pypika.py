@@ -278,3 +278,7 @@ class PypikaRepository(Repository):
                     log.error(error)
                     raise error
             log.debug("Complete running database migrations")
+
+    def close(self) -> None:
+        """Close the connection to the database."""
+        self.connection.close()

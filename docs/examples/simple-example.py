@@ -27,3 +27,6 @@ assert brandon == author
 repo.delete(brandon)
 repo.commit()
 assert len(repo.all()) == 0
+
+# Close the connection
+repo.close()

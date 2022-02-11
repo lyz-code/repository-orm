@@ -1,3 +1,20 @@
+## 0.10.0 (2022-02-11)
+
+### Fix
+
+- select pdm path editable backed
+- remove the python_paths that is no longer needed
+- define the log_level attribute of the config object
+- **ci**: deprecate dependabot as pdm is not supported yet
+
+### Feat
+
+- change package management to pdm
+- mark deprecation warnings as errors
+- create the load_config entrypoint function
+- **ci**: add the workflow_dispatch event handler
+- add close method to the data repositories
+
 ## 0.9.1 (2022-02-09)
 
 ### Fix

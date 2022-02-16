@@ -19,7 +19,7 @@ The [Entity][repository_orm.model.Entity] class is based on the
 pydantic's `BaseModel` to enforce that they have the `id_` attribute of type
 `int` or `str`, used for comparison and hashing of entities.
 
-They also have a private `_model_name` attribute with the name of the model.
+They also have a private `model_name` property with the name of the model.
 
 If you use integer IDs (which is the default), you don't need to define the
 `id_` at object creation. When you add the entity to the repository, it will
@@ -30,6 +30,28 @@ populate it.
 ```
 
 !!! warning "This won't work with `str` ids!"
+
+## Merging entities
+
+Entities have a `merge` method that let's you update it's attributes with
+the ones of another entity.
+
+```python
+{! examples/merge_entities.py !} # noqa
+```
+
+For two entities to be mergeable, they need to belong from the same model and
+have the same `id_`. The previous example worked because by default the `id_` is
+`-1` until the entity is added to the repository. If you want to check other
+attribute to see if the objects are mergeable, probably that attribute should be
+the `id_` instead.
+
+If you don't want to propagate some attributes when merging, add them to the
+`_skip_on_merge` configuration option of the model:
+
+```python
+{! examples/merge_entities_skip_attribute.py !} # noqa
+```
 
 # Files
 

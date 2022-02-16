@@ -31,8 +31,6 @@ class FakeRepository(Repository):
     def _add(self, entity: Entity) -> Entity:
         """Append an entity to the repository.
 
-        If the id is not set, autoincrement the last.
-
         Args:
             entity: Entity to add to the repository.
 

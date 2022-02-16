@@ -1,8 +1,9 @@
 """Store the common business model of all entities."""
 
 import os
+import warnings
 from datetime import datetime
-from typing import Any, AnyStr, Generic, Optional, Union
+from typing import Any, AnyStr, Dict, Generic, List, Optional, Union
 
 from pydantic import BaseModel, PrivateAttr
 
@@ -18,15 +19,19 @@ class Entity(BaseModel):
     they are still recognizably the same thing.
 
     An entity with a negative id means that the id needs to be set by the repository.
+
+    The _defined_values are used to know which attributes were set by the user at the
+    time of merging objects.
     """
 
     id_: EntityID = -1
-    _model_name: str = PrivateAttr()
+    _defined_values: Dict[str, Any] = PrivateAttr()
+    _skip_on_merge: List[str] = []
 
     def __init__(self, **data: Any) -> None:
-        """Set the _model_name attribute."""
+        """Initialize the defined values."""
         super().__init__(**data)
-        self._model_name = self.__class__.__name__
+        self._defined_values = data
 
     def __lt__(self, other: "Entity") -> bool:
         """Assert if an object is smaller than us.
@@ -50,7 +55,48 @@ class Entity(BaseModel):
 
     def __hash__(self) -> int:
         """Create an unique hash of the class object."""
-        return hash(f"{self._model_name}-{self.id_}")
+        return hash(f"{self.model_name}-{self.id_}")
+
+    def __setattr__(self, attribute: str, value: Any) -> None:
+        """Store the set attribute into the _defined_values."""
+        if attribute != "_defined_values":
+            self._defined_values[attribute] = value
+        super().__setattr__(attribute, value)
+
+    @property
+    def model_name(self) -> str:
+        """Return the entity model name."""
+        return self.__class__.__name__
+
+    @property
+    def _model_name(self) -> str:  # pragma: nocover
+        """Return the entity model name."""
+        warnings.warn("Use model_name instead before 2022-08-16", DeprecationWarning)
+        return self.model_name
+
+    def merge(self, other: "Entity") -> "Entity":
+        """Update the attributes with the ones manually set by the user of other.
+
+        If the other object has default values not set by the user, they won't be
+        propagated to `self`.
+
+        Args:
+            other: Entity to compare.
+        """
+        if not isinstance(other, type(self)):
+            raise ValueError(
+                "Can't merge objects of different models "
+                f"({self.model_name} with {other.model_name})."
+            )
+        if self.id_ != other.id_:
+            raise ValueError(f"Can't merge two {self.model_name}s with different ids")
+
+        # Merge objects
+        for attribute, value in other._defined_values.items():
+            if attribute not in self._skip_on_merge:
+                setattr(self, attribute, value)
+
+        return self
 
 
 class File(Entity, Generic[AnyStr]):

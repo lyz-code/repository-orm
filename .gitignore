@@ -8,6 +8,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+.pdm.toml
 # C extensions
 *.so
 

@@ -12,8 +12,8 @@ from typing import Any, AnyStr, Dict, Generator, Generic, List, Type, TypeVar
 from _pytest.logging import LogCaptureFixture
 from pypika import Query, Table
 
+from repository_orm import Entity as EntityModel
 from repository_orm import (
-    Entity,
     EntityNotFoundError,
     FakeRepository,
     FakeRepositoryDB,
@@ -22,6 +22,7 @@ from repository_orm import (
     TinyDBRepository,
 )
 
+Entity = TypeVar("Entity", bound=EntityModel)
 Repository = TypeVar("Repository")
 FileRepository = TypeVar("FileRepository")
 
@@ -104,7 +105,7 @@ class FakeRepositoryTester(RepositoryTester[FakeRepository]):
         except KeyError:
             database[type(entity)] = {}
 
-        database[type(entity)][entity.id_] = entity
+        database[type(entity)][entity.id_] = entity.copy()
 
     def connection_is_closed(self, repo: FakeRepository) -> bool:
         """Ensure that the connection to the database is closed"""
@@ -141,7 +142,7 @@ class TinyDBRepositoryTester(RepositoryTester[TinyDBRepository]):
         for _document_id, entry in cursor["_default"].items():
             if (
                 entry["id_"] == entity.id_
-                and entry["model_type_"] == entity._model_name.lower()
+                and entry["model_type_"] == entity.model_name.lower()
             ):
                 return self._build_entity(entry, entity.__class__)
         raise EntityNotFoundError()
@@ -181,7 +182,7 @@ class TinyDBRepositoryTester(RepositoryTester[TinyDBRepository]):
         cursor = self._build_cursor(database)
 
         database_entry = entity.dict()
-        database_entry["model_type_"] = entity._model_name.lower()
+        database_entry["model_type_"] = entity.model_name.lower()
         for key, value in database_entry.items():
             if isinstance(value, datetime.datetime):
                 database_entry[key] = "{TinyDate}:" + value.isoformat()
@@ -265,7 +266,7 @@ class PypikaRepositoryTester(RepositoryTester[PypikaRepository]):
 
     def get_entity(self, database: str, entity: Entity) -> Entity:
         """Get the entity object from the data stored in the repository by it's id."""
-        table = Table(entity._model_name.lower())
+        table = Table(entity.model_name.lower())
         entities = self._build_entities(
             database,
             type(entity),
@@ -288,7 +289,7 @@ class PypikaRepositoryTester(RepositoryTester[PypikaRepository]):
 
     def insert_entity(self, database: str, entity: Entity) -> None:
         """Insert the data of an entity into the repository."""
-        table = Table(entity._model_name.lower())
+        table = Table(entity.model_name.lower())
         cursor = next(self._build_cursor(database))
         columns = list(entity.dict().keys())
         columns[columns.index("id_")] = "id"

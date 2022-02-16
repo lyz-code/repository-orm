@@ -1,3 +1,13 @@
+## 0.11.0 (2022-02-16)
+
+### Feat
+
+- allow comparison of entities with different `id_` types
+
+### Fix
+
+- sort the result of `repo.all()`
+
 ## 0.10.0 (2022-02-11)
 
 ### Fix

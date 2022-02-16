@@ -1900,7 +1900,7 @@ Repository            (<span title="abc.ABC">ABC</span>)
 <span class="sd">        Args:</span>
 <span class="sd">            models: Entity class or classes to obtain.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">entities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
+        <span class="n">entities</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_all</span><span class="p">(</span><span class="n">models</span><span class="p">))</span>
 
         <span class="c1"># ignore: the type cannot be List[Entity] but it can, I don&#39;t know how to fix</span>
         <span class="c1"># this</span>
@@ -1943,7 +1943,7 @@ Repository            (<span title="abc.ABC">ABC</span>)
 <span class="sd">        Raises:</span>
 <span class="sd">            EntityNotFoundError: If the entities are not found.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">found_entities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_search</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">models</span><span class="p">)</span>
+        <span class="n">found_entities</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_search</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">models</span><span class="p">))</span>
 
         <span class="c1"># ignore: the type cannot be List[Entity] but it can, I don&#39;t know how to fix</span>
         <span class="c1"># this</span>
@@ -2284,7 +2284,7 @@ Repository            (<span title="abc.ABC">ABC</span>)
 <span class="sd">    Args:</span>
 <span class="sd">        models: Entity class or classes to obtain.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">entities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
+    <span class="n">entities</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_all</span><span class="p">(</span><span class="n">models</span><span class="p">))</span>
 
     <span class="c1"># ignore: the type cannot be List[Entity] but it can, I don&#39;t know how to fix</span>
     <span class="c1"># this</span>
@@ -2835,7 +2835,7 @@ scripts.</p></td>
 <span class="sd">    Raises:</span>
 <span class="sd">        EntityNotFoundError: If the entities are not found.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">found_entities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_search</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">models</span><span class="p">)</span>
+    <span class="n">found_entities</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_search</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">models</span><span class="p">))</span>
 
     <span class="c1"># ignore: the type cannot be List[Entity] but it can, I don&#39;t know how to fix</span>
     <span class="c1"># this</span>

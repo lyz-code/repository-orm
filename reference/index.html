@@ -1574,7 +1574,7 @@ Repository            (<span title="abc.ABC">ABC</span>)
 <span class="sd">        Args:</span>
 <span class="sd">            models: Entity class or classes to obtain.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">entities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
+        <span class="n">entities</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_all</span><span class="p">(</span><span class="n">models</span><span class="p">))</span>
 
         <span class="c1"># ignore: the type cannot be List[Entity] but it can, I don&#39;t know how to fix</span>
         <span class="c1"># this</span>
@@ -1617,7 +1617,7 @@ Repository            (<span title="abc.ABC">ABC</span>)
 <span class="sd">        Raises:</span>
 <span class="sd">            EntityNotFoundError: If the entities are not found.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">found_entities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_search</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">models</span><span class="p">)</span>
+        <span class="n">found_entities</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_search</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">models</span><span class="p">))</span>
 
         <span class="c1"># ignore: the type cannot be List[Entity] but it can, I don&#39;t know how to fix</span>
         <span class="c1"># this</span>
@@ -1958,7 +1958,7 @@ Repository            (<span title="abc.ABC">ABC</span>)
 <span class="sd">    Args:</span>
 <span class="sd">        models: Entity class or classes to obtain.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">entities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
+    <span class="n">entities</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_all</span><span class="p">(</span><span class="n">models</span><span class="p">))</span>
 
     <span class="c1"># ignore: the type cannot be List[Entity] but it can, I don&#39;t know how to fix</span>
     <span class="c1"># this</span>
@@ -2509,7 +2509,7 @@ scripts.</p></td>
 <span class="sd">    Raises:</span>
 <span class="sd">        EntityNotFoundError: If the entities are not found.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">found_entities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_search</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">models</span><span class="p">)</span>
+    <span class="n">found_entities</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_search</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">models</span><span class="p">))</span>
 
     <span class="c1"># ignore: the type cannot be List[Entity] but it can, I don&#39;t know how to fix</span>
     <span class="c1"># this</span>
@@ -5493,28 +5493,16 @@ they are still recognizably the same thing.</p>
 
 <span class="sd">        Args:</span>
 <span class="sd">            other: Entity to compare.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            TypeError: If the id type of the objects is not compatible.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">id_</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id_</span><span class="p">)):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">other</span><span class="si">}</span><span class="s2"> have incompatible ID types&quot;</span><span class="p">)</span>
-        <span class="c1"># ignore: we&#39;ve checked that both elements are of the same type</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">id_</span>  <span class="c1"># type: ignore</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id_</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">str</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">id_</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Entity&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Assert if an object is greater than us.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            other: Entity to compare.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            TypeError: If the id type of the objects is not compatible.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">id_</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id_</span><span class="p">)):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">other</span><span class="si">}</span><span class="s2"> have incompatible ID types&quot;</span><span class="p">)</span>
-        <span class="c1"># ignore: we&#39;ve checked that both elements are of the same type</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">id_</span>  <span class="c1"># type: ignore</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id_</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">str</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">id_</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Create an unique hash of the class object.&quot;&quot;&quot;</span>
@@ -5572,21 +5560,6 @@ they are still recognizably the same thing.</p>
       </tr>
   </tbody>
 </table>
-<p><strong>Exceptions:</strong></p>
-<table>
-  <thead>
-    <tr>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-      <tr>
-        <td><code>TypeError</code></td>
-        <td><p>If the id type of the objects is not compatible.</p></td>
-      </tr>
-  </tbody>
-</table>
         <details class="quote">
           <summary>Source code in <code>repository_orm/model.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Entity&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -5594,14 +5567,8 @@ they are still recognizably the same thing.</p>
 
 <span class="sd">    Args:</span>
 <span class="sd">        other: Entity to compare.</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        TypeError: If the id type of the objects is not compatible.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">id_</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id_</span><span class="p">)):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">other</span><span class="si">}</span><span class="s2"> have incompatible ID types&quot;</span><span class="p">)</span>
-    <span class="c1"># ignore: we&#39;ve checked that both elements are of the same type</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">id_</span>  <span class="c1"># type: ignore</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id_</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">str</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">id_</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -5708,21 +5675,6 @@ they are still recognizably the same thing.</p>
       </tr>
   </tbody>
 </table>
-<p><strong>Exceptions:</strong></p>
-<table>
-  <thead>
-    <tr>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-      <tr>
-        <td><code>TypeError</code></td>
-        <td><p>If the id type of the objects is not compatible.</p></td>
-      </tr>
-  </tbody>
-</table>
         <details class="quote">
           <summary>Source code in <code>repository_orm/model.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Entity&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -5730,14 +5682,8 @@ they are still recognizably the same thing.</p>
 
 <span class="sd">    Args:</span>
 <span class="sd">        other: Entity to compare.</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        TypeError: If the id type of the objects is not compatible.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">id_</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id_</span><span class="p">)):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">other</span><span class="si">}</span><span class="s2"> have incompatible ID types&quot;</span><span class="p">)</span>
-    <span class="c1"># ignore: we&#39;ve checked that both elements are of the same type</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">id_</span>  <span class="c1"># type: ignore</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id_</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">str</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">id_</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>

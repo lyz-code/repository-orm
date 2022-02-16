@@ -4,9 +4,13 @@ from repository_orm import Entity
 
 
 def test_compare_less_than_entities() -> None:
-    """Comparison between entities is done by the ID attribute."""
-    small = Entity(id_=1)
-    big = Entity(id_=2)
+    """Comparison between entities is done by the ID attribute.
+
+    2 and 10 are deliberately chosen to avoid disordering if we transform id's to
+    strings.
+    """
+    small = Entity(id_=2)
+    big = Entity(id_=10)
 
     result = small < big
 
@@ -15,8 +19,8 @@ def test_compare_less_than_entities() -> None:
 
 def test_compare_greater_than_entities() -> None:
     """Comparison between entities is done by the ID attribute."""
-    small = Entity(id_=1)
-    big = Entity(id_=2)
+    small = Entity(id_=2)
+    big = Entity(id_=10)
 
     result = big > small
 

@@ -34,6 +34,8 @@ class Entity(BaseModel):
         Args:
             other: Entity to compare.
         """
+        if isinstance(other.id_, int) and isinstance(self.id_, int):
+            return self.id_ < other.id_
         return str(self.id_) < str(other.id_)
 
     def __gt__(self, other: "Entity") -> bool:
@@ -42,6 +44,8 @@ class Entity(BaseModel):
         Args:
             other: Entity to compare.
         """
+        if isinstance(other.id_, int) and isinstance(self.id_, int):
+            return self.id_ > other.id_
         return str(self.id_) > str(other.id_)
 
     def __hash__(self) -> int:

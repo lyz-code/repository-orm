@@ -1,3 +1,9 @@
+## 0.11.1 (2022-02-16)
+
+### Fix
+
+- correct ordering of entities that both have an integer type
+
 ## 0.11.0 (2022-02-16)
 
 ### Feat

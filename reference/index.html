@@ -4336,18 +4336,25 @@ TinyDBRepository            (<a title="repository_orm.adapters.data.abstract.Rep
 <span class="sd">        Raises:</span>
 <span class="sd">            EntityNotFoundError: If there are no entities.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">models</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_models</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">last_index_entity</span><span class="p">:</span> <span class="n">Entity</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">last</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">EntityNotFoundError</span> <span class="k">as</span> <span class="n">empty_repo</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="c1"># Empty repo but entities staged to be commited.</span>
-                <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">staged</span><span class="p">[</span><span class="s2">&quot;add&quot;</span><span class="p">])</span>
+                <span class="k">return</span> <span class="nb">max</span><span class="p">(</span>
+                    <span class="n">entity</span>
+                    <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">staged</span><span class="p">[</span><span class="s2">&quot;add&quot;</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">entity</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">models</span>
+                <span class="p">)</span>
             <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">no_staged_entities</span><span class="p">:</span>
                 <span class="c1"># Empty repo and no entities staged.</span>
                 <span class="k">raise</span> <span class="n">empty_repo</span> <span class="kn">from</span> <span class="nn">no_staged_entities</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">last_staged_entity</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">staged</span><span class="p">[</span><span class="s2">&quot;add&quot;</span><span class="p">])</span>
+            <span class="n">last_staged_entity</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+                <span class="n">entity</span> <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">staged</span><span class="p">[</span><span class="s2">&quot;add&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">entity</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">models</span>
+            <span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
             <span class="c1"># Full repo and no staged entities.</span>
             <span class="k">return</span> <span class="n">last_index_entity</span>
@@ -4626,18 +4633,25 @@ scripts.</p></td>
 <span class="sd">    Raises:</span>
 <span class="sd">        EntityNotFoundError: If there are no entities.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">models</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_models</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">last_index_entity</span><span class="p">:</span> <span class="n">Entity</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">last</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">EntityNotFoundError</span> <span class="k">as</span> <span class="n">empty_repo</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># Empty repo but entities staged to be commited.</span>
-            <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">staged</span><span class="p">[</span><span class="s2">&quot;add&quot;</span><span class="p">])</span>
+            <span class="k">return</span> <span class="nb">max</span><span class="p">(</span>
+                <span class="n">entity</span>
+                <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">staged</span><span class="p">[</span><span class="s2">&quot;add&quot;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">entity</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">models</span>
+            <span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">no_staged_entities</span><span class="p">:</span>
             <span class="c1"># Empty repo and no entities staged.</span>
             <span class="k">raise</span> <span class="n">empty_repo</span> <span class="kn">from</span> <span class="nn">no_staged_entities</span>
 
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">last_staged_entity</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">staged</span><span class="p">[</span><span class="s2">&quot;add&quot;</span><span class="p">])</span>
+        <span class="n">last_staged_entity</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+            <span class="n">entity</span> <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">staged</span><span class="p">[</span><span class="s2">&quot;add&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">entity</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">in</span> <span class="n">models</span>
+        <span class="p">)</span>
     <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
         <span class="c1"># Full repo and no staged entities.</span>
         <span class="k">return</span> <span class="n">last_index_entity</span>

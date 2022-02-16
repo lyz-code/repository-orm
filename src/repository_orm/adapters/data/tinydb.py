@@ -346,18 +346,25 @@ class TinyDBRepository(Repository):
         Raises:
             EntityNotFoundError: If there are no entities.
         """
+        models = self._build_models(models)
         try:
             last_index_entity: Entity = super().last(models)
         except EntityNotFoundError as empty_repo:
             try:
                 # Empty repo but entities staged to be commited.
-                return max(self.staged["add"])
+                return max(
+                    entity
+                    for entity in self.staged["add"]
+                    if entity.__class__ in models
+                )
             except ValueError as no_staged_entities:
                 # Empty repo and no entities staged.
                 raise empty_repo from no_staged_entities
 
         try:
-            last_staged_entity = max(self.staged["add"])
+            last_staged_entity = max(
+                entity for entity in self.staged["add"] if entity.__class__ in models
+            )
         except ValueError:
             # Full repo and no staged entities.
             return last_index_entity

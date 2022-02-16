@@ -459,7 +459,8 @@ class TestAll:
         """
         Given: Three entities of a type and another of other type.
         When: all is called using a list of entities
-        Then: all elements are returned.
+        Then: all elements are returned ordered by ID, we need it so that we know for
+            sure that the results are always ordered.
         """
         other_entity = OtherEntity(id_=0, name="Other entity")
         repo.add(other_entity)
@@ -468,7 +469,7 @@ class TestAll:
 
         result = repo.all(entity_types)
 
-        assert result == inserted_entities + [other_entity]
+        assert result == [other_entity] + inserted_entities  # type: ignore
         assert len(result) == 4
 
     def test_repository_all_is_idempotent(
@@ -690,7 +691,7 @@ class TestSearch:
 
         result = repo.search({"name": "common name"}, [Author, Book])
 
-        assert result == [author, book]
+        assert result == [book, author]
 
     @pytest.mark.skip(
         "Supported by Fake and TinyDB, not by Pypika yet. Once mappers are supported "

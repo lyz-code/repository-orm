@@ -33,28 +33,16 @@ class Entity(BaseModel):
 
         Args:
             other: Entity to compare.
-
-        Raises:
-            TypeError: If the id type of the objects is not compatible.
         """
-        if not isinstance(other.id_, type(self.id_)):
-            raise TypeError(f"{self} and {other} have incompatible ID types")
-        # ignore: we've checked that both elements are of the same type
-        return self.id_ < other.id_  # type: ignore
+        return str(self.id_) < str(other.id_)
 
     def __gt__(self, other: "Entity") -> bool:
         """Assert if an object is greater than us.
 
         Args:
             other: Entity to compare.
-
-        Raises:
-            TypeError: If the id type of the objects is not compatible.
         """
-        if not isinstance(other.id_, type(self.id_)):
-            raise TypeError(f"{self} and {other} have incompatible ID types")
-        # ignore: we've checked that both elements are of the same type
-        return self.id_ > other.id_  # type: ignore
+        return str(self.id_) > str(other.id_)
 
     def __hash__(self) -> int:
         """Create an unique hash of the class object."""

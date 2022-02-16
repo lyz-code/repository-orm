@@ -12,6 +12,8 @@ import pytest
 from _pytest.logging import LogCaptureFixture
 from py._path.local import LocalPath
 from pydantic import ValidationError
+from tests.cases.entities import BookFactory, GenreFactory
+from tests.cases.model import Book
 
 from repository_orm import (
     AutoIncrementError,
@@ -23,7 +25,7 @@ from repository_orm.exceptions import TooManyEntitiesError
 
 from ..cases import Entity, OtherEntity, RepositoryTester
 from ..cases.entities import ListEntityFactory
-from ..cases.model import Author, Book, BoolEntity, ListEntity
+from ..cases.model import Author, BoolEntity, Genre, ListEntity
 
 
 class TestDBConnection:
@@ -197,6 +199,27 @@ class TestAdd:
         # ignore: we know that the entities have an int id_
         assert entities[2].id_ == inserted_int_entity.id_ + 2  # type: ignore
         assert entities[2].name == "Second entity without id"
+
+    def test_repository_can_save_an_entity_without_id_with_other_entity_in_repo(
+        self,
+        repo: Repository,
+    ) -> None:
+        """
+        Given: A repository with an entity whose id_ type is an int
+        When: adding an entity of another model without id
+        Then: the id of the new entity is not affected by the existent entity.
+        """
+        book = BookFactory.build(id_=5)
+        repo.add(book)
+        repo.commit()
+        entity = GenreFactory.build(id_=-1, name="Entity without id")
+        repo.add(entity)
+
+        repo.commit()  # act
+
+        saved_entity = repo.last(Genre)
+        assert saved_entity.id_ == 0
+        assert saved_entity.name == "Entity without id"
 
     def test_repository_cant_save_an_entity_with_a_negative_id(
         self,
@@ -844,6 +867,45 @@ class TestLast:
             ),
         ):
             repo.last(type(entity))
+
+    def test_repository_last_raise_error_if_entity_not_found_and_staged_entities(
+        self,
+        repo: Repository,
+    ) -> None:
+        """
+        Given: A repository with a staged entity
+        When: trying to get an entity of another model that is not present
+        Then: the staged entity shouldn't affect and the error should be raised
+        """
+        book = BookFactory.build(id_=5)
+        repo.add(book)
+
+        with pytest.raises(
+            EntityNotFoundError,
+            match=("There are no entities of type Genre in the repository"),
+        ):
+            repo.last(Genre)
+
+    def test_repository_last_if_some_entity_found_and_staged_entities(
+        self,
+        repo: Repository,
+    ) -> None:
+        """
+        Given: A repository with a commited entity of the desired type and a
+            staged entity of another type with a greater ID
+        When: get the last entity type
+        Then: the staged entity shouldn't affect and the commited entity should be
+            returned
+        """
+        genre = GenreFactory.build(id_=2)
+        repo.add(genre)
+        repo.commit()
+        book = BookFactory.build(id_=5)
+        repo.add(book)
+
+        result = repo.last(Genre)
+
+        assert result == genre
 
 
 class TestFirst:

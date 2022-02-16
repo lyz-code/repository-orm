@@ -147,7 +147,7 @@ class Repository(abc.ABC):
         Args:
             models: Entity class or classes to obtain.
         """
-        entities = self._all(models)
+        entities = sorted(self._all(models))
 
         # ignore: the type cannot be List[Entity] but it can, I don't know how to fix
         # this

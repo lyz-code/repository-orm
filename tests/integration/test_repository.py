@@ -432,7 +432,8 @@ class TestAll:
 
         assert result == inserted_entities
         assert len(result) == 3
-        assert result[0].id_ == inserted_entities[0].id_
+        assert result[0] < result[1]
+        assert result[1] < result[2]
         for entity in result:
             assert repo.cache.get(entity) == entity
 

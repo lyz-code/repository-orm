@@ -303,4 +303,4 @@ def inserted_entities(
     """
     for entity_to_insert in entities:
         repo_tester.insert_entity(database, entity_to_insert)
-    return entities
+    return sorted(entities)

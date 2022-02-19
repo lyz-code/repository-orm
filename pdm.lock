@@ -170,7 +170,7 @@ summary = "The Real First Universal Charset Detector. Open, modern and actively 
 
 [[package]]
 name = "click"
-version = "8.0.3"
+version = "8.0.4"
 requires_python = ">=3.6"
 summary = "Composable command line interface toolkit"
 dependencies = [
@@ -953,7 +953,7 @@ dependencies = [
 
 [[package]]
 name = "pydantic-factories"
-version = "1.2.4"
+version = "1.2.5"
 requires_python = ">=3.7,<4.0"
 summary = "Mock data generation for pydantic based models"
 dependencies = [
@@ -1588,9 +1588,9 @@ content_hash = "sha256:e159d484cb521f6590e68da5fbae74a79c3f8012bb8c384f847e3a6cf
     {file = "charset_normalizer-2.0.12-py3-none-any.whl", hash = "sha256:6881edbebdb17b39b4eaaa821b438bf6eddffb4468cf344f09f89def34a8b1df"},
     {file = "charset-normalizer-2.0.12.tar.gz", hash = "sha256:2857e29ff0d34db842cd7ca3230549d1a697f96ee6d3fb071cfa6c7393832597"},
 ]
-"click 8.0.3" = [
-    {file = "click-8.0.3-py3-none-any.whl", hash = "sha256:353f466495adaeb40b6b5f592f9f91cb22372351c84caeb068132442a4518ef3"},
-    {file = "click-8.0.3.tar.gz", hash = "sha256:410e932b050f5eed773c4cda94de75971c89cdb3155a72a0831139a79e5ecb5b"},
+"click 8.0.4" = [
+    {file = "click-8.0.4-py3-none-any.whl", hash = "sha256:6a7a62563bbfabfda3a38f3023a1db4a35978c0abd76f6c9605ecd6554d6d9b1"},
+    {file = "click-8.0.4.tar.gz", hash = "sha256:8458d7b1287c5fb128c90e23381cf99dcde74beaf6c7ff6384ce84d6fe090adb"},
 ]
 "colorama 0.4.4" = [
     {file = "colorama-0.4.4-py2.py3-none-any.whl", hash = "sha256:9f47eda37229f68eee03b24b9748937c7dc3868f906e8ba69fbcbdd3bc5dc3e2"},
@@ -2185,9 +2185,9 @@ content_hash = "sha256:e159d484cb521f6590e68da5fbae74a79c3f8012bb8c384f847e3a6cf
     {file = "pydantic-1.9.0-py3-none-any.whl", hash = "sha256:085ca1de245782e9b46cefcf99deecc67d418737a1fd3f6a4f511344b613a5b3"},
     {file = "pydantic-1.9.0.tar.gz", hash = "sha256:742645059757a56ecd886faf4ed2441b9c0cd406079c2b4bee51bcc3fbcd510a"},
 ]
-"pydantic-factories 1.2.4" = [
-    {file = "pydantic_factories-1.2.4-py3-none-any.whl", hash = "sha256:2efc773576e60bda33ba3b2c57621081ba250846bee1a3678f9f9cb76b649abd"},
-    {file = "pydantic-factories-1.2.4.tar.gz", hash = "sha256:ded63b55200de106b544abea2299e1e3ed6d1e26b8d0294f1a3e35927d550818"},
+"pydantic-factories 1.2.5" = [
+    {file = "pydantic_factories-1.2.5-py3-none-any.whl", hash = "sha256:0b54c81fe24660844c0172c9cf0e93c9d6b8bc064a12e0d9804f28f14458b159"},
+    {file = "pydantic-factories-1.2.5.tar.gz", hash = "sha256:a2a78f4c0449632d704f218c272431af681780f79a12295758df4b12cbbe4ac7"},
 ]
 "pydocstyle 6.1.1" = [
     {file = "pydocstyle-6.1.1-py3-none-any.whl", hash = "sha256:6987826d6775056839940041beef5c08cc7e3d71d63149b48e36727f70144dc4"},

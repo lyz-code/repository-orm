@@ -241,7 +241,7 @@ summary = "Minimal, easy-to-use, declarative cli tool"
 
 [[package]]
 name = "decopatch"
-version = "1.4.9"
+version = "1.4.10"
 summary = "Create decorators easily in python."
 dependencies = [
     "makefun>=1.5.0",
@@ -798,7 +798,7 @@ dependencies = [
 
 [[package]]
 name = "mkdocstrings"
-version = "0.18.0"
+version = "0.18.1"
 requires_python = ">=3.7"
 summary = "Automatic documentation from sources, for MkDocs."
 dependencies = [
@@ -1671,9 +1671,9 @@ content_hash = "sha256:e159d484cb521f6590e68da5fbae74a79c3f8012bb8c384f847e3a6cf
     {file = "decli-0.5.2-py3-none-any.whl", hash = "sha256:d3207bc02d0169bf6ed74ccca09ce62edca0eb25b0ebf8bf4ae3fb8333e15ca0"},
     {file = "decli-0.5.2.tar.gz", hash = "sha256:f2cde55034a75c819c630c7655a844c612f2598c42c21299160465df6ad463ad"},
 ]
-"decopatch 1.4.9" = [
-    {file = "decopatch-1.4.9-py2.py3-none-any.whl", hash = "sha256:cd9a49f749c26ea8e5fc567b0ccc04f61fb83ebd6eea0834e426f327399a7757"},
-    {file = "decopatch-1.4.9.tar.gz", hash = "sha256:b5882c8cf0d5b01d218b4e04f6762d07b3287420ea509706f59971c3d6fec56f"},
+"decopatch 1.4.10" = [
+    {file = "decopatch-1.4.10-py2.py3-none-any.whl", hash = "sha256:e151f7f93de2b1b3fd3f3272dcc7cefd1a69f68ec1c2d8e288ecd9deb36dc5f7"},
+    {file = "decopatch-1.4.10.tar.gz", hash = "sha256:957f49c93f4150182c23f8fb51d13bb3213e0f17a79e09c8cca7057598b55720"},
 ]
 "deepdiff 5.7.0" = [
     {file = "deepdiff-5.7.0-py3-none-any.whl", hash = "sha256:1ffb38c3b5d9174eb2df95850c93aee55ec00e19396925036a2e680f725079e0"},
@@ -2060,9 +2060,9 @@ content_hash = "sha256:e159d484cb521f6590e68da5fbae74a79c3f8012bb8c384f847e3a6cf
     {file = "mkdocs_section_index-0.3.3-py3-none-any.whl", hash = "sha256:a79d8b6e21b5d9d4edf056246ea1d1d4f6c8705469c20bbe06e3ecd5b30fc4e7"},
     {file = "mkdocs-section-index-0.3.3.tar.gz", hash = "sha256:434c7c2378a7c2a7ce15f642fcb0cd04af741a7d157eab47e6c02c3eb8a52a98"},
 ]
-"mkdocstrings 0.18.0" = [
-    {file = "mkdocstrings-0.18.0-py3-none-any.whl", hash = "sha256:75e277f6a56a894a727efcf6d418d36cd43d4db7da9614c2dc23300e257d95ad"},
-    {file = "mkdocstrings-0.18.0.tar.gz", hash = "sha256:01d8ab962fc1f388c9b15cbf8c078b8738f92adf983b626d74135aaee2bce33a"},
+"mkdocstrings 0.18.1" = [
+    {file = "mkdocstrings-0.18.1-py3-none-any.whl", hash = "sha256:4053929356df8cd69ed32eef71d8f676a472ef72980c9ffd4f933ead1debcdad"},
+    {file = "mkdocstrings-0.18.1.tar.gz", hash = "sha256:fb7c91ce7e3ab70488d3fa6c073a4f827cdc319042f682ef8ea95459790d64fc"},
 ]
 "mkdocstrings-python-legacy 0.2.2" = [
     {file = "mkdocstrings_python_legacy-0.2.2-py3-none-any.whl", hash = "sha256:379107a3a5b8db9b462efc4493c122efe21e825e3702425dbd404621302a563a"},

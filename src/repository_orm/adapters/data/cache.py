@@ -1,5 +1,6 @@
 """Define the cache of the data repositories."""
 
+from contextlib import suppress
 from typing import Any, Dict, List, Type, TypeVar
 
 from ...model import Entity as EntityModel
@@ -50,3 +51,14 @@ class Cache:
         except KeyError:
             return False
         return False
+
+    def remove(self, entity_or_entities: EntityOrEntities) -> None:
+        """Remove an entity from the cache if it exists."""
+        if isinstance(entity_or_entities, EntityModel):
+            entities = [entity_or_entities]
+        else:
+            entities = entity_or_entities
+
+        for entity in entities:
+            with suppress(KeyError):
+                self.cache[type(entity)].pop(entity.id_)

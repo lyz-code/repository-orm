@@ -1,3 +1,9 @@
+## 1.1.0 (2022-03-04)
+
+### Feat
+
+- support AnyHttpUrl as id_ type
+
 ## 1.0.0 (2022-03-04)
 
 ### Feat

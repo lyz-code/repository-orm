@@ -1,3 +1,10 @@
+## 1.1.1 (2022-03-04)
+
+### Fix
+
+- correct merge errors
+- propagate the merge attribute when adding a list of entities
+
 ## 1.1.0 (2022-03-04)
 
 ### Feat

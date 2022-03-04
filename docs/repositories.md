@@ -12,7 +12,10 @@ The different repositories share the next operations:
 
 `add`
 : Add an `Entity` object or list of `Entity` objects to the repository, if it
-already exist, it updates the stored attributes.
+already exist, it updates the stored attributes. If you want to [merge the
+entities](models.md#merging-entities) before adding them to the repository, use
+the `merge=True` argument (this will become the default behaviour since
+2022-09-01).
 
 !!! note
     If you add a list of entities you may get a mypy error that I don't know yet

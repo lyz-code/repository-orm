@@ -322,6 +322,27 @@ class TestAdd:
         with pytest.raises(EntityNotFoundError):
             repo_tester.get_entity(database, entity)
 
+    def test_repository_doesnt_update_an_entity_if_we_dont_commit_changes(
+        self,
+        database: Any,
+        repo: Repository,
+        repo_tester: RepositoryTester[Repository],
+        entity: Entity,
+    ) -> None:
+        """
+        Given: an empty repository.
+        When: an entity is added but we don't commit the changes.
+        Then: the entity is not found in the repository.
+        """
+        original_entity = entity.copy()
+        repo_tester.insert_entity(database, entity)
+        entity.name = "new name"
+
+        repo.add(entity)  # act
+
+        stored_entity = repo_tester.get_all(database, type(entity))[0]
+        assert stored_entity.name == original_entity.name
+
     def test_repository_doesnt_allow_adding_non_entity_types(
         self,
         database: Any,
@@ -363,6 +384,51 @@ class TestAdd:
             logging.DEBUG,
             f"Skipping the addition of entity {entity} as it hasn't changed",
         ) in caplog.record_tuples
+
+    def test_repo_add_entity_merges_with_stored_values_before_adding(
+        self,
+        database: Any,
+        repo: Repository,
+        repo_tester: RepositoryTester[Repository],
+    ) -> None:
+        """
+        Given: A repository with an entity
+        When: Adding that entity with updated values
+        Then: The entities are merged before they are commited.
+
+        The Genre model has the `rating` attribute in the `skip_on_merge` configuration
+        therefore even if the added entity has a different value, it's not propagated.
+        """
+        entity = GenreFactory.build()
+        repo_tester.insert_entity(database, entity)
+        original_entity = entity.copy()
+        entity.rating = 3
+        entity.name = "new name"
+        repo.add(entity, merge=True)
+
+        repo.commit()  # act
+
+        stored_entity = repo_tester.get_all(database, Genre)[0]
+        assert stored_entity.rating == original_entity.rating
+        assert stored_entity.name == "new name"
+
+    def test_repo_add_raises_warning_if_merge_is_false(
+        self,
+        database: Any,
+        repo: Repository,
+    ) -> None:
+        """
+        Given: An empty repository
+        When: Adding an entity without merge = True
+        Then: A warning is raised
+
+        It will become the default behaviour and we need to test that everything
+        works.
+        """
+        entity = GenreFactory.build()
+        with pytest.warns(UserWarning, match="On 2022-09-01 entities "):
+
+            repo.add(entity)  # act
 
 
 class TestGet:
@@ -416,7 +482,7 @@ class TestGet:
         with pytest.raises(
             EntityNotFoundError,
             match=(
-                f"There are no entities of type {entity._model_name} in the "
+                f"There are no entities of type {entity.model_name} in the "
                 f"repository with id {entity.id_}"
             ),
         ):
@@ -639,7 +705,7 @@ class TestSearch:
         with pytest.raises(
             EntityNotFoundError,
             match=(
-                f"There are no entities of type {entity._model_name} in the repository"
+                f"There are no entities of type {entity.model_name} in the repository"
                 " that match the search filter {'inexistent_field': 'inexistent_value'}"
             ),
         ):
@@ -656,7 +722,7 @@ class TestSearch:
         with pytest.raises(
             EntityNotFoundError,
             match=(
-                f"There are no entities of type {entity._model_name} in the "
+                f"There are no entities of type {entity.model_name} in the "
                 "repository that match the search filter {'id_': 'inexistent_value'}"
             ),
         ):
@@ -863,7 +929,7 @@ class TestLast:
         with pytest.raises(
             EntityNotFoundError,
             match=(
-                f"There are no entities of type {entity._model_name} in the repository"
+                f"There are no entities of type {entity.model_name} in the repository"
             ),
         ):
             repo.last(type(entity))
@@ -941,7 +1007,7 @@ class TestFirst:
         with pytest.raises(
             EntityNotFoundError,
             match=(
-                f"There are no entities of type {entity._model_name} in the repository"
+                f"There are no entities of type {entity.model_name} in the repository"
             ),
         ):
             repo.first(type(entity))

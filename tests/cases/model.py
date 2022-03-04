@@ -39,6 +39,8 @@ class Genre(Entity):
     description: Optional[str] = None
     rating: Optional[int] = None
 
+    _skip_on_merge: List[str] = ["rating"]
+
 
 class OtherEntity(Entity):
     """Entity to model an entity that is not in the repo."""

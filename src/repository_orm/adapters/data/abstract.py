@@ -2,6 +2,7 @@
 
 import abc
 import logging
+import warnings
 from typing import Dict, List, Optional, Type, TypeVar, Union
 
 from ...exceptions import AutoIncrementError, EntityNotFoundError
@@ -41,10 +42,13 @@ class Repository(abc.ABC):
         self.models = models
         self.cache = Cache()
 
-    def add(self, entities: EntityOrEntities) -> EntityOrEntities:
+    def add(self, entities: EntityOrEntities, merge: bool = False) -> EntityOrEntities:
         """Append an entity or list of entities to the repository.
 
-        If the id is not set, autoincrement the last.
+        If the id is not set, it will automatically increment the last available one.
+
+        If `merge` is True, added entities will be merged with the existent ones in
+        the cache.
 
         Args:
             entity: Entity to add to the repository.
@@ -54,8 +58,21 @@ class Repository(abc.ABC):
         """
         if isinstance(entities, EntityModel):
             entity = entities
+
             if isinstance(entity.id_, int) and entity.id_ < 0:
                 entity.id_ = self._next_id(entity)
+
+            if merge:
+                stored_entity = self.get(entity.id_, type(entity))
+                entity = stored_entity.merge(entity)
+            else:
+                warnings.warn(
+                    "On 2022-09-01 entities will be merged when adding to the "
+                    "repository, please use repo.add(entity, merge=True) before "
+                    "then to check nothing is going to be broken.",
+                    UserWarning,
+                )
+
             if self.cache.entity_has_not_changed(entity):
                 log.debug(
                     f"Skipping the addition of entity {entity} as it hasn't changed"

@@ -9,6 +9,17 @@ version_files = [
     "src/repository_orm/version.py",
 ]
 
+# --------- Autoimport -------------
+
+[tool.autoimport.common_statements]
+"factories" = "from tests import factories"
+"Book" = "from tests.cases.model import Book"
+"Author" = "from tests.cases.model import Author"
+"Genre" = "from tests.cases.model import Genre"
+"BookFactory" = "from tests.cases.entities import BookFactory"
+"AuthorFactory" = "from tests.cases.entities import AuthorFactory"
+"GenreFactory" = "from tests.cases.entities import GenreFactory"
+
 # --------- PDM -------------
 
 [project]
@@ -175,7 +186,11 @@ markers = [
 ]
 filterwarnings = [
   "error",
+  # Remove this ignore, maybe add a self.raise in the abstract repo to close the repo
+  # when raising exceptions
   "ignore::ResourceWarning",
+  "ignore::UserWarning:repository_orm.*",
+  "ignore::DeprecationWarning:repository_orm.*",
 ]
 
 # --------- Coverage -------------
@@ -247,8 +262,6 @@ pylint = [
   "-W1201", # Use lazy % formatting in logging functions. Deprecated rule in favor of
             # f-strings.
   "-C0301", # Lines too long. Already covered by E501.
-  "-W0212", # Access to a protected member _model_name of a client class. We need this to access the
-            # _model_name attribute on the Entities
 ]
 mccabe = ["+*"]
 pep8-naming = ["+*"]
@@ -271,8 +284,6 @@ flake8-annotations = [
 pylint = [
   "-R0201", # Method could be a function. Raised because the methods of a test class
             # don't use the self object, which is not wrong.
-  "-W0212", # Access to a protected member _model_name of a client class. We may need this
-            # For unit tests.
 ]
 
 [tool.flakehell.exceptions."tests/migrations/"]
@@ -286,8 +297,6 @@ pylint = [
             # don't seem to use the self object. But they do, as if we change them to
             # staticmethod or classmethods the tests don't get run.
   "-R0903", # Too few methods warning, but is the way to define factoryboy factories.
-  "-W0212", # Access to a protected member _model_name of a client class. We may need this
-            # For unit tests.
 ]
 [tool.flakehell.exceptions."tests/factories.py"]
 pylint = [

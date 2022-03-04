@@ -27,14 +27,29 @@ def test_cache_can_remove_entity() -> None:
     """
     Given: An entry in the cache
     When: calling remove
-    Then: the cached version is rmeoved
+    Then: the cached version is removed
     """
     entity = Entity(name="Original name")
     cache = Cache()
     cache.add(entity)
-    entity.name = "Modified name"
 
     cache.remove(entity)  # act
+
+    with pytest.raises(KeyError):
+        cache.get(entity)
+
+
+def test_cache_can_remove_entities() -> None:
+    """
+    Given: Many entities in the cache
+    When: calling remove
+    Then: the cached version are removed
+    """
+    entity = Entity(name="Original name")
+    cache = Cache()
+    cache.add(entity)
+
+    cache.remove([entity, entity])  # type: ignore # act
 
     with pytest.raises(KeyError):
         cache.get(entity)

@@ -5,11 +5,11 @@ import warnings
 from datetime import datetime
 from typing import Any, AnyStr, Dict, Generic, List, Optional, Union
 
-from pydantic import BaseModel, PrivateAttr
+from pydantic import AnyHttpUrl, BaseModel, PrivateAttr
 
 from .exceptions import FileContentNotLoadedError
 
-EntityID = Union[int, str]
+EntityID = Union[int, str, AnyHttpUrl]
 
 
 class Entity(BaseModel):

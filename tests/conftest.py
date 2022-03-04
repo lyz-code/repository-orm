@@ -8,6 +8,7 @@ import pytest
 from py._path.local import LocalPath
 from pydantic_factories import ModelFactory
 from pytest_cases import fixture, parametrize_with_cases, unpack_fixture
+from tests.cases.model import Article
 from tinydb import TinyDB
 
 from repository_orm import (
@@ -85,7 +86,7 @@ def db_tinydb_(tmpdir: LocalPath) -> Tuple[str, TinyDB]:
 # -----------------------
 # - Repository fixtures -
 # -----------------------
-models = [Author, Book, Genre, OtherEntity]
+models = [Article, Author, Book, Genre, OtherEntity]
 
 
 @pytest.fixture()

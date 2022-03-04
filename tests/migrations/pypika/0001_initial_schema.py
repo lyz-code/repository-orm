@@ -8,6 +8,17 @@ from yoyo import step
 
 steps = [
     step(
+        "CREATE TABLE article ("
+        "id VARCHAR(26), "
+        "name VARCHAR(20), "
+        "description VARCHAR(255), "
+        "state VARCHAR(20), "
+        "active BOOL, "
+        "rating INT, "
+        "PRIMARY KEY (id))",
+        "DROP TABLE article",
+    ),
+    step(
         "CREATE TABLE author ("
         "id VARCHAR(26), "
         "name VARCHAR(20), "

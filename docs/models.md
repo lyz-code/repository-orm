@@ -17,7 +17,7 @@ you usually need the following object types:
 
 The [Entity][repository_orm.model.Entity] class is based on the
 pydantic's `BaseModel` to enforce that they have the `id_` attribute of type
-`int` or `str`, used for comparison and hashing of entities.
+`int`, `str` or `AnyHttpUrl`, used for comparison and hashing of entities.
 
 They also have a private `model_name` property with the name of the model.
 
@@ -29,7 +29,8 @@ populate it.
 {! examples/auto_increment_id.py !} # noqa
 ```
 
-!!! warning "This won't work with `str` ids!"
+!!! warning "This will only work with `int` ids! For the rest of the cases you
+need to give the `id_` yourself."
 
 ## Merging entities
 

@@ -3,6 +3,8 @@
 from datetime import datetime
 from typing import List, Optional
 
+from pydantic import AnyHttpUrl
+
 from repository_orm import Entity as EntityModel
 
 
@@ -40,6 +42,14 @@ class Genre(Entity):
     rating: Optional[int] = None
 
     _skip_on_merge: List[str] = ["rating"]
+
+
+class Article(Entity):
+    """Entity to model an internet article."""
+
+    id_: AnyHttpUrl
+    description: Optional[str] = None
+    rating: Optional[int] = None
 
 
 class OtherEntity(Entity):

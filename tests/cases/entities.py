@@ -4,7 +4,7 @@ from typing import Any, Type
 
 from pydantic_factories import ModelFactory
 
-from .model import Author, Book, Genre, ListEntity
+from .model import Article, Author, Book, Genre, ListEntity
 
 
 class EntityCases:
@@ -21,6 +21,10 @@ class EntityCases:
     def case_genre(self) -> Type[ModelFactory[Any]]:
         """Return the Genre factory."""
         return GenreFactory
+
+    def case_article(self) -> Type[ModelFactory[Any]]:
+        """Return the Genre factory."""
+        return ArticleFactory
 
 
 class StrEntityCases:
@@ -65,3 +69,9 @@ class ListEntityFactory(ModelFactory[Any]):
     """Factory to generate fake list of entities."""
 
     __model__ = ListEntity
+
+
+class ArticleFactory(ModelFactory[Any]):
+    """Factory to generate fake list of entities."""
+
+    __model__ = Article

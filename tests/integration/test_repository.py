@@ -91,6 +91,7 @@ class TestDBConnection:
         assert repo_tester.connection_is_closed(repo)
 
 
+@pytest.mark.parametrize("merge", [True, False])
 class TestAdd:
     """Test the saving of entities."""
 
@@ -100,12 +101,13 @@ class TestAdd:
         repo: Repository,
         repo_tester: RepositoryTester[Repository],
         entity: Entity,
+        merge: bool,
     ) -> None:
         """Saved entities remain in the repository.
 
         And the entity is saved to the repository cache.
         """
-        repo.add(entity)
+        repo.add(entity, merge=merge)
 
         repo.commit()  # act
 
@@ -116,6 +118,7 @@ class TestAdd:
         self,
         repo: Repository,
         int_entity: Entity,
+        merge: bool,
     ) -> None:
         """
         Given: An empty repository and an entity whose id_ type is an int
@@ -123,7 +126,7 @@ class TestAdd:
         Then: the id 0 is set
         """
         entity = int_entity.__class__(name="Entity without id")
-        added_entity = repo.add(entity)
+        added_entity = repo.add(entity, merge=merge)
 
         repo.commit()  # act
 
@@ -133,9 +136,7 @@ class TestAdd:
         assert entities[0].id_ == 0
 
     def test_repository_can_save_an_two_entities_without_id_in_empty_repo(
-        self,
-        repo: Repository,
-        int_entity: Entity,
+        self, repo: Repository, int_entity: Entity, merge: bool
     ) -> None:
         """
         Given: An empty repository and an entity whose id_ type is an int
@@ -144,7 +145,7 @@ class TestAdd:
         """
         first_entity = int_entity.__class__(name="First entity without id")
         second_entity = int_entity.__class__(name="Second entity without id")
-        repo.add([first_entity, second_entity])  # type: ignore
+        repo.add([first_entity, second_entity], merge=merge)  # type: ignore
 
         repo.commit()  # act
 
@@ -159,6 +160,7 @@ class TestAdd:
         self,
         repo: Repository,
         inserted_int_entity: Entity,
+        merge: bool,
     ) -> None:
         """
         Given: A repository with an entity whose id_ type is an int
@@ -166,7 +168,7 @@ class TestAdd:
         Then: the id of the new entity is one unit greater than the last one.
         """
         entity = inserted_int_entity.__class__(name="Entity without id")
-        repo.add(entity)
+        repo.add(entity, merge=merge)
 
         repo.commit()  # act
 
@@ -176,9 +178,7 @@ class TestAdd:
         assert saved_entity.name == "Entity without id"
 
     def test_repository_can_save_two_entities_without_id_full_repo(
-        self,
-        repo: Repository,
-        inserted_int_entity: Entity,
+        self, repo: Repository, inserted_int_entity: Entity, merge: bool
     ) -> None:
         """
         Given: A repository with an entity whose id_ type is an int
@@ -187,7 +187,7 @@ class TestAdd:
         """
         first_entity = inserted_int_entity.__class__(name="First entity without id")
         second_entity = inserted_int_entity.__class__(name="Second entity without id")
-        repo.add([first_entity, second_entity])  # type: ignore
+        repo.add([first_entity, second_entity], merge=merge)  # type: ignore
 
         repo.commit()  # act
 
@@ -203,6 +203,7 @@ class TestAdd:
     def test_repository_can_save_an_entity_without_id_with_other_entity_in_repo(
         self,
         repo: Repository,
+        merge: bool,
     ) -> None:
         """
         Given: A repository with an entity whose id_ type is an int
@@ -210,10 +211,10 @@ class TestAdd:
         Then: the id of the new entity is not affected by the existent entity.
         """
         book = BookFactory.build(id_=5)
-        repo.add(book)
+        repo.add(book, merge=merge)
         repo.commit()
         entity = GenreFactory.build(id_=-1, name="Entity without id")
-        repo.add(entity)
+        repo.add(entity, merge=merge)
 
         repo.commit()  # act
 
@@ -222,9 +223,7 @@ class TestAdd:
         assert saved_entity.name == "Entity without id"
 
     def test_repository_cant_save_an_entity_with_a_negative_id(
-        self,
-        repo: Repository,
-        inserted_int_entity: Entity,
+        self, repo: Repository, inserted_int_entity: Entity, merge: bool
     ) -> None:
         """
         Given: A repository with an entity
@@ -232,7 +231,7 @@ class TestAdd:
         Then: the id of the new entity is one unit greater than the last one.
         """
         entity = inserted_int_entity.__class__(id=-3, name="Entity with negative id")
-        repo.add(entity)
+        repo.add(entity, merge=merge)
 
         repo.commit()  # act
 
@@ -247,14 +246,15 @@ class TestAdd:
         repo: Repository,
         repo_tester: RepositoryTester[Repository],
         entity: Entity,
+        merge: bool,
     ) -> None:
         """
         Given: An empty repository.
         When: We insert the same entity twice and then commit.
         Then: Only one item exists.
         """
-        repo.add(entity)
-        repo.add(entity)
+        repo.add(entity, merge=merge)
+        repo.add(entity, merge=merge)
 
         repo.commit()  # act
 
@@ -268,6 +268,7 @@ class TestAdd:
         repo: Repository,
         repo_tester: RepositoryTester[Repository],
         entity: Entity,
+        merge: bool,
     ) -> None:
         """
         Given: A repository with the identity we want to add already commited.
@@ -275,7 +276,7 @@ class TestAdd:
         Then: Only one item exists.
         """
         repo_tester.insert_entity(database, entity)
-        repo.add(entity)
+        repo.add(entity, merge=merge)
 
         repo.commit()  # act
 
@@ -289,6 +290,7 @@ class TestAdd:
         repo: Repository,
         repo_tester: RepositoryTester[Repository],
         entity: Entity,
+        merge: bool,
     ) -> None:
         """
         Given: A repository with the identity we want to add already commited.
@@ -297,7 +299,7 @@ class TestAdd:
         """
         repo_tester.insert_entity(database, entity)
         entity.active = False
-        repo.add(entity)
+        repo.add(entity, merge=merge)
 
         repo.commit()  # act
 
@@ -311,13 +313,14 @@ class TestAdd:
         repo: Repository,
         repo_tester: RepositoryTester[Repository],
         entity: Entity,
+        merge: bool,
     ) -> None:
         """
         Given: an empty repository.
         When: an entity is added but we don't commit the changes.
         Then: the entity is not found in the repository.
         """
-        repo.add(entity)
+        repo.add(entity, merge=merge)
 
         with pytest.raises(EntityNotFoundError):
             repo_tester.get_entity(database, entity)
@@ -328,6 +331,7 @@ class TestAdd:
         repo: Repository,
         repo_tester: RepositoryTester[Repository],
         entity: Entity,
+        merge: bool,
     ) -> None:
         """
         Given: an empty repository.
@@ -338,7 +342,7 @@ class TestAdd:
         repo_tester.insert_entity(database, entity)
         entity.name = "new name"
 
-        repo.add(entity)  # act
+        repo.add(entity, merge=merge)  # act
 
         stored_entity = repo_tester.get_all(database, type(entity))[0]
         assert stored_entity.name == original_entity.name
@@ -348,6 +352,7 @@ class TestAdd:
         database: Any,
         repo: Repository,
         repo_tester: RepositoryTester[Repository],
+        merge: bool,
     ) -> None:
         """
         Given: an empty repository.
@@ -357,7 +362,7 @@ class TestAdd:
         with pytest.raises(
             ValueError, match="Please add an entity or a list of entities"
         ):
-            repo.add(1)  # type: ignore
+            repo.add(1, merge=merge)  # type: ignore
 
     def test_repository_doesnt_add_entities_equal_to_cache_ones(
         self,
@@ -366,6 +371,7 @@ class TestAdd:
         repo_tester: RepositoryTester[Repository],
         entity: Entity,
         caplog: LogCaptureFixture,
+        merge: bool,
     ) -> None:
         """
         Given: A repository with an entity in the cache
@@ -377,13 +383,17 @@ class TestAdd:
         caplog.set_level(logging.DEBUG)
         repo.cache.add(entity)
 
-        repo.add(entity)  # act
+        repo.add(entity, merge=merge)  # act
 
         assert (
             "repository_orm.adapters.data.abstract",
             logging.DEBUG,
             f"Skipping the addition of entity {entity} as it hasn't changed",
         ) in caplog.record_tuples
+
+
+class TestAddMerge:
+    """Test add functionality with merging."""
 
     def test_repo_add_entity_merges_with_stored_values_before_adding(
         self,

@@ -90,7 +90,7 @@ class FakeRepository(Repository):
                 matching_entities.append(self.entities[model][id_])
 
         if len(matching_entities) == 1:
-            return matching_entities[0]
+            return matching_entities[0].copy()
         elif len(matching_entities) == 0:
             raise self._model_not_found(models, f" with id {id_}")
         else:

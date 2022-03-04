@@ -3,6 +3,7 @@
 import abc
 import logging
 import warnings
+from contextlib import suppress
 from typing import Dict, List, Optional, Type, TypeVar, Union
 
 from ...exceptions import AutoIncrementError, EntityNotFoundError
@@ -63,8 +64,9 @@ class Repository(abc.ABC):
                 entity.id_ = self._next_id(entity)
 
             if merge:
-                stored_entity = self.get(entity.id_, type(entity))
-                entity = stored_entity.merge(entity)
+                with suppress(EntityNotFoundError):
+                    stored_entity = self.get(entity.id_, type(entity))
+                    entity = stored_entity.merge(entity)
             else:
                 warnings.warn(
                     "On 2022-09-01 entities will be merged when adding to the "
@@ -85,7 +87,7 @@ class Repository(abc.ABC):
         elif isinstance(entities, list):
             updated_entities: List[EntityModel] = []
             for entity in entities:
-                updated_entities.append(self.add(entity))
+                updated_entities.append(self.add(entity, merge))
             return updated_entities
 
         raise ValueError("Please add an entity or a list of entities")

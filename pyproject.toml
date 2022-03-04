@@ -13,6 +13,7 @@ version_files = [
 
 [tool.autoimport.common_statements]
 "factories" = "from tests import factories"
+"Article" = "from tests.cases.model import Article"
 "Book" = "from tests.cases.model import Book"
 "Author" = "from tests.cases.model import Author"
 "Genre" = "from tests.cases.model import Genre"

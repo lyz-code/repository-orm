@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://lyz-code.github.io/repository-orm/models/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.11">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.4">
     
     
       
@@ -21,7 +21,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.50e68009.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.2d9f7617.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.e6a45f82.min.css">
@@ -36,8 +36,9 @@
     
       
         
+        
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
@@ -398,6 +399,19 @@
     Entities
   </a>
   
+    <nav class="md-nav" aria-label="Entities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#merging-entities" class="md-nav__link">
+    Merging entities
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -670,6 +684,19 @@
     Entities
   </a>
   
+    <nav class="md-nav" aria-label="Entities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#merging-entities" class="md-nav__link">
+    Merging entities
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -696,6 +723,7 @@
 </a>
 
 
+
   <h1>Models</h1>
 
 <p>When modeling the application logic through <a href="https://lyz-code.github.io/blue-book/architecture/domain_driven_design/">Domain Driven
@@ -720,7 +748,7 @@ you usually need the following object types:</p>
 <p>The <a href="../reference_models/#repository_orm.model.Entity">Entity</a> class is based on the
 pydantic's <code>BaseModel</code> to enforce that they have the <code>id_</code> attribute of type
 <code>int</code> or <code>str</code>, used for comparison and hashing of entities.</p>
-<p>They also have a private <code>_model_name</code> attribute with the name of the model.</p>
+<p>They also have a private <code>model_name</code> property with the name of the model.</p>
 <p>If you use integer IDs (which is the default), you don't need to define the
 <code>id_</code> at object creation. When you add the entity to the repository, it will
 populate it.</p>
@@ -747,6 +775,60 @@ populate it.</p>
 <div class="admonition warning">
 <p class="admonition-title">This won't work with <code>str</code> ids!</p>
 </div>
+<h3 id="merging-entities">Merging entities<a class="headerlink" href="#merging-entities" title="Permanent link">&para;</a></h3>
+<p>Entities have a <code>merge</code> method that let's you update it's attributes with
+the ones of another entity.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">repository_orm</span> <span class="kn">import</span> <span class="n">Entity</span>
+
+
+<span class="k">class</span> <span class="nc">Author</span><span class="p">(</span><span class="n">Entity</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">is_alive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+
+
+<span class="n">author</span> <span class="o">=</span> <span class="n">Author</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Brandon&quot;</span><span class="p">)</span>
+
+<span class="c1"># Imagine a complex process here that creates an updated version of the author object</span>
+<span class="n">new_author</span> <span class="o">=</span> <span class="n">Author</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;New name&quot;</span><span class="p">,</span> <span class="n">is_alive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">author</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">new_author</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">author</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;New name&quot;</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">author</span><span class="o">.</span><span class="n">is_alive</span>
+
+<span class="c1"># Nevertheless the default values are not merged!</span>
+<span class="n">author</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">Author</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Brandon&quot;</span><span class="p">))</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">author</span><span class="o">.</span><span class="n">is_alive</span>
+
+<span class="c1"># Unless specified by the user</span>
+<span class="n">author</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">Author</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Brandon&quot;</span><span class="p">,</span> <span class="n">is_alive</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="k">assert</span> <span class="n">author</span><span class="o">.</span><span class="n">is_alive</span> <span class="c1"># noqa</span>
+</code></pre></div>
+<p>For two entities to be mergeable, they need to belong from the same model and
+have the same <code>id_</code>. The previous example worked because by default the <code>id_</code> is
+<code>-1</code> until the entity is added to the repository. If you want to check other
+attribute to see if the objects are mergeable, probably that attribute should be
+the <code>id_</code> instead.</p>
+<p>If you don't want to propagate some attributes when merging, add them to the
+<code>_skip_on_merge</code> configuration option of the model:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="kn">from</span> <span class="nn">repository_orm</span> <span class="kn">import</span> <span class="n">Entity</span>
+
+
+<span class="k">class</span> <span class="nc">Author</span><span class="p">(</span><span class="n">Entity</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">is_alive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">birthday</span><span class="p">:</span> <span class="n">datetime</span>
+    <span class="n">_skip_on_merge</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;birthday&quot;</span><span class="p">]</span>
+
+
+<span class="n">author</span> <span class="o">=</span> <span class="n">Author</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Brandon&quot;</span><span class="p">,</span> <span class="n">birthday</span><span class="o">=</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">new_author</span> <span class="o">=</span> <span class="n">Author</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Brandon&quot;</span><span class="p">,</span> <span class="n">birthday</span><span class="o">=</span><span class="n">datetime</span><span class="p">(</span><span class="mi">1900</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">is_alive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">author</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">new_author</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">author</span><span class="o">.</span><span class="n">birthday</span> <span class="o">==</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">author</span><span class="o">.</span><span class="n">is_alive</span> <span class="c1"># noqa</span>
+</code></pre></div>
 <h2 id="files">Files<a class="headerlink" href="#files" title="Permanent link">&para;</a></h2>
 <p>The <a href="../reference_models/#repository_orm.model.File">File</a> class is a special
 <a href="../reference_models/#repository_orm.model.Entity">Entity</a> model used to work with computer files.</p>
@@ -774,7 +856,7 @@ directly.</p>
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2021-12-02T12:49:55+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2021-12-02</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2022-02-16T22:41:37+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2022-02-16</span>
       
     
   </small>
@@ -849,10 +931,10 @@ directly.</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "content.code.annotate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.092fa1f6.min.js"}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "content.code.annotate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
     
     
-      <script src="../assets/javascripts/bundle.5a9542cf.min.js"></script>
+      <script src="../assets/javascripts/bundle.5413a266.min.js"></script>
       
         <script src="../js/timeago.min.js"></script>
       

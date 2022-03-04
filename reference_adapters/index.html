@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://lyz-code.github.io/repository-orm/reference_adapters/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.11">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.4">
     
     
       
@@ -21,7 +21,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.50e68009.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.2d9f7617.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.e6a45f82.min.css">
@@ -36,8 +36,9 @@
     
       
         
+        
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
@@ -1644,6 +1645,7 @@
 </a>
 
 
+
 <div class="doc doc-object doc-module">
 
 
@@ -1794,10 +1796,13 @@ Repository            (<span title="abc.ABC">ABC</span>)
         <span class="bp">self</span><span class="o">.</span><span class="n">models</span> <span class="o">=</span> <span class="n">models</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="n">Cache</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="p">:</span> <span class="n">EntityOrEntities</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EntityOrEntities</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="p">:</span> <span class="n">EntityOrEntities</span><span class="p">,</span> <span class="n">merge</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EntityOrEntities</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Append an entity or list of entities to the repository.</span>
 
-<span class="sd">        If the id is not set, autoincrement the last.</span>
+<span class="sd">        If the id is not set, it will automatically increment the last available one.</span>
+
+<span class="sd">        If `merge` is True, added entities will be merged with the existent ones in</span>
+<span class="sd">        the cache.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            entity: Entity to add to the repository.</span>
@@ -1807,8 +1812,21 @@ Repository            (<span title="abc.ABC">ABC</span>)
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">entities</span><span class="p">,</span> <span class="n">EntityModel</span><span class="p">):</span>
             <span class="n">entity</span> <span class="o">=</span> <span class="n">entities</span>
+
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">entity</span><span class="o">.</span><span class="n">id_</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">entity</span><span class="o">.</span><span class="n">id_</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">entity</span><span class="o">.</span><span class="n">id_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next_id</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">merge</span><span class="p">:</span>
+                <span class="n">stored_entity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">entity</span><span class="o">.</span><span class="n">id_</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">entity</span><span class="p">))</span>
+                <span class="n">entity</span> <span class="o">=</span> <span class="n">stored_entity</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                    <span class="s2">&quot;On 2022-09-01 entities will be merged when adding to the &quot;</span>
+                    <span class="s2">&quot;repository, please use repo.add(entity, merge=True) before &quot;</span>
+                    <span class="s2">&quot;then to check nothing is going to be broken.&quot;</span><span class="p">,</span>
+                    <span class="ne">UserWarning</span><span class="p">,</span>
+                <span class="p">)</span>
+
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">entity_has_not_changed</span><span class="p">(</span><span class="n">entity</span><span class="p">):</span>
                 <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s2">&quot;Skipping the addition of entity </span><span class="si">{</span><span class="n">entity</span><span class="si">}</span><span class="s2"> as it hasn&#39;t changed&quot;</span>
@@ -2155,7 +2173,7 @@ Repository            (<span title="abc.ABC">ABC</span>)
 
 
 <h5 id="repository_orm.adapters.data.abstract.Repository.add" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="p">,</span> <span class="n">merge</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 
 <a href="#repository_orm.adapters.data.abstract.Repository.add" class="headerlink" title="Permanent link">&para;</a></h5>
@@ -2163,7 +2181,9 @@ Repository            (<span title="abc.ABC">ABC</span>)
     <div class="doc doc-contents ">
 
       <p>Append an entity or list of entities to the repository.</p>
-<p>If the id is not set, autoincrement the last.</p>
+<p>If the id is not set, it will automatically increment the last available one.</p>
+<p>If <code>merge</code> is True, added entities will be merged with the existent ones in
+the cache.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2201,10 +2221,13 @@ Repository            (<span title="abc.ABC">ABC</span>)
 </table>
         <details class="quote">
           <summary>Source code in <code>repository_orm/adapters/data/abstract.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="p">:</span> <span class="n">EntityOrEntities</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EntityOrEntities</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="p">:</span> <span class="n">EntityOrEntities</span><span class="p">,</span> <span class="n">merge</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EntityOrEntities</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Append an entity or list of entities to the repository.</span>
 
-<span class="sd">    If the id is not set, autoincrement the last.</span>
+<span class="sd">    If the id is not set, it will automatically increment the last available one.</span>
+
+<span class="sd">    If `merge` is True, added entities will be merged with the existent ones in</span>
+<span class="sd">    the cache.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        entity: Entity to add to the repository.</span>
@@ -2214,8 +2237,21 @@ Repository            (<span title="abc.ABC">ABC</span>)
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">entities</span><span class="p">,</span> <span class="n">EntityModel</span><span class="p">):</span>
         <span class="n">entity</span> <span class="o">=</span> <span class="n">entities</span>
+
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">entity</span><span class="o">.</span><span class="n">id_</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">entity</span><span class="o">.</span><span class="n">id_</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">entity</span><span class="o">.</span><span class="n">id_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next_id</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">merge</span><span class="p">:</span>
+            <span class="n">stored_entity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">entity</span><span class="o">.</span><span class="n">id_</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">entity</span><span class="p">))</span>
+            <span class="n">entity</span> <span class="o">=</span> <span class="n">stored_entity</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;On 2022-09-01 entities will be merged when adding to the &quot;</span>
+                <span class="s2">&quot;repository, please use repo.add(entity, merge=True) before &quot;</span>
+                <span class="s2">&quot;then to check nothing is going to be broken.&quot;</span><span class="p">,</span>
+                <span class="ne">UserWarning</span><span class="p">,</span>
+            <span class="p">)</span>
+
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">entity_has_not_changed</span><span class="p">(</span><span class="n">entity</span><span class="p">):</span>
             <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;Skipping the addition of entity </span><span class="si">{</span><span class="n">entity</span><span class="si">}</span><span class="s2"> as it hasn&#39;t changed&quot;</span>
@@ -3187,8 +3223,6 @@ FakeRepository            (<a title="repository_orm.adapters.data.abstract.Repos
     <span class="k">def</span> <span class="nf">_add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">Entity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Entity</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Append an entity to the repository.</span>
 
-<span class="sd">        If the id is not set, autoincrement the last.</span>
-
 <span class="sd">        Args:</span>
 <span class="sd">            entity: Entity to add to the repository.</span>
 
@@ -3838,7 +3872,7 @@ PypikaRepository            (<a title="repository_orm.adapters.data.abstract.Rep
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_table</span><span class="p">(</span><span class="n">entity</span><span class="p">:</span> <span class="n">Entity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Return the table of the selected entity object.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">entity</span><span class="o">.</span><span class="n">_model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">entity</span><span class="o">.</span><span class="n">model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_table_model</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Entity</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
@@ -4491,7 +4525,7 @@ TinyDBRepository            (<a title="repository_orm.adapters.data.abstract.Rep
 <span class="sd">            entity_data: Dictionary with the attributes of the entity.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">entity_data</span> <span class="o">=</span> <span class="n">entity</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
-        <span class="n">entity_data</span><span class="p">[</span><span class="s2">&quot;model_type_&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entity</span><span class="o">.</span><span class="n">_model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">entity_data</span><span class="p">[</span><span class="s2">&quot;model_type_&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entity</span><span class="o">.</span><span class="n">model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="n">entity_data</span>
 
@@ -4500,14 +4534,14 @@ TinyDBRepository            (<a title="repository_orm.adapters.data.abstract.Rep
         <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">staged</span><span class="p">[</span><span class="s2">&quot;add&quot;</span><span class="p">]:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db_</span><span class="o">.</span><span class="n">upsert</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_export_entity</span><span class="p">(</span><span class="n">entity</span><span class="p">),</span>
-                <span class="p">(</span><span class="n">Query</span><span class="p">()</span><span class="o">.</span><span class="n">model_type_</span> <span class="o">==</span> <span class="n">entity</span><span class="o">.</span><span class="n">_model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+                <span class="p">(</span><span class="n">Query</span><span class="p">()</span><span class="o">.</span><span class="n">model_type_</span> <span class="o">==</span> <span class="n">entity</span><span class="o">.</span><span class="n">model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
                 <span class="o">&amp;</span> <span class="p">(</span><span class="n">Query</span><span class="p">()</span><span class="o">.</span><span class="n">id_</span> <span class="o">==</span> <span class="n">entity</span><span class="o">.</span><span class="n">id_</span><span class="p">),</span>
             <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">staged</span><span class="p">[</span><span class="s2">&quot;add&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
 
         <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">staged</span><span class="p">[</span><span class="s2">&quot;remove&quot;</span><span class="p">]:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db_</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span>
-                <span class="p">(</span><span class="n">Query</span><span class="p">()</span><span class="o">.</span><span class="n">model_type_</span> <span class="o">==</span> <span class="n">entity</span><span class="o">.</span><span class="n">_model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+                <span class="p">(</span><span class="n">Query</span><span class="p">()</span><span class="o">.</span><span class="n">model_type_</span> <span class="o">==</span> <span class="n">entity</span><span class="o">.</span><span class="n">model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
                 <span class="o">&amp;</span> <span class="p">(</span><span class="n">Query</span><span class="p">()</span><span class="o">.</span><span class="n">id_</span> <span class="o">==</span> <span class="n">entity</span><span class="o">.</span><span class="n">id_</span><span class="p">)</span>
             <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">staged</span><span class="p">[</span><span class="s2">&quot;remove&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
@@ -4807,14 +4841,14 @@ scripts.</p></td>
     <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">staged</span><span class="p">[</span><span class="s2">&quot;add&quot;</span><span class="p">]:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">db_</span><span class="o">.</span><span class="n">upsert</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_export_entity</span><span class="p">(</span><span class="n">entity</span><span class="p">),</span>
-            <span class="p">(</span><span class="n">Query</span><span class="p">()</span><span class="o">.</span><span class="n">model_type_</span> <span class="o">==</span> <span class="n">entity</span><span class="o">.</span><span class="n">_model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+            <span class="p">(</span><span class="n">Query</span><span class="p">()</span><span class="o">.</span><span class="n">model_type_</span> <span class="o">==</span> <span class="n">entity</span><span class="o">.</span><span class="n">model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
             <span class="o">&amp;</span> <span class="p">(</span><span class="n">Query</span><span class="p">()</span><span class="o">.</span><span class="n">id_</span> <span class="o">==</span> <span class="n">entity</span><span class="o">.</span><span class="n">id_</span><span class="p">),</span>
         <span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">staged</span><span class="p">[</span><span class="s2">&quot;add&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
 
     <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">staged</span><span class="p">[</span><span class="s2">&quot;remove&quot;</span><span class="p">]:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">db_</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span>
-            <span class="p">(</span><span class="n">Query</span><span class="p">()</span><span class="o">.</span><span class="n">model_type_</span> <span class="o">==</span> <span class="n">entity</span><span class="o">.</span><span class="n">_model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+            <span class="p">(</span><span class="n">Query</span><span class="p">()</span><span class="o">.</span><span class="n">model_type_</span> <span class="o">==</span> <span class="n">entity</span><span class="o">.</span><span class="n">model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
             <span class="o">&amp;</span> <span class="p">(</span><span class="n">Query</span><span class="p">()</span><span class="o">.</span><span class="n">id_</span> <span class="o">==</span> <span class="n">entity</span><span class="o">.</span><span class="n">id_</span><span class="p">)</span>
         <span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">staged</span><span class="p">[</span><span class="s2">&quot;remove&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
@@ -5655,10 +5689,10 @@ LocalFileRepository            (<a title="repository_orm.adapters.file.abstract.
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "content.code.annotate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.092fa1f6.min.js"}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "content.code.annotate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
     
     
-      <script src="../assets/javascripts/bundle.5a9542cf.min.js"></script>
+      <script src="../assets/javascripts/bundle.5413a266.min.js"></script>
       
         <script src="../js/timeago.min.js"></script>
       

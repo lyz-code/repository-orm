@@ -85,7 +85,7 @@ class Repository(abc.ABC):
         elif isinstance(entities, list):
             updated_entities: List[EntityModel] = []
             for entity in entities:
-                updated_entities.append(self.add(entity))
+                updated_entities.append(self.add(entity, merge))
             return updated_entities
 
         raise ValueError("Please add an entity or a list of entities")

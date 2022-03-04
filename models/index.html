@@ -747,7 +747,7 @@ you usually need the following object types:</p>
 <h2 id="entities">Entities<a class="headerlink" href="#entities" title="Permanent link">&para;</a></h2>
 <p>The <a href="../reference_models/#repository_orm.model.Entity">Entity</a> class is based on the
 pydantic's <code>BaseModel</code> to enforce that they have the <code>id_</code> attribute of type
-<code>int</code> or <code>str</code>, used for comparison and hashing of entities.</p>
+<code>int</code>, <code>str</code> or <code>AnyHttpUrl</code>, used for comparison and hashing of entities.</p>
 <p>They also have a private <code>model_name</code> property with the name of the model.</p>
 <p>If you use integer IDs (which is the default), you don't need to define the
 <code>id_</code> at object creation. When you add the entity to the repository, it will
@@ -772,9 +772,8 @@ populate it.</p>
 <span class="n">brandon</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Author</span><span class="p">)</span>
 <span class="k">assert</span> <span class="n">brandon</span> <span class="o">==</span> <span class="n">author</span> <span class="c1"># noqa</span>
 </code></pre></div>
-<div class="admonition warning">
-<p class="admonition-title">This won't work with <code>str</code> ids!</p>
-</div>
+<p>!!! warning "This will only work with <code>int</code> ids! For the rest of the cases you
+need to give the <code>id_</code> yourself."</p>
 <h3 id="merging-entities">Merging entities<a class="headerlink" href="#merging-entities" title="Permanent link">&para;</a></h3>
 <p>Entities have a <code>merge</code> method that let's you update it's attributes with
 the ones of another entity.</p>
@@ -856,7 +855,7 @@ directly.</p>
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2022-02-16T22:41:37+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2022-02-16</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2022-03-04T16:37:01+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2022-03-04</span>
       
     
   </small>

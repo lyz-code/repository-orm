@@ -2619,7 +2619,7 @@ scripts.</p></td>
       </tr>
       <tr>
         <td><code>id_</code></td>
-        <td><code>Union[int, str]</code></td>
+        <td><code>Union[int, str, pydantic.networks.AnyHttpUrl]</code></td>
         <td><p>ID of the entity to obtain.</p></td>
         <td><em>required</em></td>
       </tr>
@@ -2814,7 +2814,7 @@ scripts.</p></td>
       </tr>
       <tr>
         <td><code>fields</code></td>
-        <td><code>Dict[str, Union[int, str]]</code></td>
+        <td><code>Dict[str, Union[int, str, pydantic.networks.AnyHttpUrl]]</code></td>
         <td><p>Dictionary with the {key}:{value} to search.</p></td>
         <td><em>required</em></td>
       </tr>

@@ -1,3 +1,10 @@
+## 0.12.0 (2022-03-04)
+
+### Feat
+
+- allow merging of entities
+- rename model name property from `_model_name` to `model_name`
+
 ## 0.11.1 (2022-02-16)
 
 ### Fix

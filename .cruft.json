@@ -1,6 +1,6 @@
 {
   "template": "https://github.com/lyz-code/cookiecutter-python-project",
-  "commit": "3f608095368b696881be01f6ea0241f04aa084cf",
+  "commit": "bcd6dcee41eb8d74c5134cf24e5a74256eba8c4c",
   "checkout": null,
   "context": {
     "cookiecutter": {

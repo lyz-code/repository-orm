@@ -35,7 +35,7 @@ lint:
 	@echo "- Testing the lint -"
 	@echo "--------------------"
 
-	pdm run flakehell lint src/ tests/
+	pdm run flakeheaven lint src/ tests/
 	$(isort) --check-only --df
 	$(black) --check --diff
 

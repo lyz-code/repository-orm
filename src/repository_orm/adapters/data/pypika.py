@@ -36,7 +36,10 @@ class PypikaRepository(Repository):
     """Implement the repository pattern using the Pypika query builder."""
 
     def __init__(
-        self, models: OptionalModels[Entity] = None, database_url: str = ""
+        self,
+        models: OptionalModels[Entity] = None,
+        database_url: str = "",
+        search_exception: bool = True,
     ) -> None:
         """Initialize the repository attributes.
 
@@ -44,7 +47,7 @@ class PypikaRepository(Repository):
             database_url: URL specifying the connection to the database.
             models: List of stored entity models.
         """
-        super().__init__(models, database_url)
+        super().__init__(models, database_url, search_exception)
         database_file = database_url.replace("sqlite:///", "")
         if not os.path.isfile(database_file):
             try:

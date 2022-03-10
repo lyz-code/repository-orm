@@ -82,10 +82,25 @@ class TestLoadRepository:
         Then: they are saved
         """
         models = [Author]
+        with pytest.warns(UserWarning, match="In 2022-06-10.*deprecated"):
 
-        result = load_repository(models=models)
+            result = load_repository(models=models)
 
         assert result.models == models
+
+    def test_load_repository_set_search_exception_false(self) -> None:
+        """
+        Given: loading the repository with search_exception False
+        When: running search on a criteria that returns no results
+        Then: an empty list is returned instead of an exception.
+
+        See ADR 005 for more info.
+        """
+        repo = load_repository(search_exception=False)
+
+        result = repo.search({"id_": 1}, Author)
+
+        assert result == []
 
 
 class TestLoadFileRepository:

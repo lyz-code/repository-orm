@@ -18,10 +18,13 @@ class FakeRepository(Repository):
     """Implement the repository pattern using a memory dictionary."""
 
     def __init__(
-        self, models: OptionalModels[Entity] = None, database_url: str = ""
+        self,
+        models: OptionalModels[Entity] = None,
+        database_url: str = "",
+        search_exception: bool = True,
     ) -> None:
         """Initialize the repository attributes."""
-        super().__init__(models=models)
+        super().__init__(models=models, search_exception=search_exception)
         if database_url == "/inexistent_dir/database.db":
             raise ConnectionError(f"Could not create database file: {database_url}")
         self.entities: FakeRepositoryDB[Entity] = {}
@@ -139,6 +142,8 @@ class FakeRepository(Repository):
             EntityNotFoundError: If the entities are not found.
         """
         models = self._build_models(models)
+        if len(models) == 1:
+            models = models[0]
         all_entities: List[Entity] = self.all(models)
         entities_dict = {entity.id_: entity for entity in all_entities}
         entity_attributes = {entity.id_: entity.dict() for entity in all_entities}

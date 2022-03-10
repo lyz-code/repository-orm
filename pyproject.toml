@@ -190,8 +190,6 @@ filterwarnings = [
   # Remove this ignore, maybe add a self.raise in the abstract repo to close the repo
   # when raising exceptions
   "ignore::ResourceWarning",
-  "ignore::UserWarning:repository_orm.*",
-  "ignore::DeprecationWarning:repository_orm.*",
 ]
 
 # --------- Coverage -------------

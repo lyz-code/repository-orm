@@ -22,7 +22,7 @@ def db_tinydb_(tmpdir: LocalPath) -> str:
 
 @pytest.fixture()
 def repo(db_tinydb: str) -> Generator[TinyDBRepository, None, None]:
-    repo = TinyDBRepository([Author], db_tinydb)
+    repo = TinyDBRepository(database_url=db_tinydb)
 
     yield repo
 

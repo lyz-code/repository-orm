@@ -20,6 +20,7 @@ from repository_orm import (
     EntityNotFoundError,
     Repository,
     TinyDBRepository,
+    load_repository,
 )
 from repository_orm.exceptions import TooManyEntitiesError
 
@@ -447,7 +448,10 @@ class TestGet:
         inserted_entity: Entity,
     ) -> None:
         """Given an entity_id the repository returns the entity object."""
-        result: Entity = repo.get(inserted_entity.id_)
+        repo.models = [type(inserted_entity)]  # type: ignore
+        with pytest.warns(UserWarning, match="In 2022-06-10.*deprecated"):
+
+            result: Entity = repo.get(inserted_entity.id_)
 
         assert result == inserted_entity
         assert result.id_ == inserted_entity.id_
@@ -459,8 +463,10 @@ class TestGet:
     ) -> None:
         """Given an entity_id the repository returns the entity object."""
         entity_models: List[Type[Entity]] = [type(inserted_entity), OtherEntity]
+        repo.models = entity_models  # type: ignore
+        with pytest.warns(UserWarning, match="In 2022-06-10.*deprecated"):
 
-        result = repo.get(inserted_entity.id_, entity_models)
+            result = repo.get(inserted_entity.id_, entity_models)
 
         assert result == inserted_entity
         assert result.id_ == inserted_entity.id_
@@ -489,11 +495,14 @@ class TestGet:
         Then: a TooManyEntitiesError error is raised
         """
         other_entity = OtherEntity(id_=inserted_entity.id_, name="Other entity")
+        repo.models = [type(inserted_entity), OtherEntity]  # type: ignore
         repo.add(other_entity)
         repo.commit()
+        with pytest.warns(
+            UserWarning, match="In 2022-06-10.*deprecated"
+        ), pytest.raises(TooManyEntitiesError, match=""):
 
-        with pytest.raises(TooManyEntitiesError, match=""):
-            repo.get(inserted_entity.id_)
+            repo.get(inserted_entity.id_)  # act
 
 
 class TestAll:
@@ -509,7 +518,11 @@ class TestAll:
         When: all is called
         Then: all entities are returned and saved to the repo cache.
         """
-        result: List[Entity] = repo.all()
+        entity_types: List[Type[Entity]] = [type(inserted_entities[0]), OtherEntity]
+        repo.models = entity_types  # type: ignore
+        with pytest.warns(UserWarning, match="In 2022-06-10.*deprecated"):
+
+            result: List[Entity] = repo.all()
 
         assert result == inserted_entities
         assert len(result) == 3
@@ -547,8 +560,10 @@ class TestAll:
         repo.add(other_entity)
         repo.commit()
         entity_types: List[Type[Entity]] = [type(inserted_entities[0]), OtherEntity]
+        repo.models = entity_types  # type: ignore
+        with pytest.warns(UserWarning, match="In 2022-06-10.*deprecated"):
 
-        result = repo.all(entity_types)
+            result = repo.all(entity_types)
 
         assert result == [other_entity] + inserted_entities  # type: ignore
         assert len(result) == 4
@@ -580,7 +595,7 @@ class TestAll:
         When: all is used with an entity type
         Then: An empty list is returned
         """
-        result: List[Entity] = repo.all()
+        result: List[Entity] = repo.all(Author)
 
         assert result == []
 
@@ -611,8 +626,11 @@ class TestSearch:
     ) -> None:
         """Search should return the objects that match the desired property."""
         expected_entity = inserted_entities[1]
+        entity_types: List[Type[Entity]] = [type(inserted_entities[0]), OtherEntity]
+        repo.models = entity_types  # type: ignore
+        with pytest.warns(UserWarning, match="In 2022-06-10.*deprecated"):
 
-        result: List[Entity] = repo.search({"id_": expected_entity.id_})
+            result: List[Entity] = repo.search({"id_": expected_entity.id_})
 
         assert result == [expected_entity]
 
@@ -624,8 +642,10 @@ class TestSearch:
         """Search should return the objects that match the desired property."""
         entity_types: List[Type[Entity]] = [type(inserted_entities[0]), OtherEntity]
         expected_entity = inserted_entities[1]
+        repo.models = entity_types  # type: ignore
+        with pytest.warns(UserWarning, match="In 2022-06-10.*deprecated"):
 
-        result = repo.search({"id_": expected_entity.id_}, entity_types)
+            result = repo.search({"id_": expected_entity.id_}, entity_types)
 
         assert result == [expected_entity]
 
@@ -639,7 +659,7 @@ class TestSearch:
         repo.add(expected_entity)
         repo.commit()
 
-        result = repo.search({"active": True}, [BoolEntity])
+        result = repo.search({"active": True}, BoolEntity)
 
         assert result == [expected_entity]
 
@@ -693,15 +713,17 @@ class TestSearch:
         error.
         """
         entity = inserted_entities[0]
-
-        with pytest.raises(
+        with pytest.warns(
+            UserWarning, match="From 2022-06-10.*return an empty list"
+        ), pytest.raises(
             EntityNotFoundError,
             match=(
                 f"There are no entities of type {entity.model_name} in the repository"
                 " that match the search filter {'inexistent_field': 'inexistent_value'}"
             ),
         ):
-            repo.search({"inexistent_field": "inexistent_value"}, type(entity))
+
+            repo.search({"inexistent_field": "inexistent_value"}, type(entity))  # act
 
     def test_repository_search_raises_error_if_searching_by_inexistent_value(
         self,
@@ -710,15 +732,33 @@ class TestSearch:
     ) -> None:
         """If no object has a value like the search criteria raise the desired error."""
         entity = inserted_entities[0]
-
-        with pytest.raises(
+        with pytest.warns(
+            UserWarning, match="From 2022-06-10.*return an empty list"
+        ), pytest.raises(
             EntityNotFoundError,
             match=(
                 f"There are no entities of type {entity.model_name} in the "
                 "repository that match the search filter {'id_': 'inexistent_value'}"
             ),
         ):
-            repo.search({"id_": "inexistent_value"}, type(entity))
+
+            repo.search({"id_": "inexistent_value"}, type(entity))  # act
+
+    def test_search_doesnt_raise_exception_if_search_exception_false(
+        self, repo: Repository, inserted_entities: List[Entity]
+    ) -> None:
+        """
+        Given: A repository with search_exception False
+        When: running search on a criteria that returns no results
+        Then: an empty list is returned instead of an exception.
+
+        See ADR 005 for more info.
+        """
+        repo = load_repository(search_exception=False)
+
+        result = repo.search({"id_": "inexistent"}, Author)
+
+        assert result == []
 
     def test_repository_can_search_by_multiple_properties(
         self,
@@ -751,7 +791,7 @@ class TestSearch:
         repo.add(book)
         repo.commit()
 
-        result = repo.search({"name": "common name"}, [Author])
+        result = repo.search({"name": "common name"}, Author)
 
         assert result == [author]
 
@@ -769,8 +809,9 @@ class TestSearch:
         repo.add(author)
         repo.add(book)
         repo.commit()
+        with pytest.warns(UserWarning, match="In 2022-06-10.*deprecated"):
 
-        result = repo.search({"name": "common name"}, [Author, Book])
+            result = repo.search({"name": "common name"}, [Author, Book])
 
         assert result == [book, author]
 
@@ -886,8 +927,11 @@ class TestLast:
         Then: The greater entity is returned
         """
         greater_entity = max(inserted_entities)
+        entity_types: List[Type[Entity]] = [type(inserted_entities[0]), OtherEntity]
+        repo.models = entity_types  # type: ignore
+        with pytest.warns(UserWarning, match="In 2022-06-10.*deprecated"):
 
-        result: List[Entity] = repo.last()
+            result: List[Entity] = repo.last()
 
         assert result == greater_entity
 
@@ -901,10 +945,12 @@ class TestLast:
         When: using the last method with a list of types.
         Then: The greater entity is returned
         """
-        entity_types: List[Type[Entity]] = [type(inserted_entities[0]), OtherEntity]
         greater_entity = max(inserted_entities)
+        entity_types: List[Type[Entity]] = [type(inserted_entities[0]), OtherEntity]
+        repo.models = entity_types  # type: ignore
+        with pytest.warns(UserWarning, match="In 2022-06-10.*deprecated"):
 
-        result = repo.last(entity_types)
+            result = repo.last(entity_types)
 
         assert result == greater_entity
 
@@ -1039,7 +1085,7 @@ def test_tinydb_raises_error_if_wrong_model_data(
     repo_tinydb.db_.insert(entity_data)
 
     with pytest.raises(ValidationError, match="name"):
-        repo_tinydb.get(1, [Entity])
+        repo_tinydb.get(1, Entity)
 
     assert (
         "repository_orm.adapters.data.tinydb",

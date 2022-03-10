@@ -26,7 +26,7 @@ assert brandon == author
 # Delete entities
 repo.delete(brandon)
 repo.commit()
-assert len(repo.all()) == 0
+assert len(repo.all(Author)) == 0
 
 # Close the connection
 repo.close()

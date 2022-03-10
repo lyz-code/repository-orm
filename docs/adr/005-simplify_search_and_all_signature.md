@@ -3,11 +3,11 @@ Date: 2022-03-10
 # Status
 <!-- What is the status? Draft, Proposed, Accepted, Rejected, Deprecated or Superseded?
 -->
-Draft
+Accepted
 
 # Context
 <!-- What is the issue that we're seeing that is motivating this decision or change? -->
-Right now we raise an `EntityNotFoundError` exception if `search` or if `all`
+Right now we raise an `EntityNotFoundError` exception if `search`
 returns no results, which forces the user to catch this exception when it makes
 more sense to return an empty list as these methods are usually used on loops.
 
@@ -33,7 +33,7 @@ The `last` and `first` methods are used over the `all` method not over the
 
 ## Return a list instead of exception
 
-`search` and `all` will return an empty list if there are no results instead of
+`search` will return an empty list if there are no results instead of
 an `EntityNotFoundError` exception.
 
 ## Only allow one model
@@ -72,7 +72,7 @@ and assume that `search` won't have them.
 <!-- What is the change that we're proposing and/or doing? -->
 
 * Revert the changes of [003](003-make_entity_models_optional_arguments.md).
-* `search` and `all` will return an empty list if there are no results instead of
+* `search` will return an empty list if there are no results instead of
     an `EntityNotFoundError` exception.
 
 # Consequences

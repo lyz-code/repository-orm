@@ -15,7 +15,7 @@ pip install repository-orm
 # A Simple Example
 
 ```python
-{! examples/simple-example.py !} # noqa
+{! examples/simple-example.py !}
 ```
 
 # Repository pattern theory

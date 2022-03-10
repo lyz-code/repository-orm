@@ -10,19 +10,21 @@
         <meta name="author" content="Lyz">
       
       
-      <link rel="icon" href="/repository-orm/assets/images/favicon.png">
+        <link rel="canonical" href="https://lyz-code.github.io/repository-orm/adr/005-simplify_search_and_all_signature/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.5">
     
     
       
-        <title>Repository ORM</title>
+        <title>Status - Repository ORM</title>
       
     
     
-      <link rel="stylesheet" href="/repository-orm/assets/stylesheets/main.2d9f7617.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2d9f7617.min.css">
       
         
-        <link rel="stylesheet" href="/repository-orm/assets/stylesheets/palette.e6a45f82.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
         
           
           
@@ -41,15 +43,15 @@
       
     
     
-      <link rel="stylesheet" href="/repository-orm/css/timeago.css">
+      <link rel="stylesheet" href="../../css/timeago.css">
     
-      <link rel="stylesheet" href="/repository-orm/assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="/repository-orm/stylesheets/extra.css">
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
     
-      <link rel="stylesheet" href="/repository-orm/stylesheets/links.css">
+      <link rel="stylesheet" href="../../stylesheets/links.css">
     
-    <script>__md_scope=new URL("/repository-orm/",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -72,6 +74,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#status" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -82,7 +89,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/repository-orm/." title="Repository ORM" class="md-header__button md-logo" aria-label="Repository ORM" data-md-component="logo">
+    <a href="../.." title="Repository ORM" class="md-header__button md-logo" aria-label="Repository ORM" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -101,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Status
             
           </span>
         </div>
@@ -180,7 +187,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/repository-orm/." title="Repository ORM" class="md-nav__button md-logo" aria-label="Repository ORM" data-md-component="logo">
+    <a href="../.." title="Repository ORM" class="md-nav__button md-logo" aria-label="Repository ORM" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -211,7 +218,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         Repository ORM
       </a>
     </li>
@@ -237,7 +244,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="/repository-orm/repositories/">Repositories</a>
+          <a href="../../repositories/">Repositories</a>
           
             <label for="__nav_2">
               <span class="md-nav__icon md-icon"></span>
@@ -258,7 +265,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/fake_repository/" class="md-nav__link">
+      <a href="../../fake_repository/" class="md-nav__link">
         FakeRepository
       </a>
     </li>
@@ -272,7 +279,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/tinydb_repository/" class="md-nav__link">
+      <a href="../../tinydb_repository/" class="md-nav__link">
         TinyDBRepository
       </a>
     </li>
@@ -286,7 +293,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/pypika_repository/" class="md-nav__link">
+      <a href="../../pypika_repository/" class="md-nav__link">
         PypikaRepository
       </a>
     </li>
@@ -319,7 +326,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="/repository-orm/file_repositories/">File Repositories</a>
+          <a href="../../file_repositories/">File Repositories</a>
           
         </div>
       
@@ -336,7 +343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/local_file_repository/" class="md-nav__link">
+      <a href="../../local_file_repository/" class="md-nav__link">
         LocalFileRepository
       </a>
     </li>
@@ -358,7 +365,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/models/" class="md-nav__link">
+      <a href="../../models/" class="md-nav__link">
         Models
       </a>
     </li>
@@ -373,7 +380,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/testing/" class="md-nav__link">
+      <a href="../../testing/" class="md-nav__link">
         Testing
       </a>
     </li>
@@ -414,7 +421,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/reference_adapters/" class="md-nav__link">
+      <a href="../../reference_adapters/" class="md-nav__link">
         Repository Implementations
       </a>
     </li>
@@ -428,7 +435,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/reference_models/" class="md-nav__link">
+      <a href="../../reference_models/" class="md-nav__link">
         Models
       </a>
     </li>
@@ -442,7 +449,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/reference_exceptions/" class="md-nav__link">
+      <a href="../../reference_exceptions/" class="md-nav__link">
         Exceptions
       </a>
     </li>
@@ -475,7 +482,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="/repository-orm/contributing/">Contributing</a>
+          <a href="../../contributing/">Contributing</a>
           
         </div>
       
@@ -492,7 +499,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/new_repo/" class="md-nav__link">
+      <a href="../../new_repo/" class="md-nav__link">
         Create new repository
       </a>
     </li>
@@ -525,7 +532,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="/repository-orm/adr/adr/">Architecture Decision Records</a>
+          <a href="../adr/">Architecture Decision Records</a>
           
             <label for="__nav_8">
               <span class="md-nav__icon md-icon"></span>
@@ -546,7 +553,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/adr/001-entity_id_definition.md
+      <a href="../001-entity_id_definition.md
 " class="md-nav__link">
         001: Entity id_ definition
       </a>
@@ -561,7 +568,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/adr/002-support_string_ids.md
+      <a href="../002-support_string_ids.md
 " class="md-nav__link">
         002: String id_ support
       </a>
@@ -576,7 +583,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/adr/003-make_entity_models_optional_arguments.md
+      <a href="../003-make_entity_models_optional_arguments.md
 " class="md-nav__link">
         003: Make entity_models optional arguments
       </a>
@@ -598,12 +605,206 @@
               </div>
             
             
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#status" class="md-nav__link">
+    Status
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#context" class="md-nav__link">
+    Context
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proposals" class="md-nav__link">
+    Proposals
+  </a>
+  
+    <nav class="md-nav" aria-label="Proposals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#return-a-list-instead-of-exception" class="md-nav__link">
+    Return a list instead of exception
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#only-allow-one-model" class="md-nav__link">
+    Only allow one model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leave-last-and-first-as-they-are" class="md-nav__link">
+    Leave last and first as they are
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decision" class="md-nav__link">
+    Decision
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consequences" class="md-nav__link">
+    Consequences
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content" data-md-component="content">
             <article class="md-content__inner md-typeset">
               
-  <h1>404 - Not found</h1>
+                
+<a href="https://github.com/lyz-code/repository-orm/edit/master/docs/adr/005-simplify_search_and_all_signature.md" title="Edit this page" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+</a>
 
+
+
+  <h1>Status</h1>
+
+<h2 id="status">Status<a class="headerlink" href="#status" title="Permanent link">&para;</a></h2>
+<!-- What is the status? Draft, Proposed, Accepted, Rejected, Deprecated or Superseded?
+-->
+<p>Draft</p>
+<h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
+<!-- What is the issue that we're seeing that is motivating this decision or change? -->
+<p>Right now we raise an <code>EntityNotFoundError</code> exception if <code>search</code> or if <code>all</code>
+returns no results, which forces the user to catch this exception when it makes
+more sense to return an empty list as these methods are usually used on loops.</p>
+<p>We're also having some issues with the types of the return values of these
+methods as we allowed them to be of type <code>Union[Type[Entity],
+List[Type[Entity]], None]</code> since
+<a href="../003-make_entity_models_optional_arguments/">003</a>, both when writing the code
+as the type hints are difficult to write and debug and also when doing
+operations on the returned objects, as the returned list contains objects with
+different models that as they have different attributes and objects they need to
+be dealt differently. This last point means that the user has to split the
+results using <code>isinstance</code> at some point.</p>
+<p>Using that type in <code>get</code> is a bad idea too, as many entities may have the same
+<code>id_</code>, and when you <code>get</code> you just want one entity, otherwise you'd use
+<code>search</code>.</p>
+<p>The <code>last</code> and <code>first</code> methods are used over the <code>all</code> method not over the
+<code>search</code> which would be useful too.</p>
+<h2 id="proposals">Proposals<a class="headerlink" href="#proposals" title="Permanent link">&para;</a></h2>
+<!-- What are the possible solutions to the problem described in the context -->
+
+<h3 id="return-a-list-instead-of-exception">Return a list instead of exception<a class="headerlink" href="#return-a-list-instead-of-exception" title="Permanent link">&para;</a></h3>
+<p><code>search</code> and <code>all</code> will return an empty list if there are no results instead of
+an <code>EntityNotFoundError</code> exception.</p>
+<h3 id="only-allow-one-model">Only allow one model<a class="headerlink" href="#only-allow-one-model" title="Permanent link">&para;</a></h3>
+<p>We could revert <a href="../003-make_entity_models_optional_arguments/">003</a> and only
+allow one model in <code>search</code> and <code>all</code> but that will mean that the context of
+that ADR won't be met anymore which was that some applications need to do
+operations on all or a subset of entity types. They will then be forced to run
+the desired method once for each entity type which has the next disadvantages:</p>
+<ul>
+<li>The user has to write more code. Which is not true, as even though you truly
+    have to run <code>repo.search</code> and <code>repo.all</code> more than once, right now you also
+    have to write additional code to tell apart the returned objects.</li>
+<li>Instead of running everything on a query, many will be done. The potential
+    downside of that is performance loss, but in reality the current
+    implementation is already doing many queries as it's not able to do
+    everything at once.</li>
+</ul>
+<p>And the next advantages:</p>
+<ul>
+<li>We've introduced a great deal of complexity on
+    <a href="../003-make_entity_models_optional_arguments/">003</a> both on functions and
+    type hints, removing them will improve maintainability and peace of mind
+    when coding.</li>
+<li>Remove conflicts on <code>get</code>.</li>
+</ul>
+<h3 id="leave-last-and-first-as-they-are">Leave last and first as they are<a class="headerlink" href="#leave-last-and-first-as-they-are" title="Permanent link">&para;</a></h3>
+<p>Even though it's true that they could be used on the <code>search</code> result, let's be
+honest, using <code>[0]</code> and <code>[-1]</code> is not that difficult, and if there are no
+elements it will return an <code>IndexError</code> a common used exception. As <code>first</code> and
+<code>last</code> are already coded and it's easy to maintain I'll leave them as they are
+and assume that <code>search</code> won't have them.</p>
+<h2 id="decision">Decision<a class="headerlink" href="#decision" title="Permanent link">&para;</a></h2>
+<!-- What is the change that we're proposing and/or doing? -->
+
+<ul>
+<li>Revert the changes of <a href="../003-make_entity_models_optional_arguments/">003</a>.</li>
+<li><code>search</code> and <code>all</code> will return an empty list if there are no results instead of
+    an <code>EntityNotFoundError</code> exception.</li>
+</ul>
+<h2 id="consequences">Consequences<a class="headerlink" href="#consequences" title="Permanent link">&para;</a></h2>
+<!-- What becomes easier or more difficult to do because of this change? -->
+
+<p>Pros:</p>
+<ul>
+<li>
+<p>More maintainable code.</p>
+<ul>
+<li>Less complexity in the data adapters.</li>
+<li>Less problems with the type hints.</li>
+</ul>
+</li>
+<li>
+<p>Remove the model conflicts of <code>get</code></p>
+</li>
+</ul>
+<p>Cons:</p>
+<ul>
+<li>Users will need to update their code as the signature of <code>get</code>, <code>all</code>,
+    <code>search</code>, <code>first</code>, and <code>last</code> will change.</li>
+</ul>
+<p>The users will have 3 months to do the changes.</p>
+
+  <hr>
+<div class="md-source-file">
+  <small>
+    
+      Last update:
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2022-03-10T13:09:29+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2022-03-10</span>
+      
+    
+  </small>
+</div>
+
+              
             </article>
           </div>
         </div>
@@ -637,14 +838,14 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "/repository-orm/", "features": ["navigation.instant", "navigation.top", "content.code.annotate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "/repository-orm/assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "content.code.annotate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
     
     
-      <script src="/repository-orm/assets/javascripts/bundle.467223ff.min.js"></script>
+      <script src="../../assets/javascripts/bundle.467223ff.min.js"></script>
       
-        <script src="/repository-orm/js/timeago.min.js"></script>
+        <script src="../../js/timeago.min.js"></script>
       
-        <script src="/repository-orm/js/timeago_mkdocs_material.js"></script>
+        <script src="../../js/timeago_mkdocs_material.js"></script>
       
     
   </body>

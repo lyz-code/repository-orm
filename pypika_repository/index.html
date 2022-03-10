@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://lyz-code.github.io/repository-orm/pypika_repository/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.4">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.5">
     
     
       
@@ -730,11 +730,11 @@
 
   <h1>PypikaRepository</h1>
 
-<p>The <a href="../reference_adapters/#repository_orm.adapters.data.pypika.PypikaRepository"><code>PypikaRepository</code></a> is the
+<p>The <a class="autorefs autorefs-internal" href="../reference_adapters/#repository_orm.adapters.data.pypika.PypikaRepository"><code>PypikaRepository</code></a> is the
 implementation of the repository pattern for the relational databases. It's
 meant for the stages of the project where the schema is more stable and you need
 the improved performance of these types of databases.</p>
-<p>It stores the persisted <a href="../reference_models/#repository_orm.model.Entity">Entities</a> into
+<p>It stores the persisted <a class="autorefs autorefs-internal" href="../reference_models/#repository_orm.model.Entity">Entities</a> into
 a SQLite database tables (<a href="https://github.com/lyz-code/repository-orm/issues/1">Mysql support will
 come in the future</a>).</p>
 <p>It uses the <a href="https://pypika.readthedocs.io/en/latest/">Pypika</a> <a href="https://lyz-code.github.io/blue-book/architecture/orm_builder_query_or_raw_sql/#query-builder">query
@@ -753,7 +753,7 @@ article.</p>
 </code></pre></div>
 <h2 id="database-schema">Database schema<a class="headerlink" href="#database-schema" title="Permanent link">&para;</a></h2>
 <p>The repository assumes there is a specific schema, where the table names are
-the same as the <a href="../reference_models/#repository_orm.model.Entity">Entity</a> clases in lowercase,
+the same as the <a class="autorefs autorefs-internal" href="../reference_models/#repository_orm.model.Entity">Entity</a> clases in lowercase,
 and the columns are called as the attributes. All tables must have an <code>id</code>
 column. Following the <a href="..#a-simple-example">overview example</a>, the
 database should contain one table called <code>author</code> with the columns <code>id</code>,
@@ -773,13 +773,13 @@ method.</p>
 columns. If it already exists, use the <a href="https://www.sqlite.org/lang_UPSERT.html">upsert
 statement</a> to update it's
 attributes in the table.</dd>
-<dt><a href="../reference_adapters/#repository_orm.adapters.data.pypika.PypikaRepository.delete"><code>delete</code></a></dt>
+<dt><a class="autorefs autorefs-internal" href="../reference_adapters/#repository_orm.adapters.data.pypika.PypikaRepository.delete"><code>delete</code></a></dt>
 <dd>Deletes the <code>Entity</code> object from its table by searching the row that matches
 the object ID.</dd>
 <dt>[<code>get</code>][repository_orm.adapters.data.pypika.PypikaRepository.get]</dt>
 <dd>Obtain an <code>Entity</code> by extracting the row that matches the ID and build the
 <code>Entity</code> object with that data.</dd>
-<dt><a href="../reference_adapters/#repository_orm.adapters.data.pypika.PypikaRepository.commit"><code>commit</code></a></dt>
+<dt><a class="autorefs autorefs-internal" href="../reference_adapters/#repository_orm.adapters.data.pypika.PypikaRepository.commit"><code>commit</code></a></dt>
 <dd>Persist the changes into the database.</dd>
 <dt>[<code>all</code>][repository_orm.adapters.data.pypika.PypikaRepository.all]</dt>
 <dd>Obtain all the entities of type <code>Entity</code>. Similar to the <code>get</code> method but for
@@ -788,7 +788,7 @@ all entities.</dd>
 <dd>Obtain the entities whose attributes match one or multiple conditions. We
 create a query with all the desired criteria and then build the entities with
 the obtained data.</dd>
-<dt><a href="../reference_adapters/#repository_orm.adapters.data.pypika.PypikaRepository.apply_migrations"><code>apply_migrations</code></a></dt>
+<dt><a class="autorefs autorefs-internal" href="../reference_adapters/#repository_orm.adapters.data.pypika.PypikaRepository.apply_migrations"><code>apply_migrations</code></a></dt>
 <dd>Run the migrations of the repository schema. Creates a yoyo connection and
 runs all the scripts in the <code>migrations</code> directory.</dd>
 </dl>
@@ -905,7 +905,7 @@ a <code>Query</code> and returns a list of the entities built from the data of t
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "content.code.annotate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
     
     
-      <script src="../assets/javascripts/bundle.5413a266.min.js"></script>
+      <script src="../assets/javascripts/bundle.467223ff.min.js"></script>
       
         <script src="../js/timeago.min.js"></script>
       

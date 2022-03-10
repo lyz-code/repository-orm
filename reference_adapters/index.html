@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://lyz-code.github.io/repository-orm/reference_adapters/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.4">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.5">
     
     
       
@@ -1834,13 +1834,6 @@ Repository            (<span title="abc.ABC">ABC</span>)
                 <span class="k">with</span> <span class="n">suppress</span><span class="p">(</span><span class="n">EntityNotFoundError</span><span class="p">):</span>
                     <span class="n">stored_entity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">entity</span><span class="o">.</span><span class="n">id_</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">entity</span><span class="p">))</span>
                     <span class="n">entity</span> <span class="o">=</span> <span class="n">stored_entity</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                    <span class="s2">&quot;On 2022-09-01 entities will be merged when adding to the &quot;</span>
-                    <span class="s2">&quot;repository, please use repo.add(entity, merge=True) before &quot;</span>
-                    <span class="s2">&quot;then to check nothing is going to be broken.&quot;</span><span class="p">,</span>
-                    <span class="ne">UserWarning</span><span class="p">,</span>
-                <span class="p">)</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">entity_has_not_changed</span><span class="p">(</span><span class="n">entity</span><span class="p">):</span>
                 <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
@@ -2260,13 +2253,6 @@ the cache.</p>
             <span class="k">with</span> <span class="n">suppress</span><span class="p">(</span><span class="n">EntityNotFoundError</span><span class="p">):</span>
                 <span class="n">stored_entity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">entity</span><span class="o">.</span><span class="n">id_</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">entity</span><span class="p">))</span>
                 <span class="n">entity</span> <span class="o">=</span> <span class="n">stored_entity</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;On 2022-09-01 entities will be merged when adding to the &quot;</span>
-                <span class="s2">&quot;repository, please use repo.add(entity, merge=True) before &quot;</span>
-                <span class="s2">&quot;then to check nothing is going to be broken.&quot;</span><span class="p">,</span>
-                <span class="ne">UserWarning</span><span class="p">,</span>
-            <span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">entity_has_not_changed</span><span class="p">(</span><span class="n">entity</span><span class="p">):</span>
             <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
@@ -3254,7 +3240,7 @@ Cache        </code>
 
 <h4 id="repository_orm.adapters.data.fake.FakeRepository" class="doc doc-heading">
         <code>
-FakeRepository            (<a title="repository_orm.adapters.data.abstract.Repository" href="#repository_orm.adapters.data.abstract.Repository">Repository</a>)
+FakeRepository            (<a class="autorefs autorefs-internal" title="repository_orm.adapters.data.abstract.Repository" href="#repository_orm.adapters.data.abstract.Repository">Repository</a>)
         </code>
 
 
@@ -3883,7 +3869,7 @@ scripts.</p></td>
 
 <h4 id="repository_orm.adapters.data.pypika.PypikaRepository" class="doc doc-heading">
         <code>
-PypikaRepository            (<a title="repository_orm.adapters.data.abstract.Repository" href="#repository_orm.adapters.data.abstract.Repository">Repository</a>)
+PypikaRepository            (<a class="autorefs autorefs-internal" title="repository_orm.adapters.data.abstract.Repository" href="#repository_orm.adapters.data.abstract.Repository">Repository</a>)
         </code>
 
 
@@ -4420,7 +4406,7 @@ scripts.</p></td>
 
 <h4 id="repository_orm.adapters.data.tinydb.TinyDBRepository" class="doc doc-heading">
         <code>
-TinyDBRepository            (<a title="repository_orm.adapters.data.abstract.Repository" href="#repository_orm.adapters.data.abstract.Repository">Repository</a>)
+TinyDBRepository            (<a class="autorefs autorefs-internal" title="repository_orm.adapters.data.abstract.Repository" href="#repository_orm.adapters.data.abstract.Repository">Repository</a>)
         </code>
 
 
@@ -5406,7 +5392,7 @@ FileRepository            (<span title="pydantic.main.BaseModel">BaseModel</span
 
 <h4 id="repository_orm.adapters.file.local_file.LocalFileRepository" class="doc doc-heading">
         <code>
-LocalFileRepository            (<a title="repository_orm.adapters.file.abstract.FileRepository" href="#repository_orm.adapters.file.abstract.FileRepository">FileRepository</a>)
+LocalFileRepository            (<a class="autorefs autorefs-internal" title="repository_orm.adapters.file.abstract.FileRepository" href="#repository_orm.adapters.file.abstract.FileRepository">FileRepository</a>)
         </code>
 
 
@@ -5753,7 +5739,7 @@ LocalFileRepository            (<a title="repository_orm.adapters.file.abstract.
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "content.code.annotate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
     
     
-      <script src="../assets/javascripts/bundle.5413a266.min.js"></script>
+      <script src="../assets/javascripts/bundle.467223ff.min.js"></script>
       
         <script src="../js/timeago.min.js"></script>
       

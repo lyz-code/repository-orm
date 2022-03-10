@@ -10,7 +10,7 @@
         <meta name="author" content="Lyz">
       
       
-        <link rel="canonical" href="https://lyz-code.github.io/repository-orm/adr/003-make_entity_models_optional_arguments/">
+        <link rel="canonical" href="https://lyz-code.github.io/repository-orm/adr/004-add_complex_queries/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.5">
@@ -645,16 +645,104 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#build-the-entities-from-their-data" class="md-nav__link">
-    Build the Entities from their data
+  <a href="#query-builder" class="md-nav__link">
+    Query builder
+  </a>
+  
+    <nav class="md-nav" aria-label="Query builder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#table-to-extract-data-from" class="md-nav__link">
+    Table to extract data from
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#performance-loss" class="md-nav__link">
-    Performance loss
+  <a href="#fields-to-extract" class="md-nav__link">
+    Fields to extract
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#condition-to-select-the-objects" class="md-nav__link">
+    Condition to select the objects
+  </a>
+  
+    <nav class="md-nav" aria-label="Condition to select the objects">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#simple-query-operators" class="md-nav__link">
+    Simple query operators
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#query-composition" class="md-nav__link">
+    Query composition
+  </a>
+  
+    <nav class="md-nav" aria-label="Query composition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#or" class="md-nav__link">
+    OR
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#and" class="md-nav__link">
+    AND
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#join" class="md-nav__link">
+    Join
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sorting-the-results" class="md-nav__link">
+    Sorting the results
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#number-of-results" class="md-nav__link">
+    Number of results
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-queries" class="md-nav__link">
+    Delete queries
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -689,7 +777,7 @@
             <article class="md-content__inner md-typeset">
               
                 
-<a href="https://github.com/lyz-code/repository-orm/edit/master/docs/adr/003-make_entity_models_optional_arguments.md" title="Edit this page" class="md-content__button md-icon">
+<a href="https://github.com/lyz-code/repository-orm/edit/master/docs/adr/004-add_complex_queries.md" title="Edit this page" class="md-content__button md-icon">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
 </a>
 
@@ -700,77 +788,145 @@
 <h2 id="status">Status<a class="headerlink" href="#status" title="Permanent link">&para;</a></h2>
 <!-- What is the status? Draft, Proposed, Accepted, Rejected, Deprecated or Superseded?
 -->
-<p>Accepted</p>
+<p>Draft</p>
 <h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
 <!-- What is the issue that we're seeing that is motivating this decision or change? -->
-<p>Some applications need to do operations on all or a subset of entity types in
-the repository, for example for the <code>get</code>, <code>search</code>, <code>all</code>, <code>first</code> or <code>last</code>.</p>
-<p>Right now the <code>entity_model</code> is a mandatory argument for these methods, that
-means that the code calling the repository needs to be aware of all the entity
-models inside the repository and call the methods for each of them.</p>
+<p>Right now the <code>search</code> method only allows a dictionary of keys that the objects
+must match, this way of selecting objects has become insufficient for the
+programs that use the library forcing them to extract from the repository
+a greater subset of objects that contain a serie of attributes and then do
+another filtering afterwards. This is the case for example when the user wants
+to select objects that:</p>
+<ul>
+<li>Have a datetime or integer greater or smaller than an amount.</li>
+<li>Don't have an attribute with a defined value</li>
+<li>Match a combination of criteria, for example:<ul>
+<li>Have an attribute with a value and another that is greater than X</li>
+<li>Have an attribute with a value and another that doesn't contain the value
+    Y.</li>
+</ul>
+</li>
+<li>Match a criteria on a related object (<code>JOIN</code> operations).</li>
+</ul>
+<p>This schema has the next disadvantages:</p>
+<ul>
+<li>The user is constrained to a very basic query type</li>
+<li>The repository returns more objects than the user needs, so more traffic is
+    sent between the application and the database</li>
+<li>The user needs to do an extra filter afterwards. This is a bad idea because
+    doing the filtering at databases level probably gives better performance
+    and the user needs to write more code than necessary.</li>
+</ul>
 <h2 id="proposals">Proposals<a class="headerlink" href="#proposals" title="Permanent link">&para;</a></h2>
 <!-- What are the possible solutions to the problem described in the context -->
-<p>To solve it, we should change the <code>entity_model</code> an argument to a more flexible
-type <code>Union[Type[Entity], List[Type[Entity]], None]</code>. That change carries some
-side effects:</p>
+
+<p>Change the way we let the user specify the criteria that it wants to search so
+that it can do more powerful searches. I can think of two ways of doing this:</p>
 <ul>
-<li>We need to add logic at repository level to process one, a subset or all the
-    entity types.</li>
-<li>Some repositories (tinydb and pypika) used the <code>entity_model</code> to build the
-    entity, if it's not specified, we need to build the logic that lets them
-    build the entities from their data.</li>
-<li>The calls to the methods without specifying the <code>entity_model</code> can have
-    a worse performance.</li>
+<li>Writing the query in a string and parsing it afterwards.</li>
+<li>Writing the query with a query builder.</li>
 </ul>
-<h3 id="build-the-entities-from-their-data">Build the Entities from their data<a class="headerlink" href="#build-the-entities-from-their-data" title="Permanent link">&para;</a></h3>
-<p>To build the entities from the data we need those methods to be able to link
-that data to a model type, we can either:</p>
+<p>Given <a href="https://lyz-code.github.io/blue-book/architecture/orm_builder_query_or_raw_sql/">this
+analysis</a>,
+the query builder system looks better.</p>
+<h3 id="query-builder">Query builder<a class="headerlink" href="#query-builder" title="Permanent link">&para;</a></h3>
+<p>We will create a <code>Query</code> object that follows the theory of <a href="https://lyz-code.github.io/blue-book/architecture/orm_builder_query_or_raw_sql/#query-builder">query
+builders</a>.</p>
+<p>Right now queries make sense only to extract data from the database, so speaking
+in SQL terms, only <code>SELECT</code> and <code>DELETE</code> queries are interesting for us. To do
+a select query you need:</p>
 <ul>
-<li>Delegate that functionality to the application using the repository.</li>
-<li>Configure the repositories in a way that we can deduce the model from the data
-    stored in itself.</li>
+<li><a href="#table-to-extract-data-from">The table to extract data from</a></li>
+<li><a href="#fields-to-extract">The fields to extract</a></li>
+<li><a href="#condition-to-select-objects">The condition to select the rows</a></li>
+<li><a href="#sorting-the-results">The sorting method of the results</a></li>
+<li><a href="#number-of-results">The number of results to return</a></li>
 </ul>
-<p>The first solution means that each application will need to implement and
-maintain that code, which will lead to more maintenance and duplicated code, but
-a simpler repository configuration.</p>
-<p>The second solution will mean that the code for the methods is more complex
-and/or the repository initialization needs more arguments.</p>
-<p>We already store the key information that tells which model does the data belong
-to. In the tinydb repo it's stored as an attribute <code>_model_type</code>, and in the
-pypika repo is stored as tables names. The fake repo doesn't have this problem.</p>
-<p>If we initialize the repository with a <code>models</code> optional argument, with a list
-of the entity models, we can create an internal <code>models</code> attribute that holds
-a dictionary with the key equal to the value stored in the repos, and the value
-the model type. If the user doesn't provide this argument at repo
-initialization, it will be supposed that it will give the <code>entity_model</code> on each
-of the repo methods that require it, otherwise an error will be shown.</p>
-<h3 id="performance-loss">Performance loss<a class="headerlink" href="#performance-loss" title="Permanent link">&para;</a></h3>
-<p>The <code>entity_model</code> acted as a filter on the amount of data to perform the
-operations, if the user doesn't specify it, the repo needs to work with more
-data and therefore be slower. Maybe some of the methods like <code>all</code>, <code>first</code>, or
-<code>last</code> will work faster on some repositories based on how they or their
-libraries work, but the <code>get</code> and <code>search</code> will definitely go slower.</p>
-<p>In the case of <code>get</code> we can mitigate it with an optional callable argument that
-can run regexps on the id to select the subset of entity models that contain
-id's of that type.</p>
+<p>All of the <code>Query</code> methods return <code>self</code> in order to be able to construct it
+with chained methods and properties. Those methods that don't need an argument
+will be coded as properties to save keystrokes on unneeded <code>()</code>.</p>
+<h4 id="table-to-extract-data-from">Table to extract data from<a class="headerlink" href="#table-to-extract-data-from" title="Permanent link">&para;</a></h4>
+<p>Applied to the <code>repository_orm</code> usage, the <code>FROM</code> is defined by the model class both
+to extract the table name, build the end objects and let the type checker know
+what type of objects it's returning, so we need to pass the class of the model
+to the <code>search</code> and <code>all</code> methods. It makes sense then to pass the argument at
+initialization time of the <code>Query</code> object.</p>
+<h4 id="fields-to-extract">Fields to extract<a class="headerlink" href="#fields-to-extract" title="Permanent link">&para;</a></h4>
+<p>In our case it doesn't make sense to let the user select the fields it wants to
+extract, as we return built objects and not just the values of the rows.</p>
+<h4 id="condition-to-select-the-objects">Condition to select the objects<a class="headerlink" href="#condition-to-select-the-objects" title="Permanent link">&para;</a></h4>
+<h5 id="simple-query-operators">Simple query operators<a class="headerlink" href="#simple-query-operators" title="Permanent link">&para;</a></h5>
+<p>Assuming that <code>query = Query(Model)</code> there are the next methods to select the
+data, it will return the objects if:</p>
+<ul>
+<li><code>equal</code>: Attribute match value.</li>
+<li><code>not_equal</code>: Attribute doesn't match value.</li>
+<li><code>greater</code>: Attribute is greater than value.</li>
+<li><code>greater_or_equal</code>: Attribute is greater or equal than value.</li>
+<li><code>smaller</code>: Attribute is smaller than value.</li>
+<li><code>smaller_or_equal</code>: Attribute is smaller or equal than value.</li>
+</ul>
+<p>To act on one attribute and one value you can use <code>query.method(attribute,
+value)</code>, for example <code>query.equal('id_', 3)</code>. To act on many attributes you can
+use <code>query.method({attribute1: value1, attribute2: value2})</code>, for example
+<code>query.greater({'rating': 3, 'created_at': datetime.datetime.now()})</code>.</p>
+<h5 id="query-composition">Query composition<a class="headerlink" href="#query-composition" title="Permanent link">&para;</a></h5>
+<p>If you concatenate methods and properties on a query they are supposed to be
+conditions that all objects must match.</p>
+<h6 id="or">OR<a class="headerlink" href="#or" title="Permanent link">&para;</a></h6>
+<p><code>or</code> can be used to match one or many conditions but not others. You have to
+select two types of criteria, so you need to <code>Query</code> objects.</p>
+<p><code>query.greater('rating', 3).or(Query().smaller('rating', 1))</code></p>
+<p>Note that if the second <code>Query</code> isn't initialized with a model, it will be
+assumed to be the same as the first one.</p>
+<h6 id="and">AND<a class="headerlink" href="#and" title="Permanent link">&para;</a></h6>
+<p><code>and</code> can be used if you want to select different criteria for different
+objects:</p>
+<div class="highlight"><pre><span></span><code><span class="n">Query</span><span class="p">(</span><span class="n">Book</span><span class="p">)</span><span class="o">.</span><span class="n">greater</span><span class="p">(</span><span class="s1">&#39;rating&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="ow">and</span><span class="p">(</span><span class="n">Query</span><span class="p">(</span><span class="n">Author</span><span class="p">)</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="s1">&#39;id_&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+</code></pre></div>
+<h6 id="join">Join<a class="headerlink" href="#join" title="Permanent link">&para;</a></h6>
+<p><code>join</code> can be used to match entities if an entity that is related to them
+matches one or many condition, for example to get all the books of the author
+whose <code>id</code> is <code>1</code> you can:</p>
+<div class="highlight"><pre><span></span><code><span class="n">Query</span><span class="p">(</span><span class="n">Book</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Query</span><span class="p">(</span><span class="n">Author</span><span class="p">)</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="s1">&#39;id_&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+</code></pre></div>
+<h4 id="sorting-the-results">Sorting the results<a class="headerlink" href="#sorting-the-results" title="Permanent link">&para;</a></h4>
+<p>By default the results are sorted by <code>id_</code> increasingly, to sort by other
+criteria use the <code>sort</code> method.</p>
+<div class="highlight"><pre><span></span><code><span class="n">query</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="s1">&#39;rating&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>To reverse the order of the sorting use the <code>reverse</code> argument:</p>
+<div class="highlight"><pre><span></span><code><span class="n">query</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="s1">&#39;rating&#39;</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<p>To order by many criteria chain <code>sort</code> methods, for example if you want to sort
+by <code>rating</code> and then by <code>created_date</code> you can use:</p>
+<div class="highlight"><pre><span></span><code><span class="n">query</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="s1">&#39;rating&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="s1">&#39;created_date&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="number-of-results">Number of results<a class="headerlink" href="#number-of-results" title="Permanent link">&para;</a></h4>
+<p>By default all results are returned, if you want to receive only a limited
+amount use the <code>limit</code> method</p>
+<div class="highlight"><pre><span></span><code><span class="n">query</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="delete-queries">Delete queries<a class="headerlink" href="#delete-queries" title="Permanent link">&para;</a></h4>
+<p>Right now the <code>delete</code> method allows only one or many entities, we can change
+the signature so that it also allows a <code>Query</code> object that can tweak the delete
+query instead of just using the <code>id_</code>.</p>
 <h2 id="decision">Decision<a class="headerlink" href="#decision" title="Permanent link">&para;</a></h2>
 <!-- What is the change that we're proposing and/or doing? -->
-<p>Change the signatures of the <code>get</code>, <code>search</code>, <code>all</code>, <code>first</code> and <code>last</code> methods
-to accept one, many or no <code>Entity</code> subclasses. If none is given, it will assume
-that the repository was initialized with the <code>models</code> argument, where the user
-gives the repo the model of the data it holds.</p>
-<p>For the sake of cleanness, we're renaming <code>entity_models</code> for <code>models</code> in the
-function arguments.</p>
+
+<p>Implement the proposed solution, adding a <code>UserWarning</code> on the old method until
+we deprecate it.</p>
 <h2 id="consequences">Consequences<a class="headerlink" href="#consequences" title="Permanent link">&para;</a></h2>
 <!-- What becomes easier or more difficult to do because of this change? -->
-<p>The change makes the library more usable while it retains the performance of the
-previous code base.</p>
-<p>Two breaking changes were introduced though:</p>
+
+<p>Pros:</p>
 <ul>
-<li>The argument <code>entity_model</code> is no longer the first one for the methods <code>get</code>
-    and <code>search</code>, but the second.</li>
-<li>The argument <code>database_url</code> is no longer the first argument in the
-    <code>load_repository</code> function, but the second, being the first the <code>models</code>.</li>
+<li>We'll improve a lot the extraction of information from the repo</li>
+</ul>
+<p>Cons:</p>
+<p>Users will need to change their code:</p>
+<ul>
+<li>How they query the repositories.</li>
 </ul>
 
   <hr>
@@ -778,7 +934,7 @@ previous code base.</p>
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2021-05-02T09:58:29+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2021-05-02</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2022-03-10T13:09:29+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2022-03-10</span>
       
     
   </small>

@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://lyz-code.github.io/repository-orm/adr/adr/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.4">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.5">
     
     
       
@@ -622,16 +622,23 @@ consequences.</p>
     001[001: Entity ID definition]
     002[002: Support String IDs]
     003[003: Make entity_model optional arguments]
+    004[004: Add complex queries]
+    005[005: Simplify search and all signature]
 
     click 001 &quot;https://lyz-code.github.io/repository-orm/adr/001-entity_id_definition/&quot; _blank
     click 002 &quot;https://lyz-code.github.io/repository-orm/adr/002-support_string_ids/&quot; _blank
     click 003 &quot;https://lyz-code.github.io/repository-orm/adr/003-make_entity_models_optional_arguments/&quot; _blank
+    click 004 &quot;https://lyz-code.github.io/repository-orm/adr/004-add_complex_queries/&quot; _blank
+    click 005 &quot;https://lyz-code.github.io/repository-orm/adr/005-simplify_search_and_all_signature/&quot; _blank
 
     001 -- Partially superseeded --&gt; 002
+    003 -- Superseeded --&gt; 005
 
     001:::superseeded
     002:::accepted
-    003:::accepted
+    003:::superseeded
+    004:::draft
+    005:::draft
 
     classDef draft fill:#CDBFEA;
     classDef proposed fill:#B1CCE8;
@@ -646,7 +653,7 @@ consequences.</p>
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2021-05-02T09:58:29+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2021-05-02</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2022-03-10T13:09:29+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2022-03-10</span>
       
     
   </small>
@@ -709,7 +716,7 @@ consequences.</p>
     <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "content.code.annotate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
     
     
-      <script src="../../assets/javascripts/bundle.5413a266.min.js"></script>
+      <script src="../../assets/javascripts/bundle.467223ff.min.js"></script>
       
         <script src="../../js/timeago.min.js"></script>
       

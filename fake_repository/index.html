@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://lyz-code.github.io/repository-orm/fake_repository/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.4">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.5">
     
     
       
@@ -728,10 +728,10 @@
 
   <h1>FakeRepository</h1>
 
-<p>The <a href="../reference_adapters/#repository_orm.adapters.data.fake.FakeRepository"><code>FakeRepository</code></a> is the
+<p>The <a class="autorefs autorefs-internal" href="../reference_adapters/#repository_orm.adapters.data.fake.FakeRepository"><code>FakeRepository</code></a> is the
 simplest implementation of the repository pattern, meant to be used for the
 tests and early phases of development.</p>
-<p>It stores the persisted <a href="../reference_models/#repository_orm.model.Entity">Entities</a> in the
+<p>It stores the persisted <a class="autorefs autorefs-internal" href="../reference_models/#repository_orm.model.Entity">Entities</a> in the
 <code>entities</code> object attribute in a dictionary where the keys are the Entity class
 and the values are list of that Entity objects. When you try to make changes to
 the repository, the actual <code>entities</code> dictionary is copied to the <code>new_entities</code>
@@ -748,11 +748,11 @@ method.</p>
 <dl>
 <dt>[<code>add</code>][repository_orm.adapters.data.fake.FakeRepository.add]</dt>
 <dd>Appends the <code>Entity</code> object to the <code>new_entities</code> attribute.</dd>
-<dt><a href="../reference_adapters/#repository_orm.adapters.data.fake.FakeRepository.delete"><code>delete</code></a></dt>
+<dt><a class="autorefs autorefs-internal" href="../reference_adapters/#repository_orm.adapters.data.fake.FakeRepository.delete"><code>delete</code></a></dt>
 <dd>Deletes the <code>Entity</code> object from the <code>new_entities</code> attribute.</dd>
 <dt>[<code>get</code>][repository_orm.adapters.data.fake.FakeRepository.get]</dt>
 <dd>Obtain an <code>Entity</code> from the <code>entities</code> attribute by it's ID.</dd>
-<dt><a href="../reference_adapters/#repository_orm.adapters.data.fake.FakeRepository.commit"><code>commit</code></a></dt>
+<dt><a class="autorefs autorefs-internal" href="../reference_adapters/#repository_orm.adapters.data.fake.FakeRepository.commit"><code>commit</code></a></dt>
 <dd>Persist the changes of <code>new_entities</code> into <code>entities</code>, clearing up
 <code>new_entities</code> afterwards.</dd>
 <dt>[<code>all</code>][repository_orm.adapters.data.fake.FakeRepository.all]</dt>
@@ -765,7 +765,7 @@ method.</p>
 to search for the entities that have the value we're searching for and then
 we search if the key of those entities match the one we're searching for.</p>
 </dd>
-<dt><a href="../reference_adapters/#repository_orm.adapters.data.fake.FakeRepository.apply_migrations"><code>apply_migrations</code></a></dt>
+<dt><a class="autorefs autorefs-internal" href="../reference_adapters/#repository_orm.adapters.data.fake.FakeRepository.apply_migrations"><code>apply_migrations</code></a></dt>
 <dd>
 <p>Run the migrations of the repository schema.</p>
 <p>As the fake repository doesn't have any schema this method does nothing.</p>
@@ -859,7 +859,7 @@ we search if the key of those entities match the one we're searching for.</p>
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "content.code.annotate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
     
     
-      <script src="../assets/javascripts/bundle.5413a266.min.js"></script>
+      <script src="../assets/javascripts/bundle.467223ff.min.js"></script>
       
         <script src="../js/timeago.min.js"></script>
       

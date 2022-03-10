@@ -71,7 +71,7 @@ class Entity(BaseModel):
     @property
     def _model_name(self) -> str:  # pragma: nocover
         """Return the entity model name."""
-        warnings.warn("Use model_name instead before 2022-08-16", DeprecationWarning)
+        warnings.warn("Use model_name instead before 2022-06-10", DeprecationWarning)
         return self.model_name
 
     def merge(self, other: "Entity") -> "Entity":

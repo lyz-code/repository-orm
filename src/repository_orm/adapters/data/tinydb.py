@@ -149,7 +149,9 @@ class TinyDBRepository(Repository):
                         f"for the register {str(entity_data)}"
                     )
                     raise error
-        raise ValueError(f"No model found with name {model_name}")
+        # no cover: this code is going to disappear soon, it makes no sense to create
+        # a new test
+        raise ValueError(f"No model found with name {model_name}")  # pragma: no cover
 
     def _all(self, models: OptionalModelOrModels[Entity] = None) -> List[Entity]:
         """Get all the entities from the repository whose class is included in models.

@@ -22,7 +22,9 @@ Entity = TypeVar("Entity", bound=EntityModel)
 
 
 def load_repository(
-    database_url: str = "fake://", models: Optional[Models[Entity]] = None
+    database_url: str = "fake://",
+    models: Optional[Models[Entity]] = None,
+    search_exception: bool = True,
 ) -> Repository:
     """Load the Repository object that matches the database url protocol.
 
@@ -33,11 +35,11 @@ def load_repository(
         Repository that understands the url protocol.
     """
     if "fake://" in database_url:
-        return FakeRepository(models, "")
+        return FakeRepository(models, "", search_exception)
     if "sqlite://" in database_url:
-        return PypikaRepository(models, database_url)
+        return PypikaRepository(models, database_url, search_exception)
     if "tinydb://" in database_url:
-        return TinyDBRepository(models, database_url)
+        return TinyDBRepository(models, database_url, search_exception)
 
     raise ValueError(f"Database URL: {database_url} not recognized.")
 

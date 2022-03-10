@@ -2,6 +2,7 @@
 
 import abc
 import logging
+import warnings
 from contextlib import suppress
 from typing import Dict, List, Optional, Type, TypeVar, Union
 
@@ -28,17 +29,30 @@ class Repository(abc.ABC):
 
     @abc.abstractmethod
     def __init__(
-        self, models: OptionalModels[Entity] = None, database_url: str = ""
+        self,
+        models: OptionalModels[Entity] = None,
+        database_url: str = "",
+        search_exception: bool = True,
     ) -> None:
         """Initialize the repository attributes.
 
         Args:
             database_url: URL specifying the connection to the database.
             models: List of stored entity models.
+            search_exception: Raise an exception when search doesn't return any value.
+                It's a migration flag used to test the behaviour from 2022-06-10
+                onwards.
         """
         self.database_url = database_url
+        self.search_exception = search_exception
         if models is None:
             models = []
+        else:
+            warnings.warn(
+                "In 2022-06-10 initializing the repository with any model is going "
+                "to be deprecated, please remove the models argument.",
+                UserWarning,
+            )
         self.models = models
         self.cache = Cache()
 
@@ -125,6 +139,8 @@ class Repository(abc.ABC):
             EntityNotFoundError: If the entity is not found.
             TooManyEntitiesError: If more than one entity was found.
         """
+        warn_on_models(models, "get")
+
         entity = self._get(id_, models)
         self.cache.add(entity)
         return entity
@@ -158,6 +174,8 @@ class Repository(abc.ABC):
         Args:
             models: Entity class or classes to obtain.
         """
+        warn_on_models(models, "all")
+
         entities = sorted(self._all(models))
 
         # ignore: the type cannot be List[Entity] but it can, I don't know how to fix
@@ -201,7 +219,21 @@ class Repository(abc.ABC):
         Raises:
             EntityNotFoundError: If the entities are not found.
         """
-        found_entities = sorted(self._search(fields, models))
+        warn_on_models(models, "search")
+        try:
+            found_entities = sorted(self._search(fields, models))
+        except EntityNotFoundError as error:
+            if self.search_exception:
+                warnings.warn(
+                    "From 2022-06-10 when repo.search doesn't find any result it will "
+                    "return an empty list instead of raising an EntityNotFoundError "
+                    "exception. To use this behaviour initialize your repository with "
+                    "search_exception=False.",
+                    UserWarning,
+                )
+                raise error
+            else:
+                found_entities = []
 
         # ignore: the type cannot be List[Entity] but it can, I don't know how to fix
         # this
@@ -253,6 +285,7 @@ class Repository(abc.ABC):
         Raises:
             EntityNotFoundError: If there are no entities.
         """
+        warn_on_models(models, "last")
         try:
             return max(self.all(models))
         except ValueError as error:
@@ -271,6 +304,7 @@ class Repository(abc.ABC):
         Raises:
             EntityNotFoundError: If there are no entities.
         """
+        warn_on_models(models, "first")
         try:
             return min(self.all(models))
         except ValueError as error:
@@ -296,7 +330,7 @@ class Repository(abc.ABC):
         )
 
     def _model_not_found(
-        self, models: Models[Entity], append_str: str = ""
+        self, models: OptionalModelOrModels[Entity], append_str: str = ""
     ) -> EntityNotFoundError:
         """Raise the appropriate EntityNotFoundError exception based on models.
 
@@ -308,6 +342,7 @@ class Repository(abc.ABC):
         Raises:
             EntityNotFoundError
         """
+        models = self._build_models(models)
         entity_str = ", ".join([model.__name__ for model in models])
         return EntityNotFoundError(
             f"There are no entities of type {entity_str} "
@@ -326,3 +361,19 @@ class Repository(abc.ABC):
     def close(self) -> None:
         """Close the connection to the database."""
         raise NotImplementedError
+
+
+def warn_on_models(models: OptionalModelOrModels[Entity], method: str) -> None:
+    """Warn users that using more than one model is going to be deprecated."""
+    if isinstance(models, list):
+        warnings.warn(
+            f"In 2022-06-10 using repo.{method} with a list of models is going to be "
+            "deprecated, please use just one model instead",
+            UserWarning,
+        )
+    elif models is None:
+        warnings.warn(
+            f"In 2022-06-10 using repo.{method} without any model is going to be "
+            "deprecated, please set the model you want to use.",
+            UserWarning,
+        )

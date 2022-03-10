@@ -8,7 +8,6 @@ import pytest
 from py._path.local import LocalPath
 from pydantic_factories import ModelFactory
 from pytest_cases import fixture, parametrize_with_cases, unpack_fixture
-from tests.cases.model import Article
 from tinydb import TinyDB
 
 from repository_orm import (
@@ -28,7 +27,6 @@ from .cases import (
     RepositoryTester,
     StrEntityCases,
 )
-from .cases.model import Author, Book, Genre, OtherEntity
 from .cases.repositories import FileRepositoryCases
 from .cases.testers import FileRepositoryTester
 
@@ -86,13 +84,10 @@ def db_tinydb_(tmpdir: LocalPath) -> Tuple[str, TinyDB]:
 # -----------------------
 # - Repository fixtures -
 # -----------------------
-models = [Article, Author, Book, Genre, OtherEntity]
-
-
 @pytest.fixture()
 def repo_fake() -> Generator[FakeRepository, None, None]:
     """Return an instance of the FakeRepository."""
-    repo = FakeRepository(models=models)
+    repo = FakeRepository()
 
     yield repo
 
@@ -104,7 +99,7 @@ def repo_tinydb_(
     db_tinydb: Tuple[str, TinyDB]
 ) -> Generator[TinyDBRepository, None, None]:
     """Return an instance of the TinyDBRepository."""
-    repo = TinyDBRepository(database_url=db_tinydb[0], models=models)
+    repo = TinyDBRepository(database_url=db_tinydb[0])
 
     yield repo
 
@@ -117,7 +112,7 @@ def empty_repo_pypika_(
 ) -> Generator[PypikaRepository, None, None]:
     """Configure an empty instance of the PypikaRepository."""
     sqlite_url = db_sqlite[0]
-    repo = PypikaRepository(database_url=sqlite_url, models=models)
+    repo = PypikaRepository(database_url=sqlite_url)
 
     yield repo
 

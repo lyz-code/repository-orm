@@ -3,6 +3,7 @@
 import logging
 import os
 import re
+import warnings
 from contextlib import suppress
 from typing import Any, Dict, Iterable, List
 
@@ -17,7 +18,14 @@ from repository_orm.exceptions import TooManyEntitiesError
 
 from ...exceptions import EntityNotFoundError
 from ...model import EntityID
-from .abstract import Entity, Models, OptionalModelOrModels, OptionalModels, Repository
+from .abstract import (
+    Entity,
+    Models,
+    OptionalModelOrModels,
+    OptionalModels,
+    Repository,
+    warn_on_models,
+)
 
 log = logging.getLogger(__name__)
 
@@ -26,7 +34,10 @@ class TinyDBRepository(Repository):
     """Implement the repository pattern using the TinyDB."""
 
     def __init__(
-        self, models: OptionalModels[Entity] = None, database_url: str = ""
+        self,
+        models: OptionalModels[Entity] = None,
+        database_url: str = "",
+        search_exception: bool = True,
     ) -> None:
         """Initialize the repository attributes.
 
@@ -34,7 +45,7 @@ class TinyDBRepository(Repository):
             database_url: URL specifying the connection to the database.
             models: List of stored entity models.
         """
-        super().__init__(models, database_url)
+        super().__init__(models, database_url, search_exception)
         self.database_file = os.path.expanduser(database_url.replace("tinydb://", ""))
         if not os.path.isfile(self.database_file):
             try:
@@ -346,9 +357,14 @@ class TinyDBRepository(Repository):
         Raises:
             EntityNotFoundError: If there are no entities.
         """
+        warn_on_models(models, "last")
         models = self._build_models(models)
         try:
-            last_index_entity: Entity = super().last(models)
+            with warnings.catch_warnings():
+                warnings.filterwarnings(
+                    "ignore", message="In 2022-06-10.*list of models"
+                )
+                last_index_entity: Entity = super().last(models)
         except EntityNotFoundError as empty_repo:
             try:
                 # Empty repo but entities staged to be commited.

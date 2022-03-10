@@ -23,7 +23,7 @@ graph TD
     002:::accepted
     003:::superseeded
     004:::draft
-    005:::draft
+    005:::accepted
 
     classDef draft fill:#CDBFEA;
     classDef proposed fill:#B1CCE8;

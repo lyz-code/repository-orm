@@ -738,6 +738,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#repository_orm.adapters.data.abstract.warn_on_models" class="md-nav__link">
+    warn_on_models()
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -876,6 +883,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#repository_orm.adapters.data.pypika.PypikaRepository.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#repository_orm.adapters.data.pypika.PypikaRepository.apply_migrations" class="md-nav__link">
     apply_migrations()
   </a>
@@ -919,6 +933,13 @@
           <li class="md-nav__item">
   <a href="#repository_orm.adapters.data.tinydb.TinyDBRepository" class="md-nav__link">
     TinyDBRepository
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#repository_orm.adapters.data.tinydb.TinyDBRepository.__init__" class="md-nav__link">
+    __init__()
   </a>
   
 </li>
@@ -1484,17 +1505,30 @@ Repository            (<span title="abc.ABC">ABC</span>)
 
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">models</span><span class="p">:</span> <span class="n">OptionalModels</span><span class="p">[</span><span class="n">Entity</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">models</span><span class="p">:</span> <span class="n">OptionalModels</span><span class="p">[</span><span class="n">Entity</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">search_exception</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Initialize the repository attributes.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            database_url: URL specifying the connection to the database.</span>
 <span class="sd">            models: List of stored entity models.</span>
+<span class="sd">            search_exception: Raise an exception when search doesn&#39;t return any value.</span>
+<span class="sd">                It&#39;s a migration flag used to test the behaviour from 2022-06-10</span>
+<span class="sd">                onwards.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">database_url</span> <span class="o">=</span> <span class="n">database_url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">search_exception</span> <span class="o">=</span> <span class="n">search_exception</span>
         <span class="k">if</span> <span class="n">models</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">models</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;In 2022-06-10 initializing the repository with any model is going &quot;</span>
+                <span class="s2">&quot;to be deprecated, please remove the models argument.&quot;</span><span class="p">,</span>
+                <span class="ne">UserWarning</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">models</span> <span class="o">=</span> <span class="n">models</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="n">Cache</span><span class="p">()</span>
 
@@ -1581,6 +1615,8 @@ Repository            (<span title="abc.ABC">ABC</span>)
 <span class="sd">            EntityNotFoundError: If the entity is not found.</span>
 <span class="sd">            TooManyEntitiesError: If more than one entity was found.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">warn_on_models</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="s2">&quot;get&quot;</span><span class="p">)</span>
+
         <span class="n">entity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get</span><span class="p">(</span><span class="n">id_</span><span class="p">,</span> <span class="n">models</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">entity</span>
@@ -1614,6 +1650,8 @@ Repository            (<span title="abc.ABC">ABC</span>)
 <span class="sd">        Args:</span>
 <span class="sd">            models: Entity class or classes to obtain.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">warn_on_models</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="s2">&quot;all&quot;</span><span class="p">)</span>
+
         <span class="n">entities</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_all</span><span class="p">(</span><span class="n">models</span><span class="p">))</span>
 
         <span class="c1"># ignore: the type cannot be List[Entity] but it can, I don&#39;t know how to fix</span>
@@ -1657,7 +1695,21 @@ Repository            (<span title="abc.ABC">ABC</span>)
 <span class="sd">        Raises:</span>
 <span class="sd">            EntityNotFoundError: If the entities are not found.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">found_entities</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_search</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">models</span><span class="p">))</span>
+        <span class="n">warn_on_models</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="s2">&quot;search&quot;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">found_entities</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_search</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">models</span><span class="p">))</span>
+        <span class="k">except</span> <span class="n">EntityNotFoundError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_exception</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                    <span class="s2">&quot;From 2022-06-10 when repo.search doesn&#39;t find any result it will &quot;</span>
+                    <span class="s2">&quot;return an empty list instead of raising an EntityNotFoundError &quot;</span>
+                    <span class="s2">&quot;exception. To use this behaviour initialize your repository with &quot;</span>
+                    <span class="s2">&quot;search_exception=False.&quot;</span><span class="p">,</span>
+                    <span class="ne">UserWarning</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">raise</span> <span class="n">error</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">found_entities</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="c1"># ignore: the type cannot be List[Entity] but it can, I don&#39;t know how to fix</span>
         <span class="c1"># this</span>
@@ -1709,6 +1761,7 @@ Repository            (<span title="abc.ABC">ABC</span>)
 <span class="sd">        Raises:</span>
 <span class="sd">            EntityNotFoundError: If there are no entities.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">warn_on_models</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="s2">&quot;last&quot;</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">models</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
@@ -1727,6 +1780,7 @@ Repository            (<span title="abc.ABC">ABC</span>)
 <span class="sd">        Raises:</span>
 <span class="sd">            EntityNotFoundError: If there are no entities.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">warn_on_models</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="s2">&quot;first&quot;</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">models</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
@@ -1752,7 +1806,7 @@ Repository            (<span title="abc.ABC">ABC</span>)
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_model_not_found</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">models</span><span class="p">:</span> <span class="n">Models</span><span class="p">[</span><span class="n">Entity</span><span class="p">],</span> <span class="n">append_str</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">models</span><span class="p">:</span> <span class="n">OptionalModelOrModels</span><span class="p">[</span><span class="n">Entity</span><span class="p">],</span> <span class="n">append_str</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EntityNotFoundError</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Raise the appropriate EntityNotFoundError exception based on models.</span>
 
@@ -1764,6 +1818,7 @@ Repository            (<span title="abc.ABC">ABC</span>)
 <span class="sd">        Raises:</span>
 <span class="sd">            EntityNotFoundError</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">models</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_models</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
         <span class="n">entity_str</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="vm">__name__</span> <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">models</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">EntityNotFoundError</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;There are no entities of type </span><span class="si">{</span><span class="n">entity_str</span><span class="si">}</span><span class="s2"> &quot;</span>
@@ -1802,7 +1857,7 @@ Repository            (<span title="abc.ABC">ABC</span>)
 
 
 <h6 id="repository_orm.adapters.data.abstract.Repository.__init__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">models</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">database_url</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">models</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">database_url</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">search_exception</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-special"><code>special</code></small>
@@ -1837,23 +1892,44 @@ Repository            (<span title="abc.ABC">ABC</span>)
         <td><p>List of stored entity models.</p></td>
         <td><code>None</code></td>
       </tr>
+      <tr>
+        <td><code>search_exception</code></td>
+        <td><code>bool</code></td>
+        <td><p>Raise an exception when search doesn't return any value.
+It's a migration flag used to test the behaviour from 2022-06-10
+onwards.</p></td>
+        <td><code>True</code></td>
+      </tr>
   </tbody>
 </table>
         <details class="quote">
           <summary>Source code in <code>repository_orm/adapters/data/abstract.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
 <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span> <span class="n">models</span><span class="p">:</span> <span class="n">OptionalModels</span><span class="p">[</span><span class="n">Entity</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">models</span><span class="p">:</span> <span class="n">OptionalModels</span><span class="p">[</span><span class="n">Entity</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">search_exception</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Initialize the repository attributes.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        database_url: URL specifying the connection to the database.</span>
 <span class="sd">        models: List of stored entity models.</span>
+<span class="sd">        search_exception: Raise an exception when search doesn&#39;t return any value.</span>
+<span class="sd">            It&#39;s a migration flag used to test the behaviour from 2022-06-10</span>
+<span class="sd">            onwards.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">database_url</span> <span class="o">=</span> <span class="n">database_url</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">search_exception</span> <span class="o">=</span> <span class="n">search_exception</span>
     <span class="k">if</span> <span class="n">models</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">models</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s2">&quot;In 2022-06-10 initializing the repository with any model is going &quot;</span>
+            <span class="s2">&quot;to be deprecated, please remove the models argument.&quot;</span><span class="p">,</span>
+            <span class="ne">UserWarning</span><span class="p">,</span>
+        <span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">models</span> <span class="o">=</span> <span class="n">models</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="n">Cache</span><span class="p">()</span>
 </code></pre></div>
@@ -2010,6 +2086,8 @@ the cache.</p>
 <span class="sd">    Args:</span>
 <span class="sd">        models: Entity class or classes to obtain.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">warn_on_models</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="s2">&quot;all&quot;</span><span class="p">)</span>
+
     <span class="n">entities</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_all</span><span class="p">(</span><span class="n">models</span><span class="p">))</span>
 
     <span class="c1"># ignore: the type cannot be List[Entity] but it can, I don&#39;t know how to fix</span>
@@ -2262,6 +2340,7 @@ scripts.</p></td>
 <span class="sd">    Raises:</span>
 <span class="sd">        EntityNotFoundError: If there are no entities.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">warn_on_models</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="s2">&quot;first&quot;</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">models</span><span class="p">))</span>
     <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
@@ -2369,6 +2448,8 @@ scripts.</p></td>
 <span class="sd">        EntityNotFoundError: If the entity is not found.</span>
 <span class="sd">        TooManyEntitiesError: If more than one entity was found.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">warn_on_models</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="s2">&quot;get&quot;</span><span class="p">)</span>
+
     <span class="n">entity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get</span><span class="p">(</span><span class="n">id_</span><span class="p">,</span> <span class="n">models</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">entity</span>
@@ -2457,6 +2538,7 @@ scripts.</p></td>
 <span class="sd">    Raises:</span>
 <span class="sd">        EntityNotFoundError: If there are no entities.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">warn_on_models</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="s2">&quot;last&quot;</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">models</span><span class="p">))</span>
     <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
@@ -2561,7 +2643,21 @@ scripts.</p></td>
 <span class="sd">    Raises:</span>
 <span class="sd">        EntityNotFoundError: If the entities are not found.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">found_entities</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_search</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">models</span><span class="p">))</span>
+    <span class="n">warn_on_models</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="s2">&quot;search&quot;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">found_entities</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_search</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">models</span><span class="p">))</span>
+    <span class="k">except</span> <span class="n">EntityNotFoundError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_exception</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;From 2022-06-10 when repo.search doesn&#39;t find any result it will &quot;</span>
+                <span class="s2">&quot;return an empty list instead of raising an EntityNotFoundError &quot;</span>
+                <span class="s2">&quot;exception. To use this behaviour initialize your repository with &quot;</span>
+                <span class="s2">&quot;search_exception=False.&quot;</span><span class="p">,</span>
+                <span class="ne">UserWarning</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="n">error</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">found_entities</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="c1"># ignore: the type cannot be List[Entity] but it can, I don&#39;t know how to fix</span>
     <span class="c1"># this</span>
@@ -2584,6 +2680,44 @@ scripts.</p></td>
 
   </div>
 
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h5 id="repository_orm.adapters.data.abstract.warn_on_models" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">warn_on_models</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span></code>
+
+
+<a href="#repository_orm.adapters.data.abstract.warn_on_models" class="headerlink" title="Permanent link">&para;</a></h5>
+
+    <div class="doc doc-contents ">
+
+      <p>Warn users that using more than one model is going to be deprecated.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>repository_orm/adapters/data/abstract.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">warn_on_models</span><span class="p">(</span><span class="n">models</span><span class="p">:</span> <span class="n">OptionalModelOrModels</span><span class="p">[</span><span class="n">Entity</span><span class="p">],</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Warn users that using more than one model is going to be deprecated.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;In 2022-06-10 using repo.</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> with a list of models is going to be &quot;</span>
+            <span class="s2">&quot;deprecated, please use just one model instead&quot;</span><span class="p">,</span>
+            <span class="ne">UserWarning</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">elif</span> <span class="n">models</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;In 2022-06-10 using repo.</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> without any model is going to be &quot;</span>
+            <span class="s2">&quot;deprecated, please set the model you want to use.&quot;</span><span class="p">,</span>
+            <span class="ne">UserWarning</span><span class="p">,</span>
+        <span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
 
 
 
@@ -2945,10 +3079,13 @@ FakeRepository            (<a class="autorefs autorefs-internal" title="reposito
     <span class="sd">&quot;&quot;&quot;Implement the repository pattern using a memory dictionary.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">models</span><span class="p">:</span> <span class="n">OptionalModels</span><span class="p">[</span><span class="n">Entity</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">models</span><span class="p">:</span> <span class="n">OptionalModels</span><span class="p">[</span><span class="n">Entity</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">search_exception</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Initialize the repository attributes.&quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">models</span><span class="o">=</span><span class="n">models</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">models</span><span class="o">=</span><span class="n">models</span><span class="p">,</span> <span class="n">search_exception</span><span class="o">=</span><span class="n">search_exception</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">database_url</span> <span class="o">==</span> <span class="s2">&quot;/inexistent_dir/database.db&quot;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ConnectionError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not create database file: </span><span class="si">{</span><span class="n">database_url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">:</span> <span class="n">FakeRepositoryDB</span><span class="p">[</span><span class="n">Entity</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
@@ -3066,6 +3203,8 @@ FakeRepository            (<a class="autorefs autorefs-internal" title="reposito
 <span class="sd">            EntityNotFoundError: If the entities are not found.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">models</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_models</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">models</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">models</span> <span class="o">=</span> <span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">all_entities</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Entity</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
         <span class="n">entities_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">entity</span><span class="o">.</span><span class="n">id_</span><span class="p">:</span> <span class="n">entity</span> <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">all_entities</span><span class="p">}</span>
         <span class="n">entity_attributes</span> <span class="o">=</span> <span class="p">{</span><span class="n">entity</span><span class="o">.</span><span class="n">id_</span><span class="p">:</span> <span class="n">entity</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">all_entities</span><span class="p">}</span>
@@ -3183,7 +3322,7 @@ FakeRepository            (<a class="autorefs autorefs-internal" title="reposito
 
 
 <h6 id="repository_orm.adapters.data.fake.FakeRepository.__init__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">models</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">database_url</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">models</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">database_url</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">search_exception</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-special"><code>special</code></small>
@@ -3198,10 +3337,13 @@ FakeRepository            (<a class="autorefs autorefs-internal" title="reposito
         <details class="quote">
           <summary>Source code in <code>repository_orm/adapters/data/fake.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span> <span class="n">models</span><span class="p">:</span> <span class="n">OptionalModels</span><span class="p">[</span><span class="n">Entity</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">models</span><span class="p">:</span> <span class="n">OptionalModels</span><span class="p">[</span><span class="n">Entity</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">search_exception</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Initialize the repository attributes.&quot;&quot;&quot;</span>
-    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">models</span><span class="o">=</span><span class="n">models</span><span class="p">)</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">models</span><span class="o">=</span><span class="n">models</span><span class="p">,</span> <span class="n">search_exception</span><span class="o">=</span><span class="n">search_exception</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">database_url</span> <span class="o">==</span> <span class="s2">&quot;/inexistent_dir/database.db&quot;</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ConnectionError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not create database file: </span><span class="si">{</span><span class="n">database_url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">:</span> <span class="n">FakeRepositoryDB</span><span class="p">[</span><span class="n">Entity</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
@@ -3574,7 +3716,10 @@ PypikaRepository            (<a class="autorefs autorefs-internal" title="reposi
     <span class="sd">&quot;&quot;&quot;Implement the repository pattern using the Pypika query builder.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">models</span><span class="p">:</span> <span class="n">OptionalModels</span><span class="p">[</span><span class="n">Entity</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">models</span><span class="p">:</span> <span class="n">OptionalModels</span><span class="p">[</span><span class="n">Entity</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">search_exception</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Initialize the repository attributes.</span>
 
@@ -3582,7 +3727,7 @@ PypikaRepository            (<a class="autorefs autorefs-internal" title="reposi
 <span class="sd">            database_url: URL specifying the connection to the database.</span>
 <span class="sd">            models: List of stored entity models.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">database_url</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">database_url</span><span class="p">,</span> <span class="n">search_exception</span><span class="p">)</span>
         <span class="n">database_file</span> <span class="o">=</span> <span class="n">database_url</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;sqlite:///&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">database_file</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
@@ -3833,6 +3978,82 @@ PypikaRepository            (<a class="autorefs autorefs-internal" title="reposi
 
 
 
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h6 id="repository_orm.adapters.data.pypika.PypikaRepository.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">models</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">database_url</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">search_exception</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+<a href="#repository_orm.adapters.data.pypika.PypikaRepository.__init__" class="headerlink" title="Permanent link">&para;</a></h6>
+
+    <div class="doc doc-contents ">
+
+      <p>Initialize the repository attributes.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>database_url</code></td>
+        <td><code>str</code></td>
+        <td><p>URL specifying the connection to the database.</p></td>
+        <td><code>&#39;&#39;</code></td>
+      </tr>
+      <tr>
+        <td><code>models</code></td>
+        <td><code>Optional[List[Type[~Entity]]]</code></td>
+        <td><p>List of stored entity models.</p></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>repository_orm/adapters/data/pypika.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">models</span><span class="p">:</span> <span class="n">OptionalModels</span><span class="p">[</span><span class="n">Entity</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">search_exception</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Initialize the repository attributes.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        database_url: URL specifying the connection to the database.</span>
+<span class="sd">        models: List of stored entity models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">database_url</span><span class="p">,</span> <span class="n">search_exception</span><span class="p">)</span>
+    <span class="n">database_file</span> <span class="o">=</span> <span class="n">database_url</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;sqlite:///&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">database_file</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">database_file</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_cursor</span><span class="p">:</span>
+                <span class="n">file_cursor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ConnectionError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Could not create the database file: </span><span class="si">{</span><span class="n">database_file</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">error</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">database_file</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">create_function</span><span class="p">(</span><span class="s2">&quot;REGEXP&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">_regexp</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
 
 
 
@@ -4111,7 +4332,10 @@ TinyDBRepository            (<a class="autorefs autorefs-internal" title="reposi
     <span class="sd">&quot;&quot;&quot;Implement the repository pattern using the TinyDB.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">models</span><span class="p">:</span> <span class="n">OptionalModels</span><span class="p">[</span><span class="n">Entity</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">models</span><span class="p">:</span> <span class="n">OptionalModels</span><span class="p">[</span><span class="n">Entity</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">search_exception</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Initialize the repository attributes.</span>
 
@@ -4119,7 +4343,7 @@ TinyDBRepository            (<a class="autorefs autorefs-internal" title="reposi
 <span class="sd">            database_url: URL specifying the connection to the database.</span>
 <span class="sd">            models: List of stored entity models.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">database_url</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">database_url</span><span class="p">,</span> <span class="n">search_exception</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">database_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">database_url</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;tinydb://&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">database_file</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
@@ -4431,9 +4655,14 @@ TinyDBRepository            (<a class="autorefs autorefs-internal" title="reposi
 <span class="sd">        Raises:</span>
 <span class="sd">            EntityNotFoundError: If there are no entities.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">warn_on_models</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="s2">&quot;last&quot;</span><span class="p">)</span>
         <span class="n">models</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_models</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">last_index_entity</span><span class="p">:</span> <span class="n">Entity</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">last</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
+            <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span>
+                    <span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;In 2022-06-10.*list of models&quot;</span>
+                <span class="p">)</span>
+                <span class="n">last_index_entity</span><span class="p">:</span> <span class="n">Entity</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">last</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">EntityNotFoundError</span> <span class="k">as</span> <span class="n">empty_repo</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="c1"># Empty repo but entities staged to be commited.</span>
@@ -4473,6 +4702,87 @@ TinyDBRepository            (<a class="autorefs autorefs-internal" title="reposi
 
 
 
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h6 id="repository_orm.adapters.data.tinydb.TinyDBRepository.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">models</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">database_url</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">search_exception</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+<a href="#repository_orm.adapters.data.tinydb.TinyDBRepository.__init__" class="headerlink" title="Permanent link">&para;</a></h6>
+
+    <div class="doc doc-contents ">
+
+      <p>Initialize the repository attributes.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>database_url</code></td>
+        <td><code>str</code></td>
+        <td><p>URL specifying the connection to the database.</p></td>
+        <td><code>&#39;&#39;</code></td>
+      </tr>
+      <tr>
+        <td><code>models</code></td>
+        <td><code>Optional[List[Type[~Entity]]]</code></td>
+        <td><p>List of stored entity models.</p></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>repository_orm/adapters/data/tinydb.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">models</span><span class="p">:</span> <span class="n">OptionalModels</span><span class="p">[</span><span class="n">Entity</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">search_exception</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Initialize the repository attributes.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        database_url: URL specifying the connection to the database.</span>
+<span class="sd">        models: List of stored entity models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">database_url</span><span class="p">,</span> <span class="n">search_exception</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">database_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">database_url</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;tinydb://&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">database_file</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">database_file</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_cursor</span><span class="p">:</span>
+                <span class="n">file_cursor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ConnectionError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Could not create the database file: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">database_file</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">error</span>
+
+    <span class="n">serialization</span> <span class="o">=</span> <span class="n">SerializationMiddleware</span><span class="p">(</span><span class="n">JSONStorage</span><span class="p">)</span>
+    <span class="n">serialization</span><span class="o">.</span><span class="n">register_serializer</span><span class="p">(</span><span class="n">DateTimeSerializer</span><span class="p">(),</span> <span class="s2">&quot;TinyDate&quot;</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">db_</span> <span class="o">=</span> <span class="n">TinyDB</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">database_file</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="n">serialization</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span>
+    <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">staged</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;add&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;remove&quot;</span><span class="p">:</span> <span class="p">[]}</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
 
 
 
@@ -4728,9 +5038,14 @@ scripts.</p></td>
 <span class="sd">    Raises:</span>
 <span class="sd">        EntityNotFoundError: If there are no entities.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">warn_on_models</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="s2">&quot;last&quot;</span><span class="p">)</span>
     <span class="n">models</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_models</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">last_index_entity</span><span class="p">:</span> <span class="n">Entity</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">last</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span>
+                <span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;In 2022-06-10.*list of models&quot;</span>
+            <span class="p">)</span>
+            <span class="n">last_index_entity</span><span class="p">:</span> <span class="n">Entity</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">last</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">EntityNotFoundError</span> <span class="k">as</span> <span class="n">empty_repo</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># Empty repo but entities staged to be commited.</span>
@@ -6338,7 +6653,7 @@ and handlers to achieve the program's purpose.</p>
 
 
 <h3 id="repository_orm.services.load_repository" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">load_repository</span><span class="p">(</span><span class="n">database_url</span><span class="o">=</span><span class="s1">&#39;fake://&#39;</span><span class="p">,</span> <span class="n">models</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">load_repository</span><span class="p">(</span><span class="n">database_url</span><span class="o">=</span><span class="s1">&#39;fake://&#39;</span><span class="p">,</span> <span class="n">models</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">search_exception</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
 
 
 <a href="#repository_orm.services.load_repository" class="headerlink" title="Permanent link">&para;</a></h3>
@@ -6384,7 +6699,9 @@ and handlers to achieve the program's purpose.</p>
         <details class="quote">
           <summary>Source code in <code>repository_orm/services.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">load_repository</span><span class="p">(</span>
-    <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;fake://&quot;</span><span class="p">,</span> <span class="n">models</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Models</span><span class="p">[</span><span class="n">Entity</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;fake://&quot;</span><span class="p">,</span>
+    <span class="n">models</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Models</span><span class="p">[</span><span class="n">Entity</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">search_exception</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Repository</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Load the Repository object that matches the database url protocol.</span>
 
@@ -6395,11 +6712,11 @@ and handlers to achieve the program's purpose.</p>
 <span class="sd">        Repository that understands the url protocol.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="s2">&quot;fake://&quot;</span> <span class="ow">in</span> <span class="n">database_url</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">FakeRepository</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">FakeRepository</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">search_exception</span><span class="p">)</span>
     <span class="k">if</span> <span class="s2">&quot;sqlite://&quot;</span> <span class="ow">in</span> <span class="n">database_url</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">PypikaRepository</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">database_url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">PypikaRepository</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">database_url</span><span class="p">,</span> <span class="n">search_exception</span><span class="p">)</span>
     <span class="k">if</span> <span class="s2">&quot;tinydb://&quot;</span> <span class="ow">in</span> <span class="n">database_url</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">TinyDBRepository</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">database_url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">TinyDBRepository</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">database_url</span><span class="p">,</span> <span class="n">search_exception</span><span class="p">)</span>
 
     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Database URL: </span><span class="si">{</span><span class="n">database_url</span><span class="si">}</span><span class="s2"> not recognized.&quot;</span><span class="p">)</span>
 </code></pre></div>

@@ -773,7 +773,7 @@ author in the repository. It's a little bit more complex but bare with me.</p>
 
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">repo</span><span class="p">(</span><span class="n">db_tinydb</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">TinyDBRepository</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-    <span class="n">repo</span> <span class="o">=</span> <span class="n">TinyDBRepository</span><span class="p">([</span><span class="n">Author</span><span class="p">],</span> <span class="n">db_tinydb</span><span class="p">)</span>
+    <span class="n">repo</span> <span class="o">=</span> <span class="n">TinyDBRepository</span><span class="p">(</span><span class="n">database_url</span><span class="o">=</span><span class="n">db_tinydb</span><span class="p">)</span>
 
     <span class="k">yield</span> <span class="n">repo</span>
 

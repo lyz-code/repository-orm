@@ -794,10 +794,10 @@ pattern</a>.</p>
 <span class="c1"># Delete entities</span>
 <span class="n">repo</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">brandon</span><span class="p">)</span>
 <span class="n">repo</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">repo</span><span class="o">.</span><span class="n">all</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">repo</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">Author</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span>
 
 <span class="c1"># Close the connection</span>
-<span class="n">repo</span><span class="o">.</span><span class="n">close</span><span class="p">()</span> <span class="c1"># noqa</span>
+<span class="n">repo</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </code></pre></div>
 <h2 id="repository-pattern-theory">Repository pattern theory<a class="headerlink" href="#repository-pattern-theory" title="Permanent link">&para;</a></h2>
 <p><a href="https://www.cosmicpython.com/book/chapter_02_repository.html">The repository
@@ -901,7 +901,7 @@ repository-orm</a>.</p>
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2021-12-02T12:49:55+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2021-12-02</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2022-03-10T16:21:20+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2022-03-10</span>
       
     
   </small>

@@ -422,24 +422,6 @@ class TestAddMerge:
         assert stored_entity.rating == original_entity.rating
         assert stored_entity.name == "new name"
 
-    def test_repo_add_raises_warning_if_merge_is_false(
-        self,
-        database: Any,
-        repo: Repository,
-    ) -> None:
-        """
-        Given: An empty repository
-        When: Adding an entity without merge = True
-        Then: A warning is raised
-
-        It will become the default behaviour and we need to test that everything
-        works.
-        """
-        entity = GenreFactory.build()
-        with pytest.warns(UserWarning, match="On 2022-09-01 entities "):
-
-            repo.add(entity)  # act
-
 
 class TestGet:
     """Test the retrieval of entities."""

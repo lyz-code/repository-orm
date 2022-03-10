@@ -2,7 +2,6 @@
 
 import abc
 import logging
-import warnings
 from contextlib import suppress
 from typing import Dict, List, Optional, Type, TypeVar, Union
 
@@ -67,13 +66,6 @@ class Repository(abc.ABC):
                 with suppress(EntityNotFoundError):
                     stored_entity = self.get(entity.id_, type(entity))
                     entity = stored_entity.merge(entity)
-            else:
-                warnings.warn(
-                    "On 2022-09-01 entities will be merged when adding to the "
-                    "repository, please use repo.add(entity, merge=True) before "
-                    "then to check nothing is going to be broken.",
-                    UserWarning,
-                )
 
             if self.cache.entity_has_not_changed(entity):
                 log.debug(

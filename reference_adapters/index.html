@@ -555,6 +555,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#repository_orm.adapters.data.abstract.Repository.next_id" class="md-nav__link">
+    next_id()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#repository_orm.adapters.data.abstract.Repository.search" class="md-nav__link">
     search()
   </a>
@@ -1272,6 +1279,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#repository_orm.adapters.data.abstract.Repository.next_id" class="md-nav__link">
+    next_id()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#repository_orm.adapters.data.abstract.Repository.search" class="md-nav__link">
     search()
   </a>
@@ -1883,7 +1897,7 @@ Repository            (<span title="abc.ABC">ABC</span>)
             <span class="n">entity</span> <span class="o">=</span> <span class="n">entities</span>
 
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">entity</span><span class="o">.</span><span class="n">id_</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">entity</span><span class="o">.</span><span class="n">id_</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">entity</span><span class="o">.</span><span class="n">id_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next_id</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
+                <span class="n">entity</span><span class="o">.</span><span class="n">id_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_id</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">merge</span><span class="p">:</span>
                 <span class="k">with</span> <span class="n">suppress</span><span class="p">(</span><span class="n">EntityNotFoundError</span><span class="p">):</span>
@@ -1899,7 +1913,7 @@ Repository            (<span title="abc.ABC">ABC</span>)
             <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">entity</span>
 
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">entities</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">entities</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="n">updated_entities</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">EntityModel</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">:</span>
                 <span class="n">updated_entities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="n">merge</span><span class="p">))</span>
@@ -2041,8 +2055,7 @@ Repository            (<span title="abc.ABC">ABC</span>)
                     <span class="ne">UserWarning</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="k">raise</span> <span class="n">error</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">found_entities</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">found_entities</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="c1"># ignore: the type cannot be List[Entity] but it can, I don&#39;t know how to fix</span>
         <span class="c1"># this</span>
@@ -2120,7 +2133,7 @@ Repository            (<span title="abc.ABC">ABC</span>)
             <span class="n">models</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_models</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>  <span class="c1"># pragma: nocover</span>
             <span class="k">raise</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_not_found</span><span class="p">(</span><span class="n">models</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">error</span>  <span class="c1"># pragma: nocover</span>
 
-    <span class="k">def</span> <span class="nf">_next_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">Entity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">next_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">Entity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Return one id unit more than the last entity id in the repository index.</span>
 
 <span class="sd">        Args:</span>
@@ -2344,7 +2357,7 @@ the cache.</p>
         <span class="n">entity</span> <span class="o">=</span> <span class="n">entities</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">entity</span><span class="o">.</span><span class="n">id_</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">entity</span><span class="o">.</span><span class="n">id_</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">entity</span><span class="o">.</span><span class="n">id_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next_id</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
+            <span class="n">entity</span><span class="o">.</span><span class="n">id_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_id</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">merge</span><span class="p">:</span>
             <span class="k">with</span> <span class="n">suppress</span><span class="p">(</span><span class="n">EntityNotFoundError</span><span class="p">):</span>
@@ -2360,7 +2373,7 @@ the cache.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">entity</span>
 
-    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">entities</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">entities</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="n">updated_entities</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">EntityModel</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">:</span>
             <span class="n">updated_entities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="n">merge</span><span class="p">))</span>
@@ -2889,6 +2902,66 @@ scripts.</p></td>
 
 
 
+<h5 id="repository_orm.adapters.data.abstract.Repository.next_id" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">next_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">)</span></code>
+
+
+<a href="#repository_orm.adapters.data.abstract.Repository.next_id" class="headerlink" title="Permanent link">&para;</a></h5>
+
+    <div class="doc doc-contents ">
+
+      <p>Return one id unit more than the last entity id in the repository index.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>entity</code></td>
+        <td><code>~Entity</code></td>
+        <td><p>Entity whose model we want to get the next entity id.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>repository_orm/adapters/data/abstract.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">next_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">Entity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Return one id unit more than the last entity id in the repository index.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        entity: Entity whose model we want to get the next entity id.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">last_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">last</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">entity</span><span class="p">))</span><span class="o">.</span><span class="n">id_</span>
+    <span class="k">except</span> <span class="n">EntityNotFoundError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">last_id</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">last_id</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">raise</span> <span class="n">AutoIncrementError</span><span class="p">(</span>
+        <span class="s2">&quot;Auto increment is not yet supported for Entities with string id_s. &quot;</span>
+        <span class="s2">&quot;Please set the id_ yourself before adding the entities to the &quot;</span>
+        <span class="s2">&quot;repository.&quot;</span>
+    <span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
 <h5 id="repository_orm.adapters.data.abstract.Repository.search" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">models</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
@@ -2989,8 +3062,7 @@ scripts.</p></td>
                 <span class="ne">UserWarning</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">raise</span> <span class="n">error</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">found_entities</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">found_entities</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="c1"># ignore: the type cannot be List[Entity] but it can, I don&#39;t know how to fix</span>
     <span class="c1"># this</span>
@@ -3488,12 +3560,10 @@ FakeRepository            (<a class="autorefs autorefs-internal" title="reposito
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">matching_entities</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">matching_entities</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">matching_entities</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">matching_entities</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_not_found</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot; with id </span><span class="si">{</span><span class="n">id_</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">TooManyEntitiesError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;More than one entity was found with the id </span><span class="si">{</span><span class="n">id_</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span>
+
+        <span class="k">raise</span> <span class="n">TooManyEntitiesError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;More than one entity was found with the id </span><span class="si">{</span><span class="n">id_</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">models</span><span class="p">:</span> <span class="n">OptionalModelOrModels</span><span class="p">[</span><span class="n">Entity</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Entity</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Get all the entities from the repository whose class is included in models.</span>
@@ -4064,7 +4134,7 @@ PypikaRepository            (<a class="autorefs autorefs-internal" title="reposi
         <span class="n">database_file</span> <span class="o">=</span> <span class="n">database_url</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;sqlite:///&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">database_file</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">database_file</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_cursor</span><span class="p">:</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">database_file</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_cursor</span><span class="p">:</span>
                     <span class="n">file_cursor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ConnectionError</span><span class="p">(</span>
@@ -4170,12 +4240,9 @@ PypikaRepository            (<a class="autorefs autorefs-internal" title="reposi
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">matching_entities</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">matching_entities</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">matching_entities</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">matching_entities</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_not_found</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot; with id </span><span class="si">{</span><span class="n">id_</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">TooManyEntitiesError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;More than one entity was found with the id </span><span class="si">{</span><span class="n">id_</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span>
+        <span class="k">raise</span> <span class="n">TooManyEntitiesError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;More than one entity was found with the id </span><span class="si">{</span><span class="n">id_</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">models</span><span class="p">:</span> <span class="n">OptionalModelOrModels</span><span class="p">[</span><span class="n">Entity</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Entity</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Get all the entities from the repository whose class is included in models.</span>
@@ -4373,7 +4440,7 @@ PypikaRepository            (<a class="autorefs autorefs-internal" title="reposi
     <span class="n">database_file</span> <span class="o">=</span> <span class="n">database_url</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;sqlite:///&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">database_file</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">database_file</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_cursor</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">database_file</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_cursor</span><span class="p">:</span>
                 <span class="n">file_cursor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ConnectionError</span><span class="p">(</span>
@@ -4680,7 +4747,7 @@ TinyDBRepository            (<a class="autorefs autorefs-internal" title="reposi
         <span class="bp">self</span><span class="o">.</span><span class="n">database_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">database_url</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;tinydb://&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">database_file</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">database_file</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_cursor</span><span class="p">:</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">database_file</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_cursor</span><span class="p">:</span>
                     <span class="n">file_cursor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ConnectionError</span><span class="p">(</span>
@@ -4747,12 +4814,9 @@ TinyDBRepository            (<a class="autorefs autorefs-internal" title="reposi
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">matching_entities_data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_entity</span><span class="p">(</span><span class="n">matching_entities_data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">models</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">matching_entities_data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">matching_entities_data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_not_found</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot; with id </span><span class="si">{</span><span class="n">id_</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">TooManyEntitiesError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;More than one entity was found with the id </span><span class="si">{</span><span class="n">id_</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span>
+        <span class="k">raise</span> <span class="n">TooManyEntitiesError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;More than one entity was found with the id </span><span class="si">{</span><span class="n">id_</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_build_entity</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -4775,16 +4839,17 @@ TinyDBRepository            (<a class="autorefs autorefs-internal" title="reposi
 
         <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">models</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">schema</span><span class="p">()[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">model_name</span><span class="p">:</span>
-                <span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
-                <span class="k">break</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">parse_obj</span><span class="p">(</span><span class="n">entity_data</span><span class="p">)</span>
-        <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
-            <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Error loading the model </span><span class="si">{</span><span class="n">model_name</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2"> &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;for the register </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">entity_data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span>
-            <span class="k">raise</span> <span class="n">error</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">parse_obj</span><span class="p">(</span><span class="n">entity_data</span><span class="p">)</span>
+                <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+                    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Error loading the model </span><span class="si">{</span><span class="n">model_name</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2"> &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;for the register </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">entity_data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">error</span>
+        <span class="c1"># no cover: this code is going to disappear soon, it makes no sense to create</span>
+        <span class="c1"># a new test</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No model found with name </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># pragma: no cover</span>
 
     <span class="k">def</span> <span class="nf">_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">models</span><span class="p">:</span> <span class="n">OptionalModelOrModels</span><span class="p">[</span><span class="n">Entity</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Entity</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Get all the entities from the repository whose class is included in models.</span>
@@ -5097,7 +5162,7 @@ TinyDBRepository            (<a class="autorefs autorefs-internal" title="reposi
     <span class="bp">self</span><span class="o">.</span><span class="n">database_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">database_url</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;tinydb://&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">database_file</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">database_file</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_cursor</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">database_file</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_cursor</span><span class="p">:</span>
                 <span class="n">file_cursor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ConnectionError</span><span class="p">(</span>
@@ -5762,11 +5827,16 @@ LocalFileRepository            (<a class="autorefs autorefs-internal" title="rep
         <span class="n">file_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fix_path</span><span class="p">(</span><span class="n">file_</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">file_</span><span class="o">.</span><span class="n">is_bytes</span><span class="p">:</span>
             <span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;rb&quot;</span>
+            <span class="n">encoding</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;r&quot;</span>
+            <span class="n">encoding</span> <span class="o">=</span> <span class="s2">&quot;utf-8&quot;</span>
 
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">file_</span><span class="o">.</span><span class="n">path</span><span class="p">),</span> <span class="n">mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_descriptor</span><span class="p">:</span>
-            <span class="n">file_</span><span class="o">.</span><span class="n">_content</span> <span class="o">=</span> <span class="n">file_descriptor</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">file_</span><span class="o">.</span><span class="n">path</span><span class="p">),</span> <span class="n">mode</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span>
+        <span class="p">)</span> <span class="k">as</span> <span class="n">file_descriptor</span><span class="p">:</span>
+            <span class="c1"># W0212: Access to private attribute, but it&#39;s managed by us so it&#39;s OK</span>
+            <span class="n">file_</span><span class="o">.</span><span class="n">_content</span> <span class="o">=</span> <span class="n">file_descriptor</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>  <span class="c1"># noqa: W0212</span>
         <span class="k">return</span> <span class="n">file_</span>
 
     <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_</span><span class="p">:</span> <span class="n">File</span><span class="p">[</span><span class="n">AnyStr</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">File</span><span class="p">[</span><span class="n">AnyStr</span><span class="p">]:</span>
@@ -5903,11 +5973,16 @@ LocalFileRepository            (<a class="autorefs autorefs-internal" title="rep
     <span class="n">file_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fix_path</span><span class="p">(</span><span class="n">file_</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">file_</span><span class="o">.</span><span class="n">is_bytes</span><span class="p">:</span>
         <span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;rb&quot;</span>
+        <span class="n">encoding</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;r&quot;</span>
+        <span class="n">encoding</span> <span class="o">=</span> <span class="s2">&quot;utf-8&quot;</span>
 
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">file_</span><span class="o">.</span><span class="n">path</span><span class="p">),</span> <span class="n">mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_descriptor</span><span class="p">:</span>
-        <span class="n">file_</span><span class="o">.</span><span class="n">_content</span> <span class="o">=</span> <span class="n">file_descriptor</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">file_</span><span class="o">.</span><span class="n">path</span><span class="p">),</span> <span class="n">mode</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span>
+    <span class="p">)</span> <span class="k">as</span> <span class="n">file_descriptor</span><span class="p">:</span>
+        <span class="c1"># W0212: Access to private attribute, but it&#39;s managed by us so it&#39;s OK</span>
+        <span class="n">file_</span><span class="o">.</span><span class="n">_content</span> <span class="o">=</span> <span class="n">file_descriptor</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>  <span class="c1"># noqa: W0212</span>
     <span class="k">return</span> <span class="n">file_</span>
 </code></pre></div>
         </details>

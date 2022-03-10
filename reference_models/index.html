@@ -1016,7 +1016,7 @@ time of merging objects.</p>
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_model_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># pragma: nocover</span>
         <span class="sd">&quot;&quot;&quot;Return the entity model name.&quot;&quot;&quot;</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Use model_name instead before 2022-08-16&quot;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Use model_name instead before 2022-06-10&quot;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_name</span>
 
     <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Entity&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Entity&quot;</span><span class="p">:</span>
@@ -1037,7 +1037,9 @@ time of merging objects.</p>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Can&#39;t merge two </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">s with different ids&quot;</span><span class="p">)</span>
 
         <span class="c1"># Merge objects</span>
-        <span class="k">for</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="n">_defined_values</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1"># W0212: access to an internal property, but it&#39;s managed by us so there is</span>
+        <span class="c1"># no problem on it.</span>
+        <span class="k">for</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="n">_defined_values</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>  <span class="c1"># noqa: W0212</span>
             <span class="k">if</span> <span class="n">attribute</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skip_on_merge</span><span class="p">:</span>
                 <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
@@ -1341,7 +1343,9 @@ propagated to <code>self</code>.</p>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Can&#39;t merge two </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">s with different ids&quot;</span><span class="p">)</span>
 
     <span class="c1"># Merge objects</span>
-    <span class="k">for</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="n">_defined_values</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="c1"># W0212: access to an internal property, but it&#39;s managed by us so there is</span>
+    <span class="c1"># no problem on it.</span>
+    <span class="k">for</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="n">_defined_values</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>  <span class="c1"># noqa: W0212</span>
         <span class="k">if</span> <span class="n">attribute</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skip_on_merge</span><span class="p">:</span>
             <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 

@@ -1,3 +1,9 @@
+## 1.1.2 (2022-03-10)
+
+### Fix
+
+- remove userwarning on the add method
+
 ## 1.1.1 (2022-03-04)
 
 ### Fix

@@ -130,7 +130,7 @@ class TinyDBRepositoryTester(RepositoryTester[TinyDBRepository]):
         """Load the database data as a python object."""
         database_file = database_url.replace("tinydb:///", "")
 
-        with open(database_file, "r") as file_cursor:
+        with open(database_file, "r", encoding="utf-8") as file_cursor:
             content = file_cursor.read()
             if content == "":
                 content = '{"_default": {}}'
@@ -195,7 +195,7 @@ class TinyDBRepositoryTester(RepositoryTester[TinyDBRepository]):
         cursor["_default"][max_document + 1] = database_entry
 
         database_file = database.replace("tinydb:///", "")
-        with open(database_file, "w+") as file_cursor:
+        with open(database_file, "w+", encoding="utf-8") as file_cursor:
             file_cursor.write(json.dumps(cursor))
 
     def connection_is_closed(self, repo: TinyDBRepository) -> bool:
@@ -340,11 +340,14 @@ class LocalFileRepositoryTester(FileRepositoryTester[AnyStr]):
 
     def save(self, content: AnyStr, path: str, workdir: str) -> None:
         """Save the content of the file in the path."""
-        if type(content) == str:
+        if isinstance(content, str):
             mode = "w+"
+            encoding = "utf-8"
         else:
             mode = "wb+"
-        with open(f"{workdir}/{path}", mode) as file_descriptor:
+            encoding = None
+
+        with open(f"{workdir}/{path}", mode, encoding=encoding) as file_descriptor:
             file_descriptor.write(content)
 
     def exists(self, path: str) -> bool:

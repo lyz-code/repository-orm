@@ -51,7 +51,7 @@ class PypikaRepository(Repository):
         database_file = database_url.replace("sqlite:///", "")
         if not os.path.isfile(database_file):
             try:
-                with open(database_file, "a") as file_cursor:
+                with open(database_file, "a", encoding="utf-8") as file_cursor:
                     file_cursor.close()
             except FileNotFoundError as error:
                 raise ConnectionError(
@@ -157,12 +157,9 @@ class PypikaRepository(Repository):
 
         if len(matching_entities) == 1:
             return matching_entities[0]
-        elif len(matching_entities) == 0:
+        if len(matching_entities) == 0:
             raise self._model_not_found(models, f" with id {id_}")
-        else:
-            raise TooManyEntitiesError(
-                f"More than one entity was found with the id {id_}"
-            )
+        raise TooManyEntitiesError(f"More than one entity was found with the id {id_}")
 
     def _all(self, models: OptionalModelOrModels[Entity] = None) -> List[Entity]:
         """Get all the entities from the repository whose class is included in models.

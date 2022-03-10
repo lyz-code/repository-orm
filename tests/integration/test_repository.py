@@ -350,9 +350,7 @@ class TestAdd:
 
     def test_repository_doesnt_allow_adding_non_entity_types(
         self,
-        database: Any,
         repo: Repository,
-        repo_tester: RepositoryTester[Repository],
         merge: bool,
     ) -> None:
         """
@@ -367,9 +365,7 @@ class TestAdd:
 
     def test_repository_doesnt_add_entities_equal_to_cache_ones(
         self,
-        database: Any,
         repo: Repository,
-        repo_tester: RepositoryTester[Repository],
         entity: Entity,
         caplog: LogCaptureFixture,
         merge: bool,
@@ -588,7 +584,6 @@ class TestAll:
     def test_repository_all_returns_empty_list_if_there_are_no_entities_of_a_type(
         self,
         repo: Repository,
-        entity: Entity,
     ) -> None:
         """
         Given: An empty repo
@@ -652,7 +647,6 @@ class TestSearch:
     def test_repository_can_search_by_bool_property(
         self,
         repo: Repository,
-        inserted_entities: List[Entity],
     ) -> None:
         """Search should return the objects that have a bool property."""
         expected_entity = BoolEntity(name="Name", active=True)
@@ -745,7 +739,7 @@ class TestSearch:
             repo.search({"id_": "inexistent_value"}, type(entity))  # act
 
     def test_search_doesnt_raise_exception_if_search_exception_false(
-        self, repo: Repository, inserted_entities: List[Entity]
+        self, repo: Repository
     ) -> None:
         """
         Given: A repository with search_exception False
@@ -1064,7 +1058,7 @@ def test_repository_next_id_raise_error_if_entity_has_str_id(
         AutoIncrementError,
         match="Auto increment is not yet supported for Entities with string id_s",
     ):
-        repo._next_id(inserted_str_entity)
+        repo.next_id(inserted_str_entity)
 
 
 def test_tinydb_raises_error_if_wrong_model_data(

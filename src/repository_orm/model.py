@@ -92,7 +92,9 @@ class Entity(BaseModel):
             raise ValueError(f"Can't merge two {self.model_name}s with different ids")
 
         # Merge objects
-        for attribute, value in other._defined_values.items():
+        # W0212: access to an internal property, but it's managed by us so there is
+        # no problem on it.
+        for attribute, value in other._defined_values.items():  # noqa: W0212
             if attribute not in self._skip_on_merge:
                 setattr(self, attribute, value)
 

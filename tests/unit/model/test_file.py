@@ -57,7 +57,8 @@ def test_file_content() -> None:
         https://lyz-code.github.io/blue-book/coding/python/pydantic/#define-fields-to-exclude-from-exporting-at-config-level # noqa:E501
     """
     file_ = File(path="/tmp/file.txt")
-    file_._content = "content"
+    # W0212: access to internal method, we need to use it like that
+    file_._content = "content"  # noqa: W0212
 
     result = file_.content
 
@@ -71,9 +72,10 @@ def test_file_content_raises_error_if_empty() -> None:
     Then: an exception is raised.
     """
     file_ = File(path="/tmp/file.txt")
+    # W0104: statement looks like it's doing nothing, but it is.
 
     with pytest.raises(
         FileContentNotLoadedError,
         match="The content of the file has not been loaded yet.",
     ):
-        file_.content
+        file_.content  # noqa: W0104

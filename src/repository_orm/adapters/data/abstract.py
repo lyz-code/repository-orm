@@ -74,7 +74,7 @@ class Repository(abc.ABC):
             entity = entities
 
             if isinstance(entity.id_, int) and entity.id_ < 0:
-                entity.id_ = self._next_id(entity)
+                entity.id_ = self.next_id(entity)
 
             if merge:
                 with suppress(EntityNotFoundError):
@@ -90,7 +90,7 @@ class Repository(abc.ABC):
             self.cache.add(entity)
             return entity
 
-        elif isinstance(entities, list):
+        if isinstance(entities, list):
             updated_entities: List[EntityModel] = []
             for entity in entities:
                 updated_entities.append(self.add(entity, merge))
@@ -232,8 +232,7 @@ class Repository(abc.ABC):
                     UserWarning,
                 )
                 raise error
-            else:
-                found_entities = []
+            found_entities = []
 
         # ignore: the type cannot be List[Entity] but it can, I don't know how to fix
         # this
@@ -311,7 +310,7 @@ class Repository(abc.ABC):
             models = self._build_models(models)  # pragma: nocover
             raise self._model_not_found(models) from error  # pragma: nocover
 
-    def _next_id(self, entity: Entity) -> int:
+    def next_id(self, entity: Entity) -> int:
         """Return one id unit more than the last entity id in the repository index.
 
         Args:

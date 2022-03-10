@@ -289,6 +289,9 @@ flake8-annotations = [
 pylint = [
   "-R0201", # Method could be a function. Raised because the methods of a test class
             # don't use the self object, which is not wrong.
+  "-C0302", # Too many lines in module, but it makes sense for tests if they are
+            # gathered in classes
+  "-R0913", # too many arguments, but we need them to set up the fixtures
 ]
 
 [tool.flakeheaven.exceptions."tests/migrations/"]

@@ -1,3 +1,9 @@
+## 1.1.3 (2022-03-10)
+
+### Fix
+
+- prevent search from raising exceptions when no entity is found
+
 ## 1.1.2 (2022-03-10)
 
 ### Fix

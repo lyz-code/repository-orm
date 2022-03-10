@@ -49,7 +49,7 @@ class TinyDBRepository(Repository):
         self.database_file = os.path.expanduser(database_url.replace("tinydb://", ""))
         if not os.path.isfile(self.database_file):
             try:
-                with open(self.database_file, "a") as file_cursor:
+                with open(self.database_file, "a", encoding="utf-8") as file_cursor:
                     file_cursor.close()
             except FileNotFoundError as error:
                 raise ConnectionError(
@@ -116,12 +116,9 @@ class TinyDBRepository(Repository):
 
         if len(matching_entities_data) == 1:
             return self._build_entity(matching_entities_data[0], models)
-        elif len(matching_entities_data) == 0:
+        if len(matching_entities_data) == 0:
             raise self._model_not_found(models, f" with id {id_}")
-        else:
-            raise TooManyEntitiesError(
-                f"More than one entity was found with the id {id_}"
-            )
+        raise TooManyEntitiesError(f"More than one entity was found with the id {id_}")
 
     def _build_entity(
         self,
@@ -144,16 +141,17 @@ class TinyDBRepository(Repository):
 
         for model in models:
             if model.schema()["title"].lower() == model_name:
-                model = model
-                break
-        try:
-            return model.parse_obj(entity_data)
-        except ValidationError as error:
-            log.error(
-                f"Error loading the model {model_name.capitalize()} "
-                f"for the register {str(entity_data)}"
-            )
-            raise error
+                try:
+                    return model.parse_obj(entity_data)
+                except ValidationError as error:
+                    log.error(
+                        f"Error loading the model {model_name.capitalize()} "
+                        f"for the register {str(entity_data)}"
+                    )
+                    raise error
+        # no cover: this code is going to disappear soon, it makes no sense to create
+        # a new test
+        raise ValueError(f"No model found with name {model_name}")  # pragma: no cover
 
     def _all(self, models: OptionalModelOrModels[Entity] = None) -> List[Entity]:
         """Get all the entities from the repository whose class is included in models.

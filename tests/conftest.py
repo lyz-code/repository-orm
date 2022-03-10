@@ -46,7 +46,7 @@ def db_sqlite_(tmpdir: LocalPath) -> Generator[Tuple[str, sqlite3.Cursor], None,
         cursor: An sqlite cursor to execute direct queries.
     """
     sqlite_file_path = str(tmpdir.join("sqlite.db"))  # type: ignore
-    with open(sqlite_file_path, "a") as file_cursor:
+    with open(sqlite_file_path, "a", encoding="utf-8") as file_cursor:
         file_cursor.close()
 
     sqlite_url = f"sqlite:///{sqlite_file_path}"
@@ -72,7 +72,7 @@ def db_tinydb_(tmpdir: LocalPath) -> Tuple[str, TinyDB]:
     # ignore: Call of untyped join function in typed environment.
     # Until they give typing information there is nothing else to do.
     tinydb_file_path = str(tmpdir.join("tinydb.db"))  # type: ignore
-    with open(tinydb_file_path, "a") as file_cursor:
+    with open(tinydb_file_path, "a", encoding="utf-8") as file_cursor:
         file_cursor.close()
 
     tinydb_url = f"tinydb:///{tinydb_file_path}"
@@ -87,11 +87,11 @@ def db_tinydb_(tmpdir: LocalPath) -> Tuple[str, TinyDB]:
 @pytest.fixture()
 def repo_fake() -> Generator[FakeRepository, None, None]:
     """Return an instance of the FakeRepository."""
-    repo = FakeRepository()
+    fake_repo = FakeRepository()
 
-    yield repo
+    yield fake_repo
 
-    repo.close()
+    fake_repo.close()
 
 
 @pytest.fixture(name="repo_tinydb")
@@ -99,11 +99,11 @@ def repo_tinydb_(
     db_tinydb: Tuple[str, TinyDB]
 ) -> Generator[TinyDBRepository, None, None]:
     """Return an instance of the TinyDBRepository."""
-    repo = TinyDBRepository(database_url=db_tinydb[0])
+    tiny_repo = TinyDBRepository(database_url=db_tinydb[0])
 
-    yield repo
+    yield tiny_repo
 
-    repo.close()
+    tiny_repo.close()
 
 
 @pytest.fixture(name="empty_repo_pypika")
@@ -112,11 +112,11 @@ def empty_repo_pypika_(
 ) -> Generator[PypikaRepository, None, None]:
     """Configure an empty instance of the PypikaRepository."""
     sqlite_url = db_sqlite[0]
-    repo = PypikaRepository(database_url=sqlite_url)
+    pika_repo = PypikaRepository(database_url=sqlite_url)
 
-    yield repo
+    yield pika_repo
 
-    repo.close()
+    pika_repo.close()
 
 
 @pytest.fixture()
@@ -199,53 +199,53 @@ file_repo, file_repo_tester = unpack_fixture(  # noqa: W0632
 # -------------------
 
 
-@fixture
+@fixture(name="entity")
 @parametrize_with_cases("entity_factory", cases=EntityCases)
-def entity(entity_factory: Type[ModelFactory[Any]]) -> Entity:
+def entity_(entity_factory: Type[ModelFactory[Any]]) -> Entity:
     """Return one entity for each entity type defined in the EntityCases."""
     return entity_factory.build()
 
 
-@fixture
+@fixture(name="str_entity")
 @parametrize_with_cases("entity_factory", cases=StrEntityCases)
-def str_entity(entity_factory: Type[ModelFactory[Any]]) -> Entity:
+def str_entity_(entity_factory: Type[ModelFactory[Any]]) -> Entity:
     """Return one entity for each entity type defined in the StrEntityCases."""
     return entity_factory.build()
 
 
-@fixture
+@fixture(name="int_entity")
 @parametrize_with_cases("entity_factory", cases=IntEntityCases)
-def int_entity(entity_factory: Type[ModelFactory[Any]]) -> Entity:
+def int_entity_(entity_factory: Type[ModelFactory[Any]]) -> Entity:
     """Return one entity for each entity type defined in the IntEntityCases."""
     return entity_factory.build()
 
 
-@fixture
+@fixture(name="entities")
 @parametrize_with_cases("entity_factory", cases=EntityCases)
-def entities(entity_factory: Type[ModelFactory[Any]]) -> List[Entity]:
+def entities_(entity_factory: Type[ModelFactory[Any]]) -> List[Entity]:
     """Return three entities for each entity type defined in the EntityCases."""
     return sorted(entity_factory.batch(3))
 
 
-@fixture
+@fixture(name="str_entities")
 @parametrize_with_cases("entity_factory", cases=StrEntityCases)
-def str_entities(entity_factory: Type[ModelFactory[Any]]) -> List[Entity]:
+def str_entities_(entity_factory: Type[ModelFactory[Any]]) -> List[Entity]:
     """Return three entities for each entity type defined in the StrEntityCases."""
     return sorted(entity_factory.batch(3))
 
 
-@fixture
+@fixture(name="int_entities")
 @parametrize_with_cases("entity_factory", cases=IntEntityCases)
-def int_entities(entity_factory: Type[ModelFactory[Any]]) -> List[Entity]:
+def int_entities_(entity_factory: Type[ModelFactory[Any]]) -> List[Entity]:
     """Return three entities for each entity type defined in the IntEntityCases."""
     return sorted(entity_factory.batch(3))
 
 
-@fixture
+@fixture(name="inserted_entity")
 # I don't know how to avoid the W0621 error with pytest-cases
-def inserted_entity(
+def inserted_entity_(
     entity: Entity,
-    database: Any,
+    database: Any,  # noqa: W0621
     repo_tester: RepositoryTester[Repository],  # noqa: W0621
 ) -> Entity:
     """Insert one entity in the repository and return it.
@@ -260,7 +260,7 @@ def inserted_entity(
 # I don't know how to avoid the W0621 error with pytest-cases
 def inserted_int_entity(
     int_entity: Entity,
-    database: Any,
+    database: Any,  # noqa: W0621
     repo_tester: RepositoryTester[Repository],  # noqa: W0621
 ) -> Entity:
     """Insert one entity with int id_ in the repository and return it.
@@ -275,7 +275,7 @@ def inserted_int_entity(
 # I don't know how to avoid the W0621 error with pytest-cases
 def inserted_str_entity(
     str_entity: Entity,
-    database: Any,
+    database: Any,  # noqa: W0621
     repo_tester: RepositoryTester[Repository],  # noqa: W0621
 ) -> Entity:
     """Insert one entity with str id_ in the repository and return it.
@@ -290,7 +290,7 @@ def inserted_str_entity(
 # I don't know how to avoid the W0621 error with pytest-cases
 def inserted_entities(
     entities: List[Entity],
-    database: Any,
+    database: Any,  # noqa: W0621
     repo_tester: RepositoryTester[Repository],  # noqa: W0621
 ) -> List[Entity]:
     """Insert three entities in the repository and return them.

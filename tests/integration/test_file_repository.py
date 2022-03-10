@@ -12,12 +12,6 @@ from repository_orm.adapters.file.abstract import FileRepository
 
 from ..cases.testers import FileRepositoryTester
 
-# ignore: Argument 1 to "save" of "FileRepository" has incompatible type "File[str]";
-# expected "File[bytes]"  [arg-type].
-# It only happens on the tests, if you use the repository directly it works fine. It
-# might be the type hints of the fixtures, and test cases, but I can't figure out what's
-# wrong.
-
 
 @pytest.mark.parametrize(
     "content",
@@ -41,12 +35,10 @@ class TestFileRepositories:
         Then: The content of the File is persisted, and the File's path attribute
             is complemented with the working dir.
         """
-        if type(content) == bytes:
-            is_bytes = True
-        else:
-            is_bytes = False
+        is_bytes = isinstance(content, bytes)
         file_ = File(path="test.txt", is_bytes=is_bytes)
-        file_._content = content  # type: ignore
+        # W0212: Access to protected method, but we control it
+        file_._content = content  # type: ignore # noqa: W0212
 
         result = file_repo.save(file_)  # type: ignore
 
@@ -64,10 +56,7 @@ class TestFileRepositories:
         When: Loading the File content
         Then: The content of the File is loaded
         """
-        if type(content) == bytes:
-            is_bytes = True
-        else:
-            is_bytes = False
+        is_bytes = isinstance(content, bytes)
         file_repo_tester.save(content, "test.txt", file_repo.workdir)
         file_ = File(path="test.txt", is_bytes=is_bytes)
 
@@ -86,10 +75,7 @@ class TestFileRepositories:
         When: Deleting the file content
         Then: The content of the File is removed
         """
-        if type(content) == bytes:
-            is_bytes = True
-        else:
-            is_bytes = False
+        is_bytes = isinstance(content, bytes)
         file_repo_tester.save(content, "test.txt", file_repo.workdir)
         file_ = File(path="test.txt", is_bytes=is_bytes)
 
@@ -100,7 +86,6 @@ class TestFileRepositories:
 
 def test_repo_raises_error_when_loading_unexistent_file(
     file_repo: FileRepository[AnyStr],
-    file_repo_tester: FileRepositoryTester[AnyStr],
 ) -> None:
     """
     Given: Nothing in the Repository
@@ -115,7 +100,6 @@ def test_repo_raises_error_when_loading_unexistent_file(
 
 def test_repo_raises_error_when_removing_unexistent_file(
     file_repo: FileRepository[AnyStr],
-    file_repo_tester: FileRepositoryTester[AnyStr],
     caplog: LogCaptureFixture,
 ) -> None:
     """

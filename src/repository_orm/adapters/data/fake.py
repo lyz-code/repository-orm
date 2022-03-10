@@ -94,12 +94,10 @@ class FakeRepository(Repository):
 
         if len(matching_entities) == 1:
             return matching_entities[0].copy()
-        elif len(matching_entities) == 0:
+        if len(matching_entities) == 0:
             raise self._model_not_found(models, f" with id {id_}")
-        else:
-            raise TooManyEntitiesError(
-                f"More than one entity was found with the id {id_}"
-            )
+
+        raise TooManyEntitiesError(f"More than one entity was found with the id {id_}")
 
     def _all(self, models: OptionalModelOrModels[Entity] = None) -> List[Entity]:
         """Get all the entities from the repository whose class is included in models.

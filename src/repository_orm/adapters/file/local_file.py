@@ -28,11 +28,16 @@ class LocalFileRepository(FileRepository[AnyStr]):
         file_ = self.fix_path(file_)
         if file_.is_bytes:
             mode = "rb"
+            encoding = None
         else:
             mode = "r"
+            encoding = "utf-8"
 
-        with open(os.path.expanduser(file_.path), mode) as file_descriptor:
-            file_._content = file_descriptor.read()
+        with open(
+            os.path.expanduser(file_.path), mode, encoding=encoding
+        ) as file_descriptor:
+            # W0212: Access to private attribute, but it's managed by us so it's OK
+            file_._content = file_descriptor.read()  # noqa: W0212
         return file_
 
     def save(self, file_: File[AnyStr]) -> File[AnyStr]:

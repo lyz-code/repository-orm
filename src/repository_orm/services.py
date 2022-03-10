@@ -4,7 +4,9 @@ Classes and functions that connect the different domain model objects with the a
 and handlers to achieve the program's purpose.
 """
 
-from typing import TYPE_CHECKING, AnyStr, Optional, TypeVar, Union
+# W0611: It thinks tat AnyStr is not used, but it is
+
+from typing import TYPE_CHECKING, AnyStr, Optional, TypeVar, Union  # noqa: W0611
 
 from .adapters.data.abstract import Models
 from .adapters.data.fake import FakeRepository

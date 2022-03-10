@@ -71,7 +71,7 @@ class Entity(BaseModel):
     @property
     def _model_name(self) -> str:  # pragma: nocover
         """Return the entity model name."""
-        warnings.warn("Use model_name instead before 2022-08-16", DeprecationWarning)
+        warnings.warn("Use model_name instead before 2022-06-10", DeprecationWarning)
         return self.model_name
 
     def merge(self, other: "Entity") -> "Entity":
@@ -92,7 +92,9 @@ class Entity(BaseModel):
             raise ValueError(f"Can't merge two {self.model_name}s with different ids")
 
         # Merge objects
-        for attribute, value in other._defined_values.items():
+        # W0212: access to an internal property, but it's managed by us so there is
+        # no problem on it.
+        for attribute, value in other._defined_values.items():  # noqa: W0212
             if attribute not in self._skip_on_merge:
                 setattr(self, attribute, value)
 

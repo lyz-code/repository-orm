@@ -127,7 +127,7 @@ class TestModelName:
         entity = Entity()
         with pytest.deprecated_call():
 
-            result = entity._model_name
+            result = entity._model_name  # noqa: W0212
 
         assert result == "Entity"
 

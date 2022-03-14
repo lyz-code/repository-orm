@@ -1032,8 +1032,8 @@ summary = "Find project root paths and return relative project files"
 
 [[package]]
 name = "pytest"
-version = "7.0.1"
-requires_python = ">=3.6"
+version = "7.1.0"
+requires_python = ">=3.7"
 summary = "pytest: simple powerful testing with Python"
 dependencies = [
     "atomicwrites>=1.0; sys_platform == \"win32\"",
@@ -1049,7 +1049,7 @@ dependencies = [
 
 [[package]]
 name = "pytest-cases"
-version = "3.6.9"
+version = "3.6.10"
 summary = "Separate test code from test cases in pytest."
 dependencies = [
     "decopatch",
@@ -2229,13 +2229,13 @@ content_hash = "sha256:37efa8f25b5a8474db4007ec863d7a0212e5203b79ba9bb37e07b571b
     {file = "pyprojroot-0.2.0-py3-none-any.whl", hash = "sha256:741e8b4878a0d6bb6b06ec09aa05797130289e2127aa595b8f1cbadce697909f"},
     {file = "pyprojroot-0.2.0.tar.gz", hash = "sha256:a79900dc52ee097bfd8d917a3d45e2b98494c47a57ba3a71bf609d7a156732e8"},
 ]
-"pytest 7.0.1" = [
-    {file = "pytest-7.0.1-py3-none-any.whl", hash = "sha256:9ce3ff477af913ecf6321fe337b93a2c0dcf2a0a1439c43f5452112c1e4280db"},
-    {file = "pytest-7.0.1.tar.gz", hash = "sha256:e30905a0c131d3d94b89624a1cc5afec3e0ba2fbdb151867d8e0ebd49850f171"},
+"pytest 7.1.0" = [
+    {file = "pytest-7.1.0-py3-none-any.whl", hash = "sha256:b555252a95bbb2a37a97b5ac2eb050c436f7989993565f5e0c9128fcaacadd0e"},
+    {file = "pytest-7.1.0.tar.gz", hash = "sha256:f1089d218cfcc63a212c42896f1b7fbf096874d045e1988186861a1a87d27b47"},
 ]
-"pytest-cases 3.6.9" = [
-    {file = "pytest_cases-3.6.9-py2.py3-none-any.whl", hash = "sha256:38fda5ed75ff3218b1ccb59a2a11381682b62f556299c26c7af1837f04618f41"},
-    {file = "pytest-cases-3.6.9.tar.gz", hash = "sha256:05ff5f6af8651dc1a3f277f52714e4323a68f213327c11e03028a539c20bd929"},
+"pytest-cases 3.6.10" = [
+    {file = "pytest_cases-3.6.10-py2.py3-none-any.whl", hash = "sha256:5567170b2dd93c653dc8467d3e2004541f8be72299c9cdb8ae457d6edb400cf4"},
+    {file = "pytest-cases-3.6.10.tar.gz", hash = "sha256:5bc4b2c6097f94fa835f6cddcefa64dd0ff468d05633c25e50e5c60c16326a63"},
 ]
 "pytest-cov 3.0.0" = [
     {file = "pytest_cov-3.0.0-py3-none-any.whl", hash = "sha256:578d5d15ac4a25e5f961c938b85a05b09fdaae9deef3bb6de9a6e766622ca7a6"},

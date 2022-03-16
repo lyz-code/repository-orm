@@ -1,3 +1,10 @@
+## 1.1.6 (2022-03-16)
+
+### Fix
+
+- return empty desired_values in search and all
+- return empty desired_values in search and all
+
 ## 1.1.5 (2022-03-16)
 
 ### Fix

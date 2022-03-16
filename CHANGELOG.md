@@ -1,3 +1,9 @@
+## 1.1.5 (2022-03-16)
+
+### Fix
+
+- remove defined values when doing repo.get
+
 ## 1.1.4 (2022-03-11)
 
 ## 1.1.3 (2022-03-10)

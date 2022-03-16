@@ -483,6 +483,13 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#repository_orm.model.Entity.defined_values" class="md-nav__link">
+    defined_values
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#repository_orm.model.Entity.model_name" class="md-nav__link">
     model_name
   </a>
@@ -520,6 +527,13 @@
           <li class="md-nav__item">
   <a href="#repository_orm.model.Entity.__setattr__" class="md-nav__link">
     __setattr__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#repository_orm.model.Entity.clear_defined_values" class="md-nav__link">
+    clear_defined_values()
   </a>
   
 </li>
@@ -787,6 +801,13 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#repository_orm.model.Entity.defined_values" class="md-nav__link">
+    defined_values
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#repository_orm.model.Entity.model_name" class="md-nav__link">
     model_name
   </a>
@@ -824,6 +845,13 @@
           <li class="md-nav__item">
   <a href="#repository_orm.model.Entity.__setattr__" class="md-nav__link">
     __setattr__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#repository_orm.model.Entity.clear_defined_values" class="md-nav__link">
+    clear_defined_values()
   </a>
   
 </li>
@@ -1044,6 +1072,20 @@ time of merging objects.</p>
                 <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">defined_values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Return the entity defined values.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_defined_values</span>
+
+    <span class="k">def</span> <span class="nf">clear_defined_values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Entity&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Remove all references to defined values.</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            self so that it can be used chained with repo.get()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_defined_values</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">return</span> <span class="bp">self</span>
 </code></pre></div>
         </details>
 
@@ -1053,6 +1095,29 @@ time of merging objects.</p>
 
 
 
+
+
+
+  <div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="repository_orm.model.Entity.defined_values" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">defined_values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-property"><code>property</code></small>
+      <small class="doc doc-property doc-property-readonly"><code>readonly</code></small>
+  </span>
+
+<a href="#repository_orm.model.Entity.defined_values" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Return the entity defined values.</p>
+    </div>
+
+  </div>
 
 
 
@@ -1280,6 +1345,53 @@ time of merging objects.</p>
     <span class="k">if</span> <span class="n">attribute</span> <span class="o">!=</span> <span class="s2">&quot;_defined_values&quot;</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_defined_values</span><span class="p">[</span><span class="n">attribute</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="repository_orm.model.Entity.clear_defined_values" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">clear_defined_values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+<a href="#repository_orm.model.Entity.clear_defined_values" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Remove all references to defined values.</p>
+
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Entity</code></td>
+      <td><p>self so that it can be used chained with repo.get()</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>repository_orm/model.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">clear_defined_values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Entity&quot;</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Remove all references to defined values.</span>
+
+<span class="sd">    Return:</span>
+<span class="sd">        self so that it can be used chained with repo.get()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_defined_values</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">return</span> <span class="bp">self</span>
 </code></pre></div>
         </details>
     </div>

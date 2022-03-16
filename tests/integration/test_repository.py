@@ -518,6 +518,7 @@ class TestAll:
         Given: A repository with inserted entities
         When: all is called
         Then: all entities are returned and saved to the repo cache.
+            The defined_values of all entities are empty, otherwise the merge fails.
         """
         entity_types: List[Type[Entity]] = [type(inserted_entities[0]), OtherEntity]
         repo.models = entity_types  # type: ignore
@@ -531,6 +532,7 @@ class TestAll:
         assert result[1] < result[2]
         for entity in result:
             assert repo.cache.get(entity) == entity
+            assert entity.defined_values == {}
 
     def test_repository_can_retrieve_all_objects_of_an_entity_type(
         self,
@@ -611,6 +613,7 @@ class TestSearch:
         """Search should return the objects that match the desired property.
 
         And the entity is saved to the cache.
+        The defined_values of all entities are empty, otherwise the merge fails.
         """
         expected_entity = inserted_entities[1]
 
@@ -618,6 +621,7 @@ class TestSearch:
 
         assert result == [expected_entity]
         assert repo.cache.get(expected_entity) == expected_entity
+        assert result[0].defined_values == {}
 
     def test_repository_can_search_by_property_without_specifying_the_type(
         self,

@@ -141,7 +141,8 @@ class Repository(abc.ABC):
         """
         warn_on_models(models, "get")
 
-        entity = self._get(id_, models).clear_defined_values()
+        entity = self._get(id_, models)
+        entity.clear_defined_values()
         self.cache.add(entity)
         return entity
 
@@ -178,9 +179,9 @@ class Repository(abc.ABC):
 
         entities = sorted(self._all(models))
 
-        # ignore: the type cannot be List[Entity] but it can, I don't know how to fix
-        # this
-        self.cache.add(entities)  # type: ignore
+        for entity in entities:
+            entity.clear_defined_values()
+            self.cache.add(entity)
 
         return entities
 
@@ -234,9 +235,9 @@ class Repository(abc.ABC):
                 raise error
             found_entities = []
 
-        # ignore: the type cannot be List[Entity] but it can, I don't know how to fix
-        # this
-        self.cache.add(found_entities)  # type: ignore
+        for entity in found_entities:
+            entity.clear_defined_values()
+            self.cache.add(entity)
 
         return found_entities
 

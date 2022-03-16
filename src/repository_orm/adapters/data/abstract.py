@@ -141,7 +141,7 @@ class Repository(abc.ABC):
         """
         warn_on_models(models, "get")
 
-        entity = self._get(id_, models)
+        entity = self._get(id_, models).clear_defined_values()
         self.cache.add(entity)
         return entity
 

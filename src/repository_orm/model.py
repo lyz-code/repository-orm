@@ -100,6 +100,20 @@ class Entity(BaseModel):
 
         return self
 
+    @property
+    def defined_values(self) -> Dict[str, Any]:
+        """Return the entity defined values."""
+        return self._defined_values
+
+    def clear_defined_values(self) -> "Entity":
+        """Remove all references to defined values.
+
+        Return:
+            self so that it can be used chained with repo.get()
+        """
+        self._defined_values = {}
+        return self
+
 
 class File(Entity, Generic[AnyStr]):
     """Model a computer file."""

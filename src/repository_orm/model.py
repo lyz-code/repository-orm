@@ -105,14 +105,13 @@ class Entity(BaseModel):
         """Return the entity defined values."""
         return self._defined_values
 
-    def clear_defined_values(self) -> "Entity":
+    def clear_defined_values(self) -> None:
         """Remove all references to defined values.
 
-        Return:
-            self so that it can be used chained with repo.get()
+        I tried to return self so that it can be used chained with repo.get(), but I get
+        a mypy error `Incompatible return value type (got "Entity", expected "Entity")`
         """
         self._defined_values = {}
-        return self
 
 
 class File(Entity, Generic[AnyStr]):

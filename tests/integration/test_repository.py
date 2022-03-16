@@ -431,12 +431,17 @@ class TestGet:
         """Given an entity_id the repository returns the entity object.
 
         The entity is also added to the cache.
+
+        The entity _desired_values are empty. This is needed because otherwise all
+        attributes are set when you do repo.get() and therefore the merge behaves
+        weirdly.
         """
         result = repo.get(inserted_entity.id_, type(inserted_entity))
 
         assert result == inserted_entity
         assert result.id_ == inserted_entity.id_
         assert repo.cache.get(inserted_entity) == inserted_entity
+        assert result.defined_values == {}
 
     def test_repository_can_retrieve_an_entity_if_no_model_defined(
         self,

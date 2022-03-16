@@ -1638,7 +1638,8 @@ Repository            (<span title="abc.ABC">ABC</span>)
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">warn_on_models</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="s2">&quot;get&quot;</span><span class="p">)</span>
 
-        <span class="n">entity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get</span><span class="p">(</span><span class="n">id_</span><span class="p">,</span> <span class="n">models</span><span class="p">)</span><span class="o">.</span><span class="n">clear_defined_values</span><span class="p">()</span>
+        <span class="n">entity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get</span><span class="p">(</span><span class="n">id_</span><span class="p">,</span> <span class="n">models</span><span class="p">)</span>
+        <span class="n">entity</span><span class="o">.</span><span class="n">clear_defined_values</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">entity</span>
 
@@ -1675,9 +1676,9 @@ Repository            (<span title="abc.ABC">ABC</span>)
 
         <span class="n">entities</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_all</span><span class="p">(</span><span class="n">models</span><span class="p">))</span>
 
-        <span class="c1"># ignore: the type cannot be List[Entity] but it can, I don&#39;t know how to fix</span>
-        <span class="c1"># this</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">entities</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+        <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">:</span>
+            <span class="n">entity</span><span class="o">.</span><span class="n">clear_defined_values</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">entities</span>
 
@@ -1731,9 +1732,9 @@ Repository            (<span title="abc.ABC">ABC</span>)
                 <span class="k">raise</span> <span class="n">error</span>
             <span class="n">found_entities</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="c1"># ignore: the type cannot be List[Entity] but it can, I don&#39;t know how to fix</span>
-        <span class="c1"># this</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">found_entities</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+        <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">found_entities</span><span class="p">:</span>
+            <span class="n">entity</span><span class="o">.</span><span class="n">clear_defined_values</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">found_entities</span>
 
@@ -2110,9 +2111,9 @@ the cache.</p>
 
     <span class="n">entities</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_all</span><span class="p">(</span><span class="n">models</span><span class="p">))</span>
 
-    <span class="c1"># ignore: the type cannot be List[Entity] but it can, I don&#39;t know how to fix</span>
-    <span class="c1"># this</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">entities</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+    <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">:</span>
+        <span class="n">entity</span><span class="o">.</span><span class="n">clear_defined_values</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">entities</span>
 </code></pre></div>
@@ -2470,7 +2471,8 @@ scripts.</p></td>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">warn_on_models</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="s2">&quot;get&quot;</span><span class="p">)</span>
 
-    <span class="n">entity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get</span><span class="p">(</span><span class="n">id_</span><span class="p">,</span> <span class="n">models</span><span class="p">)</span><span class="o">.</span><span class="n">clear_defined_values</span><span class="p">()</span>
+    <span class="n">entity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get</span><span class="p">(</span><span class="n">id_</span><span class="p">,</span> <span class="n">models</span><span class="p">)</span>
+    <span class="n">entity</span><span class="o">.</span><span class="n">clear_defined_values</span><span class="p">()</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">entity</span>
 </code></pre></div>
@@ -2738,9 +2740,9 @@ scripts.</p></td>
             <span class="k">raise</span> <span class="n">error</span>
         <span class="n">found_entities</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="c1"># ignore: the type cannot be List[Entity] but it can, I don&#39;t know how to fix</span>
-    <span class="c1"># this</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">found_entities</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+    <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">found_entities</span><span class="p">:</span>
+        <span class="n">entity</span><span class="o">.</span><span class="n">clear_defined_values</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">found_entities</span>
 </code></pre></div>
@@ -6072,14 +6074,13 @@ time of merging objects.</p>
         <span class="sd">&quot;&quot;&quot;Return the entity defined values.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_defined_values</span>
 
-    <span class="k">def</span> <span class="nf">clear_defined_values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Entity&quot;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">clear_defined_values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Remove all references to defined values.</span>
 
-<span class="sd">        Return:</span>
-<span class="sd">            self so that it can be used chained with repo.get()</span>
+<span class="sd">        I tried to return self so that it can be used chained with repo.get(), but I get</span>
+<span class="sd">        a mypy error `Incompatible return value type (got &quot;Entity&quot;, expected &quot;Entity&quot;)`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_defined_values</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">return</span> <span class="bp">self</span>
 </code></pre></div>
         </details>
 
@@ -6360,32 +6361,18 @@ time of merging objects.</p>
     <div class="doc doc-contents ">
 
       <p>Remove all references to defined values.</p>
+<p>I tried to return self so that it can be used chained with repo.get(), but I get
+a mypy error <code>Incompatible return value type (got "Entity", expected "Entity")</code></p>
 
-<p><strong>Returns:</strong></p>
-<table>
-  <thead>
-    <tr>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>Entity</code></td>
-      <td><p>self so that it can be used chained with repo.get()</p></td>
-    </tr>
-  </tbody>
-</table>
         <details class="quote">
           <summary>Source code in <code>repository_orm/model.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">clear_defined_values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Entity&quot;</span><span class="p">:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">clear_defined_values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Remove all references to defined values.</span>
 
-<span class="sd">    Return:</span>
-<span class="sd">        self so that it can be used chained with repo.get()</span>
+<span class="sd">    I tried to return self so that it can be used chained with repo.get(), but I get</span>
+<span class="sd">    a mypy error `Incompatible return value type (got &quot;Entity&quot;, expected &quot;Entity&quot;)`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_defined_values</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">return</span> <span class="bp">self</span>
 </code></pre></div>
         </details>
     </div>

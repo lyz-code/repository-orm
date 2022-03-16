@@ -1964,7 +1964,8 @@ Repository            (<span title="abc.ABC">ABC</span>)
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">warn_on_models</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="s2">&quot;get&quot;</span><span class="p">)</span>
 
-        <span class="n">entity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get</span><span class="p">(</span><span class="n">id_</span><span class="p">,</span> <span class="n">models</span><span class="p">)</span><span class="o">.</span><span class="n">clear_defined_values</span><span class="p">()</span>
+        <span class="n">entity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get</span><span class="p">(</span><span class="n">id_</span><span class="p">,</span> <span class="n">models</span><span class="p">)</span>
+        <span class="n">entity</span><span class="o">.</span><span class="n">clear_defined_values</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">entity</span>
 
@@ -2001,9 +2002,9 @@ Repository            (<span title="abc.ABC">ABC</span>)
 
         <span class="n">entities</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_all</span><span class="p">(</span><span class="n">models</span><span class="p">))</span>
 
-        <span class="c1"># ignore: the type cannot be List[Entity] but it can, I don&#39;t know how to fix</span>
-        <span class="c1"># this</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">entities</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+        <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">:</span>
+            <span class="n">entity</span><span class="o">.</span><span class="n">clear_defined_values</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">entities</span>
 
@@ -2057,9 +2058,9 @@ Repository            (<span title="abc.ABC">ABC</span>)
                 <span class="k">raise</span> <span class="n">error</span>
             <span class="n">found_entities</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="c1"># ignore: the type cannot be List[Entity] but it can, I don&#39;t know how to fix</span>
-        <span class="c1"># this</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">found_entities</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+        <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">found_entities</span><span class="p">:</span>
+            <span class="n">entity</span><span class="o">.</span><span class="n">clear_defined_values</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">found_entities</span>
 
@@ -2436,9 +2437,9 @@ the cache.</p>
 
     <span class="n">entities</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_all</span><span class="p">(</span><span class="n">models</span><span class="p">))</span>
 
-    <span class="c1"># ignore: the type cannot be List[Entity] but it can, I don&#39;t know how to fix</span>
-    <span class="c1"># this</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">entities</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+    <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">:</span>
+        <span class="n">entity</span><span class="o">.</span><span class="n">clear_defined_values</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">entities</span>
 </code></pre></div>
@@ -2796,7 +2797,8 @@ scripts.</p></td>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">warn_on_models</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="s2">&quot;get&quot;</span><span class="p">)</span>
 
-    <span class="n">entity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get</span><span class="p">(</span><span class="n">id_</span><span class="p">,</span> <span class="n">models</span><span class="p">)</span><span class="o">.</span><span class="n">clear_defined_values</span><span class="p">()</span>
+    <span class="n">entity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get</span><span class="p">(</span><span class="n">id_</span><span class="p">,</span> <span class="n">models</span><span class="p">)</span>
+    <span class="n">entity</span><span class="o">.</span><span class="n">clear_defined_values</span><span class="p">()</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">entity</span>
 </code></pre></div>
@@ -3064,9 +3066,9 @@ scripts.</p></td>
             <span class="k">raise</span> <span class="n">error</span>
         <span class="n">found_entities</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="c1"># ignore: the type cannot be List[Entity] but it can, I don&#39;t know how to fix</span>
-    <span class="c1"># this</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">found_entities</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+    <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">found_entities</span><span class="p">:</span>
+        <span class="n">entity</span><span class="o">.</span><span class="n">clear_defined_values</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">found_entities</span>
 </code></pre></div>

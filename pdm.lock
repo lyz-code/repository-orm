@@ -1048,7 +1048,7 @@ dependencies = [
 
 [[package]]
 name = "pytest-cases"
-version = "3.6.10"
+version = "3.6.11"
 summary = "Separate test code from test cases in pytest."
 dependencies = [
     "decopatch",
@@ -2232,9 +2232,9 @@ content_hash = "sha256:37efa8f25b5a8474db4007ec863d7a0212e5203b79ba9bb37e07b571b
     {file = "pytest-7.1.1-py3-none-any.whl", hash = "sha256:92f723789a8fdd7180b6b06483874feca4c48a5c76968e03bb3e7f806a1869ea"},
     {file = "pytest-7.1.1.tar.gz", hash = "sha256:841132caef6b1ad17a9afde46dc4f6cfa59a05f9555aae5151f73bdf2820ca63"},
 ]
-"pytest-cases 3.6.10" = [
-    {file = "pytest_cases-3.6.10-py2.py3-none-any.whl", hash = "sha256:5567170b2dd93c653dc8467d3e2004541f8be72299c9cdb8ae457d6edb400cf4"},
-    {file = "pytest-cases-3.6.10.tar.gz", hash = "sha256:5bc4b2c6097f94fa835f6cddcefa64dd0ff468d05633c25e50e5c60c16326a63"},
+"pytest-cases 3.6.11" = [
+    {file = "pytest_cases-3.6.11-py2.py3-none-any.whl", hash = "sha256:485129bd8274bd9c8c07fc0971316e8767205bfe5a5af35aaf494e9d2f20952b"},
+    {file = "pytest-cases-3.6.11.tar.gz", hash = "sha256:f6b7173e81b1477b315f7b456efd4efd3ee47eb2a7201d97575989bd21f9590e"},
 ]
 "pytest-cov 3.0.0" = [
     {file = "pytest_cov-3.0.0-py3-none-any.whl", hash = "sha256:578d5d15ac4a25e5f961c938b85a05b09fdaae9deef3bb6de9a6e766622ca7a6"},

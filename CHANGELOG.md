@@ -1,3 +1,10 @@
+## 1.1.7 (2022-03-24)
+
+### Fix
+
+- correct the signature of repo.add to support list of entities
+- correct the signature of repo.add to support list of entities
+
 ## 1.1.6 (2022-03-16)
 
 ### Fix

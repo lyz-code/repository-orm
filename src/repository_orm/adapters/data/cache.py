@@ -1,14 +1,14 @@
 """Define the cache of the data repositories."""
 
 from contextlib import suppress
-from typing import Any, Dict, List, Type, TypeVar
+from typing import Any, Dict, Sequence, Type, TypeVar, Union
 
 from ...model import Entity as EntityModel
 from ...model import EntityID
 
 Entity = TypeVar("Entity", bound=EntityModel)
 CacheEntry = Dict[EntityID, Entity]
-EntityOrEntities = TypeVar("EntityOrEntities", List[EntityModel], EntityModel)
+EntityOrEntities = Union[Sequence[EntityModel], EntityModel]
 
 
 class Cache:
@@ -33,7 +33,7 @@ class Cache:
         if isinstance(entity_or_entities, EntityModel):
             entities = [entity_or_entities]
         else:
-            entities = entity_or_entities
+            entities = list(entity_or_entities)
 
         for entity in entities:
             self.cache.setdefault(type(entity), {})

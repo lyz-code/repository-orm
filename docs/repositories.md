@@ -16,14 +16,6 @@ already exist, it updates the stored attributes. If you want to [merge the
 entities](models.md#merging-entities) before adding them to the repository, use
 the `merge=True` argument.
 
-!!! note
-    If you add a list of entities you may get a mypy error that I don't know yet
-    how to fix (help needed!)
-
-    ```python
-    repo.add([entity_1, entity_2]) # type: ignore
-    ```
-
 `delete`
 : Remove an `Entity` object form the repository.
 

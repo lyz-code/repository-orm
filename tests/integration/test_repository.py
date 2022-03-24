@@ -146,7 +146,7 @@ class TestAdd:
         """
         first_entity = int_entity.__class__(name="First entity without id")
         second_entity = int_entity.__class__(name="Second entity without id")
-        repo.add([first_entity, second_entity], merge=merge)  # type: ignore
+        repo.add([first_entity, second_entity], merge=merge)
 
         repo.commit()  # act
 
@@ -188,7 +188,7 @@ class TestAdd:
         """
         first_entity = inserted_int_entity.__class__(name="First entity without id")
         second_entity = inserted_int_entity.__class__(name="Second entity without id")
-        repo.add([first_entity, second_entity], merge=merge)  # type: ignore
+        repo.add([first_entity, second_entity], merge=merge)
 
         repo.commit()  # act
 

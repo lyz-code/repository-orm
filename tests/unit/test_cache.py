@@ -6,6 +6,24 @@ from tests.cases.model import Entity
 from repository_orm.adapters.data.cache import Cache
 
 
+def test_cache_can_add_list_of_entities() -> None:
+    """
+    Given: Two entities
+    When: added as a list
+    Then: they are added
+    """
+    entities = [
+        Entity(id_=0, name="First"),
+        Entity(id_=1, name="Second"),
+    ]
+    cache = Cache()
+
+    cache.add(entities)  # act
+
+    assert cache.get(entities[0]) == entities[0]
+    assert cache.get(entities[1]) == entities[1]
+
+
 def test_cache_is_immutable_on_external_changes() -> None:
     """
     Given: An entry in the cache
@@ -49,7 +67,7 @@ def test_cache_can_remove_entities() -> None:
     cache = Cache()
     cache.add(entity)
 
-    cache.remove([entity, entity])  # type: ignore # act
+    cache.remove([entity, entity])  # act
 
     with pytest.raises(KeyError):
         cache.get(entity)

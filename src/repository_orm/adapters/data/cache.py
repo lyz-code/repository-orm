@@ -57,7 +57,7 @@ class Cache:
         if isinstance(entity_or_entities, EntityModel):
             entities = [entity_or_entities]
         else:
-            entities = entity_or_entities
+            entities = list(entity_or_entities)
 
         for entity in entities:
             with suppress(KeyError):

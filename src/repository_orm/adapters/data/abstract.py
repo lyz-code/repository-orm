@@ -4,14 +4,15 @@ import abc
 import logging
 import warnings
 from contextlib import suppress
-from typing import Dict, List, Optional, Type, TypeVar, Union, overload
+from typing import Dict, List, Optional, Sequence, Type, TypeVar, Union
+
 from ...exceptions import AutoIncrementError, EntityNotFoundError
 from ...model import Entity as EntityModel
 from ...model import EntityID
 from .cache import Cache
 
 Entity = TypeVar("Entity", bound=EntityModel)
-EntityOrEntities = Union[List[EntityModel], EntityModel]
+EntityOrEntities = TypeVar("EntityOrEntities", Sequence[EntityModel], EntityModel)
 Models = List[Type[Entity]]
 OptionalModels = Optional[Models[Entity]]
 OptionalModelOrModels = Optional[Union[Type[Entity], Models[Entity]]]
@@ -54,16 +55,6 @@ class Repository(abc.ABC):
             )
         self.models = models
         self.cache = Cache()
-
-    @overload
-    def add(self, entities: EntityModel, merge: bool = False) -> EntityModel:
-        ...  # pragma: no cover
-
-    @overload
-    def add(
-        self, entities: List[EntityModel], merge: bool = False
-    ) -> List[EntityModel]:
-        ...  # pragma: no cover
 
     def add(self, entities: EntityOrEntities, merge: bool = False) -> EntityOrEntities:
         """Append an entity or list of entities to the repository.

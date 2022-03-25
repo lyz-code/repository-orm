@@ -219,8 +219,7 @@ class PypikaRepositoryTester(RepositoryTester[PypikaRepository]):
 
         connection.close()
 
-    @staticmethod
-    def apply_migrations(repo: PypikaRepository) -> None:
+    def apply_migrations(self, repo: PypikaRepository) -> None:
         """Apply the repository migrations."""
         repo.apply_migrations("tests/migrations/pypika")
 

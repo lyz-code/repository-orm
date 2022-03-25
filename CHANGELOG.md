@@ -1,3 +1,10 @@
+## 1.1.8 (2022-03-25)
+
+### Fix
+
+- use Sequence as type hint for repo.add
+- use Sequence as type hint for repo.add
+
 ## 1.1.7 (2022-03-24)
 
 ### Fix

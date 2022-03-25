@@ -4,7 +4,7 @@ import platform
 import sys
 
 # Do not edit the version manually, let `make bump` do it.
-__version__ = "1.1.7"
+__version__ = "1.1.8"
 
 
 def version_info() -> str:

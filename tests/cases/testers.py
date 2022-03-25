@@ -36,7 +36,8 @@ class RepositoryTester(abc.ABC, Generic[Repository]):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def apply_migrations(self, repo: Repository) -> None:
+    @staticmethod
+    def apply_migrations(repo: Repository) -> None:
         """Apply the repository migrations."""
         raise NotImplementedError
 
@@ -66,7 +67,8 @@ class RepositoryTester(abc.ABC, Generic[Repository]):
 class FakeRepositoryTester(RepositoryTester[FakeRepository]):
     """Gathers methods needed to test the implementation of the FakeRepository."""
 
-    def apply_migrations(self, repo: FakeRepository) -> None:
+    @staticmethod
+    def apply_migrations(repo: FakeRepository) -> None:
         """Apply the repository migrations."""
 
     def assert_schema_exists(  # noqa: R0201
@@ -122,7 +124,8 @@ class TinyDBRepositoryTester(RepositoryTester[TinyDBRepository]):
         # The fake repository has no schema
         assert True
 
-    def apply_migrations(self, repo: Repository) -> None:
+    @staticmethod
+    def apply_migrations(repo: Repository) -> None:
         """Apply the repository migrations."""
 
     @staticmethod

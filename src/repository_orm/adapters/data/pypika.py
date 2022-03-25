@@ -271,12 +271,12 @@ class PypikaRepository(Repository):
                 log.debug("Rolling back the database migrations")
                 try:
                     backend.rollback_migrations(backend.to_rollback(migrations))
-                except Exception as error:  # noqa: W0703
+                except Exception as rollback_error:  # noqa: W0703
                     # We need to add tests for this function and use a less generic
                     # exception
                     log.error("Error rolling back database migrations")
-                    log.error(error)
-                    raise error
+                    log.error(rollback_error)
+                    raise rollback_error from error
             log.debug("Complete running database migrations")
 
     def close(self) -> None:

@@ -2,107 +2,107 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://lyz-code.github.io/repository-orm/</loc>
-         <lastmod>2022-03-24</lastmod>
+         <lastmod>2022-03-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://lyz-code.github.io/repository-orm/contributing/</loc>
-         <lastmod>2022-03-24</lastmod>
+         <lastmod>2022-03-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://lyz-code.github.io/repository-orm/fake_repository/</loc>
-         <lastmod>2022-03-24</lastmod>
+         <lastmod>2022-03-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://lyz-code.github.io/repository-orm/file_repositories/</loc>
-         <lastmod>2022-03-24</lastmod>
+         <lastmod>2022-03-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://lyz-code.github.io/repository-orm/local_file_repository/</loc>
-         <lastmod>2022-03-24</lastmod>
+         <lastmod>2022-03-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://lyz-code.github.io/repository-orm/models/</loc>
-         <lastmod>2022-03-24</lastmod>
+         <lastmod>2022-03-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://lyz-code.github.io/repository-orm/new_repo/</loc>
-         <lastmod>2022-03-24</lastmod>
+         <lastmod>2022-03-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://lyz-code.github.io/repository-orm/pypika_repository/</loc>
-         <lastmod>2022-03-24</lastmod>
+         <lastmod>2022-03-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://lyz-code.github.io/repository-orm/reference/</loc>
-         <lastmod>2022-03-24</lastmod>
+         <lastmod>2022-03-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://lyz-code.github.io/repository-orm/reference_adapters/</loc>
-         <lastmod>2022-03-24</lastmod>
+         <lastmod>2022-03-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://lyz-code.github.io/repository-orm/reference_exceptions/</loc>
-         <lastmod>2022-03-24</lastmod>
+         <lastmod>2022-03-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://lyz-code.github.io/repository-orm/reference_models/</loc>
-         <lastmod>2022-03-24</lastmod>
+         <lastmod>2022-03-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://lyz-code.github.io/repository-orm/repositories/</loc>
-         <lastmod>2022-03-24</lastmod>
+         <lastmod>2022-03-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://lyz-code.github.io/repository-orm/testing/</loc>
-         <lastmod>2022-03-24</lastmod>
+         <lastmod>2022-03-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://lyz-code.github.io/repository-orm/tinydb_repository/</loc>
-         <lastmod>2022-03-24</lastmod>
+         <lastmod>2022-03-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://lyz-code.github.io/repository-orm/adr/001-entity_id_definition/</loc>
-         <lastmod>2022-03-24</lastmod>
+         <lastmod>2022-03-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://lyz-code.github.io/repository-orm/adr/002-support-string-ids/</loc>
-         <lastmod>2022-03-24</lastmod>
+         <lastmod>2022-03-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://lyz-code.github.io/repository-orm/adr/003-make_entity_models_optional_arguments/</loc>
-         <lastmod>2022-03-24</lastmod>
+         <lastmod>2022-03-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://lyz-code.github.io/repository-orm/adr/004-add_complex_queries/</loc>
-         <lastmod>2022-03-24</lastmod>
+         <lastmod>2022-03-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://lyz-code.github.io/repository-orm/adr/005-simplify_search_and_all_signature/</loc>
-         <lastmod>2022-03-24</lastmod>
+         <lastmod>2022-03-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://lyz-code.github.io/repository-orm/adr/adr/</loc>
-         <lastmod>2022-03-24</lastmod>
+         <lastmod>2022-03-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>

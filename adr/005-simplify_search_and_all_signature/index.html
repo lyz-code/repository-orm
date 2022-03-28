@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://lyz-code.github.io/repository-orm/adr/005-simplify_search_and_all_signature/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.7">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.8">
     
     
       
@@ -21,7 +21,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.9d5733d3.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.644de097.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
@@ -152,7 +152,7 @@
     
     
       <div class="md-header__source">
-        <a href="https://github.com/lyz-code/repository-orm/" title="Go to repository" class="md-source" data-md-component="source">
+        <a href="https://github.com/lyz-code/repository-orm" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
@@ -197,7 +197,7 @@
   </label>
   
     <div class="md-nav__source">
-      <a href="https://github.com/lyz-code/repository-orm/" title="Go to repository" class="md-source" data-md-component="source">
+      <a href="https://github.com/lyz-code/repository-orm" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
@@ -652,8 +652,15 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#only-allow-one-model" class="md-nav__link">
-    Only allow one model
+  <a href="#only-allow-one-model-in-search-and-all" class="md-nav__link">
+    Only allow one model in search and all
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#only-allow-one-model-in-get" class="md-nav__link">
+    Only allow one model in get
   </a>
   
 </li>
@@ -722,9 +729,25 @@ operations on the returned objects, as the returned list contains objects with
 different models that as they have different attributes and objects they need to
 be dealt differently. This last point means that the user has to split the
 results using <code>isinstance</code> at some point.</p>
-<p>Using that type in <code>get</code> is a bad idea too, as many entities may have the same
-<code>id_</code>, and when you <code>get</code> you just want one entity, otherwise you'd use
-<code>search</code>.</p>
+<p>Using many models in <code>get</code> is only a good idea when you're sure that id's are
+unique across all models, that way you can do <code>repo.get(id, models)</code> and get the
+only entity that matches, when we initialized the repository with the available
+models, you could go even further and only use <code>repo.get(id)</code>. This has the next
+disadvantages:</p>
+<ul>
+<li>The current code requires that each repository needs to implement the logic
+    of:<ul>
+<li>Dealing with many models, which we want to remove. It could be delegated
+    to <code>get</code> at <code>abstract.py</code> level and make <code>_get</code> only accept one model.</li>
+<li>What happens when more than one entity is found. This could be mitigated if
+    we change the signature of <code>_get</code> to always return a <code>List[Entity]</code> and do
+    the checking at <code>get</code> level in <code>abstract.py</code>.</li>
+</ul>
+</li>
+<li>You don't know the type of the returned object at type checker level. It's
+    a nuisance but not critical, as it should be acceptable if you're using
+    <code>get</code> this way.</li>
+</ul>
 <p>The <code>last</code> and <code>first</code> methods are used over the <code>all</code> method not over the
 <code>search</code> which would be useful too.</p>
 <h2 id="proposals">Proposals<a class="headerlink" href="#proposals" title="Permanent link">&para;</a></h2>
@@ -733,20 +756,39 @@ results using <code>isinstance</code> at some point.</p>
 <h3 id="return-a-list-instead-of-exception">Return a list instead of exception<a class="headerlink" href="#return-a-list-instead-of-exception" title="Permanent link">&para;</a></h3>
 <p><code>search</code> will return an empty list if there are no results instead of
 an <code>EntityNotFoundError</code> exception.</p>
-<h3 id="only-allow-one-model">Only allow one model<a class="headerlink" href="#only-allow-one-model" title="Permanent link">&para;</a></h3>
+<h3 id="only-allow-one-model-in-search-and-all">Only allow one model in search and all<a class="headerlink" href="#only-allow-one-model-in-search-and-all" title="Permanent link">&para;</a></h3>
 <p>We could revert <a href="../003-make_entity_models_optional_arguments/">003</a> and only
 allow one model in <code>search</code> and <code>all</code> but that will mean that the context of
 that ADR won't be met anymore which was that some applications need to do
 operations on all or a subset of entity types. They will then be forced to run
 the desired method once for each entity type which has the next disadvantages:</p>
 <ul>
-<li>The user has to write more code. Which is not true, as even though you truly
+<li>
+<p>The user has to write more code. Which may not true, as even though you
     have to run <code>repo.search</code> and <code>repo.all</code> more than once, right now you also
-    have to write additional code to tell apart the returned objects.</li>
-<li>Instead of running everything on a query, many will be done. The potential
-    downside of that is performance loss, but in reality the current
-    implementation is already doing many queries as it's not able to do
-    everything at once.</li>
+    have to write additional code to tell apart the returned objects. This last
+    statement may not be true if the user has asked for a group of entities that
+    share some common attributes with whom it wants to work with.</p>
+<p>After migrating some code I've seen that at user level the change is from:</p>
+<div class="highlight"><pre><span></span><code><span class="n">active_resources</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">search</span><span class="p">({</span><span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="s2">&quot;active&quot;</span><span class="p">},</span> <span class="n">models</span><span class="p">)</span>
+</code></pre></div>
+<p>To:</p>
+<div class="highlight"><pre><span></span><code><span class="n">active_resources</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">entity</span> <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">models</span> <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">repo</span><span class="o">.</span><span class="n">search</span><span class="p">({</span><span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="s2">&quot;active&quot;</span><span class="p">},</span> <span class="n">model</span><span class="p">)</span>
+<span class="p">]</span>
+</code></pre></div>
+<p>Which I think it's assumable given that it can be considered a corner case.</p>
+</li>
+<li>
+<p>Instead of running everything on a query, many will be done. The potential
+    downside of that is performance loss, but in reality:</p>
+<ul>
+<li>The pypika and fake repos are already doing many queries.</li>
+<li>The tinydb repo is doing everything in one query but then from the
+    gathered data it has to go model by model building the ones that match.</li>
+</ul>
+<p>So probably we won't have any performance loss.</p>
+</li>
 </ul>
 <p>And the next advantages:</p>
 <ul>
@@ -754,8 +796,21 @@ the desired method once for each entity type which has the next disadvantages:</
     <a href="../003-make_entity_models_optional_arguments/">003</a> both on functions and
     type hints, removing them will improve maintainability and peace of mind
     when coding.</li>
-<li>Remove conflicts on <code>get</code>.</li>
 </ul>
+<h3 id="only-allow-one-model-in-get">Only allow one model in get<a class="headerlink" href="#only-allow-one-model-in-get" title="Permanent link">&para;</a></h3>
+<p>If we only allow one model in <code>get</code> we'll remove complexity in terms of:</p>
+<ul>
+<li>No need to loop over the models.</li>
+</ul>
+<p>The management of the case of more than one entity found has to be still
+managed, as we can only enforce this case in pypika, fake and tinydb doesn't
+have that kind of constrain at database level.</p>
+<p>The case that it makes sense to keep the feature is a corner case as most of
+databases use integer ids. And if you've made the ids unique between
+models it should be straight forward to make a function that gives you the model
+for that ID, or you're free to iterate over the models and suppress the
+<code>EntityNotFoundError</code> exception.</p>
+<p>Therefore it makes no sense to keep complexity for a corner case.</p>
 <h3 id="leave-last-and-first-as-they-are">Leave last and first as they are<a class="headerlink" href="#leave-last-and-first-as-they-are" title="Permanent link">&para;</a></h3>
 <p>Even though it's true that they could be used on the <code>search</code> result, let's be
 honest, using <code>[0]</code> and <code>[-1]</code> is not that difficult, and if there are no
@@ -798,7 +853,7 @@ and assume that <code>search</code> won't have them.</p>
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2022-03-10T16:21:20+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2022-03-10</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2022-03-28T20:35:38+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2022-03-28</span>
       
     
   </small>
@@ -838,10 +893,10 @@ and assume that <code>search</code> won't have them.</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "content.code.annotate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.5e67fbfe.min.js"}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.5e67fbfe.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.e87a5f81.min.js"></script>
+      <script src="../../assets/javascripts/bundle.c44cc438.min.js"></script>
       
         <script src="../../js/timeago.min.js"></script>
       

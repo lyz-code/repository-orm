@@ -239,3 +239,8 @@ class FakeRepository(Repository):
     def close(self) -> None:
         """Close the connection to the database."""
         self.is_connection_closed = True
+
+    @property
+    def is_closed(self) -> bool:
+        """Inform if the connection is closed."""
+        return self.is_connection_closed

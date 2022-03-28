@@ -390,6 +390,15 @@ class TinyDBRepository(Repository):
         """Close the connection to the database."""
         self.db_.close()
 
+    @property
+    def is_closed(self) -> bool:
+        """Inform if the connection is closed."""
+        try:
+            self.db_.tables()
+            return False
+        except ValueError:
+            return True
+
 
 def _regexp_in_list(list_: Iterable[Any], regular_expression: str) -> bool:
     """Test if regexp matches any element of the list."""

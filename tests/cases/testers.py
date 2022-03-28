@@ -6,7 +6,6 @@ import json
 import logging
 import os
 import sqlite3
-from sqlite3 import ProgrammingError
 from typing import Any, AnyStr, Dict, Generator, Generic, List, Type, TypeVar
 
 from _pytest.logging import LogCaptureFixture
@@ -55,11 +54,6 @@ class RepositoryTester(abc.ABC, Generic[Repository]):
         """Insert the data of an entity into the repository."""
         raise NotImplementedError
 
-    @abc.abstractmethod
-    def connection_is_closed(self, repo: Repository) -> bool:
-        """Ensure that the connection to the database is closed"""
-        raise NotImplementedError
-
 
 # R0201: We can't define the method as a class function to maintain the parent interface
 # W0613: We require these arguments to maintain the parent interface.
@@ -106,10 +100,6 @@ class FakeRepositoryTester(RepositoryTester[FakeRepository]):
             database[type(entity)] = {}
 
         database[type(entity)][entity.id_] = entity.copy()
-
-    def connection_is_closed(self, repo: FakeRepository) -> bool:
-        """Ensure that the connection to the database is closed"""
-        return repo.is_connection_closed
 
 
 class TinyDBRepositoryTester(RepositoryTester[TinyDBRepository]):
@@ -197,14 +187,6 @@ class TinyDBRepositoryTester(RepositoryTester[TinyDBRepository]):
         database_file = database.replace("tinydb:///", "")
         with open(database_file, "w+", encoding="utf-8") as file_cursor:
             file_cursor.write(json.dumps(cursor))
-
-    def connection_is_closed(self, repo: TinyDBRepository) -> bool:
-        """Ensure that the connection to the database is closed"""
-        try:
-            repo.db_.tables()
-            return False
-        except ValueError:
-            return True
 
 
 class PypikaRepositoryTester(RepositoryTester[PypikaRepository]):
@@ -296,14 +278,6 @@ class PypikaRepositoryTester(RepositoryTester[PypikaRepository]):
         query = Query.into(table).columns(tuple(columns)).insert(tuple(values))
         cursor.execute(str(query))
         cursor.connection.commit()
-
-    def connection_is_closed(self, repo: PypikaRepository) -> bool:
-        """Ensure that the connection to the database is closed"""
-        try:
-            repo.connection.cursor()
-            return False
-        except ProgrammingError:
-            return True
 
 
 class FileRepositoryTester(abc.ABC, Generic[AnyStr]):

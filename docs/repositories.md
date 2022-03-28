@@ -46,6 +46,9 @@ given, it will return the first of any type of entity.
 `close`
 : Close the connection to the database.
 
+`is_close`
+: Property that tells if the connection to the database is closed.
+
 !!! note ""
     Changes in the repository aren't persisted until you run `repo.commit()`.
 

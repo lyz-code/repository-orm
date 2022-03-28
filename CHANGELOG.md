@@ -1,3 +1,9 @@
+## 1.2.0 (2022-03-28)
+
+### Feat
+
+- add the is_closed property to the repo
+
 ## 1.1.8 (2022-03-25)
 
 ### Fix

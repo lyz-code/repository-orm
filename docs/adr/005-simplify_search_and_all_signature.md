@@ -21,9 +21,22 @@ different models that as they have different attributes and objects they need to
 be dealt differently. This last point means that the user has to split the
 results using `isinstance` at some point.
 
-Using that type in `get` is a bad idea too, as many entities may have the same
-`id_`, and when you `get` you just want one entity, otherwise you'd use
-`search`.
+Using many models in `get` is only a good idea when you're sure that id's are
+unique across all models, that way you can do `repo.get(id, models)` and get the
+only entity that matches, when we initialized the repository with the available
+models, you could go even further and only use `repo.get(id)`. This has the next
+disadvantages:
+
+* The current code requires that each repository needs to implement the logic
+    of:
+    * Dealing with many models, which we want to remove. It could be delegated
+        to `get` at `abstract.py` level and make `_get` only accept one model.
+    * What happens when more than one entity is found. This could be mitigated if
+        we change the signature of `_get` to always return a `List[Entity]` and do
+        the checking at `get` level in `abstract.py`.
+* You don't know the type of the returned object at type checker level. It's
+    a nuisance but not critical, as it should be acceptable if you're using
+    `get` this way.
 
 The `last` and `first` methods are used over the `all` method not over the
 `search` which would be useful too.
@@ -36,7 +49,7 @@ The `last` and `first` methods are used over the `all` method not over the
 `search` will return an empty list if there are no results instead of
 an `EntityNotFoundError` exception.
 
-## Only allow one model
+## Only allow one model in search and all
 
 We could revert [003](003-make_entity_models_optional_arguments.md) and only
 allow one model in `search` and `all` but that will mean that the context of
@@ -44,13 +57,36 @@ that ADR won't be met anymore which was that some applications need to do
 operations on all or a subset of entity types. They will then be forced to run
 the desired method once for each entity type which has the next disadvantages:
 
-* The user has to write more code. Which is not true, as even though you truly
+* The user has to write more code. Which may not true, as even though you
     have to run `repo.search` and `repo.all` more than once, right now you also
-    have to write additional code to tell apart the returned objects.
+    have to write additional code to tell apart the returned objects. This last
+    statement may not be true if the user has asked for a group of entities that
+    share some common attributes with whom it wants to work with.
+
+    After migrating some code I've seen that at user level the change is from:
+
+    ```python
+    active_resources = repo.search({"state": "active"}, models)
+    ```
+
+    To:
+
+    ```python
+    active_resources = [
+        entity for model in models for entity in repo.search({"state": "active"}, model)
+    ]
+    ```
+
+    Which I think it's assumable given that it can be considered a corner case.
+
 * Instead of running everything on a query, many will be done. The potential
-    downside of that is performance loss, but in reality the current
-    implementation is already doing many queries as it's not able to do
-    everything at once.
+    downside of that is performance loss, but in reality:
+
+    * The pypika and fake repos are already doing many queries.
+    * The tinydb repo is doing everything in one query but then from the
+        gathered data it has to go model by model building the ones that match.
+
+    So probably we won't have any performance loss.
 
 And the next advantages:
 
@@ -58,7 +94,24 @@ And the next advantages:
     [003](003-make_entity_models_optional_arguments.md) both on functions and
     type hints, removing them will improve maintainability and peace of mind
     when coding.
-* Remove conflicts on `get`.
+
+## Only allow one model in get
+
+If we only allow one model in `get` we'll remove complexity in terms of:
+
+* No need to loop over the models.
+
+The management of the case of more than one entity found has to be still
+managed, as we can only enforce this case in pypika, fake and tinydb doesn't
+have that kind of constrain at database level.
+
+The case that it makes sense to keep the feature is a corner case as most of
+databases use integer ids. And if you've made the ids unique between
+models it should be straight forward to make a function that gives you the model
+for that ID, or you're free to iterate over the models and suppress the
+`EntityNotFoundError` exception.
+
+Therefore it makes no sense to keep complexity for a corner case.
 
 ## Leave last and first as they are
 

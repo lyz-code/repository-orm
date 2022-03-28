@@ -5,7 +5,7 @@ import os
 import re
 import sqlite3
 from contextlib import suppress
-from sqlite3 import OperationalError
+from sqlite3 import OperationalError, ProgrammingError
 from typing import Dict, List, Type, Union
 
 from pypika import Query, Table, functions
@@ -282,3 +282,12 @@ class PypikaRepository(Repository):
     def close(self) -> None:
         """Close the connection to the database."""
         self.connection.close()
+
+    @property
+    def is_closed(self) -> bool:
+        """Inform if the connection is closed."""
+        try:
+            self.connection.cursor()
+            return False
+        except ProgrammingError:
+            return True

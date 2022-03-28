@@ -79,9 +79,7 @@ class TestDBConnection:
         with pytest.raises(ConnectionError):
             repo.__class__(database_url="/inexistent_dir/database.db")  # act
 
-    def test_repository_closes_connection(
-        self, repo: Repository, repo_tester: RepositoryTester[Repository]
-    ) -> None:
+    def test_repository_closes_connection(self, repo: Repository) -> None:
         """
         Given: A configured repository
         When: calling the close method
@@ -89,7 +87,19 @@ class TestDBConnection:
         """
         repo.close()  # act
 
-        assert repo_tester.connection_is_closed(repo)
+        assert repo.is_closed
+
+    def test_repository_close_is_idempotent(self, repo: Repository) -> None:
+        """
+        Given: A closed repository
+        When: calling the close method
+        Then: the connection to the database is closed and no exception is raised.
+        """
+        repo.close()
+
+        repo.close()  # act
+
+        assert repo.is_closed
 
 
 @pytest.mark.parametrize("merge", [True, False])

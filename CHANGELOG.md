@@ -1,3 +1,14 @@
+## 1.3.0 (2022-05-02)
+
+### Refactor
+
+- avoid duplication of code in repo._get when there are many entities
+
+### Feat
+
+- repo.get() now accepts an `attribute` different than `id_`
+- add `repo.empty()` to remove all entities from the repository
+
 ## 1.2.0 (2022-03-28)
 
 ### Feat

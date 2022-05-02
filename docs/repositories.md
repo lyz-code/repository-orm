@@ -20,7 +20,10 @@ the `merge=True` argument.
 : Remove an `Entity` object form the repository.
 
 `get`
-: Obtain an `Entity` from the repository by it's ID.
+: Obtain an `Entity` from the repository by it's ID. Optionally you can pass the
+`attribute` argument if you want to filter by other than the `id_`, remember
+that only one attribute can be returned, so the chosen attribute should uniquely
+identify the entity.
 
 `commit`
 : Persist the changes into the repository.

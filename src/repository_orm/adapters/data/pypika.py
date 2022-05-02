@@ -11,7 +11,7 @@ from typing import Dict, List, Type, Union
 from pypika import Query, Table, functions
 from yoyo import get_backend, read_migrations
 
-from ...exceptions import EntityNotFoundError, TooManyEntitiesError
+from ...exceptions import EntityNotFoundError
 from ...model import EntityID
 from .abstract import Entity, OptionalModelOrModels, OptionalModels, Repository
 
@@ -133,22 +133,21 @@ class PypikaRepository(Repository):
 
     def _get(
         self,
-        id_: EntityID,
+        value: EntityID,
         models: OptionalModelOrModels[Entity] = None,
         attribute: str = "id_",
-    ) -> Entity:
-        """Obtain an entity from the repository by it's ID.
+    ) -> List[Entity]:
+        """Obtain all entities from the repository that match an id_.
+
+        If the attribute argument is passed, check that attribute instead.
 
         Args:
             models: Entity class or classes to obtain.
-            id_: ID of the entity to obtain.
+            value: Value of the entity attribute to obtain.
+            attribute: Entity attribute to check.
 
         Returns:
-            entity: Entity object that matches the id_
-
-        Raises:
-            EntityNotFoundError: If the entity is not found.
-            TooManyEntitiesError: If more than one entity was found.
+            entities: All entities that match the criteria.
         """
         matching_entities = []
         models = self._build_models(models)
@@ -157,18 +156,12 @@ class PypikaRepository(Repository):
             table = self._table_model(model)
             query = Query.from_(table).select("*")
             if attribute == "id_":
-                query = query.where(table.id == id_)
+                query = query.where(table.id == value)
             else:
-                query = query.where(getattr(table, attribute) == id_)
+                query = query.where(getattr(table, attribute) == value)
             matching_entities += self._build_entities(model, query)
 
-        if len(matching_entities) == 1:
-            return matching_entities[0]
-        if len(matching_entities) == 0:
-            raise self._model_not_found(models, f" with {attribute} {id_}")
-        raise TooManyEntitiesError(
-            f"More than one entity was found with the {attribute} {id_}"
-        )
+        return matching_entities
 
     def _all(self, models: OptionalModelOrModels[Entity] = None) -> List[Entity]:
         """Get all the entities from the repository whose class is included in models.

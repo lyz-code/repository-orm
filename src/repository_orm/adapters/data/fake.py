@@ -7,7 +7,7 @@ from typing import Dict, List, Type
 
 from deepdiff import extract, grep
 
-from ...exceptions import EntityNotFoundError, TooManyEntitiesError
+from ...exceptions import EntityNotFoundError
 from ...model import EntityID
 from .abstract import Entity, Models, OptionalModelOrModels, OptionalModels, Repository
 
@@ -71,22 +71,21 @@ class FakeRepository(Repository):
 
     def _get(
         self,
-        id_: EntityID,
+        value: EntityID,
         models: OptionalModelOrModels[Entity] = None,
         attribute: str = "id_",
-    ) -> Entity:
-        """Obtain an entity from the repository by it's ID.
+    ) -> List[Entity]:
+        """Obtain all entities from the repository that match an id_.
+
+        If the attribute argument is passed, check that attribute instead.
 
         Args:
             models: Entity class or classes to obtain.
-            id_: ID of the entity to obtain.
+            value: Value of the entity attribute to obtain.
+            attribute: Entity attribute to check.
 
         Returns:
-            entity: Entity object that matches the id_
-
-        Raises:
-            EntityNotFoundError: If the entity is not found.
-            TooManyEntitiesError: If more than one entity was found.
+            entities: All entities that match the criteria.
         """
         matching_entities = []
         models = self._build_models(models)
@@ -94,18 +93,11 @@ class FakeRepository(Repository):
         if attribute == "id_":
             for model in models:
                 with suppress(KeyError):
-                    matching_entities.append(self.entities[model][id_])
+                    matching_entities.append(self.entities[model][value])
         else:
-            matching_entities = self._search({attribute: id_}, models)
+            matching_entities = self._search({attribute: value}, models)
 
-        if len(matching_entities) == 1:
-            return matching_entities[0].copy()
-        if len(matching_entities) == 0:
-            raise self._model_not_found(models, f" with {attribute} {id_}")
-
-        raise TooManyEntitiesError(
-            f"More than one entity was found with the {attribute} {id_}"
-        )
+        return copy.deepcopy(matching_entities)
 
     def _all(self, models: OptionalModelOrModels[Entity] = None) -> List[Entity]:
         """Get all the entities from the repository whose class is included in models.

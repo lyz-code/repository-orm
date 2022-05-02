@@ -6,6 +6,8 @@ import warnings
 from contextlib import suppress
 from typing import Dict, List, Optional, Sequence, Type, TypeVar, Union
 
+from repository_orm.exceptions import TooManyEntitiesError
+
 from ...exceptions import AutoIncrementError, EntityNotFoundError
 from ...model import Entity as EntityModel
 from ...model import EntityID
@@ -144,7 +146,16 @@ class Repository(abc.ABC):
         """
         warn_on_models(models, "get")
 
-        entity = self._get(id_, models, attribute)
+        entities = self._get(value=id_, models=models, attribute=attribute)
+
+        if len(entities) > 1:
+            raise TooManyEntitiesError(
+                f"More than one entity was found with the {attribute} {id_}"
+            )
+        if len(entities) == 0:
+            raise self._model_not_found(models, f" with {attribute} {id_}")
+
+        entity = entities[0]
         entity.clear_defined_values()
         self.cache.add(entity)
         return entity
@@ -152,24 +163,21 @@ class Repository(abc.ABC):
     @abc.abstractmethod
     def _get(
         self,
-        id_: EntityID,
+        value: EntityID,
         models: OptionalModelOrModels[Entity] = None,
         attribute: str = "id_",
-    ) -> Entity:
-        """Obtain an entity from the repository by it's ID.
+    ) -> List[Entity]:
+        """Obtain all entities from the repository that match an id_.
 
-        Particular implementation of the adapter.
+        If the attribute argument is passed, check that attribute instead.
 
         Args:
             models: Entity class or classes to obtain.
-            id_: ID of the entity to obtain.
+            value: Value of the entity attribute to obtain.
+            attribute: Entity attribute to check.
 
         Returns:
-            entity: Entity object that matches the id_
-
-        Raises:
-            EntityNotFoundError: If the entity is not found.
-            TooManyEntitiesError: If more than one entity was found.
+            entities: All entities that match the criteria.
         """
         raise NotImplementedError
 

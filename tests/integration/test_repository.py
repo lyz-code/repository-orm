@@ -843,7 +843,9 @@ class TestSearch:
         repo.commit()
         with pytest.warns(UserWarning, match="In 2022-06-10.*deprecated"):
 
-            result = repo.search({"name": "common name"}, [Author, Book])  # type: ignore
+            result = repo.search(  # type: ignore
+                {"name": "common name"}, [Author, Book]  # type: ignore
+            )
 
         assert result == [book, author]
 

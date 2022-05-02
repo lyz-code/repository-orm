@@ -94,7 +94,10 @@ class TinyDBRepository(Repository):
         self.staged["remove"].append(entity)
 
     def _get(
-        self, id_: EntityID, models: OptionalModelOrModels[Entity] = None
+        self,
+        id_: EntityID,
+        models: OptionalModelOrModels[Entity] = None,
+        attribute: str = "id_",
     ) -> Entity:
         """Obtain an entity from the repository by it's ID.
 
@@ -112,13 +115,15 @@ class TinyDBRepository(Repository):
         models = self._build_models(models)
         model_query = self._build_model_query(models)
 
-        matching_entities_data = self.db_.search((Query().id_ == id_) & (model_query))
+        matching_entities_data = self.db_.search(
+            (Query()[attribute] == id_) & (model_query)
+        )
 
         if len(matching_entities_data) == 1:
             return self._build_entity(matching_entities_data[0], models)
         if len(matching_entities_data) == 0:
-            raise self._model_not_found(models, f" with id {id_}")
-        raise TooManyEntitiesError(f"More than one entity was found with the id {id_}")
+            raise self._model_not_found(models, f" with {attribute} {id_}")
+        raise TooManyEntitiesError(f"More than one entity was found with the {attribute} {id_}")
 
     def _build_entity(
         self,

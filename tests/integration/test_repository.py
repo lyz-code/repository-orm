@@ -492,7 +492,7 @@ class TestGet:
             EntityNotFoundError,
             match=(
                 f"There are no entities of type {entity.model_name} in the "
-                f"repository with id {entity.id_}"
+                f"repository with id_ {entity.id_}"
             ),
         ):
             repo.get(entity.id_, type(entity))
@@ -514,6 +514,25 @@ class TestGet:
         ), pytest.raises(TooManyEntitiesError, match=""):
 
             repo.get(inserted_entity.id_)  # act
+
+    def test_repository_can_retrieve_an_entity_by_a_different_attribute(
+        self,
+        repo: Repository,
+        inserted_str_entity: Entity,
+    ) -> None:
+        """
+        Given an attribute and it's value, the repository returns the entity object.
+
+        The entity is also added to the cache.
+        """
+        entity = inserted_str_entity
+
+        result = repo.get(entity.name, type(entity), "name")
+
+        assert result == entity
+        assert result.id_ == entity.id_
+        assert repo.cache.get(entity) == entity
+        assert result.defined_values == {}
 
 
 class TestAll:

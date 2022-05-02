@@ -70,7 +70,10 @@ class FakeRepository(Repository):
             ) from error
 
     def _get(
-        self, id_: EntityID, models: OptionalModelOrModels[Entity] = None
+        self,
+        id_: EntityID,
+        models: OptionalModelOrModels[Entity] = None,
+        attribute: str = "id_",
     ) -> Entity:
         """Obtain an entity from the repository by it's ID.
 
@@ -88,16 +91,21 @@ class FakeRepository(Repository):
         matching_entities = []
         models = self._build_models(models)
 
-        for model in models:
-            with suppress(KeyError):
-                matching_entities.append(self.entities[model][id_])
+        if attribute == "id_":
+            for model in models:
+                with suppress(KeyError):
+                    matching_entities.append(self.entities[model][id_])
+        else:
+            matching_entities = self._search({attribute: id_}, models)
 
         if len(matching_entities) == 1:
             return matching_entities[0].copy()
         if len(matching_entities) == 0:
-            raise self._model_not_found(models, f" with id {id_}")
+            raise self._model_not_found(models, f" with {attribute} {id_}")
 
-        raise TooManyEntitiesError(f"More than one entity was found with the id {id_}")
+        raise TooManyEntitiesError(
+            f"More than one entity was found with the {attribute} {id_}"
+        )
 
     def _all(self, models: OptionalModelOrModels[Entity] = None) -> List[Entity]:
         """Get all the entities from the repository whose class is included in models.

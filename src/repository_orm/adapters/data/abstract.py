@@ -122,7 +122,10 @@ class Repository(abc.ABC):
         raise NotImplementedError
 
     def get(
-        self, id_: EntityID, models: OptionalModelOrModels[Entity] = None
+        self,
+        id_: EntityID,
+        models: OptionalModelOrModels[Entity] = None,
+        attribute: str = "id_",
     ) -> Entity:
         """Obtain an entity from the repository by it's ID.
 
@@ -141,14 +144,17 @@ class Repository(abc.ABC):
         """
         warn_on_models(models, "get")
 
-        entity = self._get(id_, models)
+        entity = self._get(id_, models, attribute)
         entity.clear_defined_values()
         self.cache.add(entity)
         return entity
 
     @abc.abstractmethod
     def _get(
-        self, id_: EntityID, models: OptionalModelOrModels[Entity] = None
+        self,
+        id_: EntityID,
+        models: OptionalModelOrModels[Entity] = None,
+        attribute: str = "id_",
     ) -> Entity:
         """Obtain an entity from the repository by it's ID.
 

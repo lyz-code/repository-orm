@@ -132,7 +132,10 @@ class PypikaRepository(Repository):
         self._execute(query)
 
     def _get(
-        self, id_: EntityID, models: OptionalModelOrModels[Entity] = None
+        self,
+        id_: EntityID,
+        models: OptionalModelOrModels[Entity] = None,
+        attribute: str = "id_",
     ) -> Entity:
         """Obtain an entity from the repository by it's ID.
 
@@ -152,14 +155,20 @@ class PypikaRepository(Repository):
 
         for model in models:
             table = self._table_model(model)
-            query = Query.from_(table).select("*").where(table.id == id_)
+            query = Query.from_(table).select("*")
+            if attribute == "id_":
+                query = query.where(table.id == id_)
+            else:
+                query = query.where(getattr(table, attribute) == id_)
             matching_entities += self._build_entities(model, query)
 
         if len(matching_entities) == 1:
             return matching_entities[0]
         if len(matching_entities) == 0:
-            raise self._model_not_found(models, f" with id {id_}")
-        raise TooManyEntitiesError(f"More than one entity was found with the id {id_}")
+            raise self._model_not_found(models, f" with {attribute} {id_}")
+        raise TooManyEntitiesError(
+            f"More than one entity was found with the {attribute} {id_}"
+        )
 
     def _all(self, models: OptionalModelOrModels[Entity] = None) -> List[Entity]:
         """Get all the entities from the repository whose class is included in models.

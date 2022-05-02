@@ -29,6 +29,16 @@ update-production:
 
 	@echo ""
 
+.PHONY: outdated
+outdated:
+	@echo "-------------------------"
+	@echo "- Outdated dependencies -"
+	@echo "-------------------------"
+
+	pdm update --dry-run --unconstrained
+
+	@echo ""
+
 .PHONY: format
 format:
 	@echo "----------------------"
@@ -97,26 +107,27 @@ clean:
 	@echo "- Cleaning unwanted files -"
 	@echo "---------------------------"
 
-	rm -rf `find . -name __pycache__`
-	rm -f `find . -type f -name '*.py[co]' `
-	rm -f `find . -type f -name '*.rej' `
-	rm -rf `find . -type d -name '*.egg-info' `
-	rm -f `find . -type f -name '*~' `
-	rm -f `find . -type f -name '.*~' `
-	rm -rf .cache
-	rm -rf .pytest_cache
-	rm -rf .mypy_cache
-	rm -rf htmlcov
-	rm -f .coverage
-	rm -f .coverage.*
-	rm -rf build
-	rm -rf dist
-	rm -f src/*.c pydantic/*.so
-	rm -rf site
-	rm -rf docs/_build
-	rm -rf docs/.changelog.md docs/.version.md docs/.tmp_schema_mappings.html
-	rm -rf codecov.sh
-	rm -rf coverage.xml
+	rm -r `find . -name __pycache__`
+	rm `find . -type f -name '*.py[co]' `
+	rm `find . -type f -name '*.rej' `
+	rm -r `find . -type d -name '*.egg-info' `
+	rm `find . -type f -name '*~' `
+	rm `find . -type f -name '.*~' `
+	rm -r .cache
+	rm -r .pytest_cache
+	rm -r .mypy_cache
+	rm -r htmlcov
+	rm .coverage
+	rm .coverage.*
+	rm -r build
+	rm -r dist
+	rm src/*.c pydantic/*.so
+	rm -r site
+	rm -r docs/_build
+	rm docs/.changelog.md docs/.version.md docs/.tmp_schema_mappings.html
+	rm codecov.sh
+	rm coverage.xml
+	rm requirements.txt
 
 	@echo ""
 
@@ -131,15 +142,15 @@ docs: test-examples
 	@echo ""
 
 .PHONY: bump
-bump: pull-master bump-version build-package upload-pypi clean
+bump: pull-main bump-version build-package upload-pypi clean
 
-.PHONY: pull-master
-pull-master:
+.PHONY: pull-main
+pull-main:
 	@echo "------------------------"
 	@echo "- Updating repository  -"
 	@echo "------------------------"
 
-	git checkout master
+	git checkout main
 	git pull
 
 	@echo ""

@@ -28,7 +28,8 @@ class Entity(BaseModel):
     _defined_values: Dict[str, Any] = PrivateAttr()
     _skip_on_merge: List[str] = []
 
-    def __init__(self, **data: Any) -> None:
+    # ANN401: Any not allowed, but it's what we have.
+    def __init__(self, **data: Any) -> None:  # noqa: ANN401
         """Initialize the defined values."""
         super().__init__(**data)
         self._defined_values = data
@@ -57,7 +58,8 @@ class Entity(BaseModel):
         """Create an unique hash of the class object."""
         return hash(f"{self.model_name}-{self.id_}")
 
-    def __setattr__(self, attribute: str, value: Any) -> None:
+    # ANN401: Any not allowed, but it's what we have.
+    def __setattr__(self, attribute: str, value: Any) -> None:  # noqa: ANN401
         """Store the set attribute into the _defined_values."""
         if attribute != "_defined_values":
             self._defined_values[attribute] = value

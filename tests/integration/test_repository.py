@@ -492,7 +492,7 @@ class TestGet:
             EntityNotFoundError,
             match=(
                 f"There are no entities of type {entity.model_name} in the "
-                f"repository with id {entity.id_}"
+                f"repository with id_ {entity.id_}"
             ),
         ):
             repo.get(entity.id_, type(entity))
@@ -514,6 +514,25 @@ class TestGet:
         ), pytest.raises(TooManyEntitiesError, match=""):
 
             repo.get(inserted_entity.id_)  # act
+
+    def test_repository_can_retrieve_an_entity_by_a_different_attribute(
+        self,
+        repo: Repository,
+        inserted_str_entity: Entity,
+    ) -> None:
+        """
+        Given an attribute and it's value, the repository returns the entity object.
+
+        The entity is also added to the cache.
+        """
+        entity = inserted_str_entity
+
+        result = repo.get(entity.name, type(entity), "name")
+
+        assert result == entity
+        assert result.id_ == entity.id_
+        assert repo.cache.get(entity) == entity
+        assert result.defined_values == {}
 
 
 class TestAll:
@@ -1062,6 +1081,25 @@ class TestFirst:
             ),
         ):
             repo.first(type(entity))
+
+
+def test_empty_removes_all_entities(repo: Repository) -> None:
+    """
+    Given: A full repository
+    When: calling empty
+    Then: No entity remains in the repository
+    """
+    books = BookFactory.batch(25)
+    genres = GenreFactory.batch(20)
+    repo.add(books)
+    repo.add(genres)
+    repo.commit()
+
+    result = repo.empty()
+
+    assert result is None
+    assert repo.all(Book) == []
+    assert repo.all(Genre) == []
 
 
 def test_repository_next_id_raise_error_if_entity_has_str_id(

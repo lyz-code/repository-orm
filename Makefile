@@ -18,6 +18,17 @@ update:
 
 	@echo ""
 
+.PHONY: update-production
+update-production:
+	@echo "------------------------------------"
+	@echo "- Updating production dependencies -"
+	@echo "------------------------------------"
+
+	pdm update --production --no-sync
+	pdm sync --clean
+
+	@echo ""
+
 .PHONY: format
 format:
 	@echo "----------------------"

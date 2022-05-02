@@ -14,8 +14,6 @@ from tinydb.storages import JSONStorage
 from tinydb_serialization import SerializationMiddleware
 from tinydb_serialization.serializers import DateTimeSerializer
 
-from repository_orm.exceptions import TooManyEntitiesError
-
 from ...exceptions import EntityNotFoundError
 from ...model import EntityID
 from .abstract import (
@@ -94,31 +92,34 @@ class TinyDBRepository(Repository):
         self.staged["remove"].append(entity)
 
     def _get(
-        self, id_: EntityID, models: OptionalModelOrModels[Entity] = None
-    ) -> Entity:
-        """Obtain an entity from the repository by it's ID.
+        self,
+        value: EntityID,
+        models: OptionalModelOrModels[Entity] = None,
+        attribute: str = "id_",
+    ) -> List[Entity]:
+        """Obtain all entities from the repository that match an id_.
+
+        If the attribute argument is passed, check that attribute instead.
 
         Args:
             models: Entity class or classes to obtain.
-            id_: ID of the entity to obtain.
+            value: Value of the entity attribute to obtain.
+            attribute: Entity attribute to check.
 
         Returns:
-            entity: Entity object that matches the id_
-
-        Raises:
-            EntityNotFoundError: If the entity is not found.
-            TooManyEntitiesError: If more than one entity was found.
+            entities: All entities that match the criteria.
         """
         models = self._build_models(models)
         model_query = self._build_model_query(models)
 
-        matching_entities_data = self.db_.search((Query().id_ == id_) & (model_query))
+        matching_entities_data = self.db_.search(
+            (Query()[attribute] == value) & (model_query)
+        )
 
-        if len(matching_entities_data) == 1:
-            return self._build_entity(matching_entities_data[0], models)
-        if len(matching_entities_data) == 0:
-            raise self._model_not_found(models, f" with id {id_}")
-        raise TooManyEntitiesError(f"More than one entity was found with the id {id_}")
+        return [
+            self._build_entity(entity_data, models)
+            for entity_data in matching_entities_data
+        ]
 
     def _build_entity(
         self,
@@ -398,6 +399,10 @@ class TinyDBRepository(Repository):
             return False
         except ValueError:
             return True
+
+    def empty(self) -> None:
+        """Remove all entities from the repository."""
+        self.db_.truncate()
 
 
 def _regexp_in_list(list_: Iterable[Any], regular_expression: str) -> bool:

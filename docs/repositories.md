@@ -20,7 +20,10 @@ the `merge=True` argument.
 : Remove an `Entity` object form the repository.
 
 `get`
-: Obtain an `Entity` from the repository by it's ID.
+: Obtain an `Entity` from the repository by it's ID. Optionally you can pass the
+`attribute` argument if you want to filter by other than the `id_`, remember
+that only one attribute can be returned, so the chosen attribute should uniquely
+identify the entity.
 
 `commit`
 : Persist the changes into the repository.
@@ -49,8 +52,12 @@ given, it will return the first of any type of entity.
 `is_close`
 : Property that tells if the connection to the database is closed.
 
+`empty`
+: Remove all the entities from the repository.
+
 !!! note ""
-    Changes in the repository aren't persisted until you run `repo.commit()`.
+    Changes in the repository aren't persisted until you run `repo.commit()`
+    (with the exception of `empty` and `apply_migrations`).
 
 # Repositories
 

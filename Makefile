@@ -29,6 +29,16 @@ update-production:
 
 	@echo ""
 
+.PHONY: outdated
+outdated:
+	@echo "-------------------------"
+	@echo "- Outdated dependencies -"
+	@echo "-------------------------"
+
+	pdm update --dry-run --unconstrained
+
+	@echo ""
+
 .PHONY: format
 format:
 	@echo "----------------------"
@@ -131,15 +141,15 @@ docs: test-examples
 	@echo ""
 
 .PHONY: bump
-bump: pull-master bump-version build-package upload-pypi clean
+bump: pull-main bump-version build-package upload-pypi clean
 
-.PHONY: pull-master
-pull-master:
+.PHONY: pull-main
+pull-main:
 	@echo "------------------------"
 	@echo "- Updating repository  -"
 	@echo "------------------------"
 
-	git checkout master
+	git checkout main
 	git pull
 
 	@echo ""

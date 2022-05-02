@@ -1,6 +1,6 @@
 [![Actions Status](https://github.com/lyz-code/repository-orm/workflows/Tests/badge.svg)](https://github.com/lyz-code/repository-orm/actions)
 [![Actions Status](https://github.com/lyz-code/repository-orm/workflows/Build/badge.svg)](https://github.com/lyz-code/repository-orm/actions)
-[![Coverage Status](https://coveralls.io/repos/github/lyz-code/repository-orm/badge.svg?branch=master)](https://coveralls.io/github/lyz-code/repository-orm?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/lyz-code/repository-orm/badge.svg?branch=main)](https://coveralls.io/github/lyz-code/repository-orm?branch=main)
 
 Library to persist [Pydantic](https://pydantic-docs.helpmanual.io/) models into
 different storage backends following the [repository
@@ -107,13 +107,13 @@ giants, namely:
 [Black](https://black.readthedocs.io/en/stable/)
 : Python formatter to keep a nice style without effort.
 
-[Autoimport](https://github.com/lyz-code/autoimport)
+[Autoimport](https://lyz-code.github.io/autoimport)
 : Python formatter to automatically fix wrong import statements.
 
 [isort](https://github.com/timothycrosley/isort)
 : Python formatter to order the import statements.
 
-[Pip-tools](https://github.com/jazzband/pip-tools)
+[PDM](https://pdm.fming.dev/)
 : Command line tool to manage the dependencies.
 
 [Mkdocs](https://www.mkdocs.org/)

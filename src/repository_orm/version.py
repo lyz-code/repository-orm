@@ -14,7 +14,7 @@ def version_info() -> str:
         f"""\
         ------------------------------------------------------------------
              repository_orm: {__version__}
-             Python: {sys.version.split(" ", maxsplit=1)}
+             Python: {sys.version.split(" ", maxsplit=1)[0]}
              Platform: {platform.platform()}
         ------------------------------------------------------------------"""
     )

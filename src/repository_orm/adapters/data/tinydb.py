@@ -399,6 +399,10 @@ class TinyDBRepository(Repository):
         except ValueError:
             return True
 
+    def empty(self) -> None:
+        """Remove all entities from the repository."""
+        self.db_.truncate()
+
 
 def _regexp_in_list(list_: Iterable[Any], regular_expression: str) -> bool:
     """Test if regexp matches any element of the list."""

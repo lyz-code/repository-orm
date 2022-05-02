@@ -283,6 +283,24 @@ class PypikaRepository(Repository):
         """Close the connection to the database."""
         self.connection.close()
 
+    def empty(self) -> None:
+        """Remove all entities from the repository."""
+        for table in self.tables:
+            self._execute(Query.from_(table).delete())
+
+    @property
+    def tables(self) -> List[str]:
+        """Return the entity tables of the database."""
+        if re.match("sqlite://", self.database_url):
+            query = "SELECT name FROM sqlite_master WHERE type='table'"
+
+        tables = [
+            table[0]
+            for table in self._execute(query).fetchall()
+            if not re.match(r"^_", table[0]) and not re.match("yoyo", table[0])
+        ]
+        return tables
+
     @property
     def is_closed(self) -> bool:
         """Inform if the connection is closed."""

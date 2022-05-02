@@ -244,3 +244,8 @@ class FakeRepository(Repository):
     def is_closed(self) -> bool:
         """Inform if the connection is closed."""
         return self.is_connection_closed
+
+    def empty(self) -> None:
+        """Remove all entities from the repository."""
+        self.entities = {}
+        self.new_entities = {}

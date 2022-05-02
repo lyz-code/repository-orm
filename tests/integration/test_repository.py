@@ -1064,6 +1064,25 @@ class TestFirst:
             repo.first(type(entity))
 
 
+def test_empty_removes_all_entities(repo: Repository) -> None:
+    """
+    Given: A full repository
+    When: calling empty
+    Then: No entity remains in the repository
+    """
+    books = BookFactory.batch(25)
+    genres = GenreFactory.batch(20)
+    repo.add(books)
+    repo.add(genres)
+    repo.commit()
+
+    result = repo.empty()
+
+    assert result is None
+    assert repo.all(Book) == []
+    assert repo.all(Genre) == []
+
+
 def test_repository_next_id_raise_error_if_entity_has_str_id(
     repo: Repository,
     inserted_str_entity: Entity,

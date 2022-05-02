@@ -368,6 +368,11 @@ class Repository(abc.ABC):
         """Inform if the connection is closed."""
         raise NotImplementedError
 
+    @abc.abstractmethod
+    def empty(self) -> None:
+        """Remove all entities from the repository."""
+        raise NotImplementedError
+
 
 def warn_on_models(models: OptionalModelOrModels[Entity], method: str) -> None:
     """Warn users that using more than one model is going to be deprecated."""

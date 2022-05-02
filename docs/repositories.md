@@ -49,8 +49,12 @@ given, it will return the first of any type of entity.
 `is_close`
 : Property that tells if the connection to the database is closed.
 
+`empty`
+: Remove all the entities from the repository.
+
 !!! note ""
-    Changes in the repository aren't persisted until you run `repo.commit()`.
+    Changes in the repository aren't persisted until you run `repo.commit()`
+    (with the exception of `empty` and `apply_migrations`).
 
 # Repositories
 

@@ -241,7 +241,7 @@ class TestAdd:
         When: adding an entity with a negative id
         Then: the id of the new entity is one unit greater than the last one.
         """
-        entity = inserted_int_entity.__class__(id=-3, name="Entity with negative id")
+        entity = inserted_int_entity.__class__(id_=-3, name="Entity with negative id")
         repo.add(entity, merge=merge)
 
         repo.commit()  # act
@@ -843,7 +843,9 @@ class TestSearch:
         repo.commit()
         with pytest.warns(UserWarning, match="In 2022-06-10.*deprecated"):
 
-            result = repo.search({"name": "common name"}, [Author, Book])
+            result = repo.search(  # type: ignore
+                {"name": "common name"}, [Author, Book]  # type: ignore
+            )
 
         assert result == [book, author]
 

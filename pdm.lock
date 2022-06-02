@@ -14,7 +14,7 @@ summary = "Read/rewrite/write Python ASTs"
 
 [[package]]
 name = "astpretty"
-version = "2.1.0"
+version = "2.0.0"
 requires_python = ">=3.6.1"
 summary = "Pretty print the output of python stdlib `ast.parse`."
 
@@ -37,15 +37,6 @@ version = "2.0.5"
 summary = "Annotate AST trees with source code positions"
 dependencies = [
     "six",
-]
-
-[[package]]
-name = "astunparse"
-version = "1.6.3"
-summary = "An AST unparser for Python"
-dependencies = [
-    "six<2.0,>=1.6.1",
-    "wheel<1.0,>=0.23.0",
 ]
 
 [[package]]
@@ -136,11 +127,6 @@ dependencies = [
     "six>=1.9.0",
     "webencodings",
 ]
-
-[[package]]
-name = "cached-property"
-version = "1.5.2"
-summary = "A decorator for caching properties in classes."
 
 [[package]]
 name = "certifi"
@@ -594,7 +580,7 @@ summary = "Internationalized Domain Names in Applications (IDNA)"
 [[package]]
 name = "importlib-metadata"
 version = "4.11.4"
-requires_python = ">=3.7"
+requires_python = ">=3.6"
 summary = "Read metadata from Python packages"
 dependencies = [
     "typing-extensions>=3.6.4; python_version < \"3.8\"",
@@ -819,18 +805,7 @@ dependencies = [
     "MarkupSafe>=1.1",
     "mkdocs-autorefs>=0.3.1",
     "mkdocs>=1.2",
-    "mkdocstrings-python-legacy>=0.2",
     "pymdown-extensions>=6.3",
-]
-
-[[package]]
-name = "mkdocstrings-python-legacy"
-version = "0.2.2"
-requires_python = ">=3.7"
-summary = "A legacy Python handler for mkdocstrings."
-dependencies = [
-    "mkdocstrings>=0.18",
-    "pytkdocs>=0.14",
 ]
 
 [[package]]
@@ -997,11 +972,11 @@ summary = "Pygments is a syntax highlighting package written in Python."
 
 [[package]]
 name = "pylint"
-version = "2.13.9"
+version = "2.13.8"
 requires_python = ">=3.6.2"
 summary = "python code static checker"
 dependencies = [
-    "astroid<=2.12.0-dev0,>=2.11.5",
+    "astroid<=2.12.0-dev0,>=2.11.3",
     "colorama; sys_platform == \"win32\"",
     "dill>=0.2",
     "isort<6,>=4.2.5",
@@ -1106,17 +1081,6 @@ requires_python = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
 summary = "Extensions to the standard Python datetime module"
 dependencies = [
     "six>=1.5",
-]
-
-[[package]]
-name = "pytkdocs"
-version = "0.16.1"
-requires_python = ">=3.7"
-summary = "Load Python objects documentation."
-dependencies = [
-    "astunparse>=1.6; python_version < \"3.9\"",
-    "cached-property>=1.5; python_version < \"3.8\"",
-    "typing-extensions>=3.7; python_version < \"3.8\"",
 ]
 
 [[package]]
@@ -1339,7 +1303,7 @@ dependencies = [
     "importlib-metadata>=3.6",
     "keyring>=15.1",
     "pkginfo>=1.8.1",
-    "readme-renderer>=21.0",
+    "readme-renderer>=35.0",
     "requests-toolbelt!=0.9.0,>=0.8.0",
     "requests>=2.20",
     "rfc3986>=1.4.0",
@@ -1398,12 +1362,6 @@ summary = "Measures the displayed width of unicode strings in a terminal"
 name = "webencodings"
 version = "0.5.1"
 summary = "Character encoding aliases for legacy web content"
-
-[[package]]
-name = "wheel"
-version = "0.37.1"
-requires_python = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
-summary = "A built-package format for Python"
 
 [[package]]
 name = "wrapt"
@@ -1466,9 +1424,9 @@ content_hash = "sha256:ac51f7fe6f18bb69e4c95b6dd34eb72bacc03cd521b78665aa5882ce4
     {file = "astor-0.8.1-py2.py3-none-any.whl", hash = "sha256:070a54e890cefb5b3739d19f30f5a5ec840ffc9c50ffa7d23cc9fc1a38ebbfc5"},
     {file = "astor-0.8.1.tar.gz", hash = "sha256:6a6effda93f4e1ce9f618779b2dd1d9d84f1e32812c23a29b3fff6fd7f63fa5e"},
 ]
-"astpretty 2.1.0" = [
-    {file = "astpretty-2.1.0-py2.py3-none-any.whl", hash = "sha256:f81f14b5636f7af81fadb1e3c09ca7702ce4615500d9cc6d6829befb2dec2e3c"},
-    {file = "astpretty-2.1.0.tar.gz", hash = "sha256:8a801fcda604ec741f010bb36d7cbadc3ec8a182ea6fb83e20ab663463e75ff6"},
+"astpretty 2.0.0" = [
+    {file = "astpretty-2.0.0-py2.py3-none-any.whl", hash = "sha256:7f27633ed885033da8b58666e7079ffff7e8e01869ec1aa66484cb5185ea3aa4"},
+    {file = "astpretty-2.0.0.tar.gz", hash = "sha256:e4724bfd753636ba4a84384702e9796e5356969f40af2596d846ce64addde086"},
 ]
 "astroid 2.11.5" = [
     {file = "astroid-2.11.5-py3-none-any.whl", hash = "sha256:14ffbb4f6aa2cf474a0834014005487f7ecd8924996083ab411e7fa0b508ce0b"},
@@ -1477,10 +1435,6 @@ content_hash = "sha256:ac51f7fe6f18bb69e4c95b6dd34eb72bacc03cd521b78665aa5882ce4
 "asttokens 2.0.5" = [
     {file = "asttokens-2.0.5-py2.py3-none-any.whl", hash = "sha256:0844691e88552595a6f4a4281a9f7f79b8dd45ca4ccea82e5e05b4bbdb76705c"},
     {file = "asttokens-2.0.5.tar.gz", hash = "sha256:9a54c114f02c7a9480d56550932546a3f1fe71d8a02f1bc7ccd0ee3ee35cf4d5"},
-]
-"astunparse 1.6.3" = [
-    {file = "astunparse-1.6.3-py2.py3-none-any.whl", hash = "sha256:c2652417f2c8b5bb325c885ae329bdf3f86424075c4fd1a128674bc6fba4b8e8"},
-    {file = "astunparse-1.6.3.tar.gz", hash = "sha256:5ad93a8456f0d084c3456d059fd9a92cce667963232cbf763eac3bc5b7940872"},
 ]
 "atomicwrites 1.4.0" = [
     {file = "atomicwrites-1.4.0-py2.py3-none-any.whl", hash = "sha256:6d1784dea7c0c8d4a5172b6c620f40b6e4cbfdf96d783691f2e1302a7b88e197"},
@@ -1537,10 +1491,6 @@ content_hash = "sha256:ac51f7fe6f18bb69e4c95b6dd34eb72bacc03cd521b78665aa5882ce4
 "bleach 5.0.0" = [
     {file = "bleach-5.0.0-py3-none-any.whl", hash = "sha256:08a1fe86d253b5c88c92cc3d810fd8048a16d15762e1e5b74d502256e5926aa1"},
     {file = "bleach-5.0.0.tar.gz", hash = "sha256:c6d6cc054bdc9c83b48b8083e236e5f00f238428666d2ce2e083eaa5fd568565"},
-]
-"cached-property 1.5.2" = [
-    {file = "cached_property-1.5.2-py2.py3-none-any.whl", hash = "sha256:df4f613cf7ad9a588cc381aaf4a512d26265ecebd5eb9e1ba12f1319eb85a6a0"},
-    {file = "cached-property-1.5.2.tar.gz", hash = "sha256:9fa5755838eecbb2d234c3aa390bd80fbd3ac6b6869109bfc1b499f7bd89a130"},
 ]
 "certifi 2022.5.18.1" = [
     {file = "certifi-2022.5.18.1-py3-none-any.whl", hash = "sha256:f1d53542ee8cbedbe2118b5686372fb33c297fcd6379b050cca0ef13a597382a"},
@@ -2094,10 +2044,6 @@ content_hash = "sha256:ac51f7fe6f18bb69e4c95b6dd34eb72bacc03cd521b78665aa5882ce4
     {file = "mkdocstrings-0.18.1-py3-none-any.whl", hash = "sha256:4053929356df8cd69ed32eef71d8f676a472ef72980c9ffd4f933ead1debcdad"},
     {file = "mkdocstrings-0.18.1.tar.gz", hash = "sha256:fb7c91ce7e3ab70488d3fa6c073a4f827cdc319042f682ef8ea95459790d64fc"},
 ]
-"mkdocstrings-python-legacy 0.2.2" = [
-    {file = "mkdocstrings_python_legacy-0.2.2-py3-none-any.whl", hash = "sha256:379107a3a5b8db9b462efc4493c122efe21e825e3702425dbd404621302a563a"},
-    {file = "mkdocstrings-python-legacy-0.2.2.tar.gz", hash = "sha256:f0e7ec6a19750581b752acb38f6b32fcd1efe006f14f6703125d2c2c9a5c6f02"},
-]
 "mypy 0.950" = [
     {file = "mypy-0.950-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:cf9c261958a769a3bd38c3e133801ebcd284ffb734ea12d01457cb09eacf7d7b"},
     {file = "mypy-0.950-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:b5b5bd0ffb11b4aba2bb6d31b8643902c48f990cc92fda4e21afac658044f0c0"},
@@ -2236,9 +2182,9 @@ content_hash = "sha256:ac51f7fe6f18bb69e4c95b6dd34eb72bacc03cd521b78665aa5882ce4
     {file = "Pygments-2.12.0-py3-none-any.whl", hash = "sha256:dc9c10fb40944260f6ed4c688ece0cd2048414940f1cea51b8b226318411c519"},
     {file = "Pygments-2.12.0.tar.gz", hash = "sha256:5eb116118f9612ff1ee89ac96437bb6b49e8f04d8a13b514ba26f620208e26eb"},
 ]
-"pylint 2.13.9" = [
-    {file = "pylint-2.13.9-py3-none-any.whl", hash = "sha256:705c620d388035bdd9ff8b44c5bcdd235bfb49d276d488dd2c8ff1736aa42526"},
-    {file = "pylint-2.13.9.tar.gz", hash = "sha256:095567c96e19e6f57b5b907e67d265ff535e588fe26b12b5ebe1fc5645b2c731"},
+"pylint 2.13.8" = [
+    {file = "pylint-2.13.8-py3-none-any.whl", hash = "sha256:f87e863a0b08f64b5230e7e779bcb75276346995737b2c0dc2793070487b1ff6"},
+    {file = "pylint-2.13.8.tar.gz", hash = "sha256:ced8968c3b699df0615e2a709554dec3ddac2f5cd06efadb69554a69eeca364a"},
 ]
 "pymdown-extensions 9.4" = [
     {file = "pymdown_extensions-9.4-py3-none-any.whl", hash = "sha256:5b7432456bf555ce2b0ab3c2439401084cda8110f24f6b3ecef952b8313dfa1b"},
@@ -2282,10 +2228,6 @@ content_hash = "sha256:ac51f7fe6f18bb69e4c95b6dd34eb72bacc03cd521b78665aa5882ce4
 "python-dateutil 2.8.2" = [
     {file = "python_dateutil-2.8.2-py2.py3-none-any.whl", hash = "sha256:961d03dc3453ebbc59dbdea9e4e11c5651520a876d0f4db161e8674aae935da9"},
     {file = "python-dateutil-2.8.2.tar.gz", hash = "sha256:0123cacc1627ae19ddf3c27a5de5bd67ee4586fbdd6440d9748f8abb483d3e86"},
-]
-"pytkdocs 0.16.1" = [
-    {file = "pytkdocs-0.16.1-py3-none-any.whl", hash = "sha256:a8c3f46ecef0b92864cc598e9101e9c4cf832ebbf228f50c84aa5dd850aac379"},
-    {file = "pytkdocs-0.16.1.tar.gz", hash = "sha256:e2ccf6dfe9dbbceb09818673f040f1a7c32ed0bffb2d709b06be6453c4026045"},
 ]
 "pytz 2022.1" = [
     {file = "pytz-2022.1-py2.py3-none-any.whl", hash = "sha256:e68985985296d9a66a881eb3193b0906246245294a881e7c8afe623866ac6a5c"},
@@ -2509,10 +2451,6 @@ content_hash = "sha256:ac51f7fe6f18bb69e4c95b6dd34eb72bacc03cd521b78665aa5882ce4
 "webencodings 0.5.1" = [
     {file = "webencodings-0.5.1-py2.py3-none-any.whl", hash = "sha256:a0af1213f3c2226497a97e2b3aa01a7e4bee4f403f95be16fc9acd2947514a78"},
     {file = "webencodings-0.5.1.tar.gz", hash = "sha256:b36a1c245f2d304965eb4e0a82848379241dc04b865afcc4aab16748587e1923"},
-]
-"wheel 0.37.1" = [
-    {file = "wheel-0.37.1-py2.py3-none-any.whl", hash = "sha256:4bdcd7d840138086126cd09254dc6195fb4fc6f01c050a1d7236f2630db1d22a"},
-    {file = "wheel-0.37.1.tar.gz", hash = "sha256:e9a504e793efbca1b8e0e9cb979a249cf4a0a7b5b8c9e8b65a5e39d49529c1c4"},
 ]
 "wrapt 1.14.1" = [
     {file = "wrapt-1.14.1-cp27-cp27m-macosx_10_9_x86_64.whl", hash = "sha256:1b376b3f4896e7930f1f772ac4b064ac12598d1c38d04907e696cc4d794b43d3"},

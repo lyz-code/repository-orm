@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://lyz-code.github.io/repository-orm/tinydb_repository/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.15">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.3.3">
     
     
       
@@ -21,15 +21,16 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.c382b1dc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.4a0965b7.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.cc9b2e1e.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
         
           
           
           <meta name="theme-color" content="#546d78">
         
+      
       
     
     
@@ -764,7 +765,7 @@
 
   <h1>TinyDBRepository</h1>
 
-<p>The <a class="autorefs autorefs-internal" href="../reference_adapters/#repository_orm.adapters.data.tinydb.TinyDBRepository"><code>TinyDBRepository</code></a> is the
+<p>The <a class="autorefs autorefs-internal" href="../reference/#repository_orm.TinyDBRepository"><code>TinyDBRepository</code></a> is the
 implementation of the repository pattern for the local NoSQL
 <a href="https://tinydb.readthedocs.io/en/latest/usage.html">TinyDB</a> database. You can
 use it in the early stages of the project where the data schema is yet unstable
@@ -785,13 +786,13 @@ method.</p>
 to a valid json row. If it already exists, it uses the <a href="https://tinydb.readthedocs.io/en/latest/usage.html?highlight=upsert#upserting-data">upsert
 statement</a>
 to update it's attributes in the table.</dd>
-<dt><a class="autorefs autorefs-internal" href="../reference_adapters/#repository_orm.adapters.data.tinydb.TinyDBRepository.delete"><code>delete</code></a></dt>
+<dt><a class="autorefs autorefs-internal" href="../reference/#repository_orm.adapters.data.tinydb.TinyDBRepository.delete"><code>delete</code></a></dt>
 <dd>Deletes the <code>Entity</code> object from the collection by searching the row that
 matches the object ID.</dd>
 <dt>[<code>get</code>][repository_orm.adapters.data.tinydb.TinyDBRepository.get]</dt>
 <dd>Obtain an <code>Entity</code> by extracting the row that matches the ID and build the
 <code>Entity</code> object with that data.</dd>
-<dt><a class="autorefs autorefs-internal" href="../reference_adapters/#repository_orm.adapters.data.tinydb.TinyDBRepository.commit"><code>commit</code></a></dt>
+<dt><a class="autorefs autorefs-internal" href="../reference/#repository_orm.adapters.data.tinydb.TinyDBRepository.commit"><code>commit</code></a></dt>
 <dd>Persist the changes into the database.</dd>
 <dt>[<code>all</code>][repository_orm.adapters.data.tinydb.TinyDBRepository.all]</dt>
 <dd>Obtain all the entities of type <code>Entity</code>. Similar to the <code>get</code> method but for
@@ -800,7 +801,7 @@ all entities.</dd>
 <dd>Obtain the entities whose attributes match one or multiple conditions. We
 create a query with all the desired criteria and then build the entities with
 the obtained data.</dd>
-<dt><a class="autorefs autorefs-internal" href="../reference_adapters/#repository_orm.adapters.data.tinydb.TinyDBRepository.apply_migrations"><code>apply_migrations</code></a></dt>
+<dt><a class="autorefs autorefs-internal" href="../reference/#repository_orm.adapters.data.tinydb.TinyDBRepository.apply_migrations"><code>apply_migrations</code></a></dt>
 <dd>We don't yet <a href="https://github.com/lyz-code/repository-orm/issues/27">support migrations on the
 schema</a>, so the models
 should be flexible enough to absorb the changes, or you can code your
@@ -844,10 +845,11 @@ called, they are persisted into the database.</p>
 
               
             </article>
+            
           </div>
         </div>
         
-          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
             Back to top
           </a>
@@ -856,7 +858,8 @@ called, they are persisted into the database.</p>
       
         <footer class="md-footer">
   
-    <nav class="md-footer__inner md-grid" aria-label="Footer">
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
         <a href="../fake_repository/" class="md-footer__link md-footer__link--prev" aria-label="Previous: FakeRepository" rel="prev">
@@ -911,10 +914,10 @@ called, they are persisted into the database.</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "content.code.annotate"], "search": "../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "content.code.annotate"], "search": "../assets/javascripts/workers/search.b028fd86.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.a6c66575.min.js"></script>
+      <script src="../assets/javascripts/bundle.f758a944.min.js"></script>
       
         <script src="../js/timeago.min.js"></script>
       

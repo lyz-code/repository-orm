@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://lyz-code.github.io/repository-orm/reference_exceptions/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.15">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.3.3">
     
     
       
@@ -21,15 +21,16 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.c382b1dc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.4a0965b7.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.cc9b2e1e.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
         
           
           
           <meta name="theme-color" content="#546d78">
         
+      
       
     
     
@@ -767,17 +768,16 @@
 
 
 <h1 id="repository_orm.exceptions" class="doc doc-heading">
-        <code>repository_orm.exceptions</code>
-
+          <code>repository_orm.exceptions</code>
 
 
 <a href="#repository_orm.exceptions" class="headerlink" title="Permanent link">&para;</a></h1>
 
-    <div class="doc doc-contents first">
-
+  <div class="doc doc-contents first">
+  
       <p>Store the repository-orm exceptions.</p>
 
-
+  
 
   <div class="doc doc-children">
 
@@ -787,139 +787,139 @@
 
 
 
-  <div class="doc doc-object doc-class">
+
+<div class="doc doc-object doc-class">
 
 
 
 <h2 id="repository_orm.exceptions.AutoIncrementError" class="doc doc-heading">
-        <code>
-AutoIncrementError            (<span title="Exception">Exception</span>)
-        </code>
-
+        <code>AutoIncrementError</code>
 
 
 <a href="#repository_orm.exceptions.AutoIncrementError" class="headerlink" title="Permanent link">&para;</a></h2>
 
-    <div class="doc doc-contents ">
 
+  <div class="doc doc-contents ">
+      <p class="doc doc-class-bases">
+        Bases: <code>Exception</code></p>
+
+  
       <p>Raised when the id_ auto increment repository feature fails.</p>
+
 
         <details class="quote">
           <summary>Source code in <code>repository_orm/exceptions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">AutoIncrementError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">AutoIncrementError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Raised when the id_ auto increment repository feature fails.&quot;&quot;&quot;</span>
-</code></pre></div>
+</code></pre></div></td></tr></table></div>
         </details>
-
-
-    </div>
 
   </div>
 
+</div>
 
-
-  <div class="doc doc-object doc-class">
+<div class="doc doc-object doc-class">
 
 
 
 <h2 id="repository_orm.exceptions.EntityNotFoundError" class="doc doc-heading">
-        <code>
-EntityNotFoundError            (<span title="Exception">Exception</span>)
-        </code>
-
+        <code>EntityNotFoundError</code>
 
 
 <a href="#repository_orm.exceptions.EntityNotFoundError" class="headerlink" title="Permanent link">&para;</a></h2>
 
-    <div class="doc doc-contents ">
 
+  <div class="doc doc-contents ">
+      <p class="doc doc-class-bases">
+        Bases: <code>Exception</code></p>
+
+  
       <p>Raised when the search or retrieve of an entity fails.</p>
+
 
         <details class="quote">
           <summary>Source code in <code>repository_orm/exceptions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">EntityNotFoundError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EntityNotFoundError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Raised when the search or retrieve of an entity fails.&quot;&quot;&quot;</span>
-</code></pre></div>
+</code></pre></div></td></tr></table></div>
         </details>
-
-
-    </div>
 
   </div>
 
+</div>
 
-
-  <div class="doc doc-object doc-class">
+<div class="doc doc-object doc-class">
 
 
 
 <h2 id="repository_orm.exceptions.FileContentNotLoadedError" class="doc doc-heading">
-        <code>
-FileContentNotLoadedError            (<span title="Exception">Exception</span>)
-        </code>
-
+        <code>FileContentNotLoadedError</code>
 
 
 <a href="#repository_orm.exceptions.FileContentNotLoadedError" class="headerlink" title="Permanent link">&para;</a></h2>
 
-    <div class="doc doc-contents ">
 
+  <div class="doc doc-contents ">
+      <p class="doc doc-class-bases">
+        Bases: <code>Exception</code></p>
+
+  
       <p>Raised when trying to access the content of a file that has not been loaded.</p>
+
 
         <details class="quote">
           <summary>Source code in <code>repository_orm/exceptions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">FileContentNotLoadedError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">16</span>
+<span class="normal">17</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">FileContentNotLoadedError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Raised when trying to access the content of a file that has not been loaded.&quot;&quot;&quot;</span>
-</code></pre></div>
+</code></pre></div></td></tr></table></div>
         </details>
-
-
-    </div>
 
   </div>
 
+</div>
 
-
-  <div class="doc doc-object doc-class">
+<div class="doc doc-object doc-class">
 
 
 
 <h2 id="repository_orm.exceptions.TooManyEntitiesError" class="doc doc-heading">
-        <code>
-TooManyEntitiesError            (<span title="Exception">Exception</span>)
-        </code>
-
+        <code>TooManyEntitiesError</code>
 
 
 <a href="#repository_orm.exceptions.TooManyEntitiesError" class="headerlink" title="Permanent link">&para;</a></h2>
 
-    <div class="doc doc-contents ">
 
+  <div class="doc doc-contents ">
+      <p class="doc doc-class-bases">
+        Bases: <code>Exception</code></p>
+
+  
       <p>Raised when more entities than expected where found.</p>
+
 
         <details class="quote">
           <summary>Source code in <code>repository_orm/exceptions.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">TooManyEntitiesError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">TooManyEntitiesError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Raised when more entities than expected where found.&quot;&quot;&quot;</span>
-</code></pre></div>
+</code></pre></div></td></tr></table></div>
         </details>
 
-
-    </div>
-
   </div>
 
-
-
+</div>
 
 
 
 
   </div>
 
-    </div>
-
   </div>
+
+</div>
 
   <hr>
 <div class="md-source-file">
@@ -934,10 +934,11 @@ TooManyEntitiesError            (<span title="Exception">Exception</span>)
 
               
             </article>
+            
           </div>
         </div>
         
-          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
             Back to top
           </a>
@@ -946,7 +947,8 @@ TooManyEntitiesError            (<span title="Exception">Exception</span>)
       
         <footer class="md-footer">
   
-    <nav class="md-footer__inner md-grid" aria-label="Footer">
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
         <a href="../reference_models/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Models" rel="prev">
@@ -1001,10 +1003,10 @@ TooManyEntitiesError            (<span title="Exception">Exception</span>)
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "content.code.annotate"], "search": "../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "content.code.annotate"], "search": "../assets/javascripts/workers/search.b028fd86.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.a6c66575.min.js"></script>
+      <script src="../assets/javascripts/bundle.f758a944.min.js"></script>
       
         <script src="../js/timeago.min.js"></script>
       

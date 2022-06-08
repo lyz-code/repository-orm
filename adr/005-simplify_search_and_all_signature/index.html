@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://lyz-code.github.io/repository-orm/adr/005-simplify_search_and_all_signature/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.15">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.3.3">
     
     
       
@@ -21,15 +21,16 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.c382b1dc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.4a0965b7.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.cc9b2e1e.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cbb835fc.min.css">
         
           
           
           <meta name="theme-color" content="#546d78">
         
+      
       
     
     
@@ -697,6 +698,39 @@
     Consequences
   </a>
   
+    <nav class="md-nav" aria-label="Consequences">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation" class="md-nav__link">
+    Implementation
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#on-2022-06-10" class="md-nav__link">
+    On 2022-06-10
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#on-2022-12-10" class="md-nav__link">
+    On 2022-12-10
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -825,6 +859,8 @@ honest, using <code>[0]</code> and <code>[-1]</code> is not that difficult, and 
 elements it will return an <code>IndexError</code> a common used exception. As <code>first</code> and
 <code>last</code> are already coded and it's easy to maintain I'll leave them as they are
 and assume that <code>search</code> won't have them.</p>
+<p>After a deeper analysis, <code>last</code> and <code>fist</code> take into account both staged and
+stored entities, so it's not equal to <code>[0]</code> and <code>[-1]</code>.</p>
 <h2 id="decision">Decision<a class="headerlink" href="#decision" title="Permanent link">&para;</a></h2>
 <!-- What is the change that we're proposing and/or doing? -->
 
@@ -855,13 +891,50 @@ and assume that <code>search</code> won't have them.</p>
     <code>search</code>, <code>first</code>, and <code>last</code> will change.</li>
 </ul>
 <p>The users will have 3 months to do the changes.</p>
+<h3 id="implementation">Implementation<a class="headerlink" href="#implementation" title="Permanent link">&para;</a></h3>
+<h4 id="on-2022-06-10">On 2022-06-10<a class="headerlink" href="#on-2022-06-10" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Change the signature of <code>__init__</code> of the repositories to remove the <code>models</code>
+    argument.</li>
+<li>Change the signature of <code>get</code>, <code>all</code>, <code>search</code>, <code>first</code>, <code>last</code>, in <code>adapters/data/abstract.py</code> by:<ul>
+<li>Simplifying the <code>models</code> signature from <code>OptionalModelOrModels</code> to
+    <code>Optional[Type[Entity]]</code>.</li>
+<li>Add the <code>model</code> argument with temporal signature <code>Optional[Type[Entity]]</code>
+    in the ordered position of <code>models</code> so that users that are using
+    positional arguments start using this variable. The <code>Optional</code> signature
+    is there in case users are using the named argument <code>models</code> instead of
+    by position, but in the end it will become <code>Type[Entity]</code>.</li>
+</ul>
+</li>
+</ul>
+<h4 id="on-2022-12-10">On 2022-12-10<a class="headerlink" href="#on-2022-12-10" title="Permanent link">&para;</a></h4>
+<p>We didn't plan well the migration, as we still have an argument called <code>models</code>
+when we only support one model! Now we need to do another migration in case that
+users are using this named argument, instead of position arguments.</p>
+<ul>
+<li>
+<p>Change the signature of <code>__init__</code> of the repositories to remove the
+    <code>search_exception</code> transition argument.</p>
+</li>
+<li>
+<p>Change the signature of <code>get</code>, <code>all</code>, <code>search</code>, <code>first</code>, <code>last</code>, in <code>adapters/data/abstract.py</code> by:</p>
+<ul>
+<li>Removing the <code>models</code> argument.</li>
+<li>Simplifying the <code>model</code> argument signature to <code>Type[Entity]</code>.</li>
+</ul>
+</li>
+<li>
+<p>Change the signature of <code>load_repository</code> of <code>services.py</code> to remove <code>models</code>
+    and <code>search_exception</code>.</p>
+</li>
+</ul>
 
   <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2022-03-28T20:35:38+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2022-03-28</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2022-06-08T20:28:42+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2022-06-08</span>
       
     
   </small>
@@ -869,10 +942,11 @@ and assume that <code>search</code> won't have them.</p>
 
               
             </article>
+            
           </div>
         </div>
         
-          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
             Back to top
           </a>
@@ -901,10 +975,10 @@ and assume that <code>search</code> won't have them.</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.b028fd86.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.a6c66575.min.js"></script>
+      <script src="../../assets/javascripts/bundle.f758a944.min.js"></script>
       
         <script src="../../js/timeago.min.js"></script>
       

@@ -99,7 +99,7 @@ test-examples:
 	@echo ""
 
 .PHONY: all
-all: lint mypy test security
+all: lint mypy test security build-docs
 
 .PHONY: clean
 clean:

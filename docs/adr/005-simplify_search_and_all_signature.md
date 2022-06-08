@@ -121,6 +121,9 @@ elements it will return an `IndexError` a common used exception. As `first` and
 `last` are already coded and it's easy to maintain I'll leave them as they are
 and assume that `search` won't have them.
 
+After a deeper analysis, `last` and `fist` take into account both staged and
+stored entities, so it's not equal to `[0]` and `[-1]`.
+
 # Decision
 <!-- What is the change that we're proposing and/or doing? -->
 
@@ -145,3 +148,34 @@ Cons:
     `search`, `first`, and `last` will change.
 
 The users will have 3 months to do the changes.
+
+## Implementation
+
+### On 2022-06-10
+
+* Change the signature of `__init__` of the repositories to remove the `models`
+    argument.
+* Change the signature of `get`, `all`, `search`, `first`, `last`, in `adapters/data/abstract.py` by:
+    * Simplifying the `models` signature from `OptionalModelOrModels` to
+        `Optional[Type[Entity]]`.
+    * Add the `model` argument with temporal signature `Optional[Type[Entity]]`
+        in the ordered position of `models` so that users that are using
+        positional arguments start using this variable. The `Optional` signature
+        is there in case users are using the named argument `models` instead of
+        by position, but in the end it will become `Type[Entity]`.
+
+### On 2022-12-10
+
+We didn't plan well the migration, as we still have an argument called `models`
+when we only support one model! Now we need to do another migration in case that
+users are using this named argument, instead of position arguments.
+
+* Change the signature of `__init__` of the repositories to remove the
+    `search_exception` transition argument.
+
+* Change the signature of `get`, `all`, `search`, `first`, `last`, in `adapters/data/abstract.py` by:
+    * Removing the `models` argument.
+    * Simplifying the `model` argument signature to `Type[Entity]`.
+
+* Change the signature of `load_repository` of `services.py` to remove `models`
+    and `search_exception`.

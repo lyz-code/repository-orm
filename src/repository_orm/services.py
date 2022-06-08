@@ -6,6 +6,7 @@ and handlers to achieve the program's purpose.
 
 # W0611: It thinks tat AnyStr is not used, but it is
 
+import warnings
 from typing import TYPE_CHECKING, AnyStr, Optional, TypeVar, Union  # noqa: W0611
 
 from .adapters.data.abstract import Models
@@ -26,7 +27,7 @@ Entity = TypeVar("Entity", bound=EntityModel)
 def load_repository(
     database_url: str = "fake://",
     models: Optional[Models[Entity]] = None,
-    search_exception: bool = True,
+    search_exception: Optional[bool] = None,
 ) -> Repository:
     """Load the Repository object that matches the database url protocol.
 
@@ -36,12 +37,25 @@ def load_repository(
     Returns:
         Repository that understands the url protocol.
     """
+    if models is not None:
+        warnings.warn(
+            "In 2022-12-10 using load_repository with the argument "
+            "models is going to be deprecated, please remove argument.",
+            UserWarning,
+        )
+    if search_exception is not None:
+        warnings.warn(
+            "In 2022-12-10 using load_repository with the argument "
+            "search_exception is going to be deprecated as it was a flag to test "
+            "a new behaviour that is now implemented, please remove argument.",
+            UserWarning,
+        )
     if "fake://" in database_url:
-        return FakeRepository(models, "", search_exception)
+        return FakeRepository("", search_exception)
     if "sqlite://" in database_url:
-        return PypikaRepository(models, database_url, search_exception)
+        return PypikaRepository(database_url, search_exception)
     if "tinydb://" in database_url:
-        return TinyDBRepository(models, database_url, search_exception)
+        return TinyDBRepository(database_url, search_exception)
 
     raise ValueError(f"Database URL: {database_url} not recognized.")
 

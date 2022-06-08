@@ -118,18 +118,18 @@ class TestModelName:
 
         assert result == "Entity"
 
-    def test__model_name_returns_expected_name(self) -> None:
+    @pytest.mark.skip("Wait until only versions higher than Python 3.9 are supported")
+    def test_model_name_returns_expected_name_with_classes(self) -> None:
         """
-        Given: An entity
-        When: _model_name is called
+        Given: An entity model
+        When: model_name is called
         Then: The name of the model is returned
         """
-        entity = Entity()
-        with pytest.deprecated_call():
+        model = Entity
 
-            result = entity._model_name  # noqa: W0212
+        result = model.model_name
 
-        assert result == "Entity"
+        assert result == "Entity"  # noqa
 
 
 class TestMerge:

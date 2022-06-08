@@ -4,16 +4,15 @@ import logging
 import os
 import re
 import sqlite3
-from contextlib import suppress
-from sqlite3 import OperationalError, ProgrammingError
-from typing import Dict, List, Type, Union
+from sqlite3 import ProgrammingError
+from typing import Dict, List, Optional, Type, Union
 
 from pypika import Query, Table, functions
 from yoyo import get_backend, read_migrations
 
 from ...exceptions import EntityNotFoundError
 from ...model import EntityID
-from .abstract import Entity, OptionalModelOrModels, OptionalModels, Repository
+from .abstract import Entity, Repository
 
 log = logging.getLogger(__name__)
 
@@ -37,9 +36,8 @@ class PypikaRepository(Repository):
 
     def __init__(
         self,
-        models: OptionalModels[Entity] = None,
         database_url: str = "",
-        search_exception: bool = True,
+        search_exception: Optional[bool] = None,
     ) -> None:
         """Initialize the repository attributes.
 
@@ -47,7 +45,7 @@ class PypikaRepository(Repository):
             database_url: URL specifying the connection to the database.
             models: List of stored entity models.
         """
-        super().__init__(models, database_url, search_exception)
+        super().__init__(database_url, search_exception)
         database_file = database_url.replace("sqlite:///", "")
         if not os.path.isfile(database_file):
             try:
@@ -134,7 +132,7 @@ class PypikaRepository(Repository):
     def _get(
         self,
         value: EntityID,
-        models: OptionalModelOrModels[Entity] = None,
+        model: Type[Entity],
         attribute: str = "id_",
     ) -> List[Entity]:
         """Obtain all entities from the repository that match an id_.
@@ -142,42 +140,33 @@ class PypikaRepository(Repository):
         If the attribute argument is passed, check that attribute instead.
 
         Args:
-            models: Entity class or classes to obtain.
             value: Value of the entity attribute to obtain.
+            model: Entity class to obtain.
             attribute: Entity attribute to check.
 
         Returns:
             entities: All entities that match the criteria.
         """
-        matching_entities = []
-        models = self._build_models(models)
+        table = self._table_model(model)
+        query = Query.from_(table).select("*")
+        if attribute == "id_":
+            query = query.where(table.id == value)
+        else:
+            query = query.where(getattr(table, attribute) == value)
 
-        for model in models:
-            table = self._table_model(model)
-            query = Query.from_(table).select("*")
-            if attribute == "id_":
-                query = query.where(table.id == value)
-            else:
-                query = query.where(getattr(table, attribute) == value)
-            matching_entities += self._build_entities(model, query)
+        return self._build_entities(model, query)
 
-        return matching_entities
-
-    def _all(self, models: OptionalModelOrModels[Entity] = None) -> List[Entity]:
+    def _all(self, model: Type[Entity]) -> List[Entity]:
         """Get all the entities from the repository whose class is included in models.
 
+        Particular implementation of the database adapter.
+
         Args:
-            models: Entity class or classes to obtain.
+            models: Entity class to obtain.
         """
-        entities = []
-        models = self._build_models(models)
-
-        for model in models:
-            table = self._table_model(model)
-            query = Query.from_(table).select("*")
-            entities += self._build_entities(model, query)
-
-        return entities
+        table = self._table_model(model)
+        query = Query.from_(table).select("*")
+        return self._build_entities(model, query)
 
     def _build_entities(self, model: Type[Entity], query: Query) -> List[Entity]:
         """Build Entity objects from the data extracted from the database.
@@ -209,46 +198,33 @@ class PypikaRepository(Repository):
     def _search(
         self,
         fields: Dict[str, EntityID],
-        models: OptionalModelOrModels[Entity] = None,
+        model: Type[Entity],
     ) -> List[Entity]:
         """Get the entities whose attributes match one or several conditions.
 
+        Particular implementation of the database adapter.
+
         Args:
-            models: Entity class or classes to obtain.
+            model: Entity class to obtain.
             fields: Dictionary with the {key}:{value} to search.
 
         Returns:
             entities: List of Entity object that matches the search criteria.
-
-        Raises:
-            EntityNotFoundError: If the entities are not found.
         """
-        entities: List[Entity] = []
-        models = self._build_models(models)
+        table = self._table_model(model)
+        query = Query.from_(table).select("*")
 
-        for model in models:
-            table = self._table_model(model)
-            query = Query.from_(table).select("*")
+        for key, value in fields.items():
+            if key == "id_":
+                key = "id"
+            if isinstance(value, str):
+                query = query.where(
+                    functions.Lower(getattr(table, key)).regexp(value.lower())
+                )
+            else:
+                query = query.where(getattr(table, key) == value)
 
-            for key, value in fields.items():
-                if key == "id_":
-                    key = "id"
-                if isinstance(value, str):
-                    query = query.where(
-                        functions.Lower(getattr(table, key)).regexp(value.lower())
-                    )
-                else:
-                    query = query.where(getattr(table, key) == value)
-
-            with suppress(OperationalError):
-                entities += self._build_entities(model, query)
-
-        if len(entities) == 0:
-            raise self._model_not_found(
-                models, f" that match the search filter {fields}"
-            )
-
-        return entities
+        return self._build_entities(model, query)
 
     def apply_migrations(self, migrations_directory: str) -> None:
         """Run the migrations of the repository schema.

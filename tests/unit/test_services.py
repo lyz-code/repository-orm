@@ -4,6 +4,7 @@ import sqlite3
 from typing import Tuple
 
 import pytest
+from tests.cases.model import Author
 from tinydb import TinyDB
 
 from repository_orm import (
@@ -14,8 +15,6 @@ from repository_orm import (
     load_file_repository,
     load_repository,
 )
-
-from ..cases.model import Author
 
 
 class TestLoadRepository:
@@ -79,28 +78,23 @@ class TestLoadRepository:
         """
         Given: Nothing
         When: load_repository is called with the models.
-        Then: they are saved
+        Then: a warning is raised not to use it
         """
-        models = [Author]
-        with pytest.warns(UserWarning, match="In 2022-06-10.*deprecated"):
+        with pytest.warns(UserWarning, match="In 2022-12-10.*deprecated"):
 
-            result = load_repository(models=models)
-
-        assert result.models == models
+            load_repository(models=[Author])  # act
 
     def test_load_repository_set_search_exception_false(self) -> None:
         """
-        Given: loading the repository with search_exception False
-        When: running search on a criteria that returns no results
-        Then: an empty list is returned instead of an exception.
+        Given: Nothing
+        When: loading the repository with search_exception not None
+        Then: a warning is raised not to use it
 
         See ADR 005 for more info.
         """
-        repo = load_repository(search_exception=False)
+        with pytest.warns(UserWarning, match="In 2022-12-10.*deprecated"):
 
-        result = repo.search({"id_": 1}, Author)
-
-        assert result == []
+            load_repository(search_exception=False)  # act
 
 
 class TestLoadFileRepository:

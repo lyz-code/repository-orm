@@ -486,8 +486,8 @@ class TestGet:
         entities = AuthorFactory.batch(2, name="same name")
         repo.add(entities)
         repo.commit()
-        with pytest.raises(TooManyEntitiesError, match=""):
 
+        with pytest.raises(TooManyEntitiesError, match=""):
             repo.get("same name", Author, "name")  # act
 
     def test_repository_can_retrieve_an_entity_by_a_different_attribute(
@@ -685,8 +685,11 @@ class TestSearch:
 
 
 class TestSearchOnLists:
-    # Supported by Fake and TinyDB, not by Pypika yet. Once mappers are supported
-    # it should be easy to add this particular case."
+    """
+    Supported by Fake and TinyDB, not by Pypika yet. Once mappers are supported
+    it should be easy to add this particular case.
+    """
+
     def test_repo_can_search_in_list_of_str_attribute_tinydb(
         self, repo_tinydb: Repository
     ) -> None:

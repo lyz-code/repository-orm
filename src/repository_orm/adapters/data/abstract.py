@@ -358,11 +358,12 @@ class Repository(abc.ABC):
         raise NotImplementedError
 
 
+# no cover: it's a transition function to deprecate stuff
 def warn_on_models(
     models: Optional[Type[Entity]], method: str, model: Optional[Type[Entity]]
 ) -> Type[Entity]:
     """Warn users that using the models argument is going to be deprecated."""
-    if models is not None:
+    if models is not None:  # pragma: no cover
         warnings.warn(
             f"In 2022-12-10 using repo.{method} with the argument `models` is going to "
             "be deprecated, please use the argument `model`.",
@@ -370,7 +371,7 @@ def warn_on_models(
         )
         return models
     if model is None:
-        raise ValueError(
+        raise ValueError(  # pragma: no cover
             f"the `model` argument of the method repo.{method} can't be None"
         )
 

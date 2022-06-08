@@ -358,7 +358,4 @@ def _regexp_in_list(list_: Iterable[Any], regular_expression: str) -> bool:
     """Test if regexp matches any element of the list."""
     regexp = re.compile(regular_expression)
 
-    try:
-        return any(regexp.search(element) for element in list_)
-    except TypeError:
-        return False
+    return any(regexp.search(element) for element in list_)

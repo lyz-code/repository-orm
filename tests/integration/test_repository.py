@@ -12,7 +12,7 @@ import pytest
 from _pytest.logging import LogCaptureFixture
 from py._path.local import LocalPath
 from pydantic import ValidationError
-from tests.cases.entities import BookFactory, GenreFactory
+from tests.cases.entities import AuthorFactory, BookFactory, GenreFactory
 from tests.cases.model import Book
 
 from repository_orm import (
@@ -21,6 +21,7 @@ from repository_orm import (
     Repository,
     TinyDBRepository,
 )
+from repository_orm.exceptions import TooManyEntitiesError
 
 from ..cases import Entity, RepositoryTester
 from ..cases.entities import ListEntityFactory
@@ -98,6 +99,14 @@ class TestDBConnection:
         repo.close()  # act
 
         assert repo.is_closed
+
+    def test_repository_is_open(self, repo: Repository) -> None:
+        """
+        Given: An open repository
+        When: calling the is_closed property
+        Then: false is returned
+        """
+        assert not repo.is_closed  # act
 
 
 @pytest.mark.parametrize("merge", [True, False])
@@ -466,6 +475,21 @@ class TestGet:
         ):
             repo.get(entity.id_, type(entity))
 
+    def test_repository_raises_error_if_get_finds_more_than_one_entity(
+        self, repo: Repository
+    ) -> None:
+        """
+        Given: Two entities of different type with the same ID
+        When: We get the ID without specifying the model
+        Then: a TooManyEntitiesError error is raised
+        """
+        entities = AuthorFactory.batch(2, name="same name")
+        repo.add(entities)
+        repo.commit()
+        with pytest.raises(TooManyEntitiesError, match=""):
+
+            repo.get("same name", Author, "name")  # act
+
     def test_repository_can_retrieve_an_entity_by_a_different_attribute(
         self,
         repo: Repository,
@@ -659,16 +683,19 @@ class TestSearch:
 
         assert result == [author]
 
-    @pytest.mark.skip(
-        "Supported by Fake and TinyDB, not by Pypika yet. Once mappers are supported "
-        "it should be easy to add this particular case."
-    )
-    def test_repo_can_search_in_list_of_str_attribute(self, repo: Repository) -> None:
+
+class TestSearchOnLists:
+    # Supported by Fake and TinyDB, not by Pypika yet. Once mappers are supported
+    # it should be easy to add this particular case."
+    def test_repo_can_search_in_list_of_str_attribute_tinydb(
+        self, repo_tinydb: Repository
+    ) -> None:
         """
         Given: A repository with an entity that contains an attribute with a list of str
         When: search is called with a regexp that  matches one of the list elements
         Then: the entity is returned
         """
+        repo = repo_tinydb
         expected_entity = ListEntityFactory.build()
         repo.add(expected_entity)
         repo.commit()
@@ -677,6 +704,56 @@ class TestSearch:
         result = repo.search({"elements": regexp}, ListEntity)
 
         assert result == [expected_entity]
+
+    def test_repo_can_search_in_list_of_str_attribute_fake(
+        self, repo_fake: Repository
+    ) -> None:
+        """
+        Given: A repository with an entity that contains an attribute with a list of str
+        When: search is called with a regexp that  matches one of the list elements
+        Then: the entity is returned
+        """
+        repo = repo_fake
+        expected_entity = ListEntityFactory.build()
+        repo.add(expected_entity)
+        repo.commit()
+        regexp = rf"{expected_entity.elements[0][:-1]}."
+
+        result = repo.search({"elements": regexp}, ListEntity)
+
+        assert result == [expected_entity]
+
+    def test_search_in_list_of_str_tinydb_no_results(
+        self, repo_tinydb: Repository
+    ) -> None:
+        """
+        Given: A repository with no entities
+        When: search is called with a regexp that doesn't match any element
+        Then: an empty list is returned
+        """
+        repo = repo_tinydb
+        expected_entity = ListEntityFactory.build()
+        repo.add(expected_entity)
+        repo.commit()
+
+        result = repo.search({"elements": "no match"}, ListEntity)
+
+        assert result == []
+
+    def test_search_in_list_of_str_fake_no_results(self, repo_fake: Repository) -> None:
+        """
+        Given: A repository with no entities
+        When: search is called with a regexp that doesn't match any element
+        Then: an empty list is returned
+        """
+        repo = repo_fake
+        expected_entity = ListEntityFactory.build()
+        repo.add(expected_entity)
+        repo.commit()
+
+        result = repo.search({"elements": "no match"}, ListEntity)
+
+        assert result == []
 
 
 class TestDelete:

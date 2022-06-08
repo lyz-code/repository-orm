@@ -1,3 +1,9 @@
+## 1.3.1 (2022-06-08)
+
+### Fix
+
+- Implement the ADR 005 deprecation
+
 ## 1.3.0 (2022-05-02)
 
 ### Refactor

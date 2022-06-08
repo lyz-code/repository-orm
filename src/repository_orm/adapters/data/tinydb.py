@@ -3,9 +3,8 @@
 import logging
 import os
 import re
-import warnings
 from contextlib import suppress
-from typing import Any, Dict, Iterable, List
+from typing import Any, Dict, Iterable, List, Optional, Type
 
 from pydantic import ValidationError
 from tinydb import Query, TinyDB
@@ -16,14 +15,7 @@ from tinydb_serialization.serializers import DateTimeSerializer
 
 from ...exceptions import EntityNotFoundError
 from ...model import EntityID
-from .abstract import (
-    Entity,
-    Models,
-    OptionalModelOrModels,
-    OptionalModels,
-    Repository,
-    warn_on_models,
-)
+from .abstract import Entity, Repository, warn_on_models
 
 log = logging.getLogger(__name__)
 
@@ -33,17 +25,15 @@ class TinyDBRepository(Repository):
 
     def __init__(
         self,
-        models: OptionalModels[Entity] = None,
         database_url: str = "",
-        search_exception: bool = True,
+        search_exception: Optional[bool] = None,
     ) -> None:
         """Initialize the repository attributes.
 
         Args:
             database_url: URL specifying the connection to the database.
-            models: List of stored entity models.
         """
-        super().__init__(models, database_url, search_exception)
+        super().__init__(database_url, search_exception)
         self.database_file = os.path.expanduser(database_url.replace("tinydb://", ""))
         if not os.path.isfile(self.database_file):
             try:
@@ -94,7 +84,7 @@ class TinyDBRepository(Repository):
     def _get(
         self,
         value: EntityID,
-        models: OptionalModelOrModels[Entity] = None,
+        model: Type[Entity],
         attribute: str = "id_",
     ) -> List[Entity]:
         """Obtain all entities from the repository that match an id_.
@@ -102,75 +92,64 @@ class TinyDBRepository(Repository):
         If the attribute argument is passed, check that attribute instead.
 
         Args:
-            models: Entity class or classes to obtain.
             value: Value of the entity attribute to obtain.
+            model: Entity class to obtain.
             attribute: Entity attribute to check.
 
         Returns:
             entities: All entities that match the criteria.
         """
-        models = self._build_models(models)
-        model_query = self._build_model_query(models)
+        model_query = Query().model_type_ == model.__name__.lower()
 
         matching_entities_data = self.db_.search(
             (Query()[attribute] == value) & (model_query)
         )
 
         return [
-            self._build_entity(entity_data, models)
+            self._build_entity(entity_data, model)
             for entity_data in matching_entities_data
         ]
 
+    @staticmethod
     def _build_entity(
-        self,
         entity_data: Dict[Any, Any],
-        models: OptionalModelOrModels[Entity] = None,
+        model: Type[Entity],
     ) -> Entity:
         """Create an entity from the data stored in a row of the database.
 
         Args:
             entity_data: Dictionary with the attributes of the entity.
-            models: Type of entity object to obtain.
+            model: Type of entity object to obtain.
 
         Returns:
             entity: Built Entity.
         """
         # If we don't copy the data, the all method stop being idempotent.
         entity_data = entity_data.copy()
-        model_name = entity_data.pop("model_type_")
-        models = self._build_models(models)
+        try:
+            return model.parse_obj(entity_data)
+        except ValidationError as error:
+            log.error(
+                f"Error loading the model {model.__name__} "
+                f"for the register {str(entity_data)}"
+            )
+            raise error
 
-        for model in models:
-            if model.schema()["title"].lower() == model_name:
-                try:
-                    return model.parse_obj(entity_data)
-                except ValidationError as error:
-                    log.error(
-                        f"Error loading the model {model_name.capitalize()} "
-                        f"for the register {str(entity_data)}"
-                    )
-                    raise error
-        # no cover: this code is going to disappear soon, it makes no sense to create
-        # a new test
-        raise ValueError(f"No model found with name {model_name}")  # pragma: no cover
-
-    def _all(self, models: OptionalModelOrModels[Entity] = None) -> List[Entity]:
+    def _all(self, model: Type[Entity]) -> List[Entity]:
         """Get all the entities from the repository whose class is included in models.
 
+        Particular implementation of the database adapter.
+
         Args:
-            models: Entity class or classes to obtain.
+            models: Entity class to obtain.
         """
         entities: List[Entity] = []
-        models = self._build_models(models)
 
-        if models == self.models:
-            entities_data = self.db_.all()
-        else:
-            query = self._build_model_query(models)
-            entities_data = self.db_.search(query)
+        query = Query().model_type_ == model.__name__.lower()
+        entities_data = self.db_.search(query)
 
         for entity_data in entities_data:
-            entities.append(self._build_entity(entity_data, models))
+            entities.append(self._build_entity(entity_data, model))
 
         return entities
 
@@ -209,108 +188,81 @@ class TinyDBRepository(Repository):
     def _search(
         self,
         fields: Dict[str, EntityID],
-        models: OptionalModelOrModels[Entity] = None,
+        model: Type[Entity],
     ) -> List[Entity]:
         """Get the entities whose attributes match one or several conditions.
 
+        Particular implementation of the database adapter.
+
         Args:
-            models: Entity class or classes to obtain.
+            model: Entity class to obtain.
             fields: Dictionary with the {key}:{value} to search.
 
         Returns:
             entities: List of Entity object that matches the search criteria.
-
-        Raises:
-            EntityNotFoundError: If the entities are not found.
         """
         entities: List[Entity] = []
-        models = self._build_models(models)
-        query = self._build_search_query(fields, models)
+        try:
+            query = self._build_search_query(fields, model)
+        except EntityNotFoundError:
+            return []
 
         # Build entities
         entities_data = self.db_.search(query)
 
         for entity_data in entities_data:
-            entities.append(self._build_entity(entity_data, models))
-
-        if len(entities) == 0:
-            raise self._model_not_found(
-                models, f" that match the search filter {fields}"
-            )
+            entities.append(self._build_entity(entity_data, model))
 
         return entities
 
     def _build_search_query(
         self,
         fields: Dict[str, EntityID],
-        models: Models[Entity],
+        model: Type[Entity],
     ) -> QueryInstance:
         """Build the Query parts for a repository search.
 
-        Select only the models that contain the fields. If the field type is a list,
-        change the query accordingly.
+        If the field type is a list, change the query accordingly.
 
         Args:
-            models: Type of entity object to obtain.
+            model: Type of entity object to obtain.
             fields: Dictionary with the {key}:{value} to search.
 
         Returns:
-            Query based on the type of models and fields.
+            Query based on the type of model and fields.
         """
         query_parts = []
 
-        for model in models:
-            model_query_parts = []
-            schema = model.schema()["properties"]
-            for field, value in fields.items():
-                if field not in schema.keys():
+        schema = model.schema()["properties"]
+        for field, value in fields.items():
+            if field not in schema.keys():
+                continue
+
+            with suppress(KeyError):
+                if schema[field]["type"] == "array":
+                    query_parts.append(
+                        (Query().model_type_ == model.__name__.lower())
+                        & (Query()[field].test(_regexp_in_list, value))
+                    )
                     continue
 
-                with suppress(KeyError):
-                    if schema[field]["type"] == "array":
-                        model_query_parts.append(
-                            (Query().model_type_ == model.__name__.lower())
-                            & (Query()[field].test(_regexp_in_list, value))
-                        )
-                        continue
+            if isinstance(value, str):
+                query_parts.append(
+                    (Query().model_type_ == model.__name__.lower())
+                    & (Query()[field].search(value, flags=re.IGNORECASE))
+                )
+            else:
+                query_parts.append(
+                    (Query().model_type_ == model.__name__.lower())
+                    & (Query()[field] == value)
+                )
+        if len(query_parts) != 0:
+            return self._merge_query(query_parts, mode="and")
 
-                if isinstance(value, str):
-                    model_query_parts.append(
-                        (Query().model_type_ == model.__name__.lower())
-                        & (Query()[field].search(value, flags=re.IGNORECASE))
-                    )
-                else:
-                    model_query_parts.append(
-                        (Query().model_type_ == model.__name__.lower())
-                        & (Query()[field] == value)
-                    )
-            if len(model_query_parts) != 0:
-                query_parts.append(self._merge_query(model_query_parts, mode="and"))
-        if len(query_parts) == 0:
-            raise self._model_not_found(
-                models, f" that match the search filter {fields}"
-            )
-
-        return self._merge_query(query_parts, mode="or")
-
-    def _build_model_query(
-        self,
-        models: Models[Entity],
-    ) -> QueryInstance:
-        """Build the Query parts from the models.
-
-        Args:
-            models: Type of entity object to obtain.
-
-        Returns:
-            List of query parts based on the type of models
-        """
-        query_parts = []
-
-        for model in models:
-            query_parts.append(Query().model_type_ == model.__name__.lower())
-
-        return self._merge_query(query_parts, mode="or")
+        raise EntityNotFoundError(
+            f"There are no entities of type {model.__name__} in the repository "
+            f" that match the search filter {fields}"
+        )
 
     @staticmethod
     def _merge_query(
@@ -344,11 +296,15 @@ class TinyDBRepository(Repository):
         """
         raise NotImplementedError
 
-    def last(self, models: OptionalModelOrModels[Entity] = None) -> Entity:
+    def last(
+        self,
+        model: Optional[Type[Entity]] = None,
+        models: Optional[Type[Entity]] = None,
+    ) -> Entity:
         """Get the biggest entity from the repository.
 
         Args:
-            models: Entity class or classes to obtain.
+            model: Entity class to obtain.
 
         Returns:
             entity: Biggest Entity object of type models.
@@ -356,21 +312,14 @@ class TinyDBRepository(Repository):
         Raises:
             EntityNotFoundError: If there are no entities.
         """
-        warn_on_models(models, "last")
-        models = self._build_models(models)
+        model = warn_on_models(models, "last", model)
         try:
-            with warnings.catch_warnings():
-                warnings.filterwarnings(
-                    "ignore", message="In 2022-06-10.*list of models"
-                )
-                last_index_entity: Entity = super().last(models)
+            last_index_entity: Entity = super().last(model)
         except EntityNotFoundError as empty_repo:
             try:
                 # Empty repo but entities staged to be commited.
                 return max(
-                    entity
-                    for entity in self.staged["add"]
-                    if entity.__class__ in models
+                    entity for entity in self.staged["add"] if entity.__class__ == model
                 )
             except ValueError as no_staged_entities:
                 # Empty repo and no entities staged.
@@ -378,7 +327,7 @@ class TinyDBRepository(Repository):
 
         try:
             last_staged_entity = max(
-                entity for entity in self.staged["add"] if entity.__class__ in models
+                entity for entity in self.staged["add"] if entity.__class__ == model
             )
         except ValueError:
             # Full repo and no staged entities.
@@ -409,7 +358,4 @@ def _regexp_in_list(list_: Iterable[Any], regular_expression: str) -> bool:
     """Test if regexp matches any element of the list."""
     regexp = re.compile(regular_expression)
 
-    try:
-        return any(regexp.search(element) for element in list_)
-    except TypeError:
-        return False
+    return any(regexp.search(element) for element in list_)

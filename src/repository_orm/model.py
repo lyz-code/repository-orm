@@ -1,7 +1,6 @@
 """Store the common business model of all entities."""
 
 import os
-import warnings
 from datetime import datetime
 from typing import Any, AnyStr, Dict, Generic, List, Optional, Union
 
@@ -68,13 +67,7 @@ class Entity(BaseModel):
     @property
     def model_name(self) -> str:
         """Return the entity model name."""
-        return self.__class__.__name__
-
-    @property
-    def _model_name(self) -> str:  # pragma: nocover
-        """Return the entity model name."""
-        warnings.warn("Use model_name instead before 2022-06-10", DeprecationWarning)
-        return self.model_name
+        return self.schema()["title"]
 
     def merge(self, other: "Entity") -> "Entity":
         """Update the attributes with the ones manually set by the user of other.

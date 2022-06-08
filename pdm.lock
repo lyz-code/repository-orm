@@ -129,6 +129,11 @@ dependencies = [
 ]
 
 [[package]]
+name = "cached-property"
+version = "1.5.2"
+summary = "A decorator for caching properties in classes."
+
+[[package]]
 name = "certifi"
 version = "2022.5.18.1"
 requires_python = ">=3.6"
@@ -553,6 +558,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "griffe"
+version = "0.20.0"
+requires_python = ">=3.7"
+summary = "Signatures for entire Python programs. Extract the structure, the frame, the skeleton of your project, to generate API documentation or find breaking changes in your API."
+dependencies = [
+    "cached-property; python_version < \"3.8\"",
+]
+
+[[package]]
 name = "htmlmin"
 version = "0.1.12"
 summary = "An HTML Minifier"
@@ -801,6 +815,27 @@ dependencies = [
 ]
 
 [[package]]
+name = "mkdocstrings-python"
+version = "0.7.0"
+requires_python = ">=3.7"
+summary = "A Python handler for mkdocstrings."
+dependencies = [
+    "griffe>=0.11.1",
+    "mkdocstrings>=0.19",
+]
+
+[[package]]
+name = "mkdocstrings"
+version = "0.19.0"
+extras = ["python"]
+requires_python = ">=3.7"
+summary = "Automatic documentation from sources, for MkDocs."
+dependencies = [
+    "mkdocstrings-python>=0.5.2",
+    "mkdocstrings>=0.18",
+]
+
+[[package]]
 name = "mypy"
 version = "0.961"
 requires_python = ">=3.6"
@@ -859,7 +894,8 @@ dependencies = [
 
 [[package]]
 name = "pkginfo"
-version = "1.8.2"
+version = "1.8.3"
+requires_python = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
 summary = "Query metadatdata from sdists / bdists / installed packages."
 
 [[package]]
@@ -1404,7 +1440,7 @@ summary = "Backport of pathlib-compatible object wrapper for zip files"
 
 [metadata]
 lock_version = "3.1"
-content_hash = "sha256:ac51f7fe6f18bb69e4c95b6dd34eb72bacc03cd521b78665aa5882ce403fcfd4"
+content_hash = "sha256:48d93317ba706b9b6f26b67824d9776b43365f10d630ac9c9c036ed73796f7ac"
 
 [metadata.files]
 "argcomplete 1.12.3" = [
@@ -1482,6 +1518,10 @@ content_hash = "sha256:ac51f7fe6f18bb69e4c95b6dd34eb72bacc03cd521b78665aa5882ce4
 "bleach 5.0.0" = [
     {file = "bleach-5.0.0-py3-none-any.whl", hash = "sha256:08a1fe86d253b5c88c92cc3d810fd8048a16d15762e1e5b74d502256e5926aa1"},
     {file = "bleach-5.0.0.tar.gz", hash = "sha256:c6d6cc054bdc9c83b48b8083e236e5f00f238428666d2ce2e083eaa5fd568565"},
+]
+"cached-property 1.5.2" = [
+    {file = "cached_property-1.5.2-py2.py3-none-any.whl", hash = "sha256:df4f613cf7ad9a588cc381aaf4a512d26265ecebd5eb9e1ba12f1319eb85a6a0"},
+    {file = "cached-property-1.5.2.tar.gz", hash = "sha256:9fa5755838eecbb2d234c3aa390bd80fbd3ac6b6869109bfc1b499f7bd89a130"},
 ]
 "certifi 2022.5.18.1" = [
     {file = "certifi-2022.5.18.1-py3-none-any.whl", hash = "sha256:f1d53542ee8cbedbe2118b5686372fb33c297fcd6379b050cca0ef13a597382a"},
@@ -1786,6 +1826,10 @@ content_hash = "sha256:ac51f7fe6f18bb69e4c95b6dd34eb72bacc03cd521b78665aa5882ce4
     {file = "GitPython-3.1.27-py3-none-any.whl", hash = "sha256:5b68b000463593e05ff2b261acff0ff0972df8ab1b70d3cdbd41b546c8b8fc3d"},
     {file = "GitPython-3.1.27.tar.gz", hash = "sha256:1c885ce809e8ba2d88a29befeb385fcea06338d3640712b59ca623c220bb5704"},
 ]
+"griffe 0.20.0" = [
+    {file = "griffe-0.20.0-py3-none-any.whl", hash = "sha256:899e0c9c09baf22b31de1c969a03edaf0ddf72d0a7183df8de746b6c26ed62f4"},
+    {file = "griffe-0.20.0.tar.gz", hash = "sha256:bf181de6e661c0d2a229c1dc7e90db0def280ee3a89c6829fcc1695baee65f7f"},
+]
 "htmlmin 0.1.12" = [
     {file = "htmlmin-0.1.12.tar.gz", hash = "sha256:50c1ef4630374a5d723900096a961cff426dff46b48f34d194a81bbe14eca178"},
 ]
@@ -2033,6 +2077,10 @@ content_hash = "sha256:ac51f7fe6f18bb69e4c95b6dd34eb72bacc03cd521b78665aa5882ce4
     {file = "mkdocstrings-0.19.0-py3-none-any.whl", hash = "sha256:3217d510d385c961f69385a670b2677e68e07b5fea4a504d86bf54c006c87c7d"},
     {file = "mkdocstrings-0.19.0.tar.gz", hash = "sha256:efa34a67bad11229d532d89f6836a8a215937548623b64f3698a1df62e01cc3e"},
 ]
+"mkdocstrings-python 0.7.0" = [
+    {file = "mkdocstrings_python-0.7.0-py3-none-any.whl", hash = "sha256:6964bd92f106766e771ac6cd5bc02643a960602b4d921b95362e31d491e9a6db"},
+    {file = "mkdocstrings-python-0.7.0.tar.gz", hash = "sha256:e54c67890e8bb7dc4604360c8ef5dd214b23b6924de7706f461e3c998d4ea061"},
+]
 "mypy 0.961" = [
     {file = "mypy-0.961-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:697540876638ce349b01b6786bc6094ccdaba88af446a9abb967293ce6eaa2b0"},
     {file = "mypy-0.961-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:b117650592e1782819829605a193360a08aa99f1fc23d1d71e1a75a142dc7e15"},
@@ -2086,9 +2134,9 @@ content_hash = "sha256:ac51f7fe6f18bb69e4c95b6dd34eb72bacc03cd521b78665aa5882ce4
     {file = "pep8_naming-0.13.0-py3-none-any.whl", hash = "sha256:069ea20e97f073b3e6d4f789af2a57816f281ca64b86210c7d471117a4b6bfd0"},
     {file = "pep8-naming-0.13.0.tar.gz", hash = "sha256:9f38e6dcf867a1fb7ad47f5ff72c0ddae544a6cf64eb9f7600b7b3c0bb5980b5"},
 ]
-"pkginfo 1.8.2" = [
-    {file = "pkginfo-1.8.2-py2.py3-none-any.whl", hash = "sha256:c24c487c6a7f72c66e816ab1796b96ac6c3d14d49338293d2141664330b55ffc"},
-    {file = "pkginfo-1.8.2.tar.gz", hash = "sha256:542e0d0b6750e2e21c20179803e40ab50598d8066d51097a0e382cba9eb02bff"},
+"pkginfo 1.8.3" = [
+    {file = "pkginfo-1.8.3-py2.py3-none-any.whl", hash = "sha256:848865108ec99d4901b2f7e84058b6e7660aae8ae10164e015a6dcf5b242a594"},
+    {file = "pkginfo-1.8.3.tar.gz", hash = "sha256:a84da4318dd86f870a9447a8c98340aa06216bfc6f2b7bdc4b8766984ae1867c"},
 ]
 "platformdirs 2.5.2" = [
     {file = "platformdirs-2.5.2-py3-none-any.whl", hash = "sha256:027d8e83a2d7de06bbac4e5ef7e023c02b863d7ea5d079477e722bb41ab25788"},

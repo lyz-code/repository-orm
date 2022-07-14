@@ -14,7 +14,7 @@ summary = "Read/rewrite/write Python ASTs"
 
 [[package]]
 name = "astpretty"
-version = "2.0.0"
+version = "2.1.0"
 requires_python = ">=3.6.1"
 summary = "Pretty print the output of python stdlib `ast.parse`."
 
@@ -1003,11 +1003,11 @@ summary = "Pygments is a syntax highlighting package written in Python."
 
 [[package]]
 name = "pylint"
-version = "2.13.8"
+version = "2.13.9"
 requires_python = ">=3.6.2"
 summary = "python code static checker"
 dependencies = [
-    "astroid<=2.12.0-dev0,>=2.11.3",
+    "astroid<=2.12.0-dev0,>=2.11.5",
     "colorama; sys_platform == \"win32\"",
     "dill>=0.2",
     "isort<6,>=4.2.5",
@@ -1286,7 +1286,7 @@ summary = "A non-validating SQL parser."
 
 [[package]]
 name = "stevedore"
-version = "3.4.0"
+version = "3.5.0"
 requires_python = ">=3.6"
 summary = "Manage dynamic plugins for Python applications"
 dependencies = [
@@ -1471,9 +1471,9 @@ content_hash = "sha256:48d93317ba706b9b6f26b67824d9776b43365f10d630ac9c9c036ed73
     {file = "astor-0.8.1-py2.py3-none-any.whl", hash = "sha256:070a54e890cefb5b3739d19f30f5a5ec840ffc9c50ffa7d23cc9fc1a38ebbfc5"},
     {file = "astor-0.8.1.tar.gz", hash = "sha256:6a6effda93f4e1ce9f618779b2dd1d9d84f1e32812c23a29b3fff6fd7f63fa5e"},
 ]
-"astpretty 2.0.0" = [
-    {file = "astpretty-2.0.0-py2.py3-none-any.whl", hash = "sha256:7f27633ed885033da8b58666e7079ffff7e8e01869ec1aa66484cb5185ea3aa4"},
-    {file = "astpretty-2.0.0.tar.gz", hash = "sha256:e4724bfd753636ba4a84384702e9796e5356969f40af2596d846ce64addde086"},
+"astpretty 2.1.0" = [
+    {file = "astpretty-2.1.0-py2.py3-none-any.whl", hash = "sha256:f81f14b5636f7af81fadb1e3c09ca7702ce4615500d9cc6d6829befb2dec2e3c"},
+    {file = "astpretty-2.1.0.tar.gz", hash = "sha256:8a801fcda604ec741f010bb36d7cbadc3ec8a182ea6fb83e20ab663463e75ff6"},
 ]
 "astroid 2.11.5" = [
     {file = "astroid-2.11.5-py3-none-any.whl", hash = "sha256:14ffbb4f6aa2cf474a0834014005487f7ecd8924996083ab411e7fa0b508ce0b"},
@@ -2239,9 +2239,9 @@ content_hash = "sha256:48d93317ba706b9b6f26b67824d9776b43365f10d630ac9c9c036ed73
     {file = "Pygments-2.12.0-py3-none-any.whl", hash = "sha256:dc9c10fb40944260f6ed4c688ece0cd2048414940f1cea51b8b226318411c519"},
     {file = "Pygments-2.12.0.tar.gz", hash = "sha256:5eb116118f9612ff1ee89ac96437bb6b49e8f04d8a13b514ba26f620208e26eb"},
 ]
-"pylint 2.13.8" = [
-    {file = "pylint-2.13.8-py3-none-any.whl", hash = "sha256:f87e863a0b08f64b5230e7e779bcb75276346995737b2c0dc2793070487b1ff6"},
-    {file = "pylint-2.13.8.tar.gz", hash = "sha256:ced8968c3b699df0615e2a709554dec3ddac2f5cd06efadb69554a69eeca364a"},
+"pylint 2.13.9" = [
+    {file = "pylint-2.13.9-py3-none-any.whl", hash = "sha256:705c620d388035bdd9ff8b44c5bcdd235bfb49d276d488dd2c8ff1736aa42526"},
+    {file = "pylint-2.13.9.tar.gz", hash = "sha256:095567c96e19e6f57b5b907e67d265ff535e588fe26b12b5ebe1fc5645b2c731"},
 ]
 "pymdown-extensions 9.5" = [
     {file = "pymdown_extensions-9.5-py3-none-any.whl", hash = "sha256:ec141c0f4983755349f0c8710416348d1a13753976c028186ed14f190c8061c4"},
@@ -2428,9 +2428,9 @@ content_hash = "sha256:48d93317ba706b9b6f26b67824d9776b43365f10d630ac9c9c036ed73
     {file = "sqlparse-0.4.2-py3-none-any.whl", hash = "sha256:48719e356bb8b42991bdbb1e8b83223757b93789c00910a616a071910ca4a64d"},
     {file = "sqlparse-0.4.2.tar.gz", hash = "sha256:0c00730c74263a94e5a9919ade150dfc3b19c574389985446148402998287dae"},
 ]
-"stevedore 3.4.0" = [
-    {file = "stevedore-3.4.0-py3-none-any.whl", hash = "sha256:920ce6259f0b2498aaa4545989536a27e4e4607b8318802d7ddc3a533d3d069e"},
-    {file = "stevedore-3.4.0.tar.gz", hash = "sha256:59b58edb7f57b11897f150475e7bc0c39c5381f0b8e3fa9f5c20ce6c89ec4aa1"},
+"stevedore 3.5.0" = [
+    {file = "stevedore-3.5.0-py3-none-any.whl", hash = "sha256:a547de73308fd7e90075bb4d301405bebf705292fa90a90fc3bcf9133f58616c"},
+    {file = "stevedore-3.5.0.tar.gz", hash = "sha256:f40253887d8712eaa2bb0ea3830374416736dc8ec0e22f5a65092c1174c44335"},
 ]
 "tabulate 0.8.9" = [
     {file = "tabulate-0.8.9-py3-none-any.whl", hash = "sha256:d7c013fe7abbc5e491394e10fa845f8f32fe54f8dc60c6622c6cf482d25d47e4"},

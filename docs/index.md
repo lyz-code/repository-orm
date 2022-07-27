@@ -45,7 +45,7 @@ It has the following advantages:
 But the following disadvantages:
 
 * An ORM already buys you some decoupling. Changing foreign keys might be hard,
-    but it should be pretty easy to swap between MySQL and Postres if you ever
+    but it should be pretty easy to swap between MySQL and PostgreSQL if you ever
     need to.
 * Maintaining ORM mappings by hand requires extra work and extra code.
 * An extra layer of abstraction is introduced, and although we may hope it will

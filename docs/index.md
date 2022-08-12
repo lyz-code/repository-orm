@@ -69,6 +69,20 @@ There are two kinds of repositories:
 * [*File repositories*](file_repositories.md): Give a common interface to store
     computer file contents.
 
+# Projects using `repository-orm`
+
+If you want to see the library being used in a simple project, check
+[pynbox](https://github.com/lyz-code/pynbox) code. Other projects using
+`repository-orm` are:
+
+* [clinv](https://github.com/lyz-code/clinv): A DevSecOps command line asset
+    inventory tool.
+* [pydo](https://lyz-code.github.io/pydo/): A free software command line task
+    manager built in Python.
+
+If you use the library and want to be listed here, [open an
+issue](https://github.com/lyz-code/repository-orm/issues/new/choose).
+
 # References
 
 As most open sourced programs, `repository-orm` is standing on the shoulders of

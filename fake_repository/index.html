@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://lyz-code.github.io/repository-orm/fake_repository/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.3.9">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.3.9">
     
     
       
@@ -621,8 +621,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../adr/001-entity_id_definition.md
-" class="md-nav__link">
+      <a href="../adr/001-entity_id_definition/" class="md-nav__link">
         001: Entity id_ definition
       </a>
     </li>
@@ -636,8 +635,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../adr/002-support_string_ids.md
-" class="md-nav__link">
+      <a href="../adr/002-support_string_ids/" class="md-nav__link">
         002: String id_ support
       </a>
     </li>
@@ -651,9 +649,50 @@
   
   
     <li class="md-nav__item">
-      <a href="../adr/003-make_entity_models_optional_arguments.md
-" class="md-nav__link">
+      <a href="../adr/003-make_entity_models_optional_arguments/" class="md-nav__link">
         003: Make entity_models optional arguments
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adr/004-add_complex_queries/" class="md-nav__link">
+        004: Add complex queries
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adr/005-simplify_search_and_all_signature/" class="md-nav__link">
+        005: Simplify search and all signature
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adr/006-drop_again_string_ids/" class="md-nav__link">
+        006: Drop support for string IDs
       </a>
     </li>
   
@@ -755,18 +794,18 @@ attribute. The changes are made on that new attribute and once you use the
 <p>Follow the <a href="..#a-simple-example">overview example</a> to see how to use each
 method.</p>
 <dl>
-<dt>[<code>add</code>][repository_orm.adapters.data.fake.FakeRepository.add]</dt>
+<dt><code>add</code></dt>
 <dd>Appends the <code>Entity</code> object to the <code>new_entities</code> attribute.</dd>
-<dt><a class="autorefs autorefs-internal" href="../reference/#repository_orm.adapters.data.fake.FakeRepository.delete"><code>delete</code></a></dt>
+<dt><code>delete</code></dt>
 <dd>Deletes the <code>Entity</code> object from the <code>new_entities</code> attribute.</dd>
-<dt>[<code>get</code>][repository_orm.adapters.data.fake.FakeRepository.get]</dt>
+<dt><code>get</code></dt>
 <dd>Obtain an <code>Entity</code> from the <code>entities</code> attribute by it's ID.</dd>
-<dt><a class="autorefs autorefs-internal" href="../reference/#repository_orm.adapters.data.fake.FakeRepository.commit"><code>commit</code></a></dt>
+<dt><code>commit</code></dt>
 <dd>Persist the changes of <code>new_entities</code> into <code>entities</code>, clearing up
 <code>new_entities</code> afterwards.</dd>
-<dt>[<code>all</code>][repository_orm.adapters.data.fake.FakeRepository.all]</dt>
+<dt><code>all</code></dt>
 <dd>Obtain all the entities of type <code>Entity</code> from the <code>entities</code> attribute.</dd>
-<dt>[<code>search</code>][repository_orm.adapters.data.fake.FakeRepository.search]</dt>
+<dt><code>search</code></dt>
 <dd>
 <p>Obtain the entities whose attributes match one or multiple conditions.</p>
 <p>We use <a href="https://deepdiff.readthedocs.io">DeepDiff's</a>
@@ -774,7 +813,7 @@ method.</p>
 to search for the entities that have the value we're searching for and then
 we search if the key of those entities match the one we're searching for.</p>
 </dd>
-<dt><a class="autorefs autorefs-internal" href="../reference/#repository_orm.adapters.data.fake.FakeRepository.apply_migrations"><code>apply_migrations</code></a></dt>
+<dt><code>apply_migrations</code></dt>
 <dd>
 <p>Run the migrations of the repository schema.</p>
 <p>As the fake repository doesn't have any schema this method does nothing.</p>
@@ -790,7 +829,7 @@ we search if the key of those entities match the one we're searching for.</p>
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2021-12-02T12:49:55+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2021-12-02</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2022-08-12T17:33:01+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2022-08-12</span>
       
     
   </small>

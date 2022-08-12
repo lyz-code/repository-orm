@@ -6,12 +6,11 @@ import json
 import logging
 import os
 import sqlite3
-from typing import Any, AnyStr, Dict, Generator, Generic, List, Type, TypeVar
+from typing import Any, AnyStr, Dict, Generator, Generic, List, Type
 
 from _pytest.logging import LogCaptureFixture
 from pypika import Query, Table
 
-from repository_orm import Entity as EntityModel
 from repository_orm import (
     EntityNotFoundError,
     FakeRepository,
@@ -20,13 +19,11 @@ from repository_orm import (
     PypikaRepository,
     TinyDBRepository,
 )
-
-Entity = TypeVar("Entity", bound=EntityModel)
-Repository = TypeVar("Repository")
-FileRepository = TypeVar("FileRepository")
+from repository_orm.adapters.data.abstract import RepositoryT
+from repository_orm.model import EntityT
 
 
-class RepositoryTester(abc.ABC, Generic[Repository]):
+class RepositoryTester(abc.ABC, Generic[RepositoryT]):
     """Gather common methods and define the interface of the repository testers."""
 
     @abc.abstractmethod
@@ -35,22 +32,22 @@ class RepositoryTester(abc.ABC, Generic[Repository]):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def apply_migrations(self, repo: Repository) -> None:
+    def apply_migrations(self, repo: RepositoryT) -> None:
         """Apply the repository migrations."""
         raise NotImplementedError
 
     @abc.abstractmethod
-    def get_entity(self, database: Any, entity: Entity) -> Entity:
+    def get_entity(self, database: Any, entity: EntityT) -> EntityT:
         """Get the entity object from the data stored in the repository by it's id."""
         raise NotImplementedError
 
     @abc.abstractmethod
-    def get_all(self, database: Any, entity_model: Type[Entity]) -> List[Entity]:
+    def get_all(self, database: Any, entity_model: Type[EntityT]) -> List[EntityT]:
         """Get all the entities of type entity_model from the database."""
         raise NotImplementedError
 
     @abc.abstractmethod
-    def insert_entity(self, database: Any, entity: Entity) -> None:
+    def insert_entity(self, database: Any, entity: EntityT) -> None:
         """Insert the data of an entity into the repository."""
         raise NotImplementedError
 
@@ -65,7 +62,7 @@ class FakeRepositoryTester(RepositoryTester[FakeRepository]):
 
     def assert_schema_exists(  # noqa: R0201
         self,
-        database: FakeRepositoryDB[Entity],  # noqa: W0613
+        database: FakeRepositoryDB[EntityT],  # noqa: W0613
         caplog: LogCaptureFixture,  # noqa: W0613
     ) -> None:
         """Make sure that the repository has a valid schema."""
@@ -73,8 +70,8 @@ class FakeRepositoryTester(RepositoryTester[FakeRepository]):
         assert True
 
     def get_entity(  # noqa: R0201
-        self, database: FakeRepositoryDB[Entity], entity: Entity
-    ) -> Entity:
+        self, database: FakeRepositoryDB[EntityT], entity: EntityT
+    ) -> EntityT:
         """Get the entity object from the data stored in the repository by it's id."""
         try:
             return database[type(entity)][entity.id_]
@@ -82,8 +79,8 @@ class FakeRepositoryTester(RepositoryTester[FakeRepository]):
             raise EntityNotFoundError() from error
 
     def get_all(  # noqa: R0201
-        self, database: FakeRepositoryDB[Entity], entity_model: Type[Entity]
-    ) -> List[Entity]:
+        self, database: FakeRepositoryDB[EntityT], entity_model: Type[EntityT]
+    ) -> List[EntityT]:
         """Get all the entities of type entity_model from the database."""
         try:
             return [entity for entity_id, entity in database[entity_model].items()]
@@ -91,7 +88,7 @@ class FakeRepositoryTester(RepositoryTester[FakeRepository]):
             raise EntityNotFoundError() from error
 
     def insert_entity(  # noqa: R0201
-        self, database: FakeRepositoryDB[Entity], entity: Entity
+        self, database: FakeRepositoryDB[EntityT], entity: EntityT
     ) -> None:
         """Insert the data of an entity into the repository."""
         try:
@@ -112,7 +109,7 @@ class TinyDBRepositoryTester(RepositoryTester[TinyDBRepository]):
         # The fake repository has no schema
         assert True
 
-    def apply_migrations(self, repo: Repository) -> None:
+    def apply_migrations(self, repo: RepositoryT) -> None:
         """Apply the repository migrations."""
 
     @staticmethod
@@ -126,7 +123,7 @@ class TinyDBRepositoryTester(RepositoryTester[TinyDBRepository]):
                 content = '{"_default": {}}'
             return json.loads(content)
 
-    def get_entity(self, database: str, entity: Entity) -> Entity:
+    def get_entity(self, database: str, entity: EntityT) -> EntityT:
         """Get the entity object from the data stored in the repository by it's id."""
         cursor = self._build_cursor(database)
         for _document_id, entry in cursor["_default"].items():
@@ -139,8 +136,8 @@ class TinyDBRepositoryTester(RepositoryTester[TinyDBRepository]):
 
     @staticmethod
     def _build_entity(
-        entity_data: Dict[Any, Any], entity_model: Type[Entity]
-    ) -> Entity:
+        entity_data: Dict[Any, Any], entity_model: Type[EntityT]
+    ) -> EntityT:
         """Create an Entity object from the data stored in the database.
 
         Args:
@@ -158,7 +155,7 @@ class TinyDBRepositoryTester(RepositoryTester[TinyDBRepository]):
 
         return entity_model.parse_obj(entity_data)
 
-    def get_all(self, database: str, entity_model: Type[Entity]) -> List[Entity]:
+    def get_all(self, database: str, entity_model: Type[EntityT]) -> List[EntityT]:
         """Get all the entities of type entity_model from the database."""
         cursor = self._build_cursor(database)
         entities = []
@@ -167,7 +164,7 @@ class TinyDBRepositoryTester(RepositoryTester[TinyDBRepository]):
                 entities.append(self._build_entity(entry, entity_model))
         return entities
 
-    def insert_entity(self, database: str, entity: Entity) -> None:
+    def insert_entity(self, database: str, entity: EntityT) -> None:
         """Insert the data of an entity into the repository."""
         cursor = self._build_cursor(database)
 
@@ -220,8 +217,8 @@ class PypikaRepositoryTester(RepositoryTester[PypikaRepository]):
         ) in caplog.record_tuples
 
     def _build_entities(
-        self, database: str, entity_model: Type[Entity], query: Query
-    ) -> List[Entity]:
+        self, database: str, entity_model: Type[EntityT], query: Query
+    ) -> List[EntityT]:
         """Build Entity objects from the data extracted from the database.
 
         Args:
@@ -234,7 +231,7 @@ class PypikaRepositoryTester(RepositoryTester[PypikaRepository]):
         entities_data = cursor.fetchall()
         attributes = [description[0] for description in cursor.description]
 
-        entities: List[Entity] = []
+        entities = []
         for entity_data in entities_data:
             entity_dict = {
                 attributes[index]: entity_data[index]
@@ -245,7 +242,7 @@ class PypikaRepositoryTester(RepositoryTester[PypikaRepository]):
             entities.append(entity_model(**entity_dict))
         return entities
 
-    def get_entity(self, database: str, entity: Entity) -> Entity:
+    def get_entity(self, database: str, entity: EntityT) -> EntityT:
         """Get the entity object from the data stored in the repository by it's id."""
         table = Table(entity.model_name.lower())
         entities = self._build_entities(
@@ -258,7 +255,7 @@ class PypikaRepositoryTester(RepositoryTester[PypikaRepository]):
         except IndexError as error:
             raise EntityNotFoundError() from error
 
-    def get_all(self, database: str, entity_model: Type[Entity]) -> List[Entity]:
+    def get_all(self, database: str, entity_model: Type[EntityT]) -> List[EntityT]:
         """Get all the entities of type entity_model from the database."""
         table = Table(entity_model.__name__.lower())
         entities = self._build_entities(
@@ -268,7 +265,7 @@ class PypikaRepositoryTester(RepositoryTester[PypikaRepository]):
         )
         return entities
 
-    def insert_entity(self, database: str, entity: Entity) -> None:
+    def insert_entity(self, database: str, entity: EntityT) -> None:
         """Insert the data of an entity into the repository."""
         table = Table(entity.model_name.lower())
         cursor = next(self._build_cursor(database))

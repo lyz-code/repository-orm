@@ -1,4 +1,4 @@
-The [`LocalFileRepository`][repository_orm.adapters.file.LocalFileRepository] stores the file contents in the local file system.
+The [`LocalFileRepository`][repository_orm.adapters.file.local_file.LocalFileRepository] stores the file contents in the local file system.
 
 It stores the [File][repository_orm.model.File]'s contents in a file in the
 local file system.

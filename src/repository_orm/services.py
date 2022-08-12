@@ -4,29 +4,27 @@ Classes and functions that connect the different domain model objects with the a
 and handlers to achieve the program's purpose.
 """
 
-# W0611: It thinks tat AnyStr is not used, but it is
+# W0611: It thinks that AnyStr is not used, but it is
 
 import warnings
-from typing import TYPE_CHECKING, AnyStr, Optional, TypeVar, Union  # noqa: W0611
+from typing import TYPE_CHECKING, AnyStr, Optional, Union  # noqa: W0611
 
 from .adapters.data.abstract import Models
 from .adapters.data.fake import FakeRepository
 from .adapters.data.pypika import PypikaRepository
 from .adapters.data.tinydb import TinyDBRepository
 from .adapters.file.local_file import LocalFileRepository
-from .model import Entity as EntityModel
+from .model import EntityT
 
 if TYPE_CHECKING:
     from .adapters.file.abstract import FileRepository
 
 Repository = Union[FakeRepository, PypikaRepository, TinyDBRepository]
 
-Entity = TypeVar("Entity", bound=EntityModel)
-
 
 def load_repository(
     database_url: str = "fake://",
-    models: Optional[Models[Entity]] = None,
+    models: Optional[Models[EntityT]] = None,
     search_exception: Optional[bool] = None,
 ) -> Repository:
     """Load the Repository object that matches the database url protocol.

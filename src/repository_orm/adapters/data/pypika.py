@@ -11,8 +11,8 @@ from pypika import Query, Table, functions
 from yoyo import get_backend, read_migrations
 
 from ...exceptions import EntityNotFoundError
-from ...model import EntityID
-from .abstract import Entity, Repository
+from ...model import EntityID, EntityT
+from .abstract import Repository
 
 log = logging.getLogger(__name__)
 
@@ -43,7 +43,6 @@ class PypikaRepository(Repository):
 
         Args:
             database_url: URL specifying the connection to the database.
-            models: List of stored entity models.
         """
         super().__init__(database_url, search_exception)
         database_file = database_url.replace("sqlite:///", "")
@@ -68,16 +67,16 @@ class PypikaRepository(Repository):
         return self.cursor.execute(str(query))
 
     @staticmethod
-    def _table(entity: Entity) -> Table:
+    def _table(entity: EntityT) -> Table:
         """Return the table of the selected entity object."""
         return Table(entity.model_name.lower())
 
     @staticmethod
-    def _table_model(model: Type[Entity]) -> Table:
+    def _table_model(model: Type[EntityT]) -> Table:
         """Return the table of the selected entity class."""
         return Table(model.__name__.lower())
 
-    def _add(self, entity: Entity) -> Entity:
+    def _add(self, entity: EntityT) -> EntityT:
         """Append an entity to the repository.
 
         If the id is not set, autoincrement the last.
@@ -110,7 +109,7 @@ class PypikaRepository(Repository):
 
         return entity
 
-    def delete(self, entity: Entity) -> None:
+    def delete(self, entity: EntityT) -> None:
         """Delete an entity from the repository.
 
         Args:
@@ -132,9 +131,9 @@ class PypikaRepository(Repository):
     def _get(
         self,
         value: EntityID,
-        model: Type[Entity],
+        model: Type[EntityT],
         attribute: str = "id_",
-    ) -> List[Entity]:
+    ) -> List[EntityT]:
         """Obtain all entities from the repository that match an id_.
 
         If the attribute argument is passed, check that attribute instead.
@@ -156,7 +155,7 @@ class PypikaRepository(Repository):
 
         return self._build_entities(model, query)
 
-    def _all(self, model: Type[Entity]) -> List[Entity]:
+    def _all(self, model: Type[EntityT]) -> List[EntityT]:
         """Get all the entities from the repository whose class is included in models.
 
         Particular implementation of the database adapter.
@@ -168,7 +167,7 @@ class PypikaRepository(Repository):
         query = Query.from_(table).select("*")
         return self._build_entities(model, query)
 
-    def _build_entities(self, model: Type[Entity], query: Query) -> List[Entity]:
+    def _build_entities(self, model: Type[EntityT], query: Query) -> List[EntityT]:
         """Build Entity objects from the data extracted from the database.
 
         Args:
@@ -180,7 +179,7 @@ class PypikaRepository(Repository):
         entities_data = cursor.fetchall()
         attributes = [description[0] for description in cursor.description]
 
-        entities: List[Entity] = []
+        entities = []
         for entity_data in entities_data:
             entity_dict = {
                 attributes[index]: entity_data[index]
@@ -198,8 +197,8 @@ class PypikaRepository(Repository):
     def _search(
         self,
         fields: Dict[str, EntityID],
-        model: Type[Entity],
-    ) -> List[Entity]:
+        model: Type[EntityT],
+    ) -> List[EntityT]:
         """Get the entities whose attributes match one or several conditions.
 
         Particular implementation of the database adapter.

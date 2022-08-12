@@ -42,4 +42,4 @@ Making generic tests for
 
 The Entities to test are defined in the
 The interface definition of all repositories is done at the
-[AbstractRepository][repository_orm.adapters.abstract.AbstractRepository] class.
+[Repository][repository_orm.adapters.data.abstract.Repository] class.

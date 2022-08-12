@@ -14,8 +14,8 @@ from tinydb_serialization import SerializationMiddleware
 from tinydb_serialization.serializers import DateTimeSerializer
 
 from ...exceptions import EntityNotFoundError
-from ...model import EntityID
-from .abstract import Entity, Repository, warn_on_models
+from ...model import EntityID, EntityT
+from .abstract import Repository, warn_on_models
 
 log = logging.getLogger(__name__)
 
@@ -52,7 +52,7 @@ class TinyDBRepository(Repository):
         )
         self.staged: Dict[str, List[Any]] = {"add": [], "remove": []}
 
-    def _add(self, entity: Entity) -> Entity:
+    def _add(self, entity: EntityT) -> EntityT:
         """Append an entity to the repository.
 
         If the id is not set, autoincrement the last.
@@ -67,7 +67,7 @@ class TinyDBRepository(Repository):
 
         return entity
 
-    def delete(self, entity: Entity) -> None:
+    def delete(self, entity: EntityT) -> None:
         """Delete an entity from the repository.
 
         Args:
@@ -84,9 +84,9 @@ class TinyDBRepository(Repository):
     def _get(
         self,
         value: EntityID,
-        model: Type[Entity],
+        model: Type[EntityT],
         attribute: str = "id_",
-    ) -> List[Entity]:
+    ) -> List[EntityT]:
         """Obtain all entities from the repository that match an id_.
 
         If the attribute argument is passed, check that attribute instead.
@@ -113,8 +113,8 @@ class TinyDBRepository(Repository):
     @staticmethod
     def _build_entity(
         entity_data: Dict[Any, Any],
-        model: Type[Entity],
-    ) -> Entity:
+        model: Type[EntityT],
+    ) -> EntityT:
         """Create an entity from the data stored in a row of the database.
 
         Args:
@@ -135,7 +135,7 @@ class TinyDBRepository(Repository):
             )
             raise error
 
-    def _all(self, model: Type[Entity]) -> List[Entity]:
+    def _all(self, model: Type[EntityT]) -> List[EntityT]:
         """Get all the entities from the repository whose class is included in models.
 
         Particular implementation of the database adapter.
@@ -143,7 +143,7 @@ class TinyDBRepository(Repository):
         Args:
             models: Entity class to obtain.
         """
-        entities: List[Entity] = []
+        entities = []
 
         query = Query().model_type_ == model.__name__.lower()
         entities_data = self.db_.search(query)
@@ -154,7 +154,7 @@ class TinyDBRepository(Repository):
         return entities
 
     @staticmethod
-    def _export_entity(entity: Entity) -> Dict[Any, Any]:
+    def _export_entity(entity: EntityT) -> Dict[Any, Any]:
         """Export the attributes of the entity appending the required by TinyDB.
 
         Args:
@@ -188,8 +188,8 @@ class TinyDBRepository(Repository):
     def _search(
         self,
         fields: Dict[str, EntityID],
-        model: Type[Entity],
-    ) -> List[Entity]:
+        model: Type[EntityT],
+    ) -> List[EntityT]:
         """Get the entities whose attributes match one or several conditions.
 
         Particular implementation of the database adapter.
@@ -201,7 +201,7 @@ class TinyDBRepository(Repository):
         Returns:
             entities: List of Entity object that matches the search criteria.
         """
-        entities: List[Entity] = []
+        entities = []
         try:
             query = self._build_search_query(fields, model)
         except EntityNotFoundError:
@@ -218,7 +218,7 @@ class TinyDBRepository(Repository):
     def _build_search_query(
         self,
         fields: Dict[str, EntityID],
-        model: Type[Entity],
+        model: Type[EntityT],
     ) -> QueryInstance:
         """Build the Query parts for a repository search.
 
@@ -298,9 +298,9 @@ class TinyDBRepository(Repository):
 
     def last(
         self,
-        model: Optional[Type[Entity]] = None,
-        models: Optional[Type[Entity]] = None,
-    ) -> Entity:
+        model: Optional[Type[EntityT]] = None,
+        models: Optional[Type[EntityT]] = None,
+    ) -> EntityT:
         """Get the biggest entity from the repository.
 
         Args:
@@ -314,7 +314,7 @@ class TinyDBRepository(Repository):
         """
         model = warn_on_models(models, "last", model)
         try:
-            last_index_entity: Entity = super().last(model)
+            last_index_entity = super().last(model)
         except EntityNotFoundError as empty_repo:
             try:
                 # Empty repo but entities staged to be commited.

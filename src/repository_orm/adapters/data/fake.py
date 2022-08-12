@@ -3,17 +3,15 @@
 import copy
 import re
 from contextlib import suppress
-from typing import Dict, List, Optional, Type, TypeVar
+from typing import Dict, List, Optional, Type
 
 from deepdiff import extract, grep
 
 from ...exceptions import EntityNotFoundError
-from ...model import Entity as EntityModel
-from ...model import EntityID
+from ...model import EntityID, EntityT
 from .abstract import Repository, warn_on_models
 
-Entity = TypeVar("Entity", bound=EntityModel)
-FakeRepositoryDB = Dict[Type[EntityModel], Dict[EntityID, Entity]]
+FakeRepositoryDB = Dict[Type[EntityT], Dict[EntityID, EntityT]]
 
 
 class FakeRepository(Repository):
@@ -30,11 +28,11 @@ class FakeRepository(Repository):
             raise ConnectionError(f"Could not create database file: {database_url}")
         # ignore: Type variable "repository_orm.adapters.data.fake.Entity" is unbound
         # I don't know how to fix this
-        self.entities: FakeRepositoryDB[Entity] = {}  # type: ignore
-        self.new_entities: FakeRepositoryDB[Entity] = {}  # type: ignore
+        self.entities: FakeRepositoryDB[EntityT] = {}  # type: ignore
+        self.new_entities: FakeRepositoryDB[EntityT] = {}  # type: ignore
         self.is_connection_closed = False
 
-    def _add(self, entity: Entity) -> Entity:
+    def _add(self, entity: EntityT) -> EntityT:
         """Append an entity to the repository.
 
         Args:
@@ -54,7 +52,7 @@ class FakeRepository(Repository):
 
         return entity
 
-    def delete(self, entity: Entity) -> None:
+    def delete(self, entity: EntityT) -> None:
         """Delete an entity from the repository.
 
         Args:
@@ -75,9 +73,9 @@ class FakeRepository(Repository):
     def _get(
         self,
         value: EntityID,
-        model: Type[Entity],
+        model: Type[EntityT],
         attribute: str = "id_",
-    ) -> List[Entity]:
+    ) -> List[EntityT]:
         """Obtain all entities from the repository that match an id_.
 
         If the attribute argument is passed, check that attribute instead.
@@ -100,7 +98,7 @@ class FakeRepository(Repository):
 
         return copy.deepcopy(matching_entities)
 
-    def _all(self, model: Type[Entity]) -> List[Entity]:
+    def _all(self, model: Type[EntityT]) -> List[EntityT]:
         """Get all the entities from the repository whose class is included in models.
 
         Particular implementation of the database adapter.
@@ -126,8 +124,8 @@ class FakeRepository(Repository):
     def _search(
         self,
         fields: Dict[str, EntityID],
-        model: Type[Entity],
-    ) -> List[Entity]:
+        model: Type[EntityT],
+    ) -> List[EntityT]:
         """Get the entities whose attributes match one or several conditions.
 
         Particular implementation of the database adapter.
@@ -139,7 +137,7 @@ class FakeRepository(Repository):
         Returns:
             entities: List of Entity object that matches the search criteria.
         """
-        all_entities: List[Entity] = self.all(model)
+        all_entities = self.all(model)
         entities_dict = {entity.id_: entity for entity in all_entities}
         entity_attributes = {entity.id_: entity.dict() for entity in all_entities}
 
@@ -188,9 +186,9 @@ class FakeRepository(Repository):
 
     def last(
         self,
-        model: Optional[Type[Entity]] = None,
-        models: Optional[Type[Entity]] = None,
-    ) -> Entity:
+        model: Optional[Type[EntityT]] = None,
+        models: Optional[Type[EntityT]] = None,
+    ) -> EntityT:
         """Get the biggest entity from the repository.
 
         Args:
@@ -203,7 +201,7 @@ class FakeRepository(Repository):
             EntityNotFoundError: If there are no entities.
         """
         try:
-            last_index_entity: Entity = super().last(model)
+            last_index_entity = super().last(model)
         except EntityNotFoundError as empty_repo:
             model = warn_on_models(models, "last", model)
             try:
@@ -215,7 +213,7 @@ class FakeRepository(Repository):
 
         try:
             model = warn_on_models(models, "last", model)
-            last_staged_entity: Entity = max(self._staged_entities(model))
+            last_staged_entity = max(self._staged_entities(model))
         except KeyError:
             # Full repo and no staged entities.
             return last_index_entity
@@ -223,7 +221,7 @@ class FakeRepository(Repository):
         # Full repo and staged entities.
         return max([last_index_entity, last_staged_entity])
 
-    def _staged_entities(self, model: Type[Entity]) -> List[Entity]:
+    def _staged_entities(self, model: Type[EntityT]) -> List[EntityT]:
         """Return a list of staged entities of type models.
 
         Args:

@@ -1,14 +1,11 @@
 """Define the cache of the data repositories."""
 
 from contextlib import suppress
-from typing import Any, Dict, Sequence, Type, TypeVar, Union
+from typing import Any, Dict, Type
 
-from ...model import Entity as EntityModel
-from ...model import EntityID
+from ...model import Entity, EntityID, EntityOrEntitiesT, EntityT
 
-Entity = TypeVar("Entity", bound=EntityModel)
-CacheEntry = Dict[EntityID, Entity]
-EntityOrEntities = Union[Sequence[EntityModel], EntityModel]
+CacheEntry = Dict[EntityID, EntityT]
 
 
 class Cache:
@@ -26,11 +23,11 @@ class Cache:
 
     def __init__(self) -> None:
         """Initialize the class."""
-        self.cache: Dict[Type[EntityModel], CacheEntry[Any]] = {}
+        self.cache: Dict[Type[Entity], CacheEntry[Any]] = {}
 
-    def add(self, entity_or_entities: EntityOrEntities) -> None:
+    def add(self, entity_or_entities: EntityOrEntitiesT) -> None:
         """Add an entity to the cache."""
-        if isinstance(entity_or_entities, EntityModel):
+        if isinstance(entity_or_entities, Entity):
             entities = [entity_or_entities]
         else:
             entities = list(entity_or_entities)
@@ -39,11 +36,11 @@ class Cache:
             self.cache.setdefault(type(entity), {})
             self.cache[type(entity)].setdefault(entity.id_, entity.copy())
 
-    def get(self, entity: Entity) -> Entity:
+    def get(self, entity: EntityT) -> EntityT:
         """Return the cached value of an entity."""
         return self.cache[type(entity)][entity.id_]
 
-    def entity_has_not_changed(self, entity: Entity) -> bool:
+    def entity_has_not_changed(self, entity: EntityT) -> bool:
         """Check if entity is equal to the version in the cache."""
         try:
             if self.get(entity) == entity:
@@ -52,9 +49,9 @@ class Cache:
             return False
         return False
 
-    def remove(self, entity_or_entities: EntityOrEntities) -> None:
+    def remove(self, entity_or_entities: EntityOrEntitiesT) -> None:
         """Remove an entity from the cache if it exists."""
-        if isinstance(entity_or_entities, EntityModel):
+        if isinstance(entity_or_entities, Entity):
             entities = [entity_or_entities]
         else:
             entities = list(entity_or_entities)

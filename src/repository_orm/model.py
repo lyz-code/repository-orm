@@ -2,7 +2,7 @@
 
 import os
 from datetime import datetime
-from typing import Any, AnyStr, Dict, Generic, List, Optional, Union
+from typing import Any, AnyStr, Dict, Generic, List, Optional, Sequence, TypeVar, Union
 
 from pydantic import AnyHttpUrl, BaseModel, PrivateAttr
 
@@ -107,6 +107,10 @@ class Entity(BaseModel):
         a mypy error `Incompatible return value type (got "Entity", expected "Entity")`
         """
         self._defined_values = {}
+
+
+EntityT = TypeVar("EntityT", bound=Entity)
+EntityOrEntitiesT = TypeVar("EntityOrEntitiesT", Sequence[Entity], Entity)
 
 
 class File(Entity, Generic[AnyStr]):

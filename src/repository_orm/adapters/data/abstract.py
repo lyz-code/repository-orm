@@ -62,10 +62,10 @@ class Repository(abc.ABC):
         the cache.
 
         Args:
-            entity: Entity to add to the repository.
+            entities: Entity or entities to add to the repository.
 
         Returns:
-            entity
+            entity or entities
         """
         if isinstance(entities, Entity):
             entity = entities

@@ -43,7 +43,6 @@ class PypikaRepository(Repository):
 
         Args:
             database_url: URL specifying the connection to the database.
-            models: List of stored entity models.
         """
         super().__init__(database_url, search_exception)
         database_file = database_url.replace("sqlite:///", "")

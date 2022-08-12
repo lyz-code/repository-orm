@@ -23,12 +23,12 @@ nav:
       - Create new repository: new_repo.md
   - Architecture Decision Records:
       - adr/adr.md
-      - '001: Entity id_ definition': |
-          adr/001-entity_id_definition.md
-      - '002: String id_ support': |
-          adr/002-support_string_ids.md
-      - '003: Make entity_models optional arguments': |
-          adr/003-make_entity_models_optional_arguments.md
+      - '001: Entity id_ definition': adr/001-entity_id_definition.md
+      - '002: String id_ support': adr/002-support_string_ids.md
+      - '003: Make entity_models optional arguments': adr/003-make_entity_models_optional_arguments.md
+      - '004: Add complex queries': adr/004-add_complex_queries.md
+      - '005: Simplify search and all signature': adr/005-simplify_search_and_all_signature.md
+      - '006: Drop support for string IDs': adr/006-drop_again_string_ids.md
 
 plugins:
   - search

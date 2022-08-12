@@ -786,7 +786,7 @@ class TestDelete:
         self,
         database: Any,
         repo: Repository,
-        repo_tester: RepositoryTester[Entity],
+        repo_tester: RepositoryTester[Repository],
         inserted_entities: List[Entity],
     ) -> None:
         """

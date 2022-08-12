@@ -4,21 +4,17 @@ import abc
 import logging
 import warnings
 from contextlib import suppress
-from typing import Dict, List, Optional, Sequence, Type, TypeVar, Union
+from typing import Dict, List, Optional, Type, TypeVar, Union
 
 from repository_orm.exceptions import TooManyEntitiesError
 
 from ...exceptions import AutoIncrementError, EntityNotFoundError
-from ...model import Entity as EntityModel
-from ...model import EntityID
+from ...model import Entity, EntityID, EntityOrEntitiesT, EntityT
 from .cache import Cache
 
-Entity = TypeVar("Entity", bound=EntityModel)
-EntityOrEntities = TypeVar("EntityOrEntities", Sequence[EntityModel], EntityModel)
-
-Models = List[Type[Entity]]
-OptionalModels = Optional[Models[Entity]]
-OptionalModelOrModels = Optional[Union[Type[Entity], Models[Entity]]]
+Models = List[Type[EntityT]]
+OptionalModels = Optional[Models[EntityT]]
+OptionalModelOrModels = Optional[Union[Type[EntityT], Models[EntityT]]]
 
 log = logging.getLogger(__name__)
 
@@ -55,7 +51,9 @@ class Repository(abc.ABC):
         self.search_exception = search_exception
         self.cache = Cache()
 
-    def add(self, entities: EntityOrEntities, merge: bool = False) -> EntityOrEntities:
+    def add(
+        self, entities: EntityOrEntitiesT, merge: bool = False
+    ) -> EntityOrEntitiesT:
         """Append an entity or list of entities to the repository.
 
         If the id is not set, it will automatically increment the last available one.
@@ -69,7 +67,7 @@ class Repository(abc.ABC):
         Returns:
             entity
         """
-        if isinstance(entities, EntityModel):
+        if isinstance(entities, Entity):
             entity = entities
 
             if isinstance(entity.id_, int) and entity.id_ < 0:
@@ -90,7 +88,7 @@ class Repository(abc.ABC):
             return entity
 
         if isinstance(entities, list):
-            updated_entities: List[EntityModel] = []
+            updated_entities: List[Entity] = []
             for entity in entities:
                 updated_entities.append(self.add(entity, merge))
             return updated_entities
@@ -98,7 +96,7 @@ class Repository(abc.ABC):
         raise ValueError("Please add an entity or a list of entities")
 
     @abc.abstractmethod
-    def _add(self, entity: Entity) -> Entity:
+    def _add(self, entity: EntityT) -> EntityT:
         """Append an entity to the repository.
 
         This method is specific to each database adapter.
@@ -112,7 +110,7 @@ class Repository(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def delete(self, entity: Entity) -> None:
+    def delete(self, entity: EntityT) -> None:
         """Delete an entity from the repository.
 
         Args:
@@ -123,10 +121,10 @@ class Repository(abc.ABC):
     def get(
         self,
         id_: EntityID,
-        model: Optional[Type[Entity]] = None,
+        model: Optional[Type[EntityT]] = None,
         attribute: str = "id_",
-        models: Optional[Type[Entity]] = None,
-    ) -> Entity:
+        models: Optional[Type[EntityT]] = None,
+    ) -> EntityT:
         """Obtain an entity from the repository by it's ID.
 
         Also save the entity in the cache
@@ -165,9 +163,9 @@ class Repository(abc.ABC):
     def _get(
         self,
         value: EntityID,
-        model: Type[Entity],
+        model: Type[EntityT],
         attribute: str = "id_",
-    ) -> List[Entity]:
+    ) -> List[EntityT]:
         """Obtain all entities from the repository that match an id_.
 
         If the attribute argument is passed, check that attribute instead.
@@ -184,9 +182,9 @@ class Repository(abc.ABC):
 
     def all(
         self,
-        model: Optional[Type[Entity]] = None,
-        models: Optional[Type[Entity]] = None,
-    ) -> List[Entity]:
+        model: Optional[Type[EntityT]] = None,
+        models: Optional[Type[EntityT]] = None,
+    ) -> List[EntityT]:
         """Get all the entities from the repository whose class is included in models.
 
         Also store the entities in the cache.
@@ -205,7 +203,7 @@ class Repository(abc.ABC):
         return entities
 
     @abc.abstractmethod
-    def _all(self, model: Type[Entity]) -> List[Entity]:
+    def _all(self, model: Type[EntityT]) -> List[EntityT]:
         """Get all the entities from the repository whose class is included in models.
 
         Particular implementation of the database adapter.
@@ -223,9 +221,9 @@ class Repository(abc.ABC):
     def search(
         self,
         fields: Dict[str, EntityID],
-        model: Optional[Type[Entity]] = None,
-        models: Optional[Type[Entity]] = None,
-    ) -> List[Entity]:
+        model: Optional[Type[EntityT]] = None,
+        models: Optional[Type[EntityT]] = None,
+    ) -> List[EntityT]:
         """Get the entities whose attributes match one or several conditions.
 
         Also add the found entities to the cache.
@@ -250,8 +248,8 @@ class Repository(abc.ABC):
     def _search(
         self,
         fields: Dict[str, EntityID],
-        model: Type[Entity],
-    ) -> List[Entity]:
+        model: Type[EntityT],
+    ) -> List[EntityT]:
         """Get the entities whose attributes match one or several conditions.
 
         Particular implementation of the database adapter.
@@ -277,9 +275,9 @@ class Repository(abc.ABC):
 
     def last(
         self,
-        model: Optional[Type[Entity]] = None,
-        models: Optional[Type[Entity]] = None,
-    ) -> Entity:
+        model: Optional[Type[EntityT]] = None,
+        models: Optional[Type[EntityT]] = None,
+    ) -> EntityT:
         """Get the biggest entity from the repository.
 
         Args:
@@ -301,9 +299,9 @@ class Repository(abc.ABC):
 
     def first(
         self,
-        model: Optional[Type[Entity]] = None,
-        models: Optional[Type[Entity]] = None,
-    ) -> Entity:
+        model: Optional[Type[EntityT]] = None,
+        models: Optional[Type[EntityT]] = None,
+    ) -> EntityT:
         """Get the smallest entity from the repository.
 
         Args:
@@ -323,7 +321,7 @@ class Repository(abc.ABC):
                 f"There are no entities of type {model.__name__} in the repository."
             ) from error
 
-    def next_id(self, entity: Entity) -> int:
+    def next_id(self, entity: EntityT) -> int:
         """Return one id unit more than the last entity id in the repository index.
 
         Args:
@@ -358,10 +356,13 @@ class Repository(abc.ABC):
         raise NotImplementedError
 
 
+RepositoryT = TypeVar("RepositoryT", bound=Repository)
+
+
 # no cover: it's a transition function to deprecate stuff
 def warn_on_models(
-    models: Optional[Type[Entity]], method: str, model: Optional[Type[Entity]]
-) -> Type[Entity]:
+    models: Optional[Type[EntityT]], method: str, model: Optional[Type[EntityT]]
+) -> Type[EntityT]:
     """Warn users that using the models argument is going to be deprecated."""
     if models is not None:  # pragma: no cover
         warnings.warn(

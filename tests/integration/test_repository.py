@@ -21,6 +21,7 @@ from repository_orm import (
     Repository,
     TinyDBRepository,
 )
+from repository_orm.adapters.data.tinydb import _regexp_in_list
 from repository_orm.exceptions import TooManyEntitiesError
 
 from ..cases import Entity, RepositoryTester
@@ -683,6 +684,20 @@ class TestSearch:
 
         assert result == [author]
 
+    # W0613: the fixture is used to create the data
+    def test_repository_search_returns_empty_list_if_type_doesnt_match(
+        self,
+        repo: Repository,
+        inserted_entities: List[Entity],  # noqa: W0613
+    ) -> None:
+        """
+        If an object has a property that is an integer and we try to search for a string
+        it won't raise an error but return an empty list.
+        """
+        result = repo.search({"id": "wrong_type"}, Book)
+
+        assert result == []
+
 
 class TestSearchOnLists:
     """
@@ -998,3 +1013,17 @@ def test_tinydb_raises_error_if_wrong_model_data(
         "Error loading the model Entity for the register "
         "{'id_': 1, 'model_type_': 'entity'}",
     ) in caplog.record_tuples
+
+
+def test_regexp_in_list_handles_none_as_argument() -> None:
+    """
+    Given: Nothing
+    When: _regexp_in_list is called with None
+    Then: It returns false
+
+    Sometimes Query.test(func, ...) passes a None element to the func, we need to catch
+    this case
+    """
+    result = _regexp_in_list(None, "test")
+
+    assert not result

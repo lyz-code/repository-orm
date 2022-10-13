@@ -1,3 +1,14 @@
+## 1.3.2 (2022-10-13)
+
+### Fix
+
+- correct the search on tinydb when a value is None
+- correct the search on tinydb when a value is None
+
+### Refactor
+
+- clean the Entity TypeVar definitions to EntityT
+
 ## 1.3.1 (2022-06-08)
 
 ### Fix

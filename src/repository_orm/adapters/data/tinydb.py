@@ -354,8 +354,11 @@ class TinyDBRepository(Repository):
         self.db_.truncate()
 
 
-def _regexp_in_list(list_: Iterable[Any], regular_expression: str) -> bool:
+def _regexp_in_list(list_: Optional[Iterable[Any]], regular_expression: str) -> bool:
     """Test if regexp matches any element of the list."""
+    if list_ is None:
+        return False
+
     regexp = re.compile(regular_expression)
 
     return any(regexp.search(element) for element in list_)

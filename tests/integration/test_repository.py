@@ -6,11 +6,11 @@ add them to the cases.
 
 import logging
 import os
+from pathlib import Path
 from typing import Any, List
 
 import pytest
 from _pytest.logging import LogCaptureFixture
-from py._path.local import LocalPath
 from pydantic import ValidationError
 from tests.cases.entities import AuthorFactory, BookFactory, GenreFactory
 from tests.cases.model import Book
@@ -51,7 +51,7 @@ class TestDBConnection:
         repo_tester.assert_schema_exists(database, caplog)
 
     def test_repository_handles_inexistent_database_file(
-        self, repo: Repository, tmpdir: LocalPath
+        self, repo: Repository, tmp_path: Path
     ) -> None:
         """
         Given: A database url pointing to an inexistent file
@@ -60,7 +60,7 @@ class TestDBConnection:
             The FakeRepository should not create any file, as all entities are stored in
             memory.
         """
-        database_url = str(tmpdir.join("inexistent.db"))  # type: ignore
+        database_url = str(tmp_path / "inexistent.db")
 
         result = repo.__class__(database_url=database_url)
 

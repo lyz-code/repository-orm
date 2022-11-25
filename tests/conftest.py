@@ -2,10 +2,10 @@
 
 import os
 import sqlite3
+from pathlib import Path
 from typing import Any, AnyStr, Generator, List, Tuple, Type
 
 import pytest
-from py._path.local import LocalPath
 from pydantic_factories import ModelFactory
 from pytest_cases import fixture, parametrize_with_cases, unpack_fixture
 from tinydb import TinyDB
@@ -36,7 +36,7 @@ from .cases.testers import FileRepositoryTester
 
 
 @pytest.fixture(name="db_sqlite")
-def db_sqlite_(tmpdir: LocalPath) -> Generator[Tuple[str, sqlite3.Cursor], None, None]:
+def db_sqlite_(tmp_path: Path) -> Generator[Tuple[str, sqlite3.Cursor], None, None]:
     """Create an SQLite database engine.
 
     It also sets the environmental variable REPOSITORY_DATABASE_URL.
@@ -45,7 +45,7 @@ def db_sqlite_(tmpdir: LocalPath) -> Generator[Tuple[str, sqlite3.Cursor], None,
         database_url: Url used to connect to the database.
         cursor: An sqlite cursor to execute direct queries.
     """
-    sqlite_file_path = str(tmpdir.join("sqlite.db"))  # type: ignore
+    sqlite_file_path = str(tmp_path / "sqlite.db")
     with open(sqlite_file_path, "a", encoding="utf-8") as file_cursor:
         file_cursor.close()
 
@@ -60,7 +60,7 @@ def db_sqlite_(tmpdir: LocalPath) -> Generator[Tuple[str, sqlite3.Cursor], None,
 
 
 @pytest.fixture(name="db_tinydb")
-def db_tinydb_(tmpdir: LocalPath) -> Tuple[str, TinyDB]:
+def db_tinydb_(tmp_path: Path) -> Tuple[str, TinyDB]:
     """Create an TinyDB database engine.
 
     It also sets the environmental variable REPOSITORY_DATABASE_URL.
@@ -69,9 +69,7 @@ def db_tinydb_(tmpdir: LocalPath) -> Tuple[str, TinyDB]:
         database_url: Url used to connect to the database.
         cursor: An tinydb cursor to execute direct queries.
     """
-    # ignore: Call of untyped join function in typed environment.
-    # Until they give typing information there is nothing else to do.
-    tinydb_file_path = str(tmpdir.join("tinydb.db"))  # type: ignore
+    tinydb_file_path = str(tmp_path / "tinydb.db")
     with open(tinydb_file_path, "a", encoding="utf-8") as file_cursor:
         file_cursor.close()
 
@@ -165,9 +163,9 @@ database, empty_repo, repo, repo_tester = unpack_fixture(  # noqa: W0632
 # - File Repository fixtures -
 # ----------------------------
 @pytest.fixture(name="repo_local_file")
-def repo_local_file_(tmpdir: LocalPath) -> LocalFileRepository[AnyStr]:
+def repo_local_file_(tmp_path: Path) -> LocalFileRepository[AnyStr]:
     """Configure a temporal LocalFileRepository."""
-    return LocalFileRepository(workdir=str(tmpdir))
+    return LocalFileRepository(workdir=str(tmp_path))
 
 
 @fixture

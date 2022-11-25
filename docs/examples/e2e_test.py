@@ -1,9 +1,9 @@
+from pathlib import Path
 from typing import Generator
 
 import click
 import pytest
 from click.testing import CliRunner
-from py._path.local import LocalPath
 
 from repository_orm import Entity, Repository, TinyDBRepository, load_repository
 
@@ -15,8 +15,8 @@ class Author(Entity):
 
 # Fixtures
 @pytest.fixture(name="db_tinydb")
-def db_tinydb_(tmpdir: LocalPath) -> str:
-    tinydb_file_path = str(tmpdir.join("tinydb.db"))
+def db_tinydb_(tmp_path: Path) -> str:
+    tinydb_file_path = str(tmp_path / "tinydb.db")
     return f"tinydb:///{tinydb_file_path}"
 
 

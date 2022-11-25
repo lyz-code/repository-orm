@@ -1,11 +1,11 @@
 """Test the implementation of the FileRepositories."""
 
 import os
+from pathlib import Path
 from typing import AnyStr
 
 import pytest
 from _pytest.logging import LogCaptureFixture
-from py._path.local import LocalPath
 
 from repository_orm import File, LocalFileRepository
 from repository_orm.adapters.file.abstract import FileRepository
@@ -124,13 +124,13 @@ def test_repo_raises_error_when_removing_unexistent_file(
 class TestLocalFileRepository:
     """Test particular details of the LocalFileRepository."""
 
-    def test_creates_workdir_if_it_doesnt_exist(self, tmpdir: LocalPath) -> None:
+    def test_creates_workdir_if_it_doesnt_exist(self, tmp_path: Path) -> None:
         """
         Given: Nothing
         When: Initializing the repository with an inexistent directory
         Then: The directory is created
         """
-        workdir = f"{tmpdir}/unexistent_dir"
+        workdir = str(tmp_path / "unexistent_dir")
 
         result = LocalFileRepository(workdir=workdir)
 

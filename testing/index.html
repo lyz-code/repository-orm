@@ -750,9 +750,9 @@
 
 <p>Testing your code is a hated but good practice. Repository ORM tries to make
 your testing experience less cumbersome.</p>
-<p>You can use different strategies depending on the level of testing. For unit
-and integration tests the <a href="../fake_repository/"><code>FakeRepository</code></a> may be your best option, for
-end-to-end ones, I'd use <a href="../tinydb_repository/"><code>TinyDBRepository</code></a>.</p>
+<p>You can use different strategies depending on the level of testing. For unit and
+integration tests the <a href="../fake_repository/"><code>FakeRepository</code></a> may be your best
+option, for end-to-end ones, I'd use <a href="../tinydb_repository/"><code>TinyDBRepository</code></a>.</p>
 <h2 id="unit-and-integration-tests">Unit and integration tests<a class="headerlink" href="#unit-and-integration-tests" title="Permanent link">&para;</a></h2>
 <p><a href="https://en.wikipedia.org/wiki/Unit_testing">Unit tests</a> are meant to test
 individual units of code, for example, a function or a method of a class. You'll
@@ -790,19 +790,19 @@ or
 </code></pre></div>
 <h2 id="end-to-end-tests">End-to-end tests<a class="headerlink" href="#end-to-end-tests" title="Permanent link">&para;</a></h2>
 <p>End-to-end tests evaluate the whole functionality of the program from the eyes
-of the user. For example, testing a command line or the API endpoint.
-Usually the program loads the repository from storage at start time, which means
-that the FakeRepository can't be used.</p>
-<p>We're going to create
-a <a href="https://lyz-code.github.io/blue-book/coding/python/click/">click</a> command
-line program called <code>greet</code> that once it's called, it will return the first
-author in the repository. It's a little bit more complex but bare with me.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Generator</span>
+of the user. For example, testing a command line or the API endpoint. Usually
+the program loads the repository from storage at start time, which means that
+the FakeRepository can't be used.</p>
+<p>We're going to create a
+<a href="https://lyz-code.github.io/blue-book/coding/python/click/">click</a> command line
+program called <code>greet</code> that once it's called, it will return the first author in
+the repository. It's a little bit more complex but bare with me.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Generator</span>
 
 <span class="kn">import</span> <span class="nn">click</span>
 <span class="kn">import</span> <span class="nn">pytest</span>
 <span class="kn">from</span> <span class="nn">click.testing</span> <span class="kn">import</span> <span class="n">CliRunner</span>
-<span class="kn">from</span> <span class="nn">py._path.local</span> <span class="kn">import</span> <span class="n">LocalPath</span>
 
 <span class="kn">from</span> <span class="nn">repository_orm</span> <span class="kn">import</span> <span class="n">Entity</span><span class="p">,</span> <span class="n">Repository</span><span class="p">,</span> <span class="n">TinyDBRepository</span><span class="p">,</span> <span class="n">load_repository</span>
 
@@ -814,8 +814,8 @@ author in the repository. It's a little bit more complex but bare with me.</p>
 
 <span class="c1"># Fixtures</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;db_tinydb&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">db_tinydb_</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">:</span> <span class="n">LocalPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="n">tinydb_file_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tmpdir</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tinydb.db&quot;</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">db_tinydb_</span><span class="p">(</span><span class="n">tmp_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">tinydb_file_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tmp_path</span> <span class="o">/</span> <span class="s2">&quot;tinydb.db&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;tinydb:///</span><span class="si">{</span><span class="n">tinydb_file_path</span><span class="si">}</span><span class="s2">&quot;</span>
 
 
@@ -858,7 +858,7 @@ author in the repository. It's a little bit more complex but bare with me.</p>
     <span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">output</span> <span class="o">==</span> <span class="s2">&quot;Hi Brandon, you&#39;re the first author!</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="c1"># noqa</span>
 </code></pre></div>
 <p>First we define the fixtures, we start with <code>db_tinydb</code> that uses the pytest's
-<a href="https://lyz-code.github.io/blue-book/coding/python/pytest/#the-tmpdir-fixture"><code>tmpdir</code></a>
+<a href="https://lyz-code.github.io/blue-book/coding/python/pytest/#the-tmp_path-fixture"><code>tmp_path</code></a>
 fixture to create a random temporal directory and then sets the database url.
 The <code>repo</code> fixture uses that database url to create a <code>TinyDBRepository</code>
 instance.</p>
@@ -880,7 +880,7 @@ well, and gave the output we expected.</p>
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2021-04-23T10:44:17+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2021-04-23</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2022-11-25T12:29:01+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2022-11-25</span>
       
     
   </small>

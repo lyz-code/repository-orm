@@ -106,6 +106,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://lyz-code.github.io/repository-orm/adr/008-migration-to-protocols/</loc>
+         <lastmod>2022-11-25</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://lyz-code.github.io/repository-orm/adr/adr/</loc>
          <lastmod>2022-11-25</lastmod>
          <changefreq>daily</changefreq>

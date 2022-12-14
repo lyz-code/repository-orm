@@ -2,19 +2,14 @@
 
 import abc
 import logging
-import warnings
 from contextlib import suppress
-from typing import Dict, List, Optional, Type, TypeVar, Union
+from typing import Dict, List, Type, TypeVar
 
 from repository_orm.exceptions import TooManyEntitiesError
 
 from ...exceptions import AutoIncrementError, EntityNotFoundError
 from ...model import Entity, EntityID, EntityOrEntitiesT, EntityT
 from .cache import Cache
-
-Models = List[Type[EntityT]]
-OptionalModels = Optional[Models[EntityT]]
-OptionalModelOrModels = Optional[Union[Type[EntityT], Models[EntityT]]]
 
 log = logging.getLogger(__name__)
 
@@ -30,25 +25,13 @@ class Repository(abc.ABC):
     def __init__(
         self,
         database_url: str = "",
-        search_exception: Optional[bool] = None,
     ) -> None:
         """Initialize the repository attributes.
 
         Args:
             database_url: URL specifying the connection to the database.
-            search_exception: Raise an exception when search doesn't return any value.
-                It's a migration flag used to test the behaviour from 2022-06-10
-                onwards.
         """
-        if search_exception is not None:
-            warnings.warn(
-                "In 2022-12-10 initializing the repository with the argument "
-                "search_exception is going to be deprecated as it was a flag to test "
-                "a new behaviour that is now implemented, please remove argument.",
-                UserWarning,
-            )
         self.database_url = database_url
-        self.search_exception = search_exception
         self.cache = Cache()
 
     def add(
@@ -121,16 +104,15 @@ class Repository(abc.ABC):
     def get(
         self,
         id_: EntityID,
-        model: Optional[Type[EntityT]] = None,
+        model: Type[EntityT],
         attribute: str = "id_",
-        models: Optional[Type[EntityT]] = None,
     ) -> EntityT:
         """Obtain an entity from the repository by it's ID.
 
         Also save the entity in the cache
 
         Args:
-            models: Entity class or classes to obtain.
+            model: Entity class to obtain.
             id_: ID of the entity to obtain.
 
         Returns:
@@ -140,8 +122,6 @@ class Repository(abc.ABC):
             EntityNotFoundError: If the entity is not found.
             TooManyEntitiesError: If more than one entity was found.
         """
-        model = warn_on_models(models, "get", model)
-
         entities = self._get(value=id_, model=model, attribute=attribute)
 
         if len(entities) > 1:
@@ -182,18 +162,15 @@ class Repository(abc.ABC):
 
     def all(
         self,
-        model: Optional[Type[EntityT]] = None,
-        models: Optional[Type[EntityT]] = None,
+        model: Type[EntityT],
     ) -> List[EntityT]:
-        """Get all the entities from the repository whose class is included in models.
+        """Get all the entities from the repository that match a model.
 
         Also store the entities in the cache.
 
         Args:
             model: Entity class or classes to obtain.
         """
-        model = warn_on_models(models, "all", model)
-
         entities = sorted(self._all(model))
 
         for entity in entities:
@@ -204,12 +181,12 @@ class Repository(abc.ABC):
 
     @abc.abstractmethod
     def _all(self, model: Type[EntityT]) -> List[EntityT]:
-        """Get all the entities from the repository whose class is included in models.
+        """Get all the entities from the repository that match a model.
 
         Particular implementation of the database adapter.
 
         Args:
-            models: Entity class to obtain.
+            model: Entity class to obtain.
         """
         raise NotImplementedError
 
@@ -221,8 +198,7 @@ class Repository(abc.ABC):
     def search(
         self,
         fields: Dict[str, EntityID],
-        model: Optional[Type[EntityT]] = None,
-        models: Optional[Type[EntityT]] = None,
+        model: Type[EntityT],
     ) -> List[EntityT]:
         """Get the entities whose attributes match one or several conditions.
 
@@ -235,7 +211,6 @@ class Repository(abc.ABC):
         Returns:
             entities: List of Entity object that matches the search criteria.
         """
-        model = warn_on_models(models, "search", model)
         found_entities = sorted(self._search(fields, model))
 
         for entity in found_entities:
@@ -275,8 +250,7 @@ class Repository(abc.ABC):
 
     def last(
         self,
-        model: Optional[Type[EntityT]] = None,
-        models: Optional[Type[EntityT]] = None,
+        model: Type[EntityT],
     ) -> EntityT:
         """Get the biggest entity from the repository.
 
@@ -284,12 +258,11 @@ class Repository(abc.ABC):
             model: Entity class to obtain.
 
         Returns:
-            entity: Biggest Entity object of type models.
+            entity: Biggest Entity object that matches a model.
 
         Raises:
             EntityNotFoundError: If there are no entities.
         """
-        model = warn_on_models(models, "last", model)
         try:
             return max(self.all(model))
         except ValueError as error:
@@ -299,8 +272,7 @@ class Repository(abc.ABC):
 
     def first(
         self,
-        model: Optional[Type[EntityT]] = None,
-        models: Optional[Type[EntityT]] = None,
+        model: Type[EntityT],
     ) -> EntityT:
         """Get the smallest entity from the repository.
 
@@ -308,12 +280,11 @@ class Repository(abc.ABC):
             model: Type of entity object to obtain.
 
         Returns:
-            entity: Smallest Entity object of type models.
+            entity: Smallest Entity object that matches a model.
 
         Raises:
             EntityNotFoundError: If there are no entities.
         """
-        model = warn_on_models(models, "first", model)
         try:
             return min(self.all(model))
         except ValueError as error:
@@ -357,23 +328,3 @@ class Repository(abc.ABC):
 
 
 RepositoryT = TypeVar("RepositoryT", bound=Repository)
-
-
-# no cover: it's a transition function to deprecate stuff
-def warn_on_models(
-    models: Optional[Type[EntityT]], method: str, model: Optional[Type[EntityT]]
-) -> Type[EntityT]:
-    """Warn users that using the models argument is going to be deprecated."""
-    if models is not None:  # pragma: no cover
-        warnings.warn(
-            f"In 2022-12-10 using repo.{method} with the argument `models` is going to "
-            "be deprecated, please use the argument `model`.",
-            UserWarning,
-        )
-        return models
-    if model is None:
-        raise ValueError(  # pragma: no cover
-            f"the `model` argument of the method repo.{method} can't be None"
-        )
-
-    return model

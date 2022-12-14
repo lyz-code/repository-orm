@@ -15,7 +15,7 @@ from tinydb_serialization.serializers import DateTimeSerializer
 
 from ...exceptions import EntityNotFoundError
 from ...model import EntityID, EntityT
-from .abstract import Repository, warn_on_models
+from .abstract import Repository
 
 log = logging.getLogger(__name__)
 
@@ -26,14 +26,13 @@ class TinyDBRepository(Repository):
     def __init__(
         self,
         database_url: str = "",
-        search_exception: Optional[bool] = None,
     ) -> None:
         """Initialize the repository attributes.
 
         Args:
             database_url: URL specifying the connection to the database.
         """
-        super().__init__(database_url, search_exception)
+        super().__init__(database_url)
         self.database_file = os.path.expanduser(database_url.replace("tinydb://", ""))
         if not os.path.isfile(self.database_file):
             try:
@@ -136,12 +135,12 @@ class TinyDBRepository(Repository):
             raise error
 
     def _all(self, model: Type[EntityT]) -> List[EntityT]:
-        """Get all the entities from the repository whose class is included in models.
+        """Get all the entities from the repository that match a model.
 
         Particular implementation of the database adapter.
 
         Args:
-            models: Entity class to obtain.
+            model: Entity class to obtain.
         """
         entities = []
 
@@ -298,8 +297,7 @@ class TinyDBRepository(Repository):
 
     def last(
         self,
-        model: Optional[Type[EntityT]] = None,
-        models: Optional[Type[EntityT]] = None,
+        model: Type[EntityT],
     ) -> EntityT:
         """Get the biggest entity from the repository.
 
@@ -307,12 +305,11 @@ class TinyDBRepository(Repository):
             model: Entity class to obtain.
 
         Returns:
-            entity: Biggest Entity object of type models.
+            entity: Biggest Entity object that matches a model.
 
         Raises:
             EntityNotFoundError: If there are no entities.
         """
-        model = warn_on_models(models, "last", model)
         try:
             last_index_entity = super().last(model)
         except EntityNotFoundError as empty_repo:

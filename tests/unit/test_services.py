@@ -4,7 +4,6 @@ import sqlite3
 from typing import Tuple
 
 import pytest
-from tests.cases.model import Author
 from tinydb import TinyDB
 
 from repository_orm import (
@@ -73,28 +72,6 @@ class TestLoadRepository:
         """
         with pytest.raises(ValueError, match="Database URL: .* not recognized."):
             load_repository(database_url="inexistent://path/to/file.db")
-
-    def test_load_repository_loads_models(self) -> None:
-        """
-        Given: Nothing
-        When: load_repository is called with the models.
-        Then: a warning is raised not to use it
-        """
-        with pytest.warns(UserWarning, match="In 2022-12-10.*deprecated"):
-
-            load_repository(models=[Author])  # act
-
-    def test_load_repository_set_search_exception_false(self) -> None:
-        """
-        Given: Nothing
-        When: loading the repository with search_exception not None
-        Then: a warning is raised not to use it
-
-        See ADR 005 for more info.
-        """
-        with pytest.warns(UserWarning, match="In 2022-12-10.*deprecated"):
-
-            load_repository(search_exception=False)  # act
 
 
 class TestLoadFileRepository:

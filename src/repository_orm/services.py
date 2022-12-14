@@ -6,15 +6,12 @@ and handlers to achieve the program's purpose.
 
 # W0611: It thinks that AnyStr is not used, but it is
 
-import warnings
-from typing import TYPE_CHECKING, AnyStr, Optional, Union  # noqa: W0611
+from typing import TYPE_CHECKING, AnyStr, Union  # noqa: W0611
 
-from .adapters.data.abstract import Models
 from .adapters.data.fake import FakeRepository
 from .adapters.data.pypika import PypikaRepository
 from .adapters.data.tinydb import TinyDBRepository
 from .adapters.file.local_file import LocalFileRepository
-from .model import EntityT
 
 if TYPE_CHECKING:
     from .adapters.file.abstract import FileRepository
@@ -24,8 +21,6 @@ Repository = Union[FakeRepository, PypikaRepository, TinyDBRepository]
 
 def load_repository(
     database_url: str = "fake://",
-    models: Optional[Models[EntityT]] = None,
-    search_exception: Optional[bool] = None,
 ) -> Repository:
     """Load the Repository object that matches the database url protocol.
 
@@ -35,25 +30,12 @@ def load_repository(
     Returns:
         Repository that understands the url protocol.
     """
-    if models is not None:
-        warnings.warn(
-            "In 2022-12-10 using load_repository with the argument "
-            "models is going to be deprecated, please remove argument.",
-            UserWarning,
-        )
-    if search_exception is not None:
-        warnings.warn(
-            "In 2022-12-10 using load_repository with the argument "
-            "search_exception is going to be deprecated as it was a flag to test "
-            "a new behaviour that is now implemented, please remove argument.",
-            UserWarning,
-        )
     if "fake://" in database_url:
-        return FakeRepository("", search_exception)
+        return FakeRepository("")
     if "sqlite://" in database_url:
-        return PypikaRepository(database_url, search_exception)
+        return PypikaRepository(database_url)
     if "tinydb://" in database_url:
-        return TinyDBRepository(database_url, search_exception)
+        return TinyDBRepository(database_url)
 
     raise ValueError(f"Database URL: {database_url} not recognized.")
 

@@ -1,11 +1,6 @@
 """Library to ease the implementation of the repository pattern in Python projects."""
 
-from .adapters.data.abstract import (
-    Models,
-    OptionalModelOrModels,
-    OptionalModels,
-    Repository,
-)
+from .adapters.data.abstract import Repository
 from .adapters.data.fake import FakeRepository, FakeRepositoryDB
 from .adapters.data.pypika import PypikaRepository
 from .adapters.data.tinydb import TinyDBRepository
@@ -23,9 +18,6 @@ __all__ = [
     "File",
     "FakeRepositoryDB",
     "LocalFileRepository",
-    "Models",
-    "OptionalModels",
-    "OptionalModelOrModels",
     "PypikaRepository",
     "Repository",
     "Repository",

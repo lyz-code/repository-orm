@@ -222,6 +222,7 @@ class PypikaRepositoryTester(RepositoryTester[PypikaRepository]):
         """Build Entity objects from the data extracted from the database.
 
         Args:
+            database: name of the database to inject the entities
             entity_model: The model of the entity to build
             query: pypika query of the entities you want to build
         """

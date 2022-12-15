@@ -5,7 +5,7 @@ import os
 import re
 import sqlite3
 from sqlite3 import ProgrammingError
-from typing import Dict, List, Optional, Type, Union
+from typing import Dict, List, Type, Union
 
 from pypika import Query, Table, functions
 from yoyo import get_backend, read_migrations
@@ -37,14 +37,13 @@ class PypikaRepository(Repository):
     def __init__(
         self,
         database_url: str = "",
-        search_exception: Optional[bool] = None,
     ) -> None:
         """Initialize the repository attributes.
 
         Args:
             database_url: URL specifying the connection to the database.
         """
-        super().__init__(database_url, search_exception)
+        super().__init__(database_url)
         database_file = database_url.replace("sqlite:///", "")
         if not os.path.isfile(database_file):
             try:
@@ -156,12 +155,12 @@ class PypikaRepository(Repository):
         return self._build_entities(model, query)
 
     def _all(self, model: Type[EntityT]) -> List[EntityT]:
-        """Get all the entities from the repository whose class is included in models.
+        """Get all the entities from the repository that match a model.
 
         Particular implementation of the database adapter.
 
         Args:
-            models: Entity class to obtain.
+            model: Entity class to obtain.
         """
         table = self._table_model(model)
         query = Query.from_(table).select("*")
@@ -171,7 +170,7 @@ class PypikaRepository(Repository):
         """Build Entity objects from the data extracted from the database.
 
         Args:
-            models: The model of the entity to build
+            model: Entity class model to build.
             query: pypika query of the entities you want to build
         """
         cursor = self._execute(query)

@@ -1,3 +1,12 @@
+## 1.3.3 (2022-12-15)
+
+### Fix
+
+- deprecate search_exception
+- simplify signature of repository methods
+- simplify signature of load_repository
+- remove dependency with py
+
 ## 1.3.2 (2022-10-13)
 
 ### Fix

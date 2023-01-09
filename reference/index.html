@@ -12,8 +12,10 @@
       
         <link rel="canonical" href="https://lyz-code.github.io/repository-orm/reference/">
       
+      
+      
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.0b4">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.3">
     
     
       
@@ -21,15 +23,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.91872f81.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.6b71719e.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
-        
-          
-          
-          <meta name="theme-color" content="#546d78">
-        
       
       
 
@@ -63,6 +60,8 @@
   </head>
   
   
+    
+    
     
     
     
@@ -237,8 +236,9 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
       
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
       
       
       
@@ -319,8 +319,9 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
       
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
       
       
       
@@ -403,12 +404,13 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
       
       
       
-      
-        <label class="md-nav__link" for="__nav_6">
+        <label class="md-nav__link" for="__nav_6" tabindex="0" aria-expanded="false">
           API Reference
           <span class="md-nav__icon md-icon"></span>
         </label>
@@ -479,8 +481,9 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
       
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
       
       
       
@@ -533,8 +536,9 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
       
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
       
       
       
@@ -1201,11 +1205,12 @@
                 
                   
 
-  <a href="https://github.com/lyz-code/repository-orm/edit/master/docs/reference.md" title="Edit this page" class="md-content__button md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
-  </a>
+  
+  
 
+
+
+  <h1>Reference</h1>
 
 <div class="doc doc-object doc-module">
 
@@ -1255,7 +1260,7 @@
           <summary>Source code in <code>repository_orm/exceptions.py</code></summary>
           <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">12</span>
 <span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">AutoIncrementError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Raised when the id_ auto increment repository feature fails.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when the id_ auto increment repository feature fails.&quot;&quot;&quot;</span>
 </code></pre></div></td></tr></table></div>
         </details>
 
@@ -1385,7 +1390,7 @@ time of merging objects.</p>
 <span class="normal">107</span>
 <span class="normal">108</span>
 <span class="normal">109</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Entity</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Model of any object no defined by it&#39;s attributes whom instead has an identity.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model of any object no defined by it&#39;s attributes whom instead has an identity.</span>
 
 <span class="sd">    Unlike value objects, they have *identity equality*. We can change their values, and</span>
 <span class="sd">    they are still recognizably the same thing.</span>
@@ -1402,12 +1407,12 @@ time of merging objects.</p>
 
     <span class="c1"># ANN401: Any not allowed, but it&#39;s what we have.</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># noqa: ANN401</span>
-        <span class="sd">&quot;&quot;&quot;Initialize the defined values.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the defined values.&quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_defined_values</span> <span class="o">=</span> <span class="n">data</span>
 
     <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Entity&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Assert if an object is smaller than us.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assert if an object is smaller than us.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            other: Entity to compare.</span>
@@ -1417,7 +1422,7 @@ time of merging objects.</p>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id_</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">str</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">id_</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Entity&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Assert if an object is greater than us.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assert if an object is greater than us.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            other: Entity to compare.</span>
@@ -1427,23 +1432,23 @@ time of merging objects.</p>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id_</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">str</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">id_</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Create an unique hash of the class object.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create an unique hash of the class object.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id_</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="c1"># ANN401: Any not allowed, but it&#39;s what we have.</span>
     <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># noqa: ANN401</span>
-        <span class="sd">&quot;&quot;&quot;Store the set attribute into the _defined_values.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Store the set attribute into the _defined_values.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">attribute</span> <span class="o">!=</span> <span class="s2">&quot;_defined_values&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_defined_values</span><span class="p">[</span><span class="n">attribute</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">model_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Return the entity model name.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the entity model name.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">schema</span><span class="p">()[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Entity&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Entity&quot;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Update the attributes with the ones manually set by the user of other.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the attributes with the ones manually set by the user of other.</span>
 
 <span class="sd">        If the other object has default values not set by the user, they won&#39;t be</span>
 <span class="sd">        propagated to `self`.</span>
@@ -1470,11 +1475,11 @@ time of merging objects.</p>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">defined_values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Return the entity defined values.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the entity defined values.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_defined_values</span>
 
     <span class="k">def</span> <span class="nf">clear_defined_values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Remove all references to defined values.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove all references to defined values.</span>
 
 <span class="sd">        I tried to return self so that it can be used chained with repo.get(), but I get</span>
 <span class="sd">        a mypy error `Incompatible return value type (got &quot;Entity&quot;, expected &quot;Entity&quot;)`</span>
@@ -1544,7 +1549,7 @@ time of merging objects.</p>
 <span class="normal">52</span>
 <span class="normal">53</span>
 <span class="normal">54</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Entity&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Assert if an object is greater than us.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Assert if an object is greater than us.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        other: Entity to compare.</span>
@@ -1577,7 +1582,7 @@ time of merging objects.</p>
         <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">56</span>
 <span class="normal">57</span>
 <span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Create an unique hash of the class object.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create an unique hash of the class object.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id_</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
       </details>
@@ -1605,7 +1610,7 @@ time of merging objects.</p>
 <span class="normal">32</span>
 <span class="normal">33</span>
 <span class="normal">34</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># noqa: ANN401</span>
-    <span class="sd">&quot;&quot;&quot;Initialize the defined values.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize the defined values.&quot;&quot;&quot;</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_defined_values</span> <span class="o">=</span> <span class="n">data</span>
 </code></pre></div></td></tr></table></div>
@@ -1663,7 +1668,7 @@ time of merging objects.</p>
 <span class="normal">42</span>
 <span class="normal">43</span>
 <span class="normal">44</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Entity&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Assert if an object is smaller than us.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Assert if an object is smaller than us.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        other: Entity to compare.</span>
@@ -1698,7 +1703,7 @@ time of merging objects.</p>
 <span class="normal">63</span>
 <span class="normal">64</span>
 <span class="normal">65</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># noqa: ANN401</span>
-    <span class="sd">&quot;&quot;&quot;Store the set attribute into the _defined_values.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Store the set attribute into the _defined_values.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">attribute</span> <span class="o">!=</span> <span class="s2">&quot;_defined_values&quot;</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_defined_values</span><span class="p">[</span><span class="n">attribute</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
@@ -1733,7 +1738,7 @@ a mypy error <code>Incompatible return value type (got "Entity", expected "Entit
 <span class="normal">107</span>
 <span class="normal">108</span>
 <span class="normal">109</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">clear_defined_values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Remove all references to defined values.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove all references to defined values.</span>
 
 <span class="sd">    I tried to return self so that it can be used chained with repo.get(), but I get</span>
 <span class="sd">    a mypy error `Incompatible return value type (got &quot;Entity&quot;, expected &quot;Entity&quot;)`</span>
@@ -1770,7 +1775,7 @@ a mypy error <code>Incompatible return value type (got "Entity", expected "Entit
 <span class="normal">100</span>
 <span class="normal">101</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@property</span>
 <span class="k">def</span> <span class="nf">defined_values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Return the entity defined values.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the entity defined values.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_defined_values</span>
 </code></pre></div></td></tr></table></div>
       </details>
@@ -1845,7 +1850,7 @@ propagated to <code>self</code>.</p>
 <span class="normal">94</span>
 <span class="normal">95</span>
 <span class="normal">96</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;Entity&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Entity&quot;</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Update the attributes with the ones manually set by the user of other.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Update the attributes with the ones manually set by the user of other.</span>
 
 <span class="sd">    If the other object has default values not set by the user, they won&#39;t be</span>
 <span class="sd">    propagated to `self`.</span>
@@ -1900,7 +1905,7 @@ propagated to <code>self</code>.</p>
 <span class="normal">69</span>
 <span class="normal">70</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@property</span>
 <span class="k">def</span> <span class="nf">model_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Return the entity model name.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the entity model name.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">schema</span><span class="p">()[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span>
 </code></pre></div></td></tr></table></div>
       </details>
@@ -1939,7 +1944,7 @@ propagated to <code>self</code>.</p>
           <summary>Source code in <code>repository_orm/exceptions.py</code></summary>
           <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">4</span>
 <span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EntityNotFoundError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Raised when the search or retrieve of an entity fails.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when the search or retrieve of an entity fails.&quot;&quot;&quot;</span>
 </code></pre></div></td></tr></table></div>
         </details>
 
@@ -2192,13 +2197,13 @@ propagated to <code>self</code>.</p>
 <span class="normal">239</span>
 <span class="normal">240</span>
 <span class="normal">241</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">FakeRepository</span><span class="p">(</span><span class="n">Repository</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Implement the repository pattern using a memory dictionary.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Implement the repository pattern using a memory dictionary.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Initialize the repository attributes.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the repository attributes.&quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">database_url</span> <span class="o">==</span> <span class="s2">&quot;/inexistent_dir/database.db&quot;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ConnectionError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not create database file: </span><span class="si">{</span><span class="n">database_url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -2209,7 +2214,7 @@ propagated to <code>self</code>.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_connection_closed</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="nf">_add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">EntityT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EntityT</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Append an entity to the repository.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append an entity to the repository.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            entity: Entity to add to the repository.</span>
@@ -2229,7 +2234,7 @@ propagated to <code>self</code>.</p>
         <span class="k">return</span> <span class="n">entity</span>
 
     <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">EntityT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Delete an entity from the repository.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete an entity from the repository.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            entity: Entity to remove from the repository.</span>
@@ -2252,7 +2257,7 @@ propagated to <code>self</code>.</p>
         <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">],</span>
         <span class="n">attribute</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;id_&quot;</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">EntityT</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Obtain all entities from the repository that match an id_.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Obtain all entities from the repository that match an id_.</span>
 
 <span class="sd">        If the attribute argument is passed, check that attribute instead.</span>
 
@@ -2275,7 +2280,7 @@ propagated to <code>self</code>.</p>
         <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">matching_entities</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">EntityT</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Get all the entities from the repository that match a model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all the entities from the repository that match a model.</span>
 
 <span class="sd">        Particular implementation of the database adapter.</span>
 
@@ -2292,7 +2297,7 @@ propagated to <code>self</code>.</p>
         <span class="k">return</span> <span class="n">entities</span>
 
     <span class="k">def</span> <span class="nf">commit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Persist the changes into the repository.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Persist the changes into the repository.&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">model</span><span class="p">,</span> <span class="n">entities</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_entities</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">[</span><span class="n">model</span><span class="p">]</span> <span class="o">=</span> <span class="n">entities</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">new_entities</span> <span class="o">=</span> <span class="p">{}</span>
@@ -2302,7 +2307,7 @@ propagated to <code>self</code>.</p>
         <span class="n">fields</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">EntityID</span><span class="p">],</span>
         <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">EntityT</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Get the entities whose attributes match one or several conditions.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the entities whose attributes match one or several conditions.</span>
 
 <span class="sd">        Particular implementation of the database adapter.</span>
 
@@ -2352,7 +2357,7 @@ propagated to <code>self</code>.</p>
         <span class="k">return</span> <span class="n">entities</span>
 
     <span class="k">def</span> <span class="nf">apply_migrations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">migrations_directory</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Run the migrations of the repository schema.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the migrations of the repository schema.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            migrations_directory: path to the directory containing the migration</span>
@@ -2364,7 +2369,7 @@ propagated to <code>self</code>.</p>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EntityT</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Get the biggest entity from the repository.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the biggest entity from the repository.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            model: Entity class to obtain.</span>
@@ -2395,7 +2400,7 @@ propagated to <code>self</code>.</p>
         <span class="k">return</span> <span class="nb">max</span><span class="p">([</span><span class="n">last_index_entity</span><span class="p">,</span> <span class="n">last_staged_entity</span><span class="p">])</span>
 
     <span class="k">def</span> <span class="nf">_staged_entities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">EntityT</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Return a list of staged entities of a model type.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a list of staged entities of a model type.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            model: Return only instances of this model.</span>
@@ -2403,16 +2408,16 @@ propagated to <code>self</code>.</p>
         <span class="k">return</span> <span class="p">[</span><span class="n">entity</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">entity</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_entities</span><span class="p">[</span><span class="n">model</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
 
     <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Close the connection to the database.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Close the connection to the database.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_connection_closed</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">is_closed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Inform if the connection is closed.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Inform if the connection is closed.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_connection_closed</span>
 
     <span class="k">def</span> <span class="nf">empty</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Remove all entities from the repository.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove all entities from the repository.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">entities</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">new_entities</span> <span class="o">=</span> <span class="p">{}</span>
 </code></pre></div></td></tr></table></div>
@@ -2462,7 +2467,7 @@ propagated to <code>self</code>.</p>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Initialize the repository attributes.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize the repository attributes.&quot;&quot;&quot;</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">database_url</span> <span class="o">==</span> <span class="s2">&quot;/inexistent_dir/database.db&quot;</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ConnectionError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not create database file: </span><span class="si">{</span><span class="n">database_url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -2525,7 +2530,7 @@ scripts.</p></td>
 <span class="normal">182</span>
 <span class="normal">183</span>
 <span class="normal">184</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">apply_migrations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">migrations_directory</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Run the migrations of the repository schema.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run the migrations of the repository schema.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        migrations_directory: path to the directory containing the migration</span>
@@ -2556,7 +2561,7 @@ scripts.</p></td>
         <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">229</span>
 <span class="normal">230</span>
 <span class="normal">231</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Close the connection to the database.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Close the connection to the database.&quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">is_connection_closed</span> <span class="o">=</span> <span class="kc">True</span>
 </code></pre></div></td></tr></table></div>
       </details>
@@ -2585,7 +2590,7 @@ scripts.</p></td>
 <span class="normal">120</span>
 <span class="normal">121</span>
 <span class="normal">122</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">commit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Persist the changes into the repository.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Persist the changes into the repository.&quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">model</span><span class="p">,</span> <span class="n">entities</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_entities</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">[</span><span class="n">model</span><span class="p">]</span> <span class="o">=</span> <span class="n">entities</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">new_entities</span> <span class="o">=</span> <span class="p">{}</span>
@@ -2670,7 +2675,7 @@ scripts.</p></td>
 <span class="normal">69</span>
 <span class="normal">70</span>
 <span class="normal">71</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">EntityT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Delete an entity from the repository.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Delete an entity from the repository.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        entity: Entity to remove from the repository.</span>
@@ -2712,7 +2717,7 @@ scripts.</p></td>
 <span class="normal">239</span>
 <span class="normal">240</span>
 <span class="normal">241</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">empty</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Remove all entities from the repository.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove all entities from the repository.&quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">entities</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">new_entities</span> <span class="o">=</span> <span class="p">{}</span>
 </code></pre></div></td></tr></table></div>
@@ -2746,7 +2751,7 @@ scripts.</p></td>
 <span class="normal">235</span>
 <span class="normal">236</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@property</span>
 <span class="k">def</span> <span class="nf">is_closed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Inform if the connection is closed.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Inform if the connection is closed.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_connection_closed</span>
 </code></pre></div></td></tr></table></div>
       </details>
@@ -2866,7 +2871,7 @@ scripts.</p></td>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EntityT</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Get the biggest entity from the repository.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the biggest entity from the repository.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        model: Entity class to obtain.</span>
@@ -2981,7 +2986,7 @@ scripts.</p></td>
 <span class="normal">164</span>
 <span class="normal">165</span>
 <span class="normal">166</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">File</span><span class="p">(</span><span class="n">Entity</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">AnyStr</span><span class="p">]):</span>
-    <span class="sd">&quot;&quot;&quot;Model a computer file.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model a computer file.&quot;&quot;&quot;</span>
 
     <span class="n">path</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">created_at</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -3003,22 +3008,22 @@ scripts.</p></td>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">basename</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Return the name of the file.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the name of the file.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">dirname</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Return the name of the file.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the name of the file.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">extension</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Return the name of the file.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the name of the file.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">basename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">content</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AnyStr</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Return the content of the file.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the content of the file.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The content of the file.</span>
@@ -3071,7 +3076,7 @@ scripts.</p></td>
 <span class="normal">139</span>
 <span class="normal">140</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@property</span>
 <span class="k">def</span> <span class="nf">basename</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Return the name of the file.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the name of the file.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
       </details>
@@ -3151,7 +3156,7 @@ scripts.</p></td>
 <span class="normal">165</span>
 <span class="normal">166</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@property</span>
 <span class="k">def</span> <span class="nf">content</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AnyStr</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Return the content of the file.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the content of the file.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The content of the file.</span>
@@ -3195,7 +3200,7 @@ scripts.</p></td>
 <span class="normal">144</span>
 <span class="normal">145</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@property</span>
 <span class="k">def</span> <span class="nf">dirname</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Return the name of the file.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the name of the file.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
       </details>
@@ -3228,7 +3233,7 @@ scripts.</p></td>
 <span class="normal">149</span>
 <span class="normal">150</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@property</span>
 <span class="k">def</span> <span class="nf">extension</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Return the name of the file.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the name of the file.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">basename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </code></pre></div></td></tr></table></div>
       </details>
@@ -3319,10 +3324,10 @@ scripts.</p></td>
 <span class="normal">64</span>
 <span class="normal">65</span>
 <span class="normal">66</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">LocalFileRepository</span><span class="p">(</span><span class="n">FileRepository</span><span class="p">[</span><span class="n">AnyStr</span><span class="p">]):</span>
-    <span class="sd">&quot;&quot;&quot;Define the local filesystem adapter.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Define the local filesystem adapter.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workdir</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Initialize the object.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the object.</span>
 
 <span class="sd">        Creates the working directory if it doesn&#39;t exist.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -3331,7 +3336,7 @@ scripts.</p></td>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">workdir</span><span class="o">=</span><span class="n">workdir</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_</span><span class="p">:</span> <span class="n">File</span><span class="p">[</span><span class="n">AnyStr</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">File</span><span class="p">[</span><span class="n">AnyStr</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Load the content of the file from the persistence system.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load the content of the file from the persistence system.&quot;&quot;&quot;</span>
         <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading content of file </span><span class="si">{</span><span class="n">file_</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">file_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fix_path</span><span class="p">(</span><span class="n">file_</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">file_</span><span class="o">.</span><span class="n">is_bytes</span><span class="p">:</span>
@@ -3349,7 +3354,7 @@ scripts.</p></td>
         <span class="k">return</span> <span class="n">file_</span>
 
     <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_</span><span class="p">:</span> <span class="n">File</span><span class="p">[</span><span class="n">AnyStr</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">File</span><span class="p">[</span><span class="n">AnyStr</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Save the content of the file into the persistence system.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save the content of the file into the persistence system.&quot;&quot;&quot;</span>
         <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saving the content of file </span><span class="si">{</span><span class="n">file_</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">file_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fix_path</span><span class="p">(</span><span class="n">file_</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">file_</span><span class="o">.</span><span class="n">is_bytes</span><span class="p">:</span>
@@ -3363,7 +3368,7 @@ scripts.</p></td>
         <span class="k">return</span> <span class="n">file_</span>
 
     <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_</span><span class="p">:</span> <span class="n">File</span><span class="p">[</span><span class="n">AnyStr</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Delete the file from the persistence system.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete the file from the persistence system.&quot;&quot;&quot;</span>
         <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Deleting the content of file </span><span class="si">{</span><span class="n">file_</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">file_</span><span class="o">.</span><span class="n">path</span><span class="p">))</span>
@@ -3412,7 +3417,7 @@ scripts.</p></td>
 <span class="normal">21</span>
 <span class="normal">22</span>
 <span class="normal">23</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workdir</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Initialize the object.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize the object.</span>
 
 <span class="sd">    Creates the working directory if it doesn&#39;t exist.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -3451,7 +3456,7 @@ scripts.</p></td>
 <span class="normal">64</span>
 <span class="normal">65</span>
 <span class="normal">66</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_</span><span class="p">:</span> <span class="n">File</span><span class="p">[</span><span class="n">AnyStr</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Delete the file from the persistence system.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Delete the file from the persistence system.&quot;&quot;&quot;</span>
     <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Deleting the content of file </span><span class="si">{</span><span class="n">file_</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">file_</span><span class="o">.</span><span class="n">path</span><span class="p">))</span>
@@ -3499,7 +3504,7 @@ scripts.</p></td>
 <span class="normal">39</span>
 <span class="normal">40</span>
 <span class="normal">41</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_</span><span class="p">:</span> <span class="n">File</span><span class="p">[</span><span class="n">AnyStr</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">File</span><span class="p">[</span><span class="n">AnyStr</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Load the content of the file from the persistence system.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the content of the file from the persistence system.&quot;&quot;&quot;</span>
     <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading content of file </span><span class="si">{</span><span class="n">file_</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">file_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fix_path</span><span class="p">(</span><span class="n">file_</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">file_</span><span class="o">.</span><span class="n">is_bytes</span><span class="p">:</span>
@@ -3550,7 +3555,7 @@ scripts.</p></td>
 <span class="normal">53</span>
 <span class="normal">54</span>
 <span class="normal">55</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_</span><span class="p">:</span> <span class="n">File</span><span class="p">[</span><span class="n">AnyStr</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">File</span><span class="p">[</span><span class="n">AnyStr</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Save the content of the file into the persistence system.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Save the content of the file into the persistence system.&quot;&quot;&quot;</span>
     <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saving the content of file </span><span class="si">{</span><span class="n">file_</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">file_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fix_path</span><span class="p">(</span><span class="n">file_</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">file_</span><span class="o">.</span><span class="n">is_bytes</span><span class="p">:</span>
@@ -3851,13 +3856,13 @@ scripts.</p></td>
 <span class="normal">285</span>
 <span class="normal">286</span>
 <span class="normal">287</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">PypikaRepository</span><span class="p">(</span><span class="n">Repository</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Implement the repository pattern using the Pypika query builder.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Implement the repository pattern using the Pypika query builder.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Initialize the repository attributes.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the repository attributes.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            database_url: URL specifying the connection to the database.</span>
@@ -3877,7 +3882,7 @@ scripts.</p></td>
         <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Query</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">Cursor</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Execute an SQL statement from a Pypika query object.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute an SQL statement from a Pypika query object.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            query: Pypika query</span>
@@ -3886,16 +3891,16 @@ scripts.</p></td>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_table</span><span class="p">(</span><span class="n">entity</span><span class="p">:</span> <span class="n">EntityT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Return the table of the selected entity object.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the table of the selected entity object.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">entity</span><span class="o">.</span><span class="n">model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_table_model</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Return the table of the selected entity class.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the table of the selected entity class.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
 
     <span class="k">def</span> <span class="nf">_add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">EntityT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EntityT</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Append an entity to the repository.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append an entity to the repository.</span>
 
 <span class="sd">        If the id is not set, autoincrement the last.</span>
 
@@ -3928,7 +3933,7 @@ scripts.</p></td>
         <span class="k">return</span> <span class="n">entity</span>
 
     <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">EntityT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Delete an entity from the repository.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete an entity from the repository.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            entity: Entity to remove from the repository.</span>
@@ -3952,7 +3957,7 @@ scripts.</p></td>
         <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">],</span>
         <span class="n">attribute</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;id_&quot;</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">EntityT</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Obtain all entities from the repository that match an id_.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Obtain all entities from the repository that match an id_.</span>
 
 <span class="sd">        If the attribute argument is passed, check that attribute instead.</span>
 
@@ -3974,7 +3979,7 @@ scripts.</p></td>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_entities</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">EntityT</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Get all the entities from the repository that match a model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all the entities from the repository that match a model.</span>
 
 <span class="sd">        Particular implementation of the database adapter.</span>
 
@@ -3986,7 +3991,7 @@ scripts.</p></td>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_entities</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_build_entities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">],</span> <span class="n">query</span><span class="p">:</span> <span class="n">Query</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">EntityT</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Build Entity objects from the data extracted from the database.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build Entity objects from the data extracted from the database.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            model: Entity class model to build.</span>
@@ -4009,7 +4014,7 @@ scripts.</p></td>
         <span class="k">return</span> <span class="n">entities</span>
 
     <span class="k">def</span> <span class="nf">commit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Persist the changes into the repository.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Persist the changes into the repository.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_search</span><span class="p">(</span>
@@ -4017,7 +4022,7 @@ scripts.</p></td>
         <span class="n">fields</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">EntityID</span><span class="p">],</span>
         <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">EntityT</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Get the entities whose attributes match one or several conditions.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the entities whose attributes match one or several conditions.</span>
 
 <span class="sd">        Particular implementation of the database adapter.</span>
 
@@ -4044,7 +4049,7 @@ scripts.</p></td>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_entities</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">apply_migrations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">migrations_directory</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Run the migrations of the repository schema.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the migrations of the repository schema.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            migrations_directory: path to the directory containing the migration</span>
@@ -4075,17 +4080,17 @@ scripts.</p></td>
             <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Complete running database migrations&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Close the connection to the database.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Close the connection to the database.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">empty</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Remove all entities from the repository.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove all entities from the repository.&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tables</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_execute</span><span class="p">(</span><span class="n">Query</span><span class="o">.</span><span class="n">from_</span><span class="p">(</span><span class="n">table</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">())</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">tables</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Return the entity tables of the database.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the entity tables of the database.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;sqlite://&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">database_url</span><span class="p">):</span>
             <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;SELECT name FROM sqlite_master WHERE type=&#39;table&#39;&quot;</span>
 
@@ -4098,7 +4103,7 @@ scripts.</p></td>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">is_closed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Inform if the connection is closed.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Inform if the connection is closed.&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
             <span class="k">return</span> <span class="kc">False</span>
@@ -4184,7 +4189,7 @@ scripts.</p></td>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Initialize the repository attributes.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize the repository attributes.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        database_url: URL specifying the connection to the database.</span>
@@ -4279,7 +4284,7 @@ scripts.</p></td>
 <span class="normal">254</span>
 <span class="normal">255</span>
 <span class="normal">256</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">apply_migrations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">migrations_directory</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Run the migrations of the repository schema.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run the migrations of the repository schema.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        migrations_directory: path to the directory containing the migration</span>
@@ -4333,7 +4338,7 @@ scripts.</p></td>
         <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">258</span>
 <span class="normal">259</span>
 <span class="normal">260</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Close the connection to the database.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Close the connection to the database.&quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
       </details>
@@ -4360,7 +4365,7 @@ scripts.</p></td>
         <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">192</span>
 <span class="normal">193</span>
 <span class="normal">194</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">commit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Persist the changes into the repository.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Persist the changes into the repository.&quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
       </details>
@@ -4444,7 +4449,7 @@ scripts.</p></td>
 <span class="normal">126</span>
 <span class="normal">127</span>
 <span class="normal">128</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">EntityT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Delete an entity from the repository.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Delete an entity from the repository.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        entity: Entity to remove from the repository.</span>
@@ -4487,7 +4492,7 @@ scripts.</p></td>
 <span class="normal">263</span>
 <span class="normal">264</span>
 <span class="normal">265</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">empty</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Remove all entities from the repository.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove all entities from the repository.&quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tables</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_execute</span><span class="p">(</span><span class="n">Query</span><span class="o">.</span><span class="n">from_</span><span class="p">(</span><span class="n">table</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">())</span>
 </code></pre></div></td></tr></table></div>
@@ -4525,7 +4530,7 @@ scripts.</p></td>
 <span class="normal">286</span>
 <span class="normal">287</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@property</span>
 <span class="k">def</span> <span class="nf">is_closed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Inform if the connection is closed.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Inform if the connection is closed.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
         <span class="k">return</span> <span class="kc">False</span>
@@ -4570,7 +4575,7 @@ scripts.</p></td>
 <span class="normal">277</span>
 <span class="normal">278</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@property</span>
 <span class="k">def</span> <span class="nf">tables</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Return the entity tables of the database.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the entity tables of the database.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;sqlite://&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">database_url</span><span class="p">):</span>
         <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;SELECT name FROM sqlite_master WHERE type=&#39;table&#39;&quot;</span>
 
@@ -4945,7 +4950,7 @@ scripts.</p></td>
 <span class="normal">325</span>
 <span class="normal">326</span>
 <span class="normal">327</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Repository</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Gather common methods and define the interface of the repositories.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gather common methods and define the interface of the repositories.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        database_url: URL specifying the connection to the database.</span>
@@ -4956,7 +4961,7 @@ scripts.</p></td>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Initialize the repository attributes.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the repository attributes.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            database_url: URL specifying the connection to the database.</span>
@@ -4967,7 +4972,7 @@ scripts.</p></td>
     <span class="k">def</span> <span class="nf">add</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="p">:</span> <span class="n">EntityOrEntitiesT</span><span class="p">,</span> <span class="n">merge</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EntityOrEntitiesT</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Append an entity or list of entities to the repository.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append an entity or list of entities to the repository.</span>
 
 <span class="sd">        If the id is not set, it will automatically increment the last available one.</span>
 
@@ -5010,7 +5015,7 @@ scripts.</p></td>
 
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span> <span class="nf">_add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">EntityT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EntityT</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Append an entity to the repository.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append an entity to the repository.</span>
 
 <span class="sd">        This method is specific to each database adapter.</span>
 
@@ -5024,7 +5029,7 @@ scripts.</p></td>
 
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">EntityT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Delete an entity from the repository.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete an entity from the repository.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            entity: Entity to remove from the repository.</span>
@@ -5037,7 +5042,7 @@ scripts.</p></td>
         <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">],</span>
         <span class="n">attribute</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;id_&quot;</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EntityT</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Obtain an entity from the repository by it&#39;s ID.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Obtain an entity from the repository by it&#39;s ID.</span>
 
 <span class="sd">        Also save the entity in the cache</span>
 
@@ -5076,7 +5081,7 @@ scripts.</p></td>
         <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">],</span>
         <span class="n">attribute</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;id_&quot;</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">EntityT</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Obtain all entities from the repository that match an id_.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Obtain all entities from the repository that match an id_.</span>
 
 <span class="sd">        If the attribute argument is passed, check that attribute instead.</span>
 
@@ -5094,7 +5099,7 @@ scripts.</p></td>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">EntityT</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Get all the entities from the repository that match a model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all the entities from the repository that match a model.</span>
 
 <span class="sd">        Also store the entities in the cache.</span>
 
@@ -5111,7 +5116,7 @@ scripts.</p></td>
 
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span> <span class="nf">_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">EntityT</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Get all the entities from the repository that match a model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all the entities from the repository that match a model.</span>
 
 <span class="sd">        Particular implementation of the database adapter.</span>
 
@@ -5122,7 +5127,7 @@ scripts.</p></td>
 
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span> <span class="nf">commit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Persist the changes into the repository.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Persist the changes into the repository.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
     <span class="k">def</span> <span class="nf">search</span><span class="p">(</span>
@@ -5130,7 +5135,7 @@ scripts.</p></td>
         <span class="n">fields</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">EntityID</span><span class="p">],</span>
         <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">EntityT</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Get the entities whose attributes match one or several conditions.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the entities whose attributes match one or several conditions.</span>
 
 <span class="sd">        Also add the found entities to the cache.</span>
 
@@ -5155,7 +5160,7 @@ scripts.</p></td>
         <span class="n">fields</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">EntityID</span><span class="p">],</span>
         <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">EntityT</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Get the entities whose attributes match one or several conditions.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the entities whose attributes match one or several conditions.</span>
 
 <span class="sd">        Particular implementation of the database adapter.</span>
 
@@ -5170,7 +5175,7 @@ scripts.</p></td>
 
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span> <span class="nf">apply_migrations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">migrations_directory</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Run the migrations of the repository schema.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the migrations of the repository schema.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            migrations_directory: path to the directory containing the migration</span>
@@ -5182,7 +5187,7 @@ scripts.</p></td>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EntityT</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Get the biggest entity from the repository.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the biggest entity from the repository.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            model: Entity class to obtain.</span>
@@ -5204,7 +5209,7 @@ scripts.</p></td>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EntityT</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Get the smallest entity from the repository.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the smallest entity from the repository.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            model: Type of entity object to obtain.</span>
@@ -5223,7 +5228,7 @@ scripts.</p></td>
             <span class="p">)</span> <span class="kn">from</span> <span class="nn">error</span>
 
     <span class="k">def</span> <span class="nf">next_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">EntityT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Return one id unit more than the last entity id in the repository index.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return one id unit more than the last entity id in the repository index.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            entity: Entity whose model we want to get the next entity id.</span>
@@ -5242,18 +5247,18 @@ scripts.</p></td>
 
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Close the connection to the database.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Close the connection to the database.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
     <span class="nd">@property</span>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span> <span class="nf">is_closed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Inform if the connection is closed.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Inform if the connection is closed.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span> <span class="nf">empty</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Remove all entities from the repository.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove all entities from the repository.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 </code></pre></div></td></tr></table></div>
         </details>
@@ -5330,7 +5335,7 @@ scripts.</p></td>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Initialize the repository attributes.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize the repository attributes.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        database_url: URL specifying the connection to the database.</span>
@@ -5449,7 +5454,7 @@ the cache.</p>
 <span class="normal">79</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">add</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="p">:</span> <span class="n">EntityOrEntitiesT</span><span class="p">,</span> <span class="n">merge</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EntityOrEntitiesT</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Append an entity or list of entities to the repository.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Append an entity or list of entities to the repository.</span>
 
 <span class="sd">    If the id is not set, it will automatically increment the last available one.</span>
 
@@ -5557,7 +5562,7 @@ the cache.</p>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">EntityT</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Get all the entities from the repository that match a model.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get all the entities from the repository that match a model.</span>
 
 <span class="sd">    Also store the entities in the cache.</span>
 
@@ -5632,7 +5637,7 @@ scripts.</p></td>
 <span class="normal">248</span>
 <span class="normal">249</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
 <span class="k">def</span> <span class="nf">apply_migrations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">migrations_directory</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Run the migrations of the repository schema.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run the migrations of the repository schema.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        migrations_directory: path to the directory containing the migration</span>
@@ -5670,7 +5675,7 @@ scripts.</p></td>
 <span class="normal">315</span>
 <span class="normal">316</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
 <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Close the connection to the database.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Close the connection to the database.&quot;&quot;&quot;</span>
     <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 </code></pre></div></td></tr></table></div>
       </details>
@@ -5703,7 +5708,7 @@ scripts.</p></td>
 <span class="normal">195</span>
 <span class="normal">196</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
 <span class="k">def</span> <span class="nf">commit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Persist the changes into the repository.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Persist the changes into the repository.&quot;&quot;&quot;</span>
     <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 </code></pre></div></td></tr></table></div>
       </details>
@@ -5764,7 +5769,7 @@ scripts.</p></td>
 <span class="normal">101</span>
 <span class="normal">102</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
 <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">EntityT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Delete an entity from the repository.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Delete an entity from the repository.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        entity: Entity to remove from the repository.</span>
@@ -5801,7 +5806,7 @@ scripts.</p></td>
 <span class="normal">326</span>
 <span class="normal">327</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
 <span class="k">def</span> <span class="nf">empty</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Remove all entities from the repository.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove all entities from the repository.&quot;&quot;&quot;</span>
     <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 </code></pre></div></td></tr></table></div>
       </details>
@@ -5909,7 +5914,7 @@ scripts.</p></td>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EntityT</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Get the smallest entity from the repository.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the smallest entity from the repository.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        model: Type of entity object to obtain.</span>
@@ -6067,7 +6072,7 @@ scripts.</p></td>
     <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">],</span>
     <span class="n">attribute</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;id_&quot;</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EntityT</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Obtain an entity from the repository by it&#39;s ID.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Obtain an entity from the repository by it&#39;s ID.</span>
 
 <span class="sd">    Also save the entity in the cache</span>
 
@@ -6112,8 +6117,8 @@ scripts.</p></td>
 <code class="highlight language-python"><span class="n">is_closed</span><span class="p">()</span></code>
   
   <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-property"><code>property</code></small>
       <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
   </span>
 
 <a href="#repository_orm.adapters.data.abstract.Repository.is_closed" class="headerlink" title="Permanent link">&para;</a></h3>
@@ -6132,7 +6137,7 @@ scripts.</p></td>
 <span class="normal">322</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@property</span>
 <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
 <span class="k">def</span> <span class="nf">is_closed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Inform if the connection is closed.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Inform if the connection is closed.&quot;&quot;&quot;</span>
     <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 </code></pre></div></td></tr></table></div>
       </details>
@@ -6240,7 +6245,7 @@ scripts.</p></td>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EntityT</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Get the biggest entity from the repository.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the biggest entity from the repository.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        model: Entity class to obtain.</span>
@@ -6320,7 +6325,7 @@ scripts.</p></td>
 <span class="normal">309</span>
 <span class="normal">310</span>
 <span class="normal">311</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">next_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">EntityT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Return one id unit more than the last entity id in the repository index.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return one id unit more than the last entity id in the repository index.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        entity: Entity whose model we want to get the next entity id.</span>
@@ -6438,7 +6443,7 @@ scripts.</p></td>
     <span class="n">fields</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">EntityID</span><span class="p">],</span>
     <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">EntityT</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Get the entities whose attributes match one or several conditions.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the entities whose attributes match one or several conditions.</span>
 
 <span class="sd">    Also add the found entities to the cache.</span>
 
@@ -6820,13 +6825,13 @@ scripts.</p></td>
 <span class="normal">349</span>
 <span class="normal">350</span>
 <span class="normal">351</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">TinyDBRepository</span><span class="p">(</span><span class="n">Repository</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Implement the repository pattern using the TinyDB.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Implement the repository pattern using the TinyDB.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Initialize the repository attributes.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the repository attributes.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            database_url: URL specifying the connection to the database.</span>
@@ -6851,7 +6856,7 @@ scripts.</p></td>
         <span class="bp">self</span><span class="o">.</span><span class="n">staged</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;add&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;remove&quot;</span><span class="p">:</span> <span class="p">[]}</span>
 
     <span class="k">def</span> <span class="nf">_add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">EntityT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EntityT</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Append an entity to the repository.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append an entity to the repository.</span>
 
 <span class="sd">        If the id is not set, autoincrement the last.</span>
 
@@ -6866,7 +6871,7 @@ scripts.</p></td>
         <span class="k">return</span> <span class="n">entity</span>
 
     <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">EntityT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Delete an entity from the repository.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete an entity from the repository.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            entity: Entity to remove from the repository.</span>
@@ -6885,7 +6890,7 @@ scripts.</p></td>
         <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">],</span>
         <span class="n">attribute</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;id_&quot;</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">EntityT</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Obtain all entities from the repository that match an id_.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Obtain all entities from the repository that match an id_.</span>
 
 <span class="sd">        If the attribute argument is passed, check that attribute instead.</span>
 
@@ -6913,7 +6918,7 @@ scripts.</p></td>
         <span class="n">entity_data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
         <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EntityT</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Create an entity from the data stored in a row of the database.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create an entity from the data stored in a row of the database.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            entity_data: Dictionary with the attributes of the entity.</span>
@@ -6934,7 +6939,7 @@ scripts.</p></td>
             <span class="k">raise</span> <span class="n">error</span>
 
     <span class="k">def</span> <span class="nf">_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">EntityT</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Get all the entities from the repository that match a model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all the entities from the repository that match a model.</span>
 
 <span class="sd">        Particular implementation of the database adapter.</span>
 
@@ -6953,7 +6958,7 @@ scripts.</p></td>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_export_entity</span><span class="p">(</span><span class="n">entity</span><span class="p">:</span> <span class="n">EntityT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Export the attributes of the entity appending the required by TinyDB.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Export the attributes of the entity appending the required by TinyDB.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            entity: Entity to export.</span>
@@ -6967,7 +6972,7 @@ scripts.</p></td>
         <span class="k">return</span> <span class="n">entity_data</span>
 
     <span class="k">def</span> <span class="nf">commit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Persist the changes into the repository.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Persist the changes into the repository.&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">staged</span><span class="p">[</span><span class="s2">&quot;add&quot;</span><span class="p">]:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db_</span><span class="o">.</span><span class="n">upsert</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_export_entity</span><span class="p">(</span><span class="n">entity</span><span class="p">),</span>
@@ -6988,7 +6993,7 @@ scripts.</p></td>
         <span class="n">fields</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">EntityID</span><span class="p">],</span>
         <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">EntityT</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Get the entities whose attributes match one or several conditions.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the entities whose attributes match one or several conditions.</span>
 
 <span class="sd">        Particular implementation of the database adapter.</span>
 
@@ -7018,7 +7023,7 @@ scripts.</p></td>
         <span class="n">fields</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">EntityID</span><span class="p">],</span>
         <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QueryInstance</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Build the Query parts for a repository search.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build the Query parts for a repository search.</span>
 
 <span class="sd">        If the field type is a list, change the query accordingly.</span>
 
@@ -7066,7 +7071,7 @@ scripts.</p></td>
     <span class="k">def</span> <span class="nf">_merge_query</span><span class="p">(</span>
         <span class="n">query_parts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QueryInstance</span><span class="p">],</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;and&quot;</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QueryInstance</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Join all the query parts into a query.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Join all the query parts into a query.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            query_parts: List of queries to concatenate.</span>
@@ -7086,7 +7091,7 @@ scripts.</p></td>
         <span class="k">return</span> <span class="n">query</span>
 
     <span class="k">def</span> <span class="nf">apply_migrations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">migrations_directory</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Run the migrations of the repository schema.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the migrations of the repository schema.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            migrations_directory: path to the directory containing the migration</span>
@@ -7098,7 +7103,7 @@ scripts.</p></td>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EntityT</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Get the biggest entity from the repository.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the biggest entity from the repository.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            model: Entity class to obtain.</span>
@@ -7133,12 +7138,12 @@ scripts.</p></td>
         <span class="k">return</span> <span class="nb">max</span><span class="p">([</span><span class="n">last_index_entity</span><span class="p">,</span> <span class="n">last_staged_entity</span><span class="p">])</span>
 
     <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Close the connection to the database.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Close the connection to the database.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">db_</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">is_closed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Inform if the connection is closed.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Inform if the connection is closed.&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db_</span><span class="o">.</span><span class="n">tables</span><span class="p">()</span>
             <span class="k">return</span> <span class="kc">False</span>
@@ -7146,7 +7151,7 @@ scripts.</p></td>
             <span class="k">return</span> <span class="kc">True</span>
 
     <span class="k">def</span> <span class="nf">empty</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Remove all entities from the repository.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove all entities from the repository.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">db_</span><span class="o">.</span><span class="n">truncate</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
         </details>
@@ -7233,7 +7238,7 @@ scripts.</p></td>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Initialize the repository attributes.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize the repository attributes.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        database_url: URL specifying the connection to the database.</span>
@@ -7311,7 +7316,7 @@ scripts.</p></td>
 <span class="normal">294</span>
 <span class="normal">295</span>
 <span class="normal">296</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">apply_migrations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">migrations_directory</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Run the migrations of the repository schema.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run the migrations of the repository schema.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        migrations_directory: path to the directory containing the migration</span>
@@ -7343,7 +7348,7 @@ scripts.</p></td>
         <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">336</span>
 <span class="normal">337</span>
 <span class="normal">338</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Close the connection to the database.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Close the connection to the database.&quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">db_</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
       </details>
@@ -7383,7 +7388,7 @@ scripts.</p></td>
 <span class="normal">183</span>
 <span class="normal">184</span>
 <span class="normal">185</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">commit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Persist the changes into the repository.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Persist the changes into the repository.&quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">staged</span><span class="p">[</span><span class="s2">&quot;add&quot;</span><span class="p">]:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">db_</span><span class="o">.</span><span class="n">upsert</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_export_entity</span><span class="p">(</span><span class="n">entity</span><span class="p">),</span>
@@ -7457,7 +7462,7 @@ scripts.</p></td>
 <span class="normal">79</span>
 <span class="normal">80</span>
 <span class="normal">81</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">EntityT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Delete an entity from the repository.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Delete an entity from the repository.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        entity: Entity to remove from the repository.</span>
@@ -7494,7 +7499,7 @@ scripts.</p></td>
         <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">349</span>
 <span class="normal">350</span>
 <span class="normal">351</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">empty</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Remove all entities from the repository.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove all entities from the repository.&quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">db_</span><span class="o">.</span><span class="n">truncate</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
       </details>
@@ -7531,7 +7536,7 @@ scripts.</p></td>
 <span class="normal">346</span>
 <span class="normal">347</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@property</span>
 <span class="k">def</span> <span class="nf">is_closed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Inform if the connection is closed.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Inform if the connection is closed.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">db_</span><span class="o">.</span><span class="n">tables</span><span class="p">()</span>
         <span class="k">return</span> <span class="kc">False</span>
@@ -7659,7 +7664,7 @@ scripts.</p></td>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EntityT</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EntityT</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Get the biggest entity from the repository.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the biggest entity from the repository.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        model: Entity class to obtain.</span>
@@ -7778,7 +7783,7 @@ scripts.</p></td>
 <span class="normal">53</span>
 <span class="normal">54</span>
 <span class="normal">55</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">load_file_repository</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;local:.&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;FileRepository[AnyStr]&quot;</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Load the FileRepository object that matches the url protocol.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the FileRepository object that matches the url protocol.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        url: Url to connect to the storage backend.</span>
@@ -7875,7 +7880,7 @@ scripts.</p></td>
 <span class="normal">40</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">load_repository</span><span class="p">(</span>
     <span class="n">database_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;fake://&quot;</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Repository</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Load the Repository object that matches the database url protocol.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the Repository object that matches the database url protocol.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        database_url: Url to connect to the storage backend.</span>
@@ -7957,16 +7962,15 @@ scripts.</p></td>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "content.code.annotate"], "search": "../assets/javascripts/workers/search.3de43c86.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "content.code.annotate"], "search": "../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.ce0331ff.min.js"></script>
+      <script src="../assets/javascripts/bundle.ba449ae6.min.js"></script>
       
         <script src="../js/timeago.min.js"></script>
       
         <script src="../js/timeago_mkdocs_material.js"></script>
       
-    
     
   </body>
 </html>

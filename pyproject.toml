@@ -203,7 +203,7 @@ filterwarnings = [
   # when raising exceptions
   "ignore::ResourceWarning",
   # Until https://todo.sr.ht/~olly/yoyo/94 is solved
-  "ignore::DeprecationWarning:pkg_resources.*",
+  "ignore::DeprecationWarning:yoyo.*",
 ]
 
 # --------- Coverage -------------

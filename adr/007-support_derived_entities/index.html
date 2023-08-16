@@ -10,22 +10,24 @@
         <meta name="author" content="Lyz">
       
       
+        <link rel="canonical" href="https://lyz-code.github.io/repository-orm/adr/007-support_derived_entities/">
       
       
       
-      <link rel="icon" href="/repository-orm/assets/images/favicon.png">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.0-b3">
     
     
       
-        <title>Repository ORM</title>
+        <title>007 support derived entities - Repository ORM</title>
       
     
     
-      <link rel="stylesheet" href="/repository-orm/assets/stylesheets/main.83068744.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.83068744.min.css">
       
         
-        <link rel="stylesheet" href="/repository-orm/assets/stylesheets/palette.85d0ee34.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.85d0ee34.min.css">
       
       
 
@@ -44,15 +46,15 @@
       
     
     
-      <link rel="stylesheet" href="/repository-orm/css/timeago.css">
+      <link rel="stylesheet" href="../../css/timeago.css">
     
-      <link rel="stylesheet" href="/repository-orm/assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="/repository-orm/stylesheets/extra.css">
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
     
-      <link rel="stylesheet" href="/repository-orm/stylesheets/links.css">
+      <link rel="stylesheet" href="../../stylesheets/links.css">
     
-    <script>__md_scope=new URL("/repository-orm/",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -76,6 +78,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#status" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -88,7 +95,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/repository-orm/." title="Repository ORM" class="md-header__button md-logo" aria-label="Repository ORM" data-md-component="logo">
+    <a href="../.." title="Repository ORM" class="md-header__button md-logo" aria-label="Repository ORM" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -108,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              007 support derived entities
             
           </span>
         </div>
@@ -194,7 +201,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/repository-orm/." title="Repository ORM" class="md-nav__button md-logo" aria-label="Repository ORM" data-md-component="logo">
+    <a href="../.." title="Repository ORM" class="md-nav__button md-logo" aria-label="Repository ORM" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -223,7 +230,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -255,7 +262,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="/repository-orm/repositories/" class="md-nav__link ">
+            <a href="../../repositories/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -284,7 +291,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/fake_repository/" class="md-nav__link">
+      <a href="../../fake_repository/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -304,7 +311,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/tinydb_repository/" class="md-nav__link">
+      <a href="../../tinydb_repository/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -324,7 +331,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/pypika_repository/" class="md-nav__link">
+      <a href="../../pypika_repository/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -364,7 +371,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="/repository-orm/file_repositories/" class="md-nav__link ">
+            <a href="../../file_repositories/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -393,7 +400,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/local_file_repository/" class="md-nav__link">
+      <a href="../../local_file_repository/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -420,7 +427,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/models/" class="md-nav__link">
+      <a href="../../models/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -439,7 +446,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/testing/" class="md-nav__link">
+      <a href="../../testing/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -492,7 +499,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/reference_adapters/" class="md-nav__link">
+      <a href="../../reference_adapters/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -512,7 +519,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/reference_models/" class="md-nav__link">
+      <a href="../../reference_models/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -532,7 +539,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/reference_exceptions/" class="md-nav__link">
+      <a href="../../reference_exceptions/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -572,7 +579,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="/repository-orm/contributing/" class="md-nav__link ">
+            <a href="../../contributing/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -601,7 +608,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/new_repo/" class="md-nav__link">
+      <a href="../../new_repo/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -641,7 +648,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="/repository-orm/adr/adr/" class="md-nav__link ">
+            <a href="../adr/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -670,7 +677,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/adr/001-entity_id_definition/" class="md-nav__link">
+      <a href="../001-entity_id_definition/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -690,7 +697,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/adr/002-support_string_ids/" class="md-nav__link">
+      <a href="../002-support_string_ids/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -710,7 +717,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/adr/003-make_entity_models_optional_arguments/" class="md-nav__link">
+      <a href="../003-make_entity_models_optional_arguments/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -730,7 +737,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/adr/004-add_complex_queries/" class="md-nav__link">
+      <a href="../004-add_complex_queries/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -750,7 +757,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/adr/005-simplify_search_and_all_signature/" class="md-nav__link">
+      <a href="../005-simplify_search_and_all_signature/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -770,7 +777,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/repository-orm/adr/006-drop_again_string_ids/" class="md-nav__link">
+      <a href="../006-drop_again_string_ids/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -809,6 +816,75 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#status" class="md-nav__link">
+    Status
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#context" class="md-nav__link">
+    Context
+  </a>
+  
+    <nav class="md-nav" aria-label="Context">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#service-updates-part-of-the-attributes-of-an-entity" class="md-nav__link">
+    Service updates part of the attributes of an entity
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proposals" class="md-nav__link">
+    Proposals
+  </a>
+  
+    <nav class="md-nav" aria-label="Proposals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deprecate-the-merge-mode-of-repoadd" class="md-nav__link">
+    Deprecate the merge mode of repo.add()?????
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decision" class="md-nav__link">
+    Decision
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consequences" class="md-nav__link">
+    Consequences
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -819,8 +895,113 @@
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+  
+  
+
+
+  <h1>007 support derived entities</h1>
+
+<h2 id="status">Status<a class="headerlink" href="#status" title="Permanent link">&para;</a></h2>
+<!-- What is the status? Draft, Proposed, Accepted, Rejected, Deprecated or Superseded?
+-->
+<p>Draft</p>
+<h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
+<!-- What is the issue that we're seeing that is motivating this decision or change? -->
+<p>There are some cases where the current use of the entities falls short:</p>
+<ul>
+<li><a href="#service-updates-part-of-the-attributes-of-an-entity">When a service updates part of the attributes of an entity.</a></li>
+<li>When an entrypoint accepts part of the attributes of an entity.</li>
+<li>When an entrypoint returns an entity plus some added attributes.</li>
+</ul>
+<h3 id="service-updates-part-of-the-attributes-of-an-entity">Service updates part of the attributes of an entity<a class="headerlink" href="#service-updates-part-of-the-attributes-of-an-entity" title="Permanent link">&para;</a></h3>
+<p>Imagine that we have an entity that has two attributes, one is retrieved from an
+external API and changes over the time, the second is given by the user at
+creation time and it doesn't change over the time:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Author</span><span class="p">(</span><span class="n">Entity</span><span class="p">):</span>
+    <span class="n">number_of_books</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">added_at</span><span class="p">:</span> <span class="n">datetime</span>
+</code></pre></div>
+<p>If we have a service called <code>get_author_books</code> that gets the <code>number_of_books</code>
+of an author, it needs to build a valid <code>Author</code> object so that it's able to
+<code>repo.add()</code> it to persist the changes. The problem is that <code>added_at</code> is
+a required attribute that was filled the first time we created the <code>Author</code>
+object. But successive calls to <code>get_author_books</code> don't need to touch this
+attribute, it only needs to update the <code>number_of_books</code>.</p>
+<p>To solve this we can:</p>
+<ul>
+<li>
+<p>Make <code>added_at</code> signature as <code>Optional[datetime] = None</code>, so that we don't
+    need to fill up this attribute, and use the <code>merge</code> mode of <code>repo.add()</code>
+    that won't update the value of the stored entity for all attributes that
+    were not explicitly set.</p>
+<p>The problem with this approach is that we don't want <code>added_at</code> to be <code>None</code>
+for the rest of the program, so we would be tweaking the types of the
+model to be able to update part of the model, but actually we will be
+breaking the expected model signature.</p>
+</li>
+<li>
+<p>Create a function that <code>repo.get()</code> the entity we want to update, update the
+    value and <code>repo.add()</code> it back.</p>
+<p>This has the downsides that the types of that function don't reflect the</p>
+</li>
+</ul>
+<!-------------------8<------------------->
+
+<p>[Task] Idea de repository orm, añadir el metodo merge, que acepte id, entity y objeto de update, donde ese objeto esta creado por un servicio y su clase es un subconjunto de los atributos de la clase del entity.</p>
+<p>De manera que la mergeabilidad no es solo entre objetos de la misma clase, sino que por objetos con los mismos atributos.</p>
+<p>Lo way seria crear esa clase derivada a partir de la clase que representa mediante el borrado de los fields que no necesite y el añadido de fields que le faltan, como muestra este issue</p>
+<p><a href="https://github.com/samuelcolvin/pydantic/issues/830">https://github.com/samuelcolvin/pydantic/issues/830</a></p>
+<p><a href="https://github.com/samuelcolvin/pydantic/issues/1937">https://github.com/samuelcolvin/pydantic/issues/1937</a></p>
+<p><a href="https://stackoverflow.com/questions/15247075/how-can-i-dynamically-create-derived-classes-from-a-base-class">https://stackoverflow.com/questions/15247075/how-can-i-dynamically-create-derived-classes-from-a-base-class</a></p>
+<p>Quiza no hace falta añador el merge, quiza se pueda usar add(update_object, Entity), y que sea suficientemente inteligente como para hacer el merge</p>
+<p>A lo mejor si hace falta un metodo distinto, ya que es probable que el objeto derivado no sepa el id del objeto a actualizar, sino que el merge sea en funcion de otra propiedad, entonces seria repo.merge(authir_up</p>
+<p>Para persistir objetos, la clase derivada deberia usar solo un sibconjunto de la clase original. Pero para output de respuestas de entrypoints, si podria ser interesante devolver información procesada adicional</p>
+<p>El modo de derivar clases es con el create_model, mirar la docu</p>
+<p><a href="https://pydantic-docs.helpmanual.io/usage/models/#dynamic-model-creation">https://pydantic-docs.helpmanual.io/usage/models/#dynamic-model-creation</a></p>
+<p>Y el codigo fuente</p>
+<p><a href="https://github.com/samuelcolvin/pydantic/blob/81b13ff3b4f67560dc1b5292ab5bb30e91276fd7/pydantic/main.py#L910">https://github.com/samuelcolvin/pydantic/blob/81b13ff3b4f67560dc1b5292ab5bb30e91276fd7/pydantic/main.py#L910</a></p>
+<p>Añador fields es trivial a partir de la docu, quitarlos no tanto.</p>
+<p>Quiza se puede coger la.base class y acceder al atributo fields y annotations y en funcion de eso construir el argumento de create_model</p>
+<p>De ser asi, we can save the parent class in an internal attribute, so that add is able to understand it and we don't need to pass it as an extra argument. Then the signature would be</p>
+<p>add(entity: Union[DerivedEntity, Entity], merge_on: optional[str] = None)</p>
+<p>Where merge on will be the attribute name that get will use to fetch the parent entity to merge.</p>
+<p>If we pass a derived entity, the return value should be the updated entity, but that may be difficult to define as a signature</p>
+<p><a href="https://stackoverflow.com/questions/60202691/python-typing-declare-return-value-type-based-on-function-argument">https://stackoverflow.com/questions/60202691/python-typing-declare-return-value-type-based-on-function-argument</a></p>
+<p><a href="https://docs.python.org/3/library/typing.html#typing.Protocol">https://docs.python.org/3/library/typing.html#typing.Protocol</a></p>
+<p>We can create derivedentity from basemodel, and when we use create_model, use it as <strong>base</strong></p>
+<p>If we make the derivedentity a generic class that uses entity, the hints may work</p>
+<p>We need to handle the cases where the user uses a derived entity on the rest of the models (Use shortcuts or arrow keys)</p>
+<!-------------------8<------------------->
+
+<h2 id="proposals">Proposals<a class="headerlink" href="#proposals" title="Permanent link">&para;</a></h2>
+<!-- What are the possible solutions to the problem described in the context -->
+
+<h3 id="deprecate-the-merge-mode-of-repoadd">Deprecate the merge mode of repo.add()?????<a class="headerlink" href="#deprecate-the-merge-mode-of-repoadd" title="Permanent link">&para;</a></h3>
+<p>TBD</p>
+<h2 id="decision">Decision<a class="headerlink" href="#decision" title="Permanent link">&para;</a></h2>
+<!-- What is the change that we're proposing and/or doing? -->
+
+<h2 id="consequences">Consequences<a class="headerlink" href="#consequences" title="Permanent link">&para;</a></h2>
+<!-- What becomes easier or more difficult to do because of this change? -->
+
+  <hr>
+<div class="md-source-file">
+  <small>
+    
+      Last update:
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-08-16T14:13:03+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-08-16</span>
+      
+    
+  </small>
+</div>
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -858,17 +1039,17 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "/repository-orm/", "features": ["navigation.instant", "navigation.top", "content.code.annotate"], "search": "/repository-orm/assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="/repository-orm/assets/javascripts/bundle.4e31edb1.min.js"></script>
+      <script src="../../assets/javascripts/bundle.4e31edb1.min.js"></script>
       
         
-          <script src="/repository-orm/js/timeago.min.js"></script>
+          <script src="../../js/timeago.min.js"></script>
         
       
         
-          <script src="/repository-orm/js/timeago_mkdocs_material.js"></script>
+          <script src="../../js/timeago_mkdocs_material.js"></script>
         
       
     
